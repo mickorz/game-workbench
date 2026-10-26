@@ -2,6 +2,14 @@
 
 本仓库（xc-ui-flow）的开发过程文档管理规范。
 
+## 侧边栏修改必读：`docs/zh-CN/sidebar-config.md`
+
+**任何涉及侧边栏（品牌名/品牌图标/主导航条目）的修改，先读 `docs/zh-CN/sidebar-config.md`**，按它操作：
+
+- 配置唯一入口：`src/renderer/sidebar-config.ts`（`SIDEBAR_BRAND` 品牌名+图标 / `SIDEBAR_ITEMS` 导航数组），改组件代码无效
+- 生效方式：开发态保存即生效（vite HMR）；桌面端/生产需 `bun run build:renderer` 重新构建
+- 加新页面进导航要先在 `routes.ts` 注册路由；`labelKey` 必须在 locales 已存在（TypeScript 会校验）
+
 ## 开发文档目录：`dev-docs/`
 
 `dev-docs/` 是本仓库专门保存开发过程文档的目录（已在 `.gitignore` 中忽略，不进入 git 仓库）。
