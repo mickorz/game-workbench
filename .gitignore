@@ -24,3 +24,6 @@ docs/DesignSpec/
 docs/TechSpec/
 
 # ohmygame 子模块本体的忽略规则已并入上方
+
+# 备份模板产物（不进 git）
+backups/
