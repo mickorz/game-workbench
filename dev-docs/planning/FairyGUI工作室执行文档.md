@@ -15,18 +15,29 @@ flowchart TD
 
 | 阶段 | 内容 | 出口标准 | commit |
 |---|---|---|---|
-| P0 | 编辑器侧桥探活实测 | `ping` 通；`OpenDocument`/`screenshot` 可用性有结论 | （无代码，只记结论） |
+| P0 ✅ | 编辑器侧桥探活实测（2026-10-26 完成） | `ping` 通；`OpenDocument` 可用 / `screenshot` 被裁，结论已入文档 | （无仓库代码，补丁在 dev-examples 工程内） |
 | P1 | `plugins/fairygui/` 插件包落地 | 插件页可启用；general 项目会话里 MCP 全链路通 | feat: fairygui plugin |
 | P2 | 工作室壳（12 处小改） | `#/fairygui` 首页可开项目，会话工具就位 | feat: fairygui studio |
 | P3 | 打磨（角标/文案/分组） | 无功能回归 | chore |
 
 ---
 
-## P0 编辑器侧桥探活（半天，不改仓库代码）
+## P0 编辑器侧桥探活（半天，不改仓库代码）——✅ 已完成（2026-10-26）
 
-目的：把「截图/打开文档」两个不确定点在动工前变成结论（上游作者构建里两者都被 Unity 裁过）。
+实测环境：FairyGUI-Editor **6.1.4**（`D:\FairyGUI-Editor_6.1.4`），测试工程 `mini.fairy`。
+完整结果见 `dev-docs/progress/FairyGUI工作室-P0-探活记录.md`，关键结论：
 
-### 测试工程（已就位）
+| 命令 | 结论 |
+|---|---|
+| ping / project_info / list_packages / read_component | 可用 |
+| list_items | 可用（需带空目录判空补丁，否则真实工程必崩） |
+| **open_doc** | **可用**（上游作者构建被裁，6.1.4 正常）→ 截图验收可走「打开组件→OS 截屏」 |
+| **screenshot** | **不可用**（`ScreenCapture` 被裁）→ P3 用 PowerShell CopyFromScreen 截窗口 |
+| create_component / set_property / save_all / delete_item | 可用；`set_property` 改尺寸用 `width`/`height`（`size` 字符串不落盘），改后须 `save_all` |
+
+**P1 收编 plugin/main.js 时必须带两个本地补丁**（见 `dev-docs/experience/fairygui-agent-bridge-local-patches.md`）：① `itemInfo` 空目录判空；② `App.add_onUpdate` + `Timers` 双泵（保险）。
+
+### 测试工程（已就位，探活已完成）
 
 | 项 | 值 |
 |---|---|
@@ -34,15 +45,15 @@ flowchart TD
 | 工程文件 | `mini.fairy`（type **CocosCreator**，version 5.0） |
 | 包数量 | 88 个（`box_*` / `_gm` 前缀，如 `box_room_info`） |
 | 既有插件 | `plugins/customInspector`、`gamePackageRun`、`uideclare`（与 agent-bridge 无冲突，可共存） |
-| 桥插件 | **已安装**：`thirdparties/fairygui-agent-bridge/plugin/` → `plugins/agent-bridge/`（上游 commit `4b3abc1`） |
+| 桥插件 | 已装：`plugins/agent-bridge/`（上游 `4b3abc1` + 两个本地补丁） |
 
 注意：工程里还有自带脚本（`publishFGUI*.py`）与 `.objs` 构建缓存；create/delete 往返选一个专用测试包，别碰 `box_*` 业务包。
 
-### 步骤
+### 步骤（已完成，命令留存备考）
 
 1. ~~准备测试工程、安装桥插件~~（已完成）。
-2. 用 FairyGUI 编辑器打开 `mini.fairy`，确认 `plugins/agent-bridge/bridge.log` 出现 `listening on http://localhost:7531/`。
-3. 逐条实测并记录（`<某包>` 可用 `box_room_info`，`<某组件>` 从 `list_items` 结果里选；`<测试包>` 用专用测试包）：
+2. ~~打开 `mini.fairy` 确认 bridge.log~~（已完成，`listening on http://localhost:7531/ v0.2.0`）。
+3. ~~逐条实测~~（已完成，结果见顶部结论表；`<某包>` 实用 `box_room_info`，冒烟组件 `XcSmokeTest` 用后即删）：
 
 ```bash
 curl -X POST http://localhost:7531/ -d "{\"cmd\":\"ping\"}"
@@ -58,15 +69,9 @@ curl -X POST http://localhost:7531/ -d "{\"cmd\":\"delete_item\",\"args\":{\"pkg
 
 ### 结论记录
 
-写入 `dev-docs/progress/FairyGUI工作室-P0-探活记录.md`，必须回答：
+已写入 `dev-docs/progress/FairyGUI工作室-P0-探活记录.md`；踩坑过程沉淀在 `dev-docs/experience/fairygui-agent-bridge-local-patches.md`（含「TCP 通但命令不执行」「Lua 冒号语法打死插件」「监听仅 IPv6」三个坑）。
 
-- [ ] ping / project_info / list_packages 是否正常
-- [ ] open_doc 是否报 "overload is striped by unity"（决定 P3 是否做截图验收）
-- [ ] screenshot 是否报 ScreenCapture unavailable（同上）
-- [ ] create/delete 组件往返是否干净（工程 git status 还原）
-- [ ] 目标编辑器版本号
-
-任何一条不过：P1/P3 范围相应裁剪，**不阻塞 P1**（创建/属性/发布不依赖这两条）。
+任何一条不过：P1/P3 范围相应裁剪，**不阻塞 P1**（创建/属性/发布不依赖这两条）。（本轮仅 screenshot 不可用，P3 已有 OS 截屏退路，不阻塞。）
 
 ---
 
@@ -108,6 +113,13 @@ Copy-Item "$src/scripts/lint_components.mjs" plugins/fairygui/scripts/
 ```
 
 收编后**逐个检查文件内相对路径引用**（`server.mjs` 若 import `../cli/*` 需改成同目录）。改 install 脚本的源目录从 `plugin/` 指向 `editor-plugin/`。
+
+**P0 已验证的两个补丁必须一并打进 `editor-plugin/main.js`**（可从 `dev-examples/fairygui-test-project/plugins/agent-bridge/main.js` 直接 diff/复制，那里已验证可用）：
+
+1. `itemInfo` 空目录判空（`if (ch == null) return o;`）——不带此补丁，真实工程 `list_items` depth>1 必崩；
+2. `boot()` 双泵（`App.add_onUpdate` + `CS.FairyGUI.Timers.inst.Add(0.1, 0, onUpdate)`）与心跳日志。
+
+改完必跑 `node --check editor-plugin/main.js`（JS 文件里误用 Lua 冒号语法会静默打死插件）。
 
 ### 1.2 `plugin.json`
 
@@ -183,8 +195,9 @@ description: Create, inspect, edit, and publish FairyGUI UI components through t
 2. 拉起并确认就绪：`node mcp/fgui.mjs ensure '{"project":"<UI 工程绝对路径>"}'`；ping 通才继续。
 
 ## 制作循环
-list_items 找素材 → read_component 拿子对象命名 → create_component / insert_object / set_property 摆 UI → lint → publish 出包 → 游戏侧加载验证。
+list_items 找素材 → read_component 拿子对象命名 → create_component / insert_object / set_property 摆 UI → save_all → lint → publish 出包 → 游戏侧加载验证。
 组件改动一律走 MCP 工具（官方 API、可撤销），禁止手改组件 XML 与 package.xml。
+改尺寸用 props 里的 width/height（size 字符串不落盘）；任何写操作后必须 save_all 再 read_component 验证。
 
 ## 规范红线（违反会打不开组件或运行时事故）
 - displayList 只有 10 种标签：image/graph/loader/loader3D/text/richtext/list/component/jta/group。
@@ -196,6 +209,7 @@ list_items 找素材 → read_component 拿子对象命名 → create_component 
 
 ## 验证
 发布前必跑：`node scripts/lint_components.mjs <工程根>`。
+截图给人看：`open_doc` 打开组件（6.1.4 实测可用）后用 OS 级窗口截屏（编辑器内置 ScreenCapture 被裁）。
 多编辑器窗口时所有工具必须显式传 project 参数，避免操作错窗口。
 ```
 
@@ -347,8 +361,8 @@ commit：`feat: add fairygui studio (project type + sidebar + workspace boundari
 
 | 项 | 内容 | 前置 |
 |---|---|---|
-| 桥状态角标 | 工作室首页轮询 `ping`，卡片上显示「编辑器已连接/未连接」 | P0 结论 |
-| 截图验收 | 若 P0 里 `screenshot`/`open_doc` 可用：Skill 增加「改完截图给人看」步骤 | P0 结论 |
+| 桥状态角标 | 工作室首页轮询 `ping`，卡片上显示「编辑器已连接/未连接」 | P0 完成 |
+| 截图验收 | P0 已确认 `open_doc` 可用 + `ScreenCapture` 被裁：Skill 增加「open_doc → PowerShell CopyFromScreen 截编辑器窗口 → 贴给用户看」步骤（脚本可放插件包 scripts/） | P0 完成 |
 | 插件页分组 | `src/renderer/plugins.tsx` 的 `PLUGIN_CATEGORIES.engines.plugins` 加 `"ohmygame:fairygui"`（落「引擎与平台」组，否则在「其它」） | P2 |
 | defaultPrompt / 文案调优 | 按实际试用改三语提示 | P2 |
 | 示例工程 | examples 里放一个 FGUI demo 工程 | 按需 |
