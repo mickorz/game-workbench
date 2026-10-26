@@ -10,6 +10,14 @@
 - 生效方式：开发态保存即生效（vite HMR）；桌面端/生产需 `bun run build:renderer` 重新构建
 - 加新页面进导航要先在 `routes.ts` 注册路由；`labelKey` 必须在 locales 已存在（TypeScript 会校验）
 
+## 项目技能：`.claude/skills/`
+
+本地项目技能放在 `.claude/skills/<kebab-case>/SKILL.md`（随仓库提交）。现有：
+
+| 技能 | 用途 |
+|------|------|
+| `backup-template` | 把当前代码与资源打包成模板 zip；执行层为仓库根 `backup_template.py`（`--no-delivery` 不带交付包 / `--list` 看清单） |
+
 ## 开发文档目录：`dev-docs/`
 
 `dev-docs/` 是本仓库专门保存开发过程文档的目录（已在 `.gitignore` 中忽略，不进入 git 仓库）。

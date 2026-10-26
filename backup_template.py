@@ -37,7 +37,7 @@ ROOT = Path(__file__).resolve().parent
 EXCLUDE_DIR_NAMES = {
     "node_modules", "dist", ".runtime", ".data", "release", "coverage",
     ".vite", ".git", "thirdparties", "dev-docs", "dev-examples",
-    ".playwright-cli", ".claude", ".opencode", ".objs", "__pycache__",
+    ".playwright-cli", ".opencode", ".objs", "__pycache__",  # 注意：不排 .claude，项目技能要随模板走
     ".vscode", ".idea",
 }
 # 目录级排除（相对仓库根的精确路径；.opencode/work 等运行产物）
@@ -49,7 +49,7 @@ EXCLUDE_REL_DIRS = {
 }
 # 文件名通配排除
 EXCLUDE_FILE_SUFFIXES = (".log", ".zip", ".bak", ".pyc")
-EXCLUDE_FILE_NAMES = {".env", ".DS_Store"}
+EXCLUDE_FILE_NAMES = {".env", ".DS_Store", "settings.local.json"}  # 项目本地配置不进模板
 EXCLUDE_FILE_PREFIXES = (".env.",)  # 但保留 .env.example
 KEEP_DESPITE_PREFIX = {".env.example"}
 
