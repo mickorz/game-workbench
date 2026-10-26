@@ -1,0 +1,20 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "photocraft-live": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "D:\\path\\to\\photocraft\\target\\release\\photocraft-cli.exe",
+        "mcp",
+        "--bridge",
+        "127.0.0.1:7878",
+        "--control-token-file",
+        "D:\\PhotoCraft-Work\\.photocraft-control.token"
+      ]
+    }
+  },
+  "experimental": {
+    "mcp_timeout": 60000
+  }
+}

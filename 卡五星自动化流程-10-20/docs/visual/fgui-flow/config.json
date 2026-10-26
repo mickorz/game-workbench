@@ -1,0 +1,519 @@
+{
+  "meta": {
+    "title": "FGUI 美术流程 s0..s4 (live panel)",
+    "lang": "zh"
+  },
+  "canvas": {
+    "preset": "4:5",
+    "width": 1200,
+    "height": 1500,
+    "duration": 20,
+    "fps": 30,
+    "preroll": 8
+  },
+  "theme": {
+    "preset": "terminal-dark",
+    "font": "\"JetBrains Mono\",\"IBM Plex Mono\",\"DejaVu Sans Mono\",\"Noto Sans Mono CJK SC\",monospace",
+    "fontSize": 21,
+    "lineHeight": 30.7,
+    "colors": {
+      "bg": "#14171c",
+      "bar": "#262a32",
+      "line": "#4a5367",
+      "line2": "#3a4154",
+      "dim": "#6f788c",
+      "mute": "#aab1c0",
+      "fg": "#e4e8f0",
+      "wh": "#ffffff",
+      "cy": "#86e1e6",
+      "bl": "#8fb4f6",
+      "gr": "#7fdba8",
+      "pu": "#b9a2f2",
+      "ye": "#e3c07a",
+      "hl": "#302d45",
+      "dots": "#566078"
+    }
+  },
+  "clock": {
+    "start": "09:00:00",
+    "rate": 3
+  },
+  "titlebar": {
+    "text": "~/fgui-flow — s0..s4 — zsh — 90x46"
+  },
+  "credit": {
+    "text": "Source: docs/09-Skill流程详解.md · FGUI 美术流程 s0~s4 · all counts (illustrative)",
+    "y": 1486
+  },
+  "machines": {
+    "needs": {
+      "type": "counter",
+      "start": 38,
+      "rate": 2,
+      "format": "comma"
+    },
+    "s0": {
+      "type": "lane",
+      "period": 6,
+      "run": 4,
+      "off": 0.5,
+      "busy": "locating",
+      "done": ["定位完成"],
+      "phase": 0,
+      "log": {
+        "who": "s0",
+        "c": "cy",
+        "msgs": [["两层定位 → client_dir", "env"]]
+      }
+    },
+    "s1": {
+      "type": "lane",
+      "period": 7,
+      "run": 5,
+      "off": 0.5,
+      "busy": "parsing",
+      "done": ["清单.json ready"],
+      "phase": 1,
+      "log": {
+        "who": "s1",
+        "c": "gr",
+        "msgs": [["excel → 目录 → 清单 + 施工单", "req"]]
+      }
+    },
+    "s2": {
+      "type": "lane",
+      "period": 9,
+      "run": 6,
+      "off": 1,
+      "busy": "落位中",
+      "done": ["FGUI 工程改完"],
+      "phase": 2,
+      "log": {
+        "who": "s2",
+        "c": "ye",
+        "msgs": [["方案 → 占位 → 落位 → 交付", "fgui"]]
+      }
+    },
+    "s3": {
+      "type": "lane",
+      "period": 7.5,
+      "run": 5,
+      "off": 0.5,
+      "busy": "搭 PSD",
+      "done": ["还原稿.psd done"],
+      "phase": 3,
+      "log": {
+        "who": "s3",
+        "c": "bl",
+        "msgs": [["解析 → 空跑 → 真搭 → 校验", "psd"]]
+      }
+    },
+    "s4": {
+      "type": "lane",
+      "period": 8,
+      "run": 5.5,
+      "off": 0.5,
+      "busy": "改样式",
+      "done": ["切图回写 done"],
+      "phase": 4,
+      "log": {
+        "who": "s4",
+        "c": "pu",
+        "msgs": [["取件 → 确认 → 执行 → 回写", "style"]]
+      }
+    },
+    "rules": {
+      "type": "triggers",
+      "color": "ye",
+      "period": 4.5,
+      "on": 3,
+      "t0": -1.0,
+      "items": [
+        {
+          "name": "单一闸门",
+          "adv": ["» s2 落位后停下", "» 人确认才补文档"]
+        },
+        {
+          "name": "复用优先 7 级",
+          "adv": ["» 改属性→九宫格", "» →拉伸→通用件→生图"]
+        },
+        {
+          "name": "源文件只读",
+          "adv": ["» s3 还原稿不改", "» s4 副本才改"]
+        }
+      ],
+      "log": {
+        "who": "rules",
+        "c": "ye",
+        "start": { "m": "{name} · enforced" },
+        "end": { "m": "{name} · released" }
+      }
+    }
+  },
+  "elements": [
+    {
+      "type": "text",
+      "x": 0,
+      "w": 1200,
+      "y": 80,
+      "align": "center",
+      "ls": 1,
+      "runs": [
+        { "t": "FGUI 美术流程", "c": "wh", "b": 1 },
+        { "t": "  ·  ", "c": "dim" },
+        { "t": "s0→s4", "c": "cy", "b": 1 },
+        { "t": "  ·  ", "c": "dim" },
+        { "t": "一个角色从头干到尾", "c": "ye", "b": 1 }
+      ]
+    },
+    { "type": "rule", "x": 34, "y": 108, "w": 1132 },
+    {
+      "type": "text",
+      "x": 0,
+      "w": 1200,
+      "y": 141,
+      "align": "center",
+      "runs": [
+        { "sw": "cy" },
+        { "t": "s0 env", "c": "dim" },
+        { "t": "    ", "c": "dim" },
+        { "sw": "gr" },
+        { "t": "s1 req", "c": "dim" },
+        { "t": "    ", "c": "dim" },
+        { "sw": "ye" },
+        { "t": "s2 fgui", "c": "dim" },
+        { "t": "    ", "c": "dim" },
+        { "sw": "bl" },
+        { "t": "s3 psd", "c": "dim" },
+        { "t": "    ", "c": "dim" },
+        { "sw": "pu" },
+        { "t": "s4 style", "c": "dim" }
+      ]
+    },
+    {
+      "type": "box",
+      "x": 40,
+      "y": 172,
+      "w": 1120,
+      "h": 120,
+      "color": "cy",
+      "pad": [13, 14, 14],
+      "lines": [
+        { "runs": [{ "t": "PIPELINE · 全流程", "c": "cy", "b": 1 }] },
+        {
+          "items": [
+            { "w": 180, "runs": [{ "t": "s0 环境配置", "c": "cy" }] },
+            { "w": 30, "align": "center", "runs": [{ "t": "→", "c": "dim" }] },
+            { "w": 180, "runs": [{ "t": "s1 解析需求", "c": "gr" }] },
+            { "w": 30, "align": "center", "runs": [{ "t": "→", "c": "dim" }] },
+            { "w": 200, "runs": [{ "t": "s2 改 FGUI 工程", "c": "ye" }] },
+            { "w": 30, "align": "center", "runs": [{ "t": "→", "c": "dim" }] },
+            { "w": 200, "runs": [{ "t": "s3 出 PSD 还原稿", "c": "bl" }] },
+            { "w": 30, "align": "center", "runs": [{ "t": "→", "c": "dim" }] },
+            { "w": 200, "runs": [{ "t": "s4 改样式切图", "c": "pu" }] }
+          ]
+        },
+        {
+          "runs": [
+            { "t": "交接棒: ", "c": "dim" },
+            { "t": "清单.json", "c": "gr" },
+            { "t": " · ", "c": "dim" },
+            { "t": "psd-spec.json", "c": "ye" },
+            { "t": " · ", "c": "dim" },
+            { "t": "FGUI/ 快照", "c": "bl" }
+          ]
+        }
+      ]
+    },
+    { "type": "line", "from": [600, 292], "to": [600, 340] },
+    { "type": "line", "from": [152, 340], "to": [1048, 340] },
+    { "type": "line", "from": [152, 340], "to": [152, 400] },
+    { "type": "glyph", "x": 145, "y": 395, "ch": "▼", "c": "cy" },
+    { "type": "line", "from": [376, 340], "to": [376, 400] },
+    { "type": "glyph", "x": 369, "y": 395, "ch": "▼", "c": "cy" },
+    { "type": "line", "from": [600, 340], "to": [600, 400] },
+    { "type": "glyph", "x": 593, "y": 395, "ch": "▼", "c": "cy" },
+    { "type": "line", "from": [824, 340], "to": [824, 400] },
+    { "type": "glyph", "x": 817, "y": 395, "ch": "▼", "c": "cy" },
+    { "type": "line", "from": [1048, 340], "to": [1048, 400] },
+    { "type": "glyph", "x": 1041, "y": 395, "ch": "▼", "c": "cy" },
+    {
+      "type": "box",
+      "x": 48,
+      "y": 400,
+      "w": 208,
+      "h": 400,
+      "color": "cy",
+      "pad": [13, 14, 14],
+      "lines": [
+        { "runs": [{ "t": "S0 ENV", "c": "cy", "b": 1 }] },
+        { "t": "环境配置", "c": "mute" },
+        { "t": "in: xc_spce_info", "c": "dim" },
+        "",
+        { "t": "两层定位", "c": "fg" },
+        { "t": "game_id 目录", "c": "fg" },
+        { "t": "game_key 前缀", "c": "fg" },
+        "",
+        { "t": "out: workspace", "c": "dim" },
+        { "t": "client_dir", "c": "fg" },
+        "",
+        { "runs": [{ "v": "s0" }] }
+      ]
+    },
+    {
+      "type": "box",
+      "x": 272,
+      "y": 400,
+      "w": 208,
+      "h": 400,
+      "color": "gr",
+      "pad": [13, 14, 14],
+      "lines": [
+        { "runs": [{ "t": "S1 REQ", "c": "gr", "b": 1 }] },
+        { "t": "解析需求", "c": "mute" },
+        { "t": "in: inbox xlsx", "c": "dim" },
+        "",
+        { "t": "Excel→目录", "c": "fg" },
+        { "t": "→检查→清单", "c": "fg" },
+        { "t": "→适配→施工单", "c": "fg" },
+        "",
+        { "t": "out: 清单.json", "c": "dim" },
+        { "t": "施工单.md", "c": "fg" },
+        "",
+        { "runs": [{ "v": "s1" }] }
+      ]
+    },
+    {
+      "type": "box",
+      "x": 496,
+      "y": 400,
+      "w": 208,
+      "h": 400,
+      "color": "ye",
+      "pad": [13, 14, 14],
+      "lines": [
+        { "runs": [{ "t": "S2 FGUI", "c": "ye", "b": 1 }] },
+        { "t": "改 FGUI 工程", "c": "mute" },
+        { "t": "in: 清单+施工单", "c": "dim" },
+        "",
+        { "t": "备底座→方案", "c": "fg" },
+        { "t": "→占位→落位", "c": "fg" },
+        { "t": "→补文档→交付", "c": "fg" },
+        { "t": "out: FGUI 工程", "c": "dim" },
+        { "t": "psd-spec.json", "c": "fg" },
+        { "t": "FGUI/ 快照", "c": "fg" },
+        "",
+        { "runs": [{ "v": "s2" }] }
+      ]
+    },
+    {
+      "type": "box",
+      "x": 720,
+      "y": 400,
+      "w": 208,
+      "h": 400,
+      "color": "bl",
+      "pad": [13, 14, 14],
+      "lines": [
+        { "runs": [{ "t": "S3 PSD", "c": "bl", "b": 1 }] },
+        { "t": "出 PSD 还原稿", "c": "mute" },
+        { "t": "in: psd-spec", "c": "dim" },
+        "",
+        { "t": "解析→空跑", "c": "fg" },
+        { "t": "→真搭→校验", "c": "fg" },
+        "",
+        { "t": "out: 还原稿.psd", "c": "dim" },
+        { "t": "分层可编辑", "c": "fg" },
+        { "t": "复用_ 前缀", "c": "fg" },
+        "",
+        { "runs": [{ "v": "s3" }] }
+      ]
+    },
+    {
+      "type": "box",
+      "x": 944,
+      "y": 400,
+      "w": 208,
+      "h": 400,
+      "color": "pu",
+      "pad": [13, 14, 14],
+      "lines": [
+        { "runs": [{ "t": "S4 STYLE", "c": "pu", "b": 1 }] },
+        { "t": "改样式切图", "c": "mute" },
+        { "t": "in: 清单+源PSD", "c": "dim" },
+        "",
+        { "t": "取件→确认", "c": "fg" },
+        { "t": "→执行→回写", "c": "fg" },
+        "",
+        { "t": "out: 切图覆盖", "c": "dim" },
+        { "t": "快照+工程根", "c": "fg" },
+        { "t": "清单=已替换", "c": "fg" },
+        "",
+        { "runs": [{ "v": "s4" }] }
+      ]
+    },
+    { "type": "line", "from": [152, 800], "to": [152, 840] },
+    { "type": "line", "from": [376, 800], "to": [376, 840] },
+    { "type": "line", "from": [600, 800], "to": [600, 840] },
+    { "type": "line", "from": [824, 800], "to": [824, 840] },
+    { "type": "line", "from": [1048, 800], "to": [1048, 840] },
+    { "type": "line", "from": [152, 840], "to": [1048, 840] },
+    { "type": "line", "from": [600, 840], "to": [600, 900] },
+    { "type": "glyph", "x": 593, "y": 890, "ch": "▼", "c": "wh" },
+    {
+      "type": "box",
+      "x": 350,
+      "y": 900,
+      "w": 500,
+      "h": 80,
+      "color": "wh",
+      "pad": [13, 14, 14],
+      "lines": [
+        { "runs": [{ "t": "交付物 · DELIVERABLE", "c": "wh", "b": 1 }] },
+        { "t": "FGUI 工程文件 + 交付说明", "c": "mute" }
+      ]
+    },
+    {
+      "type": "box",
+      "x": 40,
+      "y": 1020,
+      "w": 360,
+      "h": 260,
+      "color": "ye",
+      "pad": [13, 14, 14],
+      "lines": [
+        { "runs": [{ "t": "RULES · on call", "c": "ye", "b": 1 }] },
+        "",
+        { "trigger": ["rules", 0] },
+        "",
+        { "trigger": ["rules", 1] },
+        "",
+        { "trigger": ["rules", 2] }
+      ]
+    },
+    {
+      "type": "log",
+      "x": 420,
+      "y": 1020,
+      "w": 740,
+      "rows": 4,
+      "padTop": 16,
+      "padBottom": 29,
+      "padLeft": 20,
+      "title": "session log",
+      "titleX": 418,
+      "titleW": 179,
+      "cols": [
+        { "key": "time", "x": 0 },
+        { "key": "who", "x": 100 },
+        { "key": "m", "x": 220 },
+        { "key": "g", "x": 580 }
+      ]
+    },
+    {
+      "type": "flow",
+      "path": [[600, 292], [600, 340], [152, 340], [152, 400]],
+      "period": 2,
+      "offsets": [0, 1],
+      "color": "cy"
+    },
+    {
+      "type": "flow",
+      "path": [[600, 292], [600, 340], [376, 340], [376, 400]],
+      "period": 2.2,
+      "offsets": [0.3],
+      "color": "gr"
+    },
+    {
+      "type": "flow",
+      "path": [[600, 292], [600, 340], [600, 400]],
+      "period": 1.8,
+      "offsets": [0.6],
+      "color": "ye"
+    },
+    {
+      "type": "flow",
+      "path": [[600, 292], [600, 340], [824, 340], [824, 400]],
+      "period": 2.5,
+      "offsets": [0.9],
+      "color": "bl"
+    },
+    {
+      "type": "flow",
+      "path": [[600, 292], [600, 340], [1048, 340], [1048, 400]],
+      "period": 2.8,
+      "offsets": [1.2],
+      "color": "pu"
+    },
+    {
+      "type": "flow",
+      "path": [[152, 800], [152, 840], [600, 840], [600, 900]],
+      "period": 2.5,
+      "offsets": [0.2, 1.5],
+      "color": "wh"
+    },
+    {
+      "type": "flow",
+      "path": [[376, 800], [376, 840], [600, 840], [600, 900]],
+      "period": 2,
+      "offsets": [0.5],
+      "color": "wh"
+    },
+    {
+      "type": "flow",
+      "path": [[600, 800], [600, 900]],
+      "period": 1.5,
+      "offsets": [0.8],
+      "color": "wh"
+    },
+    {
+      "type": "flow",
+      "path": [[824, 800], [824, 840], [600, 840], [600, 900]],
+      "period": 2.3,
+      "offsets": [1.1],
+      "color": "wh"
+    },
+    {
+      "type": "flow",
+      "path": [[1048, 800], [1048, 840], [600, 840], [600, 900]],
+      "period": 2.7,
+      "offsets": [1.4],
+      "color": "wh"
+    },
+    {
+      "type": "text",
+      "x": 34,
+      "y": 1430,
+      "runs": [
+        { "t": "~/fgui-flow $", "c": "gr", "b": 1 },
+        { "t": " run " },
+        { "t": "--stage", "c": "ye" },
+        { "t": " s2 " },
+        { "t": "--need", "c": "ye" },
+        { "t": " 选字界面" },
+        { "cursor": true, "c": "gr" }
+      ]
+    },
+    {
+      "type": "text",
+      "x": 34,
+      "y": 1461,
+      "runs": [
+        { "t": "stages ", "c": "dim" },
+        { "t": "[5]", "c": "cy", "b": 1 },
+        { "t": "  needs ", "c": "dim" },
+        { "t": "[", "c": "gr", "b": 1 },
+        { "v": "needs", "c": "gr", "b": 1 },
+        { "t": "]", "c": "gr", "b": 1 },
+        { "t": "  rules ", "c": "dim" },
+        { "t": "[", "c": "ye", "b": 1 },
+        { "v": "rules.status", "c": "ye", "b": 1 },
+        { "t": "]", "c": "ye", "b": 1 },
+        { "t": "  packets ", "c": "dim" },
+        { "t": "[", "c": "bl", "b": 1 },
+        { "v": "packets", "c": "bl", "b": 1 },
+        { "t": "]", "c": "bl", "b": 1 }
+      ]
+    }
+  ]
+}

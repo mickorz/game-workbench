@@ -1,0 +1,21 @@
+{
+  "project_profile": "game-mahjong",
+  "project_info": {
+    "client_code_root": ".xflow/xc/xcodeDev/game-mahjong/client",
+    "server_code_root": ".xflow/xc/xcodeDev/game-mahjong/server/Logic/mahjong_server",
+    "knowledge_root_path": ".xflow/xc/knowledge"
+  },
+  "game_info": {
+    "game_id": "42324",
+    "client_res_id": "42324",
+    "game_name": "卡五星",
+    "game_key": "boxKaWuXing",
+    "logic_series": "whmj",
+    "logic_game": "kwx"
+  },
+  "spec_info": {
+    "spec_id": "100",
+    "spec_version": "1.0.0",
+    "spec_path": "xc/doc/卡五星麻将"
+  }
+}

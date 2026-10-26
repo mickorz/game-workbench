@@ -1,0 +1,14 @@
+FGUI 美术流程交付包
+
+打包时间：2026-10-20 16:47:07
+来源工作区：D:\ArtFlow\美术流程-卡五星\自动化流程
+
+文档入口：docs/README.md
+首次使用：docs/02-安装与首次配置.md
+命令手册：docs/03-命令手册.md
+PhotoCraft/MCP：docs/06-PhotoCraft与MCP配置.md
+打包/迁移：docs/07-打包与迁移.md
+常见问题：docs/08-常见问题.md
+
+本包不包含 workspace.json、photocraft.json、token 文件和模型 API Key。
+接收方按 docs/02-安装与首次配置.md 安装依赖并运行 s0 定位工程。

@@ -1,0 +1,9 @@
+先看这里
+
+1. 解压到工作区根（含 .opencode 的那层）。
+2. 打开 docs/README.md 查看文档目录。
+3. 首次安装与定位看 docs/02-安装与首次配置.md。
+4. s3/s4 的 PhotoCraft 与 MCP 看 docs/06-PhotoCraft与MCP配置.md。
+5. 打包与迁移看 docs/07-打包与迁移.md。
+
+注意：本包不带 token、API Key、workspace.json、photocraft.json。

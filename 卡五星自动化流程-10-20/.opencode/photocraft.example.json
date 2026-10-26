@@ -1,0 +1,7 @@
+{
+  "exe": "D:/path/to/photocraft/target/release/photocraft.exe",
+  "port": 7878,
+  "token_file": "D:/PhotoCraft-Work/.photocraft-control.token",
+  "read_root": "D:/path/to/parent-of-workspace",
+  "write_root": "D:/path/to/workspace-root"
+}

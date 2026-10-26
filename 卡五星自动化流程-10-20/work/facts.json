@@ -1,0 +1,7027 @@
+{
+  "root": "D:\\ArtFlow\\美术流程-卡五星\\Fgui-Flow-10-21\\.xflow\\xc\\xcodeDev\\game-mahjong\\client\\42324",
+  "fairy": {
+    "file": "Game10001.fairy",
+    "id": "f95cf2484899a30221b4e262ce84ce43",
+    "type": "CocosCreator",
+    "version": "5.0"
+  },
+  "settings": {
+    "Adaptation.json": {
+      "scaleMode": "ScaleWithScreenSize",
+      "screenMathMode": "MatchWidthOrHeight",
+      "designResolutionX": 1334,
+      "designResolutionY": 750,
+      "devices": [
+        {
+          "name": "iphone X",
+          "resolutionX": 2436,
+          "resolutionY": 1125
+        },
+        {
+          "name": "iphone 8",
+          "resolutionX": 750,
+          "resolutionY": 1334
+        },
+        {
+          "name": "iphone 8 Plus",
+          "resolutionX": 1920,
+          "resolutionY": 1080
+        },
+        {
+          "name": "iphone 12 Pro Max",
+          "resolutionX": 2778,
+          "resolutionY": 1284
+        }
+      ],
+      "fileName": "Adaptation"
+    },
+    "Common.json": {
+      "font": "",
+      "fontSize": 12,
+      "textColor": "#ffffff",
+      "fontAdjustment": false,
+      "colorScheme": [
+        "自定义颜色 #FF0000",
+        "按钮文本颜色 #FFFCEE",
+        "绿色按钮描边颜色 #03806D",
+        "橙色按钮描边颜色 #CA5A00",
+        "通用文字颜色 #80550F",
+        "亲友圈文字颜色 #A6662C",
+        "通用文字颜色2 #82550F",
+        "新版通用文字颜色2 #49506a"
+      ],
+      "fontSizeScheme": [
+        "自定义字体大小 30",
+        "自定义字体大小 32",
+        "自定义字体大小 45"
+      ],
+      "fontScheme": [
+        "默认字体"
+      ],
+      "scrollBars": {
+        "horizontal": "",
+        "vertical": "",
+        "defaultDisplay": "visible"
+      },
+      "tipsRes": "",
+      "buttonClickSound": "",
+      "pivot": "default",
+      "listClearOnPublish": false,
+      "fileName": "Common"
+    },
+    "CustomProperties.json": {
+      "reslocal": "../assets/fgui_lobby/fgui",
+      "needAddPkgPrefixArr": "a",
+      "resGameLocal": "../assets/fgui_game/fgui",
+      "toProtobuf": "1"
+    },
+    "i18n.json": {
+      "langFiles": []
+    },
+    "PackageGroup.json": [
+      {
+        "name": "登录",
+        "pkgs": [
+          "5hwbh28j",
+          "tbf21ras",
+          "ge1tf1vg",
+          "gsu9n0z2"
+        ]
+      },
+      {
+        "name": "大厅(基本功能不包含活动)",
+        "pkgs": [
+          "5hwbh28j",
+          "vpj4geiv",
+          "v7pd3ubs",
+          "vqoerayu",
+          "ibso2m2p",
+          "b3cepgqp",
+          "ncbjocrw",
+          "apbn1s59",
+          "px4yqwe1",
+          "iujo4ock",
+          "xvnpfvh7",
+          "qkyqc0i9",
+          "q0n5iani",
+          "o55c82k6",
+          "u39tlk12",
+          "a7ksxcmq",
+          "sqvs2tjy",
+          "wrjtjm7w",
+          "wwpe3kh2",
+          "w73zlgu6",
+          "e9wghezd",
+          "64w4xotx",
+          "4bn8v5cb",
+          "z8tqbg4u",
+          "zh6xjvkh",
+          "ohj5kon4"
+        ]
+      },
+      {
+        "name": "大厅活动",
+        "pkgs": [
+          "5hwbh28j",
+          "v7pd3ubs",
+          "ie0gkpm5",
+          "zv30ijwt",
+          "27ce0j8o",
+          "b3cepgqp",
+          "weetr97j",
+          "3f0whhkf",
+          "woblmkr2",
+          "r2zr1dk4",
+          "s9h47eg6",
+          "8zilb9ku",
+          "8kl91d39",
+          "qbky05yk",
+          "pbzolxrc",
+          "z28acn5j",
+          "i5xmxpp0",
+          "4dqnkpj1",
+          "y7nz621s",
+          "ztxw0fmz",
+          "hv0kds86",
+          "31qaxqem",
+          "u3mqp4x5",
+          "623l2noa",
+          "qg21h7og",
+          "89cf1ykv",
+          "1eo1tb54",
+          "5ixlqn7k",
+          "oeoylqa9",
+          "e9wghezd",
+          "7uj2qiuq",
+          "u39tlk12",
+          "tqa38poy",
+          "m8d3r0gg",
+          "m9zer5ec",
+          "x46zca3d",
+          "x3n5eg0m",
+          "x46zca3d",
+          "r6n91v19",
+          "oha87ook",
+          "t9y7zvmm"
+        ]
+      },
+      {
+        "name": "好友房",
+        "pkgs": [
+          "b2zzrt51",
+          "kzq0cit2",
+          "ul5y9sqy",
+          "5hwbh28j",
+          "b3cepgqp",
+          "iqfnyh18",
+          "36qggs1l",
+          "m2gjl1jt",
+          "4o3nqdk0",
+          "we174esg",
+          "82m7e07e",
+          "8cxgr28q",
+          "8xrp2u7p",
+          "8v594afn",
+          "8ixo1h8j",
+          "8jfvjaes",
+          "qn4kequj",
+          "qro6r35j",
+          "q387bvsw",
+          "qb80z19c",
+          "mz7d6nw5",
+          "f65xptve"
+        ]
+      },
+      {
+        "name": "拖拉机",
+        "pkgs": [
+          "5hwbh28j",
+          "b3cepgqp",
+          "57dprd8z",
+          "93g9nb7t",
+          "bufgjghi",
+          "ndba34fu",
+          "qbjifddv",
+          "zdhyctg9",
+          "6z14ww0o",
+          "ba0pq6g4",
+          "btmsxn0j",
+          "bnd2f13n",
+          "893s0d2j",
+          "v6kbjunt"
+        ]
+      },
+      {
+        "name": "干瞪眼",
+        "pkgs": [
+          "5hwbh28j",
+          "k07627sz",
+          "ijj7zro8",
+          "lfkmczuj",
+          "tjyj1uph",
+          "bicbb1il",
+          "orurfitu",
+          "y57a9ikt",
+          "yac519xj",
+          "dacvkxsi",
+          "yiuws4g7",
+          "yw3kke9q",
+          "x9250b5z",
+          "tt7j2bks",
+          "my11sm5i",
+          "i2c50fl6",
+          "b3cepgqp"
+        ]
+      },
+      {
+        "name": "斗地主",
+        "pkgs": [
+          "5hwbh28j",
+          "t14p07rg",
+          "6lnamkog",
+          "s5bjjuwa",
+          "stjnixa0",
+          "5cmeagwb",
+          "sm9aaqsg",
+          "ltpbugi7",
+          "nc9qy8za",
+          "5wmghfjf",
+          "k07627sz",
+          "6rzfiewj",
+          "ijj7zro8",
+          "lfkmczuj",
+          "tjyj1uph",
+          "bicbb1il",
+          "orurfitu",
+          "dj64o6p9"
+        ]
+      },
+      {
+        "name": "游戏公共",
+        "pkgs": [
+          "5hwbh28j",
+          "j5zf98l7",
+          "5wmghfjf",
+          "k07627sz",
+          "ijj7zro8",
+          "lfkmczuj",
+          "tjyj1uph",
+          "bicbb1il",
+          "46jvuqkc",
+          "orurfitu",
+          "6nc4acrz",
+          "2t48espp",
+          "dj64o6p9",
+          "b3cepgqp"
+        ]
+      },
+      {
+        "name": "双扣",
+        "pkgs": [
+          "5hwbh28j",
+          "k07627sz",
+          "tjyj1uph",
+          "jfmq4ac0",
+          "8gwf6xij"
+        ]
+      },
+      {
+        "name": "四斗",
+        "pkgs": [
+          "5hwbh28j",
+          "9dypzeuh",
+          "8gwf6xij",
+          "92mch226",
+          "v4hrz1yl",
+          "vw7g9iwb",
+          "5kpo3aw1",
+          "j5zf98l7",
+          "k07627sz",
+          "tjyj1uph",
+          "b3cepgqp"
+        ]
+      },
+      {
+        "name": "杭州麻将",
+        "pkgs": [
+          "5hwbh28j",
+          "k07627sz",
+          "lfkmczuj",
+          "tjyj1uph",
+          "orurfitu",
+          "qpfun5r6",
+          "qt1733r0",
+          "qd92qww3",
+          "6y67ppqc",
+          "qim53w2t",
+          "q836y0sj",
+          "vpj4geiv",
+          "b3cepgqp"
+        ]
+      },
+      {
+        "name": "掼蛋",
+        "pkgs": [
+          "5hwbh28j",
+          "j5zf98l7",
+          "k07627sz",
+          "tjyj1uph",
+          "925m704c",
+          "kniryp3e",
+          "ngb6eo1d",
+          "dpgavz49",
+          "33qc5m42",
+          "b3cepgqp"
+        ]
+      },
+      {
+        "name": "2D麻将",
+        "pkgs": [
+          "5hwbh28j",
+          "j5zf98l7",
+          "k07627sz",
+          "ijj7zro8",
+          "lfkmczuj",
+          "1r0h35ei",
+          "68iwjwij",
+          "8gwf6xij",
+          "92mch226",
+          "v4hrz1yl",
+          "la87v1iy",
+          "flcx0jgq",
+          "5kpo3aw1"
+        ]
+      }
+    ],
+    "Publish.json": {
+      "path": "../../assets/10001/fgui/{publish_file_name}",
+      "branchPath": "",
+      "fileExtension": "bin",
+      "packageCount": 2,
+      "compressDesc": true,
+      "binaryFormat": true,
+      "jpegQuality": 80,
+      "compressPNG": false,
+      "codeGeneration": {
+        "allowGenCode": true,
+        "codePath": "../../fgui/uideclare/{publish_file_name}/",
+        "classNamePrefix": "",
+        "memberNamePrefix": "",
+        "packageName": "",
+        "ignoreNoname": true,
+        "getMemberByName": false,
+        "codeType": ""
+      },
+      "includeHighResolution": 0,
+      "branchProcessing": 1,
+      "seperatedAtlasForBranch": false,
+      "atlasSetting": {
+        "maxSize": 2048,
+        "paging": true,
+        "sizeOption": "pot",
+        "forceSquare": false,
+        "allowRotation": true,
+        "trimImage": false
+      },
+      "include2x": false,
+      "include3x": false,
+      "include4x": false,
+      "fileName": "Publish"
+    }
+  },
+  "packages": [
+    {
+      "dir": "boxKaWuXing_mah_ani",
+      "path": "assets/boxKaWuXing_mah_ani",
+      "id": "i23bcf06",
+      "resources": [
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "l3g68",
+          "name": "XxxMahAniView.xml",
+          "path": "/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "XxxMahAniView.xml",
+          "exists": true
+        },
+        {
+          "tag": "misc",
+          "type": "附属文件",
+          "id": "l3g69",
+          "name": "Paixing_wz03.atlas",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/Paixing_wz03.atlas",
+          "exists": true,
+          "attached_to": "Spine 附属文件（Paixing_wz03.json）"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "l3g6a",
+          "name": "Paixing_wz03.png",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/Paixing_wz03.png",
+          "exists": true,
+          "dims": [
+            512,
+            256
+          ],
+          "attached_to": "Spine 附属文件（Paixing_wz03.json）"
+        },
+        {
+          "tag": "misc",
+          "type": "附属文件",
+          "id": "l3g6b",
+          "name": "Paixing_wz04.atlas",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/Paixing_wz04.atlas",
+          "exists": true,
+          "attached_to": "Spine 附属文件（Paixing_wz04.json）"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "l3g6c",
+          "name": "Paixing_wz04.png",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/Paixing_wz04.png",
+          "exists": true,
+          "dims": [
+            512,
+            512
+          ],
+          "attached_to": "Spine 附属文件（Paixing_wz04.json）"
+        },
+        {
+          "tag": "spine",
+          "type": "Spine 动画",
+          "id": "l3g6d",
+          "name": "Paixing_wz03.json",
+          "path": "/effect/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "require": "l3g69,l3g6a",
+          "atlasNames": "Paixing_wz03",
+          "anchor": "50,50",
+          "width": "100",
+          "height": "100",
+          "relpath": "effect/Paixing_wz03.json",
+          "exists": true
+        },
+        {
+          "tag": "spine",
+          "type": "Spine 动画",
+          "id": "l3g6e",
+          "name": "Paixing_wz04.json",
+          "path": "/effect/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "require": "l3g6b,l3g6c",
+          "atlasNames": "Paixing_wz04",
+          "anchor": "50,50",
+          "width": "100",
+          "height": "100",
+          "relpath": "effect/Paixing_wz04.json",
+          "exists": true
+        },
+        {
+          "tag": "misc",
+          "type": "附属文件",
+          "id": "l3g6f",
+          "name": "GameStart.atlas",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/GameStart.atlas",
+          "exists": true,
+          "attached_to": "Spine 附属文件（GameStart.json）"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "l3g6g",
+          "name": "GameStart.png",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/GameStart.png",
+          "exists": true,
+          "dims": [
+            2048,
+            2048
+          ],
+          "attached_to": "Spine 附属文件（GameStart.json）"
+        },
+        {
+          "tag": "spine",
+          "type": "Spine 动画",
+          "id": "l3g6h",
+          "name": "GameStart.json",
+          "path": "/effect/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "require": "l3g6f,l3g6g",
+          "atlasNames": "GameStart",
+          "anchor": "812,375",
+          "width": "1625",
+          "height": "750",
+          "relpath": "effect/GameStart.json",
+          "exists": true
+        },
+        {
+          "tag": "misc",
+          "type": "附属文件",
+          "id": "ivlvk",
+          "name": "Anniu.atlas",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/Anniu.atlas",
+          "exists": true,
+          "attached_to": "Spine 附属文件（Anniu.json）"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "ivlvl",
+          "name": "Anniu.png",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/Anniu.png",
+          "exists": true,
+          "dims": [
+            1024,
+            512
+          ],
+          "attached_to": "Spine 附属文件（Anniu.json）"
+        },
+        {
+          "tag": "spine",
+          "type": "Spine 动画",
+          "id": "ivlvm",
+          "name": "Anniu.json",
+          "path": "/effect/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "require": "ivlvk,ivlvl",
+          "atlasNames": "Anniu",
+          "anchor": "50,50",
+          "width": "100",
+          "height": "100",
+          "relpath": "effect/Anniu.json",
+          "exists": true
+        }
+      ],
+      "publish": {
+        "path": "../../assets/10001/fgui/{publish_file_name}",
+        "packageCount": "2"
+      },
+      "disk_files": [
+        "package.xml",
+        "XxxMahAniView.xml",
+        "effect/Anniu.atlas",
+        "effect/Anniu.json",
+        "effect/Anniu.png",
+        "effect/GameStart.atlas",
+        "effect/GameStart.json",
+        "effect/GameStart.png",
+        "effect/Paixing_wz03.atlas",
+        "effect/Paixing_wz03.json",
+        "effect/Paixing_wz03.png",
+        "effect/Paixing_wz04.atlas",
+        "effect/Paixing_wz04.json",
+        "effect/Paixing_wz04.png"
+      ],
+      "empty_dirs": []
+    },
+    {
+      "dir": "boxKaWuXing_mah_back",
+      "path": "assets/boxKaWuXing_mah_back",
+      "id": "izz1xup7",
+      "resources": [
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "l3g60",
+          "name": "XxxMahBackView.xml",
+          "path": "/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "XxxMahBackView.xml",
+          "exists": true
+        },
+        {
+          "tag": "folder",
+          "type": "目录",
+          "id": "/alone/",
+          "name": "alone",
+          "path": "/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "l3g61",
+          "name": "paizhuo.jpg",
+          "path": "/alone/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "alone/paizhuo.jpg",
+          "exists": true,
+          "dims": [
+            1626,
+            750
+          ]
+        }
+      ],
+      "publish": {
+        "path": "../../assets/10001/fgui/{publish_file_name}",
+        "packageCount": "2"
+      },
+      "disk_files": [
+        "package.xml",
+        "XxxMahBackView.xml",
+        "alone/paizhuo.jpg"
+      ],
+      "empty_dirs": []
+    },
+    {
+      "dir": "boxKaWuXing_mah_common",
+      "path": "assets/boxKaWuXing_mah_common",
+      "id": "xmahcomm",
+      "resources": [
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "l3g66",
+          "name": "playerHead.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/playerHead.xml",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "l3g67",
+          "name": "img_touxiang.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_touxiang.png",
+          "exists": true,
+          "dims": [
+            88,
+            116
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "ojb6u",
+          "name": "img_bs_zhuang.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_bs_zhuang.png",
+          "exists": true,
+          "dims": [
+            50,
+            50
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "ojb6v",
+          "name": "img_emotion_down.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": [
+            72,
+            13,
+            12,
+            12
+          ],
+          "atlas": "",
+          "relpath": "atlas/img_emotion_down.png",
+          "exists": true,
+          "dims": [
+            115,
+            52
+          ]
+        },
+        {
+          "tag": "misc",
+          "type": "附属文件",
+          "id": "ojb6w",
+          "name": "touxiangkuang.atlas",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/touxiangkuang.atlas",
+          "exists": true,
+          "attached_to": "Spine 附属文件（touxiangkuang.json）"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "ojb6x",
+          "name": "touxiangkuang.png",
+          "path": "/effect/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "effect/touxiangkuang.png",
+          "exists": true,
+          "dims": [
+            512,
+            128
+          ],
+          "attached_to": "Spine 附属文件（touxiangkuang.json）"
+        },
+        {
+          "tag": "spine",
+          "type": "Spine 动画",
+          "id": "ojb6y",
+          "name": "touxiangkuang.json",
+          "path": "/effect/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "require": "ojb6w,ojb6x",
+          "atlasNames": "touxiangkuang",
+          "anchor": "50,50",
+          "width": "100",
+          "height": "100",
+          "relpath": "effect/touxiangkuang.json",
+          "exists": true
+        }
+      ],
+      "publish": {
+        "path": "../../assets/10001/fgui/{publish_file_name}",
+        "packageCount": "2"
+      },
+      "disk_files": [
+        "package.xml",
+        "atlas/img_bs_zhuang.png",
+        "atlas/img_emotion_down.png",
+        "atlas/img_touxiang.png",
+        "component/playerHead.xml",
+        "effect/touxiangkuang.atlas",
+        "effect/touxiangkuang.json",
+        "effect/touxiangkuang.png"
+      ],
+      "empty_dirs": []
+    },
+    {
+      "dir": "boxKaWuXing_mah_game",
+      "path": "assets/boxKaWuXing_mah_game",
+      "id": "n3dx31ny",
+      "resources": [
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "l3g63",
+          "name": "img_paizhuo.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_paizhuo.png",
+          "exists": true,
+          "dims": [
+            370,
+            750
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "l3g64",
+          "name": "XxxMahMainView.xml",
+          "path": "/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "XxxMahMainView.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "ivlvi",
+          "name": "btnHandler.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/btnHandler.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "ivlvj",
+          "name": "EffectHuBtn.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/EffectHuBtn.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "ivlvn",
+          "name": "bigMah.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/bigMah.xml",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "ivlvo",
+          "name": "chupai.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/chupai.png",
+          "exists": true,
+          "dims": [
+            98,
+            131
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "viiep",
+          "name": "ImgFanxingBgNs.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": [
+            114,
+            14,
+            6,
+            138
+          ],
+          "atlas": "",
+          "relpath": "atlas/ImgFanxingBgNs.png",
+          "exists": true,
+          "dims": [
+            140,
+            167
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "viieq",
+          "name": "tingMah.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/tingMah.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "viier",
+          "name": "tingPaiNode.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/tingPaiNode.xml",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "u4yms",
+          "name": "9_img_duogang_bg.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": [
+            10,
+            34,
+            20,
+            68
+          ],
+          "atlas": "",
+          "relpath": "atlas/9_img_duogang_bg.png",
+          "exists": true,
+          "dims": [
+            42,
+            139
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "u4ymt",
+          "name": "chiGangBtn.xml",
+          "path": "/component/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/chiGangBtn.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "ojb6z",
+          "name": "EffectBtn.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/EffectBtn.xml",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "ojb610",
+          "name": "d_li.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/d_li.png",
+          "exists": true,
+          "dims": [
+            49,
+            79
+          ]
+        }
+      ],
+      "publish": {
+        "path": "../../assets/10001/fgui/{publish_file_name}",
+        "packageCount": "2"
+      },
+      "disk_files": [
+        "package.xml",
+        "XxxMahMainView.xml",
+        "atlas/9_img_duogang_bg.png",
+        "atlas/chupai.png",
+        "atlas/d_li.png",
+        "atlas/ImgFanxingBgNs.png",
+        "atlas/img_paizhuo.png",
+        "component/bigMah.xml",
+        "component/btnHandler.xml",
+        "component/chiGangBtn.xml",
+        "component/EffectBtn.xml",
+        "component/EffectHuBtn.xml",
+        "component/tingMah.xml",
+        "component/tingPaiNode.xml"
+      ],
+      "empty_dirs": [
+        "effect"
+      ]
+    },
+    {
+      "dir": "boxKaWuXing_mah_player",
+      "path": "assets/boxKaWuXing_mah_player",
+      "id": "xmahplyr",
+      "resources": [
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "l3g65",
+          "name": "XxxMahPlayerView.xml",
+          "path": "/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "XxxMahPlayerView.xml",
+          "exists": true
+        }
+      ],
+      "publish": {
+        "path": "../../assets/10001/fgui/{publish_file_name}",
+        "packageCount": "2"
+      },
+      "disk_files": [
+        "package.xml",
+        "XxxMahPlayerView.xml"
+      ],
+      "empty_dirs": []
+    },
+    {
+      "dir": "boxKaWuXing_mah_result",
+      "path": "assets/boxKaWuXing_mah_result",
+      "id": "ul5y9sqy",
+      "resources": [
+        {
+          "tag": "folder",
+          "type": "目录",
+          "id": "/alone/",
+          "name": "alone",
+          "path": "/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msl",
+          "name": "bnt_cackpz.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/bnt_cackpz.png",
+          "exists": true,
+          "dims": [
+            155,
+            59
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msm",
+          "name": "img_title_yhsl.png",
+          "path": "/alone/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone/img_title_yhsl.png",
+          "exists": true,
+          "dims": [
+            659,
+            105
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msn",
+          "name": "img_title_gxhs.png",
+          "path": "/alone/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone/img_title_gxhs.png",
+          "exists": true,
+          "dims": [
+            659,
+            105
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9mso",
+          "name": "img_qipao.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_qipao.png",
+          "exists": true,
+          "dims": [
+            250,
+            43
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msq",
+          "name": "img_gxhs_fengexian.png",
+          "path": "/alone/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone/img_gxhs_fengexian.png",
+          "exists": true,
+          "dims": [
+            1052,
+            2
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msr",
+          "name": "img_bs_zhuang.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_bs_zhuang.png",
+          "exists": true,
+          "dims": [
+            50,
+            50
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9mss",
+          "name": "img_biaoqian_zimo3.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_biaoqian_zimo3.png",
+          "exists": true,
+          "dims": [
+            88,
+            31
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9mst",
+          "name": "img_biaoqian_zimo2.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_biaoqian_zimo2.png",
+          "exists": true,
+          "dims": [
+            88,
+            31
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msu",
+          "name": "img_biaoqian_zimo1.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_biaoqian_zimo1.png",
+          "exists": true,
+          "dims": [
+            88,
+            31
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msv",
+          "name": "img_touxiang.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_touxiang.png",
+          "exists": true,
+          "dims": [
+            81,
+            81
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msw",
+          "name": "img_biaoqian_hu3.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_biaoqian_hu3.png",
+          "exists": true,
+          "dims": [
+            88,
+            31
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msx",
+          "name": "img_biaoqian_hu1.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_biaoqian_hu1.png",
+          "exists": true,
+          "dims": [
+            88,
+            31
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msy",
+          "name": "img_biaoqian.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_biaoqian.png",
+          "exists": true,
+          "dims": [
+            96,
+            37
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9msz",
+          "name": "img_bg_yhsl_zj.png",
+          "path": "/alone/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone/img_bg_yhsl_zj.png",
+          "exists": true,
+          "dims": [
+            1618,
+            175
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9ms10",
+          "name": "img_bg_yhsl.png",
+          "path": "/alone/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone/img_bg_yhsl.png",
+          "exists": true,
+          "dims": [
+            1625,
+            750
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9ms11",
+          "name": "img_bg_gxhs_zj.png",
+          "path": "/alone/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone/img_bg_gxhs_zj.png",
+          "exists": true,
+          "dims": [
+            1618,
+            175
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9ms13",
+          "name": "ico_hu.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/ico_hu.png",
+          "exists": true,
+          "dims": [
+            23,
+            22
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9ms14",
+          "name": "ico_gui.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/ico_gui.png",
+          "exists": true,
+          "dims": [
+            24,
+            23
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9ms15",
+          "name": "bnt_lsxq.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/bnt_lsxq.png",
+          "exists": true,
+          "dims": [
+            133,
+            44
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9ms16",
+          "name": "img_biaoqian_hu2.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/img_biaoqian_hu2.png",
+          "exists": true,
+          "dims": [
+            88,
+            31
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "w9ms17",
+          "name": "img_yhsl_fengexian.png",
+          "path": "/alone/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone/img_yhsl_fengexian.png",
+          "exists": true,
+          "dims": [
+            1052,
+            2
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "w9ms18",
+          "name": "XxxMahResultView.xml",
+          "path": "/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "XxxMahResultView.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "w9ms19",
+          "name": "MainResultLayer.xml",
+          "path": "/component/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/MainResultLayer.xml",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj701a",
+          "name": "9_box_lsxq.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": [
+            29,
+            25,
+            3,
+            11
+          ],
+          "atlas": "",
+          "relpath": "atlas/9_box_lsxq.png",
+          "exists": true,
+          "dims": [
+            59,
+            59
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "fj701h",
+          "name": "ScoreFlow.xml",
+          "path": "/component/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/ScoreFlow.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "fj701m",
+          "name": "FlowItem.xml",
+          "path": "/component/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/FlowItem.xml",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj701n",
+          "name": "BtnGreen01.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/BtnGreen01.png",
+          "exists": true,
+          "dims": [
+            223,
+            81
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj701p",
+          "name": "bnt_back.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/bnt_back.png",
+          "exists": true,
+          "dims": [
+            86,
+            85
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj701r",
+          "name": "9_box_lsxq_jiantou.png",
+          "path": "/atlas/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "atlas/9_box_lsxq_jiantou.png",
+          "exists": true,
+          "dims": [
+            23,
+            28
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "fj701s",
+          "name": "ResultItem.xml",
+          "path": "/component/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/ResultItem.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "fj701t",
+          "name": "comboSefl.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/comboSefl.xml",
+          "exists": true
+        },
+        {
+          "tag": "font",
+          "type": "位图字体",
+          "id": "fj7028",
+          "name": "win.fnt",
+          "path": "/fnt/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win.fnt",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj7029",
+          "name": "+.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/+.png",
+          "exists": true,
+          "dims": [
+            45,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "+",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702a",
+          "name": "..png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/..png",
+          "exists": true,
+          "dims": [
+            23,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": ".",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702b",
+          "name": "0.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/0.png",
+          "exists": true,
+          "dims": [
+            51,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "0",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702c",
+          "name": "1.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/1.png",
+          "exists": true,
+          "dims": [
+            30,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "1",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702d",
+          "name": "2.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/2.png",
+          "exists": true,
+          "dims": [
+            51,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "2",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702e",
+          "name": "3.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/3.png",
+          "exists": true,
+          "dims": [
+            48,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "3",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702f",
+          "name": "4.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/4.png",
+          "exists": true,
+          "dims": [
+            50,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "4",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702g",
+          "name": "5.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/5.png",
+          "exists": true,
+          "dims": [
+            53,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "5",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702h",
+          "name": "6.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/6.png",
+          "exists": true,
+          "dims": [
+            49,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "6",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702i",
+          "name": "7.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/7.png",
+          "exists": true,
+          "dims": [
+            45,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "7",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702j",
+          "name": "8.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/8.png",
+          "exists": true,
+          "dims": [
+            52,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "8",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702k",
+          "name": "9.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/9.png",
+          "exists": true,
+          "dims": [
+            49,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "9",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702l",
+          "name": "f.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/f.png",
+          "exists": true,
+          "dims": [
+            92,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "f",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "fj702m",
+          "name": "万.png",
+          "path": "/fnt/win/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/win/万.png",
+          "exists": true,
+          "dims": [
+            68,
+            69
+          ],
+          "glyph_dir": "fnt/win",
+          "glyph": "万",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2n",
+          "name": "-.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/-.png",
+          "exists": true,
+          "dims": [
+            45,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "-",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2o",
+          "name": "..png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/..png",
+          "exists": true,
+          "dims": [
+            23,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": ".",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2p",
+          "name": "0.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/0.png",
+          "exists": true,
+          "dims": [
+            51,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "0",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2q",
+          "name": "1.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/1.png",
+          "exists": true,
+          "dims": [
+            30,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "1",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2r",
+          "name": "2.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/2.png",
+          "exists": true,
+          "dims": [
+            51,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "2",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2s",
+          "name": "3.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/3.png",
+          "exists": true,
+          "dims": [
+            48,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "3",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2t",
+          "name": "4.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/4.png",
+          "exists": true,
+          "dims": [
+            50,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "4",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2u",
+          "name": "5.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/5.png",
+          "exists": true,
+          "dims": [
+            53,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "5",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2v",
+          "name": "6.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/6.png",
+          "exists": true,
+          "dims": [
+            49,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "6",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2w",
+          "name": "7.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/7.png",
+          "exists": true,
+          "dims": [
+            45,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "7",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2x",
+          "name": "8.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/8.png",
+          "exists": true,
+          "dims": [
+            52,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "8",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2y",
+          "name": "9.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/9.png",
+          "exists": true,
+          "dims": [
+            49,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "9",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr2z",
+          "name": "p.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/p.png",
+          "exists": true,
+          "dims": [
+            92,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "p",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "k9wr30",
+          "name": "万.png",
+          "path": "/fnt/lose/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose/万.png",
+          "exists": true,
+          "dims": [
+            68,
+            69
+          ],
+          "glyph_dir": "fnt/lose",
+          "glyph": "万",
+          "attached_to": "位图字体字模"
+        },
+        {
+          "tag": "font",
+          "type": "位图字体",
+          "id": "k9wr31",
+          "name": "lose.fnt",
+          "path": "/fnt/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "fnt/lose.fnt",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "wmqb33",
+          "name": "img_bg_gxhs.png",
+          "path": "/alone/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "alone_npot",
+          "relpath": "alone/img_bg_gxhs.png",
+          "exists": true,
+          "dims": [
+            1625,
+            750
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "fksq3a",
+          "name": "mahHandSelf.xml",
+          "path": "/component/",
+          "exported": true,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/mahHandSelf.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "xbb001",
+          "name": "BlackBottomUI.xml",
+          "path": "/component/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/BlackBottomUI.xml",
+          "exists": true
+        },
+        {
+          "tag": "component",
+          "type": "组件",
+          "id": "xbb002",
+          "name": "Button9Scale.xml",
+          "path": "/component/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "component/Button9Scale.xml",
+          "exists": true
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "xm001",
+          "name": "z_m.png",
+          "path": "/image/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "image/z_m.png",
+          "exists": true,
+          "dims": [
+            76,
+            115
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "xm002",
+          "name": "z_an.png",
+          "path": "/image/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "image/z_an.png",
+          "exists": true,
+          "dims": [
+            76,
+            115
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "xm003",
+          "name": "z_li.png",
+          "path": "/image/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "image/z_li.png",
+          "exists": true,
+          "dims": [
+            91,
+            141
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "xm005",
+          "name": "icon_zimo.png",
+          "path": "/image/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "image/icon_zimo.png",
+          "exists": true,
+          "dims": [
+            32,
+            32
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "xm006",
+          "name": "arrow.png",
+          "path": "/image/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "image/arrow.png",
+          "exists": true,
+          "dims": [
+            32,
+            32
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "xm007",
+          "name": "lai.png",
+          "path": "/image/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "image/lai.png",
+          "exists": true,
+          "dims": [
+            49,
+            49
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "id": "xm008",
+          "name": "8B.png",
+          "path": "/image/",
+          "exported": false,
+          "scale9grid": null,
+          "atlas": "",
+          "relpath": "image/8B.png",
+          "exists": true,
+          "dims": [
+            94,
+            118
+          ]
+        }
+      ],
+      "publish": {
+        "path": "../../assets/10001/fgui/{publish_file_name}",
+        "packageCount": "2"
+      },
+      "disk_files": [
+        "package.xml",
+        "XxxMahResultView.xml",
+        "alone/img_bg_gxhs.png",
+        "alone/img_bg_gxhs_zj.png",
+        "alone/img_bg_yhsl.png",
+        "alone/img_bg_yhsl_zj.png",
+        "alone/img_gxhs_fengexian.png",
+        "alone/img_title_gxhs.png",
+        "alone/img_title_yhsl.png",
+        "alone/img_yhsl_fengexian.png",
+        "atlas/9_box_lsxq.png",
+        "atlas/9_box_lsxq_jiantou.png",
+        "atlas/bnt_back.png",
+        "atlas/bnt_cackpz.png",
+        "atlas/bnt_lsxq.png",
+        "atlas/BtnGreen01.png",
+        "atlas/ico_gui.png",
+        "atlas/ico_hu.png",
+        "atlas/img_biaoqian.png",
+        "atlas/img_biaoqian_hu1.png",
+        "atlas/img_biaoqian_hu2.png",
+        "atlas/img_biaoqian_hu3.png",
+        "atlas/img_biaoqian_zimo1.png",
+        "atlas/img_biaoqian_zimo2.png",
+        "atlas/img_biaoqian_zimo3.png",
+        "atlas/img_bs_zhuang.png",
+        "atlas/img_qipao.png",
+        "atlas/img_touxiang.png",
+        "component/BlackBottomUI.xml",
+        "component/Button9Scale.xml",
+        "component/comboSefl.xml",
+        "component/FlowItem.xml",
+        "component/mahHandSelf.xml",
+        "component/MainResultLayer.xml",
+        "component/ResultItem.xml",
+        "component/ScoreFlow.xml",
+        "fnt/lose.fnt",
+        "fnt/win.fnt",
+        "fnt/lose/-.png",
+        "fnt/lose/..png",
+        "fnt/lose/0.png",
+        "fnt/lose/1.png",
+        "fnt/lose/2.png",
+        "fnt/lose/3.png",
+        "fnt/lose/4.png",
+        "fnt/lose/5.png",
+        "fnt/lose/6.png",
+        "fnt/lose/7.png",
+        "fnt/lose/8.png",
+        "fnt/lose/9.png",
+        "fnt/lose/p.png",
+        "fnt/lose/万.png",
+        "fnt/win/+.png",
+        "fnt/win/..png",
+        "fnt/win/0.png",
+        "fnt/win/1.png",
+        "fnt/win/2.png",
+        "fnt/win/3.png",
+        "fnt/win/4.png",
+        "fnt/win/5.png",
+        "fnt/win/6.png",
+        "fnt/win/7.png",
+        "fnt/win/8.png",
+        "fnt/win/9.png",
+        "fnt/win/f.png",
+        "fnt/win/万.png",
+        "image/8B.png",
+        "image/arrow.png",
+        "image/icon_zimo.png",
+        "image/lai.png",
+        "image/z_an.png",
+        "image/z_li.png",
+        "image/z_m.png"
+      ],
+      "empty_dirs": []
+    }
+  ],
+  "components": [
+    {
+      "pkg": "boxKaWuXing_mah_ani",
+      "relpath": "XxxMahAniView.xml",
+      "file": "XxxMahAniView.xml",
+      "size": "1334,750",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [
+        "GameStart.json",
+        "Paixing_wz03.json",
+        "Paixing_wz03.json",
+        "Paixing_wz03.json",
+        "Paixing_wz03.json",
+        "Paixing_wz04.json",
+        "Paixing_wz03.json",
+        "Paixing_wz03.json",
+        "Paixing_wz03.json"
+      ],
+      "nodes": [
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_GameStart_Ani",
+          "id": "n0_l3g6",
+          "size": "1334,750",
+          "xy": "667,375",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6h",
+          "url_desc": "boxKaWuXing_mah_ani/GameStart.json",
+          "url_all": "boxKaWuXing_mah_ani/GameStart.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6h",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/GameStart.json"
+            }
+          ]
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Combo_Ani_0",
+          "id": "n1_l3g6",
+          "size": "100,100",
+          "xy": "667,530",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6d",
+          "url_desc": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "url_all": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6d",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Paixing_wz03.json"
+            }
+          ]
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Combo_Ani_1",
+          "id": "n2_l3g6",
+          "size": "100,100",
+          "xy": "1100,375",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6d",
+          "url_desc": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "url_all": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6d",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Paixing_wz03.json"
+            }
+          ]
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Combo_Ani_2",
+          "id": "n3_l3g6",
+          "size": "100,100",
+          "xy": "667,89",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6d",
+          "url_desc": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "url_all": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6d",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Paixing_wz03.json"
+            }
+          ]
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Combo_Ani_3",
+          "id": "n4_l3g6",
+          "size": "100,100",
+          "xy": "250,375",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6d",
+          "url_desc": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "url_all": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6d",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Paixing_wz03.json"
+            }
+          ]
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Hu_Ani_0",
+          "id": "n5_hrqy",
+          "size": "100,100",
+          "xy": "675,551",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6e",
+          "url_desc": "boxKaWuXing_mah_ani/Paixing_wz04.json",
+          "url_all": "boxKaWuXing_mah_ani/Paixing_wz04.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6e",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Paixing_wz04.json"
+            }
+          ]
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Hu_Ani_1",
+          "id": "n6_hrqy",
+          "size": "100,100",
+          "xy": "1108,396",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6d",
+          "url_desc": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "url_all": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6d",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Paixing_wz03.json"
+            }
+          ]
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Hu_Ani_2",
+          "id": "n7_hrqy",
+          "size": "100,100",
+          "xy": "675,110",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6d",
+          "url_desc": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "url_all": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6d",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Paixing_wz03.json"
+            }
+          ]
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Hu_Ani_3",
+          "id": "n8_hrqy",
+          "size": "100,100",
+          "xy": "258,396",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06l3g6d",
+          "url_desc": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "url_all": "boxKaWuXing_mah_ani/Paixing_wz03.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06l3g6d",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Paixing_wz03.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_back",
+      "relpath": "XxxMahBackView.xml",
+      "file": "XxxMahBackView.xml",
+      "size": "1334,750",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_Desk_Image",
+          "id": "n0_l3g6",
+          "size": "1334,750",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://izz1xup7l3g61",
+          "url_desc": "boxKaWuXing_mah_back/paizhuo.jpg",
+          "url_all": "boxKaWuXing_mah_back/paizhuo.jpg",
+          "urls": [
+            {
+              "url": "ui://izz1xup7l3g61",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_back/paizhuo.jpg"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "Back1",
+          "id": "n1_l3g6",
+          "size": "330,750",
+          "xy": "-181,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://n3dx31nyl3g63",
+          "url_desc": "boxKaWuXing_mah_game/img_paizhuo.png",
+          "url_all": "boxKaWuXing_mah_game/img_paizhuo.png",
+          "urls": [
+            {
+              "url": "ui://n3dx31nyl3g63",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_game/img_paizhuo.png"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "Back2",
+          "id": "n2_l3g6",
+          "size": "370,750",
+          "xy": "1520,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://n3dx31nyl3g63",
+          "url_desc": "boxKaWuXing_mah_game/img_paizhuo.png",
+          "url_all": "boxKaWuXing_mah_game/img_paizhuo.png",
+          "urls": [
+            {
+              "url": "ui://n3dx31nyl3g63",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_game/img_paizhuo.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_common",
+      "relpath": "component/playerHead.xml",
+      "file": "playerHead.xml",
+      "size": "88,116",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [
+        "touxiangkuang.json",
+        "touxiangkuang.json"
+      ],
+      "nodes": [
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "n3",
+          "id": "n3_l3g6",
+          "size": "88,116",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "img_touxiang.png",
+          "src_rel": "atlas/img_touxiang.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_common",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_BTN_USER_INFO",
+          "id": "n0_l3g6",
+          "size": "72,72",
+          "xy": "8,5",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Name_Str",
+          "id": "n1_l3g6",
+          "size": "78,29",
+          "xy": "5,77",
+          "visible": "",
+          "hidden": false,
+          "text": "asdasd",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Money_Str",
+          "id": "n2_l3g6",
+          "size": "77,29",
+          "xy": "5,105",
+          "visible": "",
+          "hidden": false,
+          "text": "asdasd",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "KW_Zhuang_Icon",
+          "id": "n6_ojb6",
+          "size": "40,40",
+          "xy": "47,1",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "img_bs_zhuang.png",
+          "src_rel": "atlas/img_bs_zhuang.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_common",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Clock_Ani",
+          "id": "n4_ojb6",
+          "size": "100,100",
+          "xy": "-9,-10",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://xmahcommojb6y",
+          "url_desc": "boxKaWuXing_mah_common/touxiangkuang.json",
+          "url_all": "boxKaWuXing_mah_common/touxiangkuang.json",
+          "urls": [
+            {
+              "url": "ui://xmahcommojb6y",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_common/touxiangkuang.json"
+            }
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "KW_Chat_Back",
+          "id": "n7_ojb6",
+          "size": "179,52",
+          "xy": "-9,-35",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n9_ojb6",
+          "gears": [],
+          "items": 0,
+          "src_name": "img_emotion_down.png",
+          "src_rel": "atlas/img_emotion_down.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_common",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Chat_Text",
+          "id": "n8_ojb6",
+          "size": "173,32",
+          "xy": "-6,-35",
+          "visible": "",
+          "hidden": false,
+          "text": "aaaaaaaaaaaaa",
+          "controller": "",
+          "group": "n9_ojb6",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Chat_Ani",
+          "id": "n10_ojb6",
+          "size": "100,100",
+          "xy": "74,-18",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "n9_ojb6",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://xmahcommojb6y",
+          "url_desc": "boxKaWuXing_mah_common/touxiangkuang.json",
+          "url_all": "boxKaWuXing_mah_common/touxiangkuang.json",
+          "urls": [
+            {
+              "url": "ui://xmahcommojb6y",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_common/touxiangkuang.json"
+            }
+          ]
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "KW_Chat",
+          "id": "n9_ojb6",
+          "size": "183,117",
+          "xy": "-9,-35",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "relpath": "component/bigMah.xml",
+      "file": "bigMah.xml",
+      "size": "98,131",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "KW_Back",
+          "id": "n0_ivlv",
+          "size": "",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "chupai.png",
+          "src_rel": "atlas/chupai.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_Value",
+          "id": "n1_ivlv",
+          "size": "95,120",
+          "xy": "1,9",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "relpath": "component/btnHandler.xml",
+      "file": "btnHandler.xml",
+      "size": "1334,196",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_Chi",
+          "id": "n6_ivlv",
+          "size": "",
+          "xy": "72,42",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n1_ivlv",
+          "gears": [],
+          "items": 0,
+          "src_name": "EffectBtn.xml",
+          "src_rel": "component/EffectBtn.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_Peng",
+          "id": "n0_ivlv",
+          "size": "",
+          "xy": "222,42",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n1_ivlv",
+          "gears": [],
+          "items": 0,
+          "src_name": "EffectBtn.xml",
+          "src_rel": "component/EffectBtn.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_Gang",
+          "id": "n2_ivlv",
+          "size": "",
+          "xy": "372,42",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n1_ivlv",
+          "gears": [],
+          "items": 0,
+          "src_name": "EffectBtn.xml",
+          "src_rel": "component/EffectBtn.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_Ting",
+          "id": "n7_ivlv",
+          "size": "",
+          "xy": "522,43",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n1_ivlv",
+          "gears": [],
+          "items": 0,
+          "src_name": "EffectBtn.xml",
+          "src_rel": "component/EffectBtn.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_Hu",
+          "id": "n5_ivlv",
+          "size": "",
+          "xy": "672,42",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n1_ivlv",
+          "gears": [],
+          "items": 0,
+          "src_name": "EffectHuBtn.xml",
+          "src_rel": "component/EffectHuBtn.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_Guo",
+          "id": "n3_ivlv",
+          "size": "",
+          "xy": "902,42",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n1_ivlv",
+          "gears": [],
+          "items": 0,
+          "src_name": "EffectBtn.xml",
+          "src_rel": "component/EffectBtn.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_Guo2",
+          "id": "n4_ivlv",
+          "size": "",
+          "xy": "1052,42",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n1_ivlv",
+          "gears": [],
+          "items": 0,
+          "src_name": "EffectBtn.xml",
+          "src_rel": "component/EffectBtn.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "KW_BTN_PGs",
+          "id": "n1_ivlv",
+          "size": "1130,151",
+          "xy": "72,42",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "list",
+          "type": "列表",
+          "name": "KW_GangGrpList",
+          "id": "n8_u4ym",
+          "size": "1124,110",
+          "xy": "-68,65",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n10_u4ym",
+          "gears": [],
+          "items": 4,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://n3dx31nyu4ymt",
+          "url_desc": "boxKaWuXing_mah_game/chiGangBtn.xml",
+          "url_all": "boxKaWuXing_mah_game/chiGangBtn.xml",
+          "urls": [
+            {
+              "url": "ui://n3dx31nyu4ymt",
+              "from": "list@defaultItem",
+              "desc": "boxKaWuXing_mah_game/chiGangBtn.xml"
+            }
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_Cancle",
+          "id": "n9_u4ym",
+          "size": "",
+          "xy": "1050,48",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n10_u4ym",
+          "gears": [],
+          "items": 0,
+          "src_name": "EffectBtn.xml",
+          "src_rel": "component/EffectBtn.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "KW_GangGrps",
+          "id": "n10_u4ym",
+          "size": "1268,150",
+          "xy": "-68,48",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "relpath": "component/chiGangBtn.xml",
+      "file": "chiGangBtn.xml",
+      "size": "320,110",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [
+        {
+          "name": "mahNum",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "3"
+            ],
+            [
+              "1",
+              "4"
+            ]
+          ],
+          "remarks": {
+            "0": "三张",
+            "1": "四张"
+          },
+          "actions": 0
+        }
+      ],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "n0",
+          "id": "n0_u4ym",
+          "size": "320,110",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "9_img_duogang_bg.png",
+          "src_rel": "atlas/9_img_duogang_bg.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Mah0",
+          "id": "n6_u4ym",
+          "size": "74,100",
+          "xy": "5,5",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Mah1",
+          "id": "n7_u4ym",
+          "size": "74,100",
+          "xy": "163,5",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Mah2",
+          "id": "n8_u4ym",
+          "size": "74,100",
+          "xy": "242,5",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Mah3",
+          "id": "n9_u4ym",
+          "size": "74,100",
+          "xy": "84,5",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "relpath": "component/EffectBtn.xml",
+      "file": "EffectBtn.xml",
+      "size": "150,150",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [
+        "Anniu.json"
+      ],
+      "nodes": [
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Ani",
+          "id": "n0_ivlv",
+          "size": "150,150",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06ivlvm",
+          "url_desc": "boxKaWuXing_mah_ani/Anniu.json",
+          "url_all": "boxKaWuXing_mah_ani/Anniu.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06ivlvm",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Anniu.json"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "relpath": "component/EffectHuBtn.xml",
+      "file": "EffectHuBtn.xml",
+      "size": "230,150",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [
+        "Anniu.json"
+      ],
+      "nodes": [
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "n2",
+          "id": "n2_ojb6",
+          "size": "83,147",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "9_img_duogang_bg.png",
+          "src_rel": "atlas/9_img_duogang_bg.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "loader3D",
+          "type": "Spine/3D 装载器",
+          "name": "KW_Ani",
+          "id": "n0_ivlv",
+          "size": "150,150",
+          "xy": "80,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://i23bcf06ivlvm",
+          "url_desc": "boxKaWuXing_mah_ani/Anniu.json",
+          "url_all": "boxKaWuXing_mah_ani/Anniu.json",
+          "urls": [
+            {
+              "url": "ui://i23bcf06ivlvm",
+              "from": "loader3D@url",
+              "desc": "boxKaWuXing_mah_ani/Anniu.json"
+            }
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_HuMah",
+          "id": "n1_ojb6",
+          "size": "74,100",
+          "xy": "4,8",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_HuInfo",
+          "id": "n3_ojb6",
+          "size": "70,28",
+          "xy": "7,113",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "relpath": "component/tingMah.xml",
+      "file": "tingMah.xml",
+      "size": "98,131",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "KW_Back",
+          "id": "n0_ivlv",
+          "size": "",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "chupai.png",
+          "src_rel": "atlas/chupai.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_Value",
+          "id": "n1_ivlv",
+          "size": "95,120",
+          "xy": "1,9",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Info_Str",
+          "id": "n2_viie",
+          "size": "97,19",
+          "xy": "1,132",
+          "visible": "",
+          "hidden": false,
+          "text": "xx张 xx倍",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "relpath": "component/tingPaiNode.xml",
+      "file": "tingPaiNode.xml",
+      "size": "218,167",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "back",
+          "id": "n0_viie",
+          "size": "218,167",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "ImgFanxingBgNs.png",
+          "src_rel": "atlas/ImgFanxingBgNs.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_HuNum",
+          "id": "n1_viie",
+          "size": "106,162",
+          "xy": "1,3",
+          "visible": "",
+          "hidden": false,
+          "text": "20\n张",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "list",
+          "type": "列表",
+          "name": "KW_Ting_List",
+          "id": "n2_viie",
+          "size": "105,154",
+          "xy": "112,8",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 5,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://n3dx31nyviieq",
+          "url_desc": "boxKaWuXing_mah_game/tingMah.xml",
+          "url_all": "boxKaWuXing_mah_game/tingMah.xml",
+          "urls": [
+            {
+              "url": "ui://n3dx31nyviieq",
+              "from": "list@defaultItem",
+              "desc": "boxKaWuXing_mah_game/tingMah.xml"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "relpath": "XxxMahMainView.xml",
+      "file": "XxxMahMainView.xml",
+      "size": "1334,750",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Handler",
+          "id": "n0_ivlv",
+          "size": "",
+          "xy": "0,391",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "btnHandler.xml",
+          "src_rel": "component/btnHandler.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_ShowCard0",
+          "id": "n1_ivlv",
+          "size": "",
+          "xy": "616,343",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_ShowCard1",
+          "id": "n2_ivlv",
+          "size": "",
+          "xy": "933,206",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_ShowCard2",
+          "id": "n3_ivlv",
+          "size": "",
+          "xy": "616,69",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_ShowCard3",
+          "id": "n4_ivlv",
+          "size": "",
+          "xy": "288,171",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "bigMah.xml",
+          "src_rel": "component/bigMah.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Ting_Node",
+          "id": "n5_viie",
+          "size": "",
+          "xy": "667,565",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "tingPaiNode.xml",
+          "src_rel": "component/tingPaiNode.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "n6",
+          "id": "n6_ojb6",
+          "size": "",
+          "xy": "139,15",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "d_li.png",
+          "src_rel": "atlas/d_li.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_game",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Wall_Num",
+          "id": "n7_ojb6",
+          "size": "46,56",
+          "xy": "140,31",
+          "visible": "",
+          "hidden": false,
+          "text": "12",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_player",
+      "relpath": "XxxMahPlayerView.xml",
+      "file": "XxxMahPlayerView.xml",
+      "size": "1334,750",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Player_0",
+          "id": "n4_l3g6",
+          "size": "",
+          "xy": "102,451",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "playerHead.xml",
+          "src_rel": "component/playerHead.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_common",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Player_1",
+          "id": "n6_l3g6",
+          "size": "",
+          "xy": "1201,233",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "playerHead.xml",
+          "src_rel": "component/playerHead.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_common",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Player_2",
+          "id": "n3_l3g6",
+          "size": "",
+          "xy": "816,31",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "playerHead.xml",
+          "src_rel": "component/playerHead.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_common",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Player_3",
+          "id": "n5_l3g6",
+          "size": "",
+          "xy": "9,200",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "playerHead.xml",
+          "src_rel": "component/playerHead.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_common",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "component/BlackBottomUI.xml",
+      "file": "BlackBottomUI.xml",
+      "size": "1334,750",
+      "extention": "Button",
+      "initName": "KW_BLOCK_LAYER",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "graph",
+          "type": "图形",
+          "name": "KW_Bg",
+          "id": "n0_pd1t",
+          "size": "1334,750",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "component/Button9Scale.xml",
+      "file": "Button9Scale.xml",
+      "size": "100,20",
+      "extention": "Button",
+      "initName": "",
+      "remark": "",
+      "controllers": [
+        {
+          "name": "button",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "up"
+            ],
+            [
+              "1",
+              "down"
+            ],
+            [
+              "2",
+              "over"
+            ],
+            [
+              "3",
+              "selectedOver"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        }
+      ],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "icon",
+          "id": "n3_cjal",
+          "size": "100,20",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "title",
+          "id": "n4_7x57",
+          "size": "10,19",
+          "xy": "50,9",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "component/comboSefl.xml",
+      "file": "comboSefl.xml",
+      "size": "188,76",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [
+        {
+          "name": "C_ComboType",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "3mah"
+            ],
+            [
+              "1",
+              "4mah"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_IsAnGan",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "no"
+            ],
+            [
+              "1",
+              "yes"
+            ]
+          ],
+          "remarks": {},
+          "actions": 6
+        }
+      ],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "mah0",
+          "id": "n0_mz21",
+          "size": "",
+          "xy": "1,19",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "state,5",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "mahHandSelf.xml",
+          "src_rel": "component/mahHandSelf.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "mah1",
+          "id": "n1_mz21",
+          "size": "",
+          "xy": "75,19",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "state,5",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "mahHandSelf.xml",
+          "src_rel": "component/mahHandSelf.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "mah2",
+          "id": "n2_mz21",
+          "size": "",
+          "xy": "150,19",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "state,5",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "mahHandSelf.xml",
+          "src_rel": "component/mahHandSelf.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "mah3",
+          "id": "n3_mz21",
+          "size": "",
+          "xy": "75,-5",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "state,5",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "mahHandSelf.xml",
+          "src_rel": "component/mahHandSelf.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "component/FlowItem.xml",
+      "file": "FlowItem.xml",
+      "size": "770,140",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [
+        {
+          "name": "C_WinLost",
+          "exported": true,
+          "pages": [
+            [
+              "0",
+              "win"
+            ],
+            [
+              "1",
+              "lose"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_FengDing",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "no"
+            ],
+            [
+              "1",
+              "yes"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        }
+      ],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Type",
+          "id": "n0_w9ms",
+          "size": "446,46",
+          "xy": "6,2",
+          "visible": "",
+          "hidden": false,
+          "text": "被查大叫（当点炮，不全赔）",
+          "controller": "",
+          "group": "n2_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "n1",
+          "id": "n1_w9ms",
+          "size": "140,46",
+          "xy": "452,2",
+          "visible": "",
+          "hidden": false,
+          "text": "封顶倍数",
+          "controller": "",
+          "group": "n2_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "group",
+          "id": "n2_w9ms",
+          "size": "446,46",
+          "xy": "6,2",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_BeiShu",
+          "id": "n3_w9ms",
+          "size": "634,82",
+          "xy": "6,49",
+          "visible": "",
+          "hidden": false,
+          "text": "+32倍（碰碰胡，自摸，断幺九，门清，碰碰胡，自摸，断幺九，门清）",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Score",
+          "id": "n5_w9ms",
+          "size": "61,46",
+          "xy": "766,2",
+          "visible": "",
+          "hidden": false,
+          "text": "+32",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "component/mahHandSelf.xml",
+      "file": "mahHandSelf.xml",
+      "size": "94,141",
+      "extention": "",
+      "initName": "",
+      "remark": "{\"backInfo\":{\"KW_Back\":\"z_li\",\"KW_Back_Stand\":\"z_m\",\"KW_Back_Down\":\"z_an\"}}",
+      "controllers": [
+        {
+          "name": "state",
+          "exported": true,
+          "pages": [
+            [
+              "0",
+              "Default"
+            ],
+            [
+              "1",
+              "Down"
+            ],
+            [
+              "4",
+              "Stand"
+            ],
+            [
+              "5",
+              "Up"
+            ]
+          ],
+          "remarks": {
+            "0": "默认",
+            "1": "背面（趴着）",
+            "2": "立着",
+            "3": "正面（牌值向上）"
+          },
+          "actions": 0
+        },
+        {
+          "name": "fromSeat",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              ""
+            ],
+            [
+              "1",
+              ""
+            ],
+            [
+              "2",
+              ""
+            ],
+            [
+              "3",
+              ""
+            ],
+            [
+              "11",
+              ""
+            ]
+          ],
+          "remarks": {
+            "0": "本家",
+            "1": "下家",
+            "2": "对家",
+            "3": "上家",
+            "4": "none"
+          },
+          "actions": 0
+        },
+        {
+          "name": "C_PlayEffect",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              ""
+            ],
+            [
+              "1",
+              ""
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        }
+      ],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_Back_Stand",
+          "id": "n5_mz21",
+          "size": "97,146",
+          "xy": "0,1",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyxm001",
+          "url_desc": "boxKaWuXing_mah_result/z_m.png",
+          "url_all": "boxKaWuXing_mah_result/z_m.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyxm001",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/z_m.png"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_Value",
+          "id": "n2_s6z3",
+          "size": "92,100",
+          "xy": "3,3",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyxm008",
+          "url_desc": "boxKaWuXing_mah_result/8B.png",
+          "url_all": "boxKaWuXing_mah_result/8B.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyxm008",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/8B.png"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_HuInex",
+          "id": "n11_hfg0",
+          "size": "32,32",
+          "xy": "49,83",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyxm005",
+          "url_desc": "boxKaWuXing_mah_result/icon_zimo.png",
+          "url_all": "boxKaWuXing_mah_result/icon_zimo.png、boxKaWuXing_mah_result/arrow.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyxm005",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/icon_zimo.png"
+            },
+            {
+              "url": "ui://ul5y9sqyxm006",
+              "from": "gearIcon@default",
+              "desc": "boxKaWuXing_mah_result/arrow.png"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_Back_Down",
+          "id": "n12_avkb",
+          "size": "96,145",
+          "xy": "-1,-2",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyxm002",
+          "url_desc": "boxKaWuXing_mah_result/z_an.png",
+          "url_all": "boxKaWuXing_mah_result/z_an.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyxm002",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/z_an.png"
+            }
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "KW_Corner",
+          "id": "n13_js4e",
+          "size": "",
+          "xy": "3,2",
+          "visible": "false",
+          "hidden": true,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "lai.png",
+          "src_rel": "image/lai.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "component/MainResultLayer.xml",
+      "file": "MainResultLayer.xml",
+      "size": "1334,750",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [
+        {
+          "name": "C_ShowScoreFlow",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "no"
+            ],
+            [
+              "1",
+              "yes"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_ShowPlayerCnt",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              ""
+            ],
+            [
+              "1",
+              ""
+            ],
+            [
+              "2",
+              ""
+            ],
+            [
+              "3",
+              ""
+            ],
+            [
+              "4",
+              ""
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_WinLost",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "win"
+            ],
+            [
+              "1",
+              "lose"
+            ]
+          ],
+          "remarks": {},
+          "actions": 2
+        },
+        {
+          "name": "C_IsLastRound",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              ""
+            ],
+            [
+              "1",
+              ""
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        }
+      ],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "n3",
+          "id": "n3_w9ms",
+          "size": "1625,750",
+          "xy": "-145,-4",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n13_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqywmqb33",
+          "url_desc": "boxKaWuXing_mah_result/img_bg_gxhs.png",
+          "url_all": "boxKaWuXing_mah_result/img_bg_gxhs.png、boxKaWuXing_mah_result/img_bg_yhsl.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqywmqb33",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/img_bg_gxhs.png"
+            },
+            {
+              "url": "ui://ul5y9sqyw9ms10",
+              "from": "gearIcon@values",
+              "desc": "boxKaWuXing_mah_result/img_bg_yhsl.png"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "n2",
+          "id": "n2_w9ms",
+          "size": "659,105",
+          "xy": "305,17",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n13_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyw9msn",
+          "url_desc": "boxKaWuXing_mah_result/img_title_gxhs.png",
+          "url_all": "boxKaWuXing_mah_result/img_title_gxhs.png、boxKaWuXing_mah_result/img_title_yhsl.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyw9msn",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/img_title_gxhs.png"
+            },
+            {
+              "url": "ui://ul5y9sqyw9msm",
+              "from": "gearIcon@values",
+              "desc": "boxKaWuXing_mah_result/img_title_yhsl.png"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "fengexian1",
+          "id": "n16_k9wr",
+          "size": "1052,2",
+          "xy": "141,374",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n13_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyw9msq",
+          "url_desc": "boxKaWuXing_mah_result/img_gxhs_fengexian.png",
+          "url_all": "boxKaWuXing_mah_result/img_gxhs_fengexian.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyw9msq",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/img_gxhs_fengexian.png"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "fengexian2",
+          "id": "n17_k9wr",
+          "size": "1052,2",
+          "xy": "141,492",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n13_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyw9msq",
+          "url_desc": "boxKaWuXing_mah_result/img_gxhs_fengexian.png",
+          "url_all": "boxKaWuXing_mah_result/img_gxhs_fengexian.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyw9msq",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/img_gxhs_fengexian.png"
+            }
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_ResultItem_0",
+          "id": "n4_w9ms",
+          "size": "",
+          "xy": "2,107",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "C_IsSelf,1",
+          "group": "n8_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "ResultItem.xml",
+          "src_rel": "component/ResultItem.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_ResultItem_1",
+          "id": "n5_w9ms",
+          "size": "",
+          "xy": "1,226",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n8_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "ResultItem.xml",
+          "src_rel": "component/ResultItem.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_ResultItem_2",
+          "id": "n6_w9ms",
+          "size": "",
+          "xy": "1,345",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n8_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "ResultItem.xml",
+          "src_rel": "component/ResultItem.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_ResultItem_3",
+          "id": "n7_w9ms",
+          "size": "",
+          "xy": "1,464",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n8_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "ResultItem.xml",
+          "src_rel": "component/ResultItem.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "n8",
+          "id": "n8_w9ms",
+          "size": "1335,532",
+          "xy": "1,107",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n13_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_GOON",
+          "id": "n9_w9ms",
+          "size": "223,81",
+          "xy": "555,644",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n13_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "Button9Scale.xml",
+          "src_rel": "component/Button9Scale.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "ui://ul5y9sqyfj701n",
+          "url_desc": "boxKaWuXing_mah_result/BtnGreen01.png",
+          "url_all": "boxKaWuXing_mah_result/BtnGreen01.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyfj701n",
+              "from": "Button@icon",
+              "desc": "boxKaWuXing_mah_result/BtnGreen01.png"
+            }
+          ]
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_TEXT_ROOMTIME",
+          "id": "n12_w9ms",
+          "size": "383,34",
+          "xy": "879,88",
+          "visible": "",
+          "hidden": false,
+          "text": "房号：582671        08/24    21:40:26",
+          "controller": "",
+          "group": "n13_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Layer_ScoreFlow",
+          "id": "n14_w9ms",
+          "size": "",
+          "xy": "300,147",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "C_PlayerNo,0",
+          "group": "n13_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "ScoreFlow.xml",
+          "src_rel": "component/ScoreFlow.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "n13",
+          "id": "n13_w9ms",
+          "size": "1625,759",
+          "xy": "-145,-4",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BTN_CLOSE",
+          "id": "n1_w9ms",
+          "size": "86,85",
+          "xy": "7,19",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "Button9Scale.xml",
+          "src_rel": "component/Button9Scale.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "ui://ul5y9sqyfj701p",
+          "url_desc": "boxKaWuXing_mah_result/bnt_back.png",
+          "url_all": "boxKaWuXing_mah_result/bnt_back.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyfj701p",
+              "from": "Button@icon",
+              "desc": "boxKaWuXing_mah_result/bnt_back.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "component/ResultItem.xml",
+      "file": "ResultItem.xml",
+      "size": "1334,175",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [
+        {
+          "name": "C_ShowComp",
+          "exported": true,
+          "pages": [
+            [
+              "0",
+              ""
+            ],
+            [
+              "1",
+              ""
+            ],
+            [
+              "2",
+              ""
+            ],
+            [
+              "3",
+              ""
+            ],
+            [
+              "4",
+              ""
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_ShowHu",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "no"
+            ],
+            [
+              "1",
+              "yes"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_HuType",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "1hu"
+            ],
+            [
+              "1",
+              "2hu"
+            ],
+            [
+              "2",
+              "3hu"
+            ],
+            [
+              "3",
+              "1zimo"
+            ],
+            [
+              "4",
+              "2zimo"
+            ],
+            [
+              "5",
+              "3zimo"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_WinLost",
+          "exported": true,
+          "pages": [
+            [
+              "0",
+              "win"
+            ],
+            [
+              "1",
+              "lose"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_IsSelf",
+          "exported": true,
+          "pages": [
+            [
+              "0",
+              "no"
+            ],
+            [
+              "1",
+              "yes"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_IsBank",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "no"
+            ],
+            [
+              "1",
+              "yes"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        }
+      ],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "n2",
+          "id": "n2_w9ms",
+          "size": "1618,175",
+          "xy": "-142,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyw9ms11",
+          "url_desc": "boxKaWuXing_mah_result/img_bg_gxhs_zj.png",
+          "url_all": "boxKaWuXing_mah_result/img_bg_gxhs_zj.png、boxKaWuXing_mah_result/img_bg_yhsl_zj.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyw9ms11",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/img_bg_gxhs_zj.png"
+            },
+            {
+              "url": "ui://ul5y9sqyw9msz",
+              "from": "gearIcon@values",
+              "desc": "boxKaWuXing_mah_result/img_bg_yhsl_zj.png"
+            }
+          ]
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "KW_Head",
+          "id": "n3_w9ms",
+          "size": "81,81",
+          "xy": "100,74",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyw9msv",
+          "url_desc": "boxKaWuXing_mah_result/img_touxiang.png",
+          "url_all": "boxKaWuXing_mah_result/img_touxiang.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyw9msv",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/img_touxiang.png"
+            }
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "n4",
+          "id": "n4_w9ms",
+          "size": "",
+          "xy": "107,20",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "img_bs_zhuang.png",
+          "src_rel": "atlas/img_bs_zhuang.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Nickname",
+          "id": "n5_w9ms",
+          "size": "140,32",
+          "xy": "98,129",
+          "visible": "",
+          "hidden": false,
+          "text": "玩家昵称七个字",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Comp1",
+          "id": "n25_fj70",
+          "size": "130,80",
+          "xy": "178,38",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n12_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "comboSefl.xml",
+          "src_rel": "component/comboSefl.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "n12",
+          "id": "n12_w9ms",
+          "size": "130,80",
+          "xy": "178,38",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n10_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Comp2",
+          "id": "n13_w9ms",
+          "size": "130,80",
+          "xy": "320,38",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n14_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "comboSefl.xml",
+          "src_rel": "component/comboSefl.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "n14",
+          "id": "n14_w9ms",
+          "size": "130,80",
+          "xy": "320,38",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n10_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Comp3",
+          "id": "n15_w9ms",
+          "size": "130,80",
+          "xy": "462,38",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n16_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "comboSefl.xml",
+          "src_rel": "component/comboSefl.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "n16",
+          "id": "n16_w9ms",
+          "size": "130,80",
+          "xy": "462,38",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n10_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Comp4",
+          "id": "n17_w9ms",
+          "size": "130,80",
+          "xy": "604,38",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n18_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "comboSefl.xml",
+          "src_rel": "component/comboSefl.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "n18",
+          "id": "n18_w9ms",
+          "size": "130,80",
+          "xy": "604,38",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n10_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "list",
+          "type": "列表",
+          "name": "KW_Mah_List",
+          "id": "n11_w9ms",
+          "size": "1334,130",
+          "xy": "178,50",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n10_w9ms",
+          "gears": [],
+          "items": 8,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyfksq3a",
+          "url_desc": "boxKaWuXing_mah_result/mahHandSelf.xml",
+          "url_all": "boxKaWuXing_mah_result/mahHandSelf.xml",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyfksq3a",
+              "from": "list@defaultItem",
+              "desc": "boxKaWuXing_mah_result/mahHandSelf.xml"
+            }
+          ]
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "n10",
+          "id": "n10_w9ms",
+          "size": "1334,130",
+          "xy": "178,50",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Mah_Hu",
+          "id": "n19_w9ms",
+          "size": "",
+          "xy": "819,48",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "state,5",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "mahHandSelf.xml",
+          "src_rel": "component/mahHandSelf.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "n26",
+          "id": "n26_8veu",
+          "size": "",
+          "xy": "843,76",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "ico_hu.png",
+          "src_rel": "atlas/ico_hu.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "n20",
+          "id": "n20_w9ms",
+          "size": "",
+          "xy": "939,68",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n22_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "img_biaoqian.png",
+          "src_rel": "atlas/img_biaoqian.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "n21",
+          "id": "n21_w9ms",
+          "size": "88,31",
+          "xy": "943,70",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "n22_w9ms",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyw9msx",
+          "url_desc": "boxKaWuXing_mah_result/img_biaoqian_hu1.png",
+          "url_all": "boxKaWuXing_mah_result/img_biaoqian_hu1.png、boxKaWuXing_mah_result/img_biaoqian_hu2.png、boxKaWuXing_mah_result/img_biaoqian_hu3.png、boxKaWuXing_mah_result/img_biaoqian_zimo1.png、boxKaWuXing_mah_result/img_biaoqian_zimo2.png、boxKaWuXing_mah_result/img_biaoqian_zimo3.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyw9msx",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/img_biaoqian_hu1.png"
+            },
+            {
+              "url": "ui://ul5y9sqyw9ms16",
+              "from": "gearIcon@values",
+              "desc": "boxKaWuXing_mah_result/img_biaoqian_hu2.png"
+            },
+            {
+              "url": "ui://ul5y9sqyw9msw",
+              "from": "gearIcon@values",
+              "desc": "boxKaWuXing_mah_result/img_biaoqian_hu3.png"
+            },
+            {
+              "url": "ui://ul5y9sqyw9msu",
+              "from": "gearIcon@values",
+              "desc": "boxKaWuXing_mah_result/img_biaoqian_zimo1.png"
+            },
+            {
+              "url": "ui://ul5y9sqyw9mst",
+              "from": "gearIcon@values",
+              "desc": "boxKaWuXing_mah_result/img_biaoqian_zimo2.png"
+            },
+            {
+              "url": "ui://ul5y9sqyw9mss",
+              "from": "gearIcon@values",
+              "desc": "boxKaWuXing_mah_result/img_biaoqian_zimo3.png"
+            }
+          ]
+        },
+        {
+          "tag": "group",
+          "type": "组",
+          "name": "n22",
+          "id": "n22_w9ms",
+          "size": "96,37",
+          "xy": "939,68",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "KW_Score",
+          "id": "n23_w9ms",
+          "size": "544,73",
+          "xy": "1087,55",
+          "visible": "",
+          "hidden": false,
+          "text": "+1.0123456789万",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyfj7028",
+          "url_desc": "boxKaWuXing_mah_result/win.fnt",
+          "url_all": "boxKaWuXing_mah_result/win.fnt",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyfj7028",
+              "from": "text@font",
+              "desc": "boxKaWuXing_mah_result/win.fnt"
+            }
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Click_Flow",
+          "id": "n24_w9ms",
+          "size": "133,44",
+          "xy": "176,101",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "Button9Scale.xml",
+          "src_rel": "component/Button9Scale.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "ui://ul5y9sqyw9ms15",
+          "url_desc": "boxKaWuXing_mah_result/bnt_lsxq.png",
+          "url_all": "boxKaWuXing_mah_result/bnt_lsxq.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyw9ms15",
+              "from": "Button@icon",
+              "desc": "boxKaWuXing_mah_result/bnt_lsxq.png"
+            }
+          ]
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_Click_Head",
+          "id": "n27_8veu",
+          "size": "81,81",
+          "xy": "61,34",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "Button9Scale.xml",
+          "src_rel": "component/Button9Scale.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "component/ScoreFlow.xml",
+      "file": "ScoreFlow.xml",
+      "size": "852,497",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [
+        {
+          "name": "C_ShowScoreFlow",
+          "exported": false,
+          "pages": [
+            [
+              "0",
+              "no"
+            ],
+            [
+              "1",
+              "yes"
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        },
+        {
+          "name": "C_PlayerNo",
+          "exported": true,
+          "pages": [
+            [
+              "0",
+              ""
+            ],
+            [
+              "1",
+              ""
+            ],
+            [
+              "2",
+              ""
+            ],
+            [
+              "3",
+              ""
+            ]
+          ],
+          "remarks": {},
+          "actions": 0
+        }
+      ],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "loader",
+          "type": "装载器（代码换图）",
+          "name": "n1",
+          "id": "n1_w9ms",
+          "size": "820,497",
+          "xy": "31,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyfj701a",
+          "url_desc": "boxKaWuXing_mah_result/9_box_lsxq.png",
+          "url_all": "boxKaWuXing_mah_result/9_box_lsxq.png",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyfj701a",
+              "from": "loader@url",
+              "desc": "boxKaWuXing_mah_result/9_box_lsxq.png"
+            }
+          ]
+        },
+        {
+          "tag": "image",
+          "type": "图片",
+          "name": "n9",
+          "id": "n9_w9ms",
+          "size": "",
+          "xy": "12,68",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "9_box_lsxq_jiantou.png",
+          "src_rel": "atlas/9_box_lsxq_jiantou.png",
+          "src_kind": "image",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "list",
+          "type": "列表",
+          "name": "KW_LIST_ScoreFlow",
+          "id": "n7_w9ms",
+          "size": "770,447",
+          "xy": "52,25",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 3,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "ui://ul5y9sqyfj701m",
+          "url_desc": "boxKaWuXing_mah_result/FlowItem.xml",
+          "url_all": "boxKaWuXing_mah_result/FlowItem.xml",
+          "urls": [
+            {
+              "url": "ui://ul5y9sqyfj701m",
+              "from": "list@defaultItem",
+              "desc": "boxKaWuXing_mah_result/FlowItem.xml"
+            }
+          ]
+        },
+        {
+          "tag": "text",
+          "type": "文本",
+          "name": "n8",
+          "id": "n8_w9ms",
+          "size": "174,46",
+          "xy": "359,209",
+          "visible": "",
+          "hidden": false,
+          "text": "本局无流水",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "",
+          "src_rel": "",
+          "src_kind": "",
+          "src_pkg": "",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "relpath": "XxxMahResultView.xml",
+      "file": "XxxMahResultView.xml",
+      "size": "1334,750",
+      "extention": "",
+      "initName": "",
+      "remark": "",
+      "controllers": [],
+      "spines": [],
+      "nodes": [
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_BLOCK_LAYER",
+          "id": "n0_w9ms",
+          "size": "",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "BlackBottomUI.xml",
+          "src_rel": "component/BlackBottomUI.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        },
+        {
+          "tag": "component",
+          "type": "子元件",
+          "name": "KW_MAIN_RESULT_LAYER",
+          "id": "n3_fj70",
+          "size": "",
+          "xy": "0,0",
+          "visible": "",
+          "hidden": false,
+          "text": "",
+          "controller": "",
+          "group": "",
+          "gears": [],
+          "items": 0,
+          "src_name": "MainResultLayer.xml",
+          "src_rel": "component/MainResultLayer.xml",
+          "src_kind": "component",
+          "src_pkg": "boxKaWuXing_mah_result",
+          "url": "",
+          "url_desc": "",
+          "url_all": "",
+          "urls": []
+        }
+      ]
+    }
+  ],
+  "usage": [
+    {
+      "pkg": "boxKaWuXing_mah_ani",
+      "id": "l3g6h",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_GameStart_Ani"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_ani",
+      "id": "l3g6d",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_Combo_Ani_0"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_Combo_Ani_1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_Combo_Ani_2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_Combo_Ani_3"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_Hu_Ani_1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_Hu_Ani_2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_Hu_Ani_3"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_ani",
+      "id": "l3g6e",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_ani",
+          "comp": "XxxMahAniView.xml",
+          "node": "KW_Hu_Ani_0"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_back",
+      "id": "l3g61",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_back",
+          "comp": "XxxMahBackView.xml",
+          "node": "KW_Desk_Image"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "l3g63",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_back",
+          "comp": "XxxMahBackView.xml",
+          "node": "Back1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_back",
+          "comp": "XxxMahBackView.xml",
+          "node": "Back2"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_common",
+      "id": "l3g67",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_common",
+          "comp": "component/playerHead.xml",
+          "node": "n3"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_common",
+      "id": "ojb6u",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_common",
+          "comp": "component/playerHead.xml",
+          "node": "KW_Zhuang_Icon"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_common",
+      "id": "ojb6y",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_common",
+          "comp": "component/playerHead.xml",
+          "node": "KW_Clock_Ani"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_common",
+          "comp": "component/playerHead.xml",
+          "node": "KW_Chat_Ani"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_common",
+      "id": "ojb6v",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_common",
+          "comp": "component/playerHead.xml",
+          "node": "KW_Chat_Back"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "ivlvo",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/bigMah.xml",
+          "node": "KW_Back"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/tingMah.xml",
+          "node": "KW_Back"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "ojb6z",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_BTN_Chi"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_BTN_Peng"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_BTN_Gang"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_BTN_Ting"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_BTN_Guo"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_BTN_Guo2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_BTN_Cancle"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "ivlvj",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_BTN_Hu"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "u4ymt",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/btnHandler.xml",
+          "node": "KW_GangGrpList"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "u4yms",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/chiGangBtn.xml",
+          "node": "n0"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/EffectHuBtn.xml",
+          "node": "n2"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "ivlvn",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/chiGangBtn.xml",
+          "node": "KW_Mah0"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/chiGangBtn.xml",
+          "node": "KW_Mah1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/chiGangBtn.xml",
+          "node": "KW_Mah2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/chiGangBtn.xml",
+          "node": "KW_Mah3"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/EffectHuBtn.xml",
+          "node": "KW_HuMah"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "XxxMahMainView.xml",
+          "node": "KW_ShowCard0"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "XxxMahMainView.xml",
+          "node": "KW_ShowCard1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "XxxMahMainView.xml",
+          "node": "KW_ShowCard2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "XxxMahMainView.xml",
+          "node": "KW_ShowCard3"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_ani",
+      "id": "ivlvm",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/EffectBtn.xml",
+          "node": "KW_Ani"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/EffectHuBtn.xml",
+          "node": "KW_Ani"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "viiep",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/tingPaiNode.xml",
+          "node": "back"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "viieq",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "component/tingPaiNode.xml",
+          "node": "KW_Ting_List"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "ivlvi",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "XxxMahMainView.xml",
+          "node": "KW_Handler"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "viier",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "XxxMahMainView.xml",
+          "node": "KW_Ting_Node"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_game",
+      "id": "ojb610",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_game",
+          "comp": "XxxMahMainView.xml",
+          "node": "n6"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_common",
+      "id": "l3g66",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_player",
+          "comp": "XxxMahPlayerView.xml",
+          "node": "KW_Player_0"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_player",
+          "comp": "XxxMahPlayerView.xml",
+          "node": "KW_Player_1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_player",
+          "comp": "XxxMahPlayerView.xml",
+          "node": "KW_Player_2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_player",
+          "comp": "XxxMahPlayerView.xml",
+          "node": "KW_Player_3"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fksq3a",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/comboSefl.xml",
+          "node": "mah0"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/comboSefl.xml",
+          "node": "mah1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/comboSefl.xml",
+          "node": "mah2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/comboSefl.xml",
+          "node": "mah3"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Mah_List"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Mah_Hu"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "xm001",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/mahHandSelf.xml",
+          "node": "KW_Back_Stand"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "xm008",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/mahHandSelf.xml",
+          "node": "KW_Value"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "xm005",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/mahHandSelf.xml",
+          "node": "KW_HuInex"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "xm006",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/mahHandSelf.xml",
+          "node": "KW_HuInex"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "xm002",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/mahHandSelf.xml",
+          "node": "KW_Back_Down"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "xm007",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/mahHandSelf.xml",
+          "node": "KW_Corner"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "wmqb33",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "n3"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9ms10",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "n3"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msn",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "n2"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msm",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "n2"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msq",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "fengexian1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "fengexian2"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj701s",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_ResultItem_0"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_ResultItem_1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_ResultItem_2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_ResultItem_3"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "xbb002",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_BTN_GOON"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_BTN_CLOSE"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Click_Flow"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Click_Head"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj701n",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_BTN_GOON"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj701h",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_Layer_ScoreFlow"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj701p",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/MainResultLayer.xml",
+          "node": "KW_BTN_CLOSE"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9ms11",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n2"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msz",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n2"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msv",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Head"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msr",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n4"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj701t",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Comp1"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Comp2"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Comp3"
+        },
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Comp4"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9ms13",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n26"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msy",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n20"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msx",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n21"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9ms16",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n21"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msw",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n21"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9msu",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n21"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9mst",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n21"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9mss",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "n21"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj7028",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Score"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9ms15",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ResultItem.xml",
+          "node": "KW_Click_Flow"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj701a",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ScoreFlow.xml",
+          "node": "n1"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj701r",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ScoreFlow.xml",
+          "node": "n9"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "fj701m",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "component/ScoreFlow.xml",
+          "node": "KW_LIST_ScoreFlow"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "xbb001",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "XxxMahResultView.xml",
+          "node": "KW_BLOCK_LAYER"
+        }
+      ]
+    },
+    {
+      "pkg": "boxKaWuXing_mah_result",
+      "id": "w9ms19",
+      "used_by": [
+        {
+          "pkg": "boxKaWuXing_mah_result",
+          "comp": "XxxMahResultView.xml",
+          "node": "KW_MAIN_RESULT_LAYER"
+        }
+      ]
+    }
+  ],
+  "anomalies": [
+    {
+      "type": "同名图片在多个包里各有一份（改图要确认是否都要同步）",
+      "where": "assets/boxKaWuXing_mah_common/atlas/img_bs_zhuang.png / assets/boxKaWuXing_mah_result/atlas/img_bs_zhuang.png"
+    },
+    {
+      "type": "同名图片在多个包里各有一份（改图要确认是否都要同步）",
+      "where": "assets/boxKaWuXing_mah_common/atlas/img_touxiang.png / assets/boxKaWuXing_mah_result/atlas/img_touxiang.png"
+    },
+    {
+      "type": "空目录",
+      "where": "assets/boxKaWuXing_mah_game/effect"
+    }
+  ]
+}
