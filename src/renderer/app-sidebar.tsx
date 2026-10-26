@@ -2,6 +2,7 @@ import { ArrowDownToLine, Gamepad2, Globe2, InfoCircle, MoreHorizontal, RefreshC
 import { useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useAuth } from "./auth.js";
 import { settingsHash, type AppNavigationTarget, type SidebarPage } from "./routes.js";
+import { SIDEBAR_BRAND, SIDEBAR_ITEMS, type SidebarIcon, type SidebarGroup } from "./sidebar-config.js";
 import { UserAvatar } from "./user-avatar.js";
 import type { DesktopUpdateState } from "../shared/desktop-update.js";
 import brandMark from "../shared/assets/ohmygame-mark-v2.svg";
@@ -115,26 +116,32 @@ export function AppSidebar({ active, onNavigate }: AppSidebarProps) {
     localStorage.setItem(SIDEBAR_WIDTH_STORAGE_KEY, String(nextWidth));
   }
 
+  function renderSidebarGroup(group: SidebarGroup) {
+    return SIDEBAR_ITEMS
+      .filter((item) => item.group === group && item.visible !== false)
+      .map((item) => (
+        <NavigationItem
+          key={item.id}
+          active={active === item.id}
+          icon={item.icon}
+          label={t(item.labelKey)}
+          onClick={() => onNavigate(item.id)}
+        />
+      ));
+  }
+
   return (
     <aside className={`home-sidebar${resizing ? " home-sidebar-resizing" : ""}`} ref={sidebar}>
       {resizing ? <div className="home-sidebar-resize-shield" /> : null}
       <div className="home-sidebar-header-spacer" aria-hidden="true" />
       <div className="home-sidebar-brand">
-        <img src={brandMark} alt="xc-ui-flow" />
-        <span>xc-ui-flow</span>
+        <img src={brandMark} alt={SIDEBAR_BRAND.name} />
+        <span>{SIDEBAR_BRAND.name}</span>
       </div>
       <nav aria-label={t("sidebar.mainNavigation")}>
-        <NavigationItem active={active === "home"} icon="home" label={t("sidebar.home")} onClick={() => onNavigate("home")} />
-        <NavigationItem active={active === "projects"} icon="project" label={t("sidebar.projects")} onClick={() => onNavigate("projects")} />
-        <NavigationItem active={active === "library"} icon="library" label={t("sidebar.library")} onClick={() => onNavigate("library")} />
-        <NavigationItem active={active === "plugins"} icon="plugins" label={t("sidebar.plugins")} onClick={() => onNavigate("plugins")} />
-        <NavigationItem active={active === "community"} icon="community" label={t("sidebar.community")} onClick={() => onNavigate("community")} />
+        {renderSidebarGroup("main")}
         <div className="home-nav-label home-nav-label-spaced">{t("sidebar.studios")}</div>
-        <NavigationItem active={active === "web-game"} icon="web-game" label={t("projectType.web-game")} onClick={() => onNavigate("web-game")} />
-        <NavigationItem active={active === "interactive-story"} icon="interactive-story" label={t("projectType.interactive-story")} onClick={() => onNavigate("interactive-story")} />
-        <NavigationItem active={active === "godot"} icon="godot" label={t("projectType.godot-game")} onClick={() => onNavigate("godot")} />
-        <NavigationItem active={active === "asset-canvas"} icon="asset-canvas" label={t("projectType.asset-canvas")} onClick={() => onNavigate("asset-canvas")} />
-        <NavigationItem active={active === "general"} icon="general" label={t("projectType.general")} onClick={() => onNavigate("general")} />
+        {renderSidebarGroup("studios")}
       </nav>
       {auth.state.status === "signed-in" ? (
         <div className="home-sidebar-account" ref={account}>
@@ -227,7 +234,7 @@ function NavigationItem({
   onClick,
 }: {
   active: boolean;
-  icon: "home" | "project" | "library" | "general" | "web-game" | "interactive-story" | "godot" | "asset-canvas" | "community" | "plugins";
+  icon: SidebarIcon;
   label: string;
   onClick: () => void;
 }) {
