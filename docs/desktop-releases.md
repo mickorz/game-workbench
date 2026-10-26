@@ -1,0 +1,299 @@
+# Desktop releases
+
+OhMyGame uses `electron-updater` with a generic HTTPS update feed. Release
+artifacts are built by GitHub Actions and copied to a public, read-only
+Cloudflare R2 custom domain, so updates do not depend on GitHub.
+
+## Update feed
+
+Create an R2 bucket and expose the release prefix through a custom domain. The
+URL must not require browser cookies or an embedded cloud credential. For
+example, with the prefix `desktop`:
+
+```text
+https://updates.ohmygame.ai/desktop/latest.yml
+https://updates.ohmygame.ai/desktop/latest-mac.yml
+https://updates.ohmygame.ai/desktop/OhMyGame-0.1.0-x64.exe
+```
+
+The workflow uploads versioned installers and blockmaps with immutable cache
+headers. It uploads `latest.yml` and `latest-mac.yml` last with caching disabled,
+so clients never observe a manifest before its referenced files exist.
+
+Configure these GitHub Actions repository variables:
+
+| Variable                   | Example                               | Purpose                                             |
+| -------------------------- | ------------------------------------- | --------------------------------------------------- |
+| `DESKTOP_UPDATE_URL`       | `https://updates.ohmygame.ai/desktop` | Public feed URL embedded in the app                 |
+| `R2_ACCOUNT_ID`            | Cloudflare account ID                 | Builds the R2 S3 endpoint                           |
+| `R2_BUCKET`                | `ohmygame-releases`                   | Destination bucket                                  |
+| `R2_DESKTOP_UPDATE_PREFIX` | `desktop`                             | Destination key prefix, without surrounding slashes |
+
+Configure these repository secrets:
+
+| Secret                        | Purpose                                          |
+| ----------------------------- | ------------------------------------------------ |
+| `R2_ACCESS_KEY_ID`            | R2 API token access key with object write access |
+| `R2_SECRET_ACCESS_KEY`        | R2 API token secret                              |
+| `CSC_LINK`                    | Base64-encoded Apple Developer ID certificate    |
+| `CSC_KEY_PASSWORD`            | Apple certificate password                       |
+| `APPLE_ID`                    | Apple account used for notarization              |
+| `APPLE_APP_SPECIFIC_PASSWORD` | Apple app-specific password                      |
+| `APPLE_TEAM_ID`               | Apple Developer team ID                          |
+| `SENTRY_AUTH_TOKEN`           | Sentry token that uploads renderer source maps   |
+
+When `SENTRY_AUTH_TOKEN` is set, `vite build` generates hidden renderer source
+maps, uploads them to the `ohmygame` Sentry project under the
+`ohmygame@<version>` release, and deletes them. The package also excludes
+renderer `.map` files, so a failed upload cannot ship them. Builds without the
+token, including local builds and fork PRs, generate no source maps.
+
+The R2 credentials belong only in GitHub Secrets. Do not include GitHub, R2,
+or code-signing credentials in the application or the public update bucket.
+
+## When the app checks
+
+A packaged build checks once after its main window opens, then every four hours,
+and again on window focus or reveal when the previous check is more than thirty
+minutes old. A failed check retries twice, after one and five minutes, then waits
+for the next focus or periodic attempt. Background failures are silent and keep
+the previous update status; a failed manual check remains visible so the user
+can retry it. Scheduled checks never run while a release is already available,
+downloading, ready, or installing, so they cannot discard the update the sidebar
+is offering. **Settings → About → Check for updates** bypasses that throttle
+and remains available in every state.
+
+Development builds never reach the feed: `DesktopUpdater.check` reports the
+current version as installed unless `app.isPackaged`.
+
+## Windows installer progress
+
+The Windows setup wizard shows "Installing..." with an overall percentage and
+the current phase as supplementary text.
+Preparation occupies 0–10%, extraction uses actual Nsis7z byte progress mapped
+to 10–85%, copying ends at 95%, and final setup reaches 99%. Only successful
+installation shows 100%. Percentages represent weighted phases, not elapsed
+time; the indicator holds during work without byte callbacks and never moves
+backwards, including retries. Silent updates do not show this indicator.
+
+The pinned `app-builder-lib` patch exposes extraction and copy-complete hooks
+without replacing its installation, upgrade, or retry logic. Our visible
+controls are separate from the native per-phase progress controls that NSIS
+and Nsis7z reset. Keep the patch and installer smoke test working when upgrading
+electron-builder.
+
+## Windows installer messages
+
+The installer is built in English and Simplified Chinese
+(`nsis.installerLanguages`); other systems get English. Messages used by
+`build/installer.nsh` live in `build/messages.yml`, with `en` and `zh_CN` for
+each. electron-builder reads only its own bundled `messages.yml`, so the same
+`app-builder-lib` patch also merges ours, replacing bundled messages with the
+same name. A message missing from an installer language fails the Windows
+package build. `test/desktop-installer-contract.test.ts` runs electron-builder's
+message generation to catch that before a release. The progress smoke test
+defines its own messages and does not cover this path.
+
+On Windows, run `bun run test:installer-progress` after the NSIS toolchain has
+been cached by a desktop package build. It compiles and runs isolated native
+wizard fixtures, extracts a real archive, and checks byte progress, 64-bit
+arithmetic, retries, native resets, successful/failed completion, both languages,
+and silent mode without modifying an installed app. `--preview` pauses each
+visible fixture for layout inspection. `MAKENSIS` and `SEVEN_ZIP` can select local
+tool executables.
+
+## Differential downloads
+
+The updater can reuse a cached installer and download only changed blocks.
+The download size is the sum of changed blocks, not the difference between the
+old and new installer sizes. A small increase in package size can still require
+a substantial download.
+
+The `electron-updater` patch limits each multipart batch to 64 copy/download
+operations. Some CDN responses ignore an oversized `Range` header and return
+the full file with HTTP 200 instead of multipart HTTP 206, causing the updater
+to fall back to a full download. Bounded batches retain differential downloads;
+progress is aggregated across all batches, including single-range and local-copy
+batches. Completed batches clear their response-end watchdog so it cannot abort
+a later batch. The reconstructed installer still requires its original SHA-512 check.
+This client fix takes effect after installation; it does not change an older
+installed app's update downloader.
+
+## Publishing
+
+Prepare the release version in `package.json` and its notes in
+[CHANGELOG.md](../CHANGELOG.md) through a PR into `dev`, then
+merge the reviewed release from `dev` into `main` with a merge commit. Create
+the matching `v*` tag on that `main` commit. See
+[the maintainer workflow](maintaining.md#release-preparation) for verification,
+synchronization, and urgent fixes.
+
+Pushing the tag starts `.github/workflows/release-desktop.yml`, which:
+
+1. Checks that the tag matches `package.json` and validates the changelog before
+   either platform builds.
+2. Builds the Windows NSIS installer and macOS DMG/ZIP, without Windows code
+   signing and with macOS signing/notarization.
+3. Uploads the packages and blockmaps to R2.
+4. Publishes the platform manifests and verifies them through the public URL.
+5. Creates a GitHub pre-release with the Windows installer and macOS DMG/ZIP,
+   extracting the matching changelog section from the same tag as its description.
+
+To test the packages before tagging, run the workflow manually from the
+branch to release (**Actions → Release desktop → Run workflow**, or
+`gh workflow run release-desktop.yml --ref <branch>`). It validates the
+changelog against `package.json`, builds both packages the same way, and keeps
+them as workflow artifacts for seven days; it does not upload to R2 or create a
+release. Only a pushed tag publishes.
+
+Re-running the release job updates the existing GitHub release assets and
+restores its description from the same tag's changelog. Do not re-push a published
+tag just to repair its GitHub Release page. A changelog edit on `dev` does not
+change an already published tag or its release description.
+
+Windows builds are unsigned, so Windows may show an unknown-publisher or
+SmartScreen warning during download and installation. The update manifest still
+provides the SHA-512 digest used by `electron-updater` to validate downloads.
+The Windows setup wizard lets users choose between a current-user or all-users
+installation and select the installation directory. Existing installations keep
+their recorded scope and directory during upgrades.
+
+Before installing or uninstalling, setup checks the installed executable's full
+path and requests a normal window close rather than force-killing it. The x86
+NSIS stub prefers native Windows PowerShell through `Sysnative` on x64 Windows.
+If PowerShell or CIM is unavailable, a name-only `tasklist` check is used;
+another copy with the same executable name can conservatively block setup.
+A failed check is reported separately from an application that is still running,
+with diagnostic output in the installation details. Retry after resolving the
+error, or cancel; silent setup exits without continuing if neither check works.
+
+Windows process-check regressions run in `test/desktop-installer-process.test.ts`.
+For additional installer and uninstaller smoke checks, set
+`OHMYGAME_TEST_MAKENSIS` to a local NSIS `makensis.exe` and run
+`bun run test -- test/desktop-installer-process.test.ts`. These checks compile
+small silent test installers; they do not install or uninstall the application.
+
+For a local package build, export `DESKTOP_UPDATE_URL` before running
+`bun run package:mac` or `bun run package:win`. Development builds do not use
+the update feed.
+
+TypeBox is pinned to the same version as Pi so the desktop daemon shares one
+installation. The `beforePack` hook bundles its public runtime entry points
+into `.runtime/typebox`, which replaces the original ESM files in the packaged
+app while preserving TypeBox's package metadata and declarations.
+
+Pi AI is a direct, pinned runtime dependency because the daemon imports its
+patched diagnostic helper. The `afterPack` hook checks that the packaged helper
+and adapters match the installed patch, then starts the packaged daemon with
+temporary data and verifies its authenticated API on native platform builds.
+An incomplete or unpatched dependency therefore fails packaging before an
+installer is created.
+
+`build:host` also generates `dist/story-web/resources.json`: the readable story
+runtime modules, with comments retained, and the bundled editor bridge. The
+desktop package includes this resource file. The built daemon reads it directly
+instead of asking esbuild to read modules inside `app.asar`; source development
+still generates the resources on demand. Stories keep their own editable runtime
+under `story/` and their existing manifest-based updates. The package hook checks
+the resource file against the build and, on native builds, exercises story
+creation, upgrading a legacy story, and serving the preview and editor bridge.
+
+### Release notes
+
+Maintainers update `CHANGELOG.md` only when preparing a release. Summarize
+user-visible changes from the merged PRs since the previous version, combine
+related fixes, and link the relevant PRs with full URLs. Use English to match the
+existing product documentation. Internal refactors, test changes, and routine CI
+maintenance generally do not need entries.
+
+Add the new version above the existing releases, using this structure. Replace
+`VERSION` with the exact `package.json.version` (without a `v` prefix) and
+`YYYY-MM-DD` with the release date:
+
+```markdown
+## [VERSION] - YYYY-MM-DD
+
+### Added
+
+- Describe a new capability.
+  ([#123](https://github.com/WhiteTowerAI/ohmygame/pull/123) by @login)
+
+### Changed
+
+- Describe a change to existing behavior.
+  ([#124](https://github.com/WhiteTowerAI/ohmygame/pull/124) by @login)
+
+### Fixed
+
+- Describe the resolved problem, across two PRs.
+  ([#125](https://github.com/WhiteTowerAI/ohmygame/pull/125) by @login,
+  [#126](https://github.com/WhiteTowerAI/ohmygame/pull/126) by @other)
+```
+
+Credit the author of every linked PR with `by @login` right after its link, so
+contributors are notified when the release is published and appear among the
+release's contributors on GitHub. Write the handle as plain text, not a link,
+because GitHub does not treat a linked handle as a mention. Take the login from
+`gh pr view <number> --json author`. `changelog:check` fails when a PR link in
+any release has no author after it.
+Links inside code examples and HTML comments are ignored by this check.
+
+Omit empty categories; use `Removed`, `Deprecated`, or `Security` when needed.
+Each release needs a valid date, a unique SemVer version, and nonempty notes.
+Use inline links rather than reference links defined outside the release section,
+so extracted notes also work on GitHub. Earlier releases remain available in
+[GitHub Releases](https://github.com/WhiteTowerAI/ohmygame/releases).
+
+After updating the version and notes, run:
+
+```bash
+bun run changelog:check
+bun run release:notes v0.0.0-beta.4.7 # substitute the version being prepared
+```
+
+`changelog:check` validates the changelog and checks that the current package
+version has a release section. `release:notes` prints that section's body as
+Markdown; its optional version or tag argument must match the package version.
+To save the notes to a file, use `--output` (parent directories are created):
+
+```bash
+bun run release:notes --output /tmp/ohmygame-release-notes.md v0.0.0-beta.4.7
+```
+
+CI checks the changelog on ordinary PRs as well, so a version bump and its notes
+must land together. Release validation runs in a separate job before packaging
+and does not need dependencies or release credentials. The publishing job checks
+out the same tag and writes the extracted notes to a temporary file outside the
+R2 update packages.
+
+### In-app changelog
+
+![About with offline release notes](assets/about-changelog.png)
+
+**Settings → About → Changelog** shows the installed release and lets users
+select previous releases included in `CHANGELOG.md`. A version picker appears
+only when multiple releases are available. Notes are rendered directly on the
+page, with the version and date beside the Changelog heading. Vite embeds the
+parsed entries in the renderer, so these notes work offline in both the browser
+and desktop app. The build and release CLI share `src/shared/changelog.ts`; the CLI
+uses Node.js 22.19+ directly without installing dependencies.
+
+`build:desktop-app` extracts the current notes into `.runtime/release-notes.md`
+before building. The `releaseInfo.releaseNotesFile` setting in
+`electron-builder.yml` includes those notes in `latest.yml` and `latest-mac.yml`.
+The updater passes the available version and its notes through the existing
+update state, and the Changelog panel selects that release when it is detected.
+Users can still select the installed release while downloading or retrying an
+update.
+
+An older update manifest may have no notes. Updates still work, and the panel
+links to that version's GitHub Release instead. About also links to the project's
+GitHub repository, website, and issue tracker. Raw HTML in release notes is not
+executed.
+
+## Rollback
+
+Do not overwrite versioned installers. To roll back a bad release, restore the
+previous `latest.yml` and `latest-mac.yml` manifests, or publish a newer patch
+version containing the reverted code. Existing clients only install versions
+newer than their current application version.

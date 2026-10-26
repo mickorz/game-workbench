@@ -7,3 +7,20 @@ dist/
 
 # Claude Code 本地配置（不进 git）
 .claude/settings.local.json
+.data/
+release/
+.runtime/
+.vite/
+coverage/
+.playwright-cli/
+/output/playground/
+*.log
+.env
+.env.*
+!.env.example
+.claude/worktrees/
+docs/PRD/
+docs/DesignSpec/
+docs/TechSpec/
+
+# ohmygame 子模块本体的忽略规则已并入上方
