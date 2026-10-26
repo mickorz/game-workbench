@@ -1,3 +1,6 @@
 [submodule "thirdparties/ohmygame"]
 	path = thirdparties/ohmygame
 	url = https://github.com/WhiteTowerAI/ohmygame
+[submodule "thirdparties/FairyGUI-MCP"]
+	path = thirdparties/FairyGUI-MCP
+	url = https://github.com/kaohum/FairyGUI-MCP.git
