@@ -4,3 +4,6 @@
 [submodule "thirdparties/FairyGUI-MCP"]
 	path = thirdparties/FairyGUI-MCP
 	url = https://github.com/kaohum/FairyGUI-MCP.git
+[submodule "thirdparties/fairygui-agent-bridge"]
+	path = thirdparties/fairygui-agent-bridge
+	url = https://github.com/wingcd/fairygui-agent-bridge.git
