@@ -26,12 +26,23 @@ flowchart TD
 
 目的：把「截图/打开文档」两个不确定点在动工前变成结论（上游作者构建里两者都被 Unity 裁过）。
 
+### 测试工程（已就位）
+
+| 项 | 值 |
+|---|---|
+| 路径 | `dev-examples/fairygui-test-project/`（真实 client 工程副本，243MB，已 gitignore） |
+| 工程文件 | `mini.fairy`（type **CocosCreator**，version 5.0） |
+| 包数量 | 88 个（`box_*` / `_gm` 前缀，如 `box_room_info`） |
+| 既有插件 | `plugins/customInspector`、`gamePackageRun`、`uideclare`（与 agent-bridge 无冲突，可共存） |
+| 桥插件 | **已安装**：`thirdparties/fairygui-agent-bridge/plugin/` → `plugins/agent-bridge/`（上游 commit `4b3abc1`） |
+
+注意：工程里还有自带脚本（`publishFGUI*.py`）与 `.objs` 构建缓存；create/delete 往返选一个专用测试包，别碰 `box_*` 业务包。
+
 ### 步骤
 
-1. 准备一个测试 FGUI 工程（或用真实 client 工程的副本）。
-2. 复制 `thirdparties/fairygui-agent-bridge/plugin/` 到 `<FGUI 工程>/plugins/agent-bridge/`。
-3. 用编辑器打开该工程，确认日志 `plugins/agent-bridge/bridge.log` 出现 `listening on http://localhost:7531/`。
-4. 逐条实测并记录：
+1. ~~准备测试工程、安装桥插件~~（已完成）。
+2. 用 FairyGUI 编辑器打开 `mini.fairy`，确认 `plugins/agent-bridge/bridge.log` 出现 `listening on http://localhost:7531/`。
+3. 逐条实测并记录（`<某包>` 可用 `box_room_info`，`<某组件>` 从 `list_items` 结果里选；`<测试包>` 用专用测试包）：
 
 ```bash
 curl -X POST http://localhost:7531/ -d "{\"cmd\":\"ping\"}"
@@ -43,7 +54,7 @@ curl -X POST http://localhost:7531/ -d "{\"cmd\":\"create_component\",\"args\":{
 curl -X POST http://localhost:7531/ -d "{\"cmd\":\"delete_item\",\"args\":{\"pkg\":\"<测试包>\",\"name\":\"SmokeTest\"}}"
 ```
 
-5. 编辑器**最小化**重复 `ping`，确认后台仍服务（`runInBackground` 生效）。
+4. 编辑器**最小化**重复 `ping`，确认后台仍服务（`runInBackground` 生效）。
 
 ### 结论记录
 
