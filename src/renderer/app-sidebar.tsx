@@ -5,7 +5,6 @@ import { settingsHash, type AppNavigationTarget, type SidebarPage } from "./rout
 import { SIDEBAR_BRAND, SIDEBAR_ITEMS, type SidebarIcon, type SidebarGroup } from "./sidebar-config.js";
 import { UserAvatar } from "./user-avatar.js";
 import type { DesktopUpdateState } from "../shared/desktop-update.js";
-import brandMark from "../shared/assets/ohmygame-mark-v2.svg";
 import { t } from "./i18n.js";
 
 interface AppSidebarProps {
@@ -135,7 +134,7 @@ export function AppSidebar({ active, onNavigate }: AppSidebarProps) {
       {resizing ? <div className="home-sidebar-resize-shield" /> : null}
       <div className="home-sidebar-header-spacer" aria-hidden="true" />
       <div className="home-sidebar-brand">
-        <img src={brandMark} alt={SIDEBAR_BRAND.name} />
+        <img src={SIDEBAR_BRAND.mark} alt={SIDEBAR_BRAND.name} />
         <span>{SIDEBAR_BRAND.name}</span>
       </div>
       <nav aria-label={t("sidebar.mainNavigation")}>
