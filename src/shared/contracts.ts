@@ -7,7 +7,7 @@ import type { AgentRuntimeAuthStatus, AgentRuntimeId, ApprovalDecision, Approval
 
 export type PreviewStatus = "waiting" | "stopped" | "starting" | "ready" | "error";
 export type AgentStatus = "idle" | "running" | "cancelling" | "error";
-export const PROJECT_TYPE_IDS = ["general", "web-game", "interactive-story", "asset-canvas", "godot-game"] as const;
+export const PROJECT_TYPE_IDS = ["general", "web-game", "interactive-story", "asset-canvas", "godot-game", "fairygui"] as const;
 export type ProjectType = (typeof PROJECT_TYPE_IDS)[number];
 export const PROJECT_PACKAGE_MANAGERS = ["npm", "pnpm", "yarn", "bun"] as const;
 export type ProjectPackageManager = (typeof PROJECT_PACKAGE_MANAGERS)[number];

@@ -11,6 +11,7 @@ export type SidebarIcon =
   | "web-game"
   | "interactive-story"
   | "godot"
+  | "fairygui"
   | "asset-canvas"
   | "community"
   | "plugins";
@@ -51,6 +52,7 @@ export const SIDEBAR_ITEMS: SidebarItemConfig[] = [
   { id: "web-game", labelKey: "projectType.web-game", icon: "web-game", group: "studios" },
   { id: "interactive-story", labelKey: "projectType.interactive-story", icon: "interactive-story", group: "studios" },
   { id: "godot", labelKey: "projectType.godot-game", icon: "godot", group: "studios" },
+  { id: "fairygui", labelKey: "projectType.fairygui", icon: "fairygui", group: "studios" },
   { id: "asset-canvas", labelKey: "projectType.asset-canvas", icon: "asset-canvas", group: "studios" },
   { id: "general", labelKey: "projectType.general", icon: "general", group: "studios" },
 ];

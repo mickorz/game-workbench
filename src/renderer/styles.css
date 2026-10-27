@@ -2868,6 +2868,11 @@ select.settings-search-input {
   mask-image: url("./assets/sidebar/interactive-story.svg");
   -webkit-mask-image: url("./assets/sidebar/interactive-story.svg");
 }
+.home-nav-icon-fairygui {
+  mask-image: url("./assets/sidebar/fairygui.svg");
+  -webkit-mask-image: url("./assets/sidebar/fairygui.svg");
+}
+
 .home-nav-icon-asset-canvas {
   mask-image: url("./assets/sidebar/assets.svg");
   -webkit-mask-image: url("./assets/sidebar/assets.svg");
@@ -3232,6 +3237,13 @@ button.home-nav-item-active:hover {
   flex: 0 0 auto;
   background: currentColor;
   mask: url("./assets/godot.svg") center / contain no-repeat;
+}
+.project-type-fairygui-icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  background: currentColor;
+  mask: url("./assets/fairygui.svg") center / contain no-repeat;
 }
 
 .home-project-type-selector {

@@ -616,6 +616,7 @@ const zhCN: typeof en = {
     "interactive-story": "互动故事",
     "asset-canvas": "素材画布",
     "godot-game": "Godot",
+    fairygui: "FairyGUI",
   },
   navigation: {
     backTo: "返回{{page}}",
@@ -657,6 +658,11 @@ const zhCN: typeof en = {
       title: "要用 Godot 做什么？",
       placeholder: "描述你想做的 Godot 游戏…",
       new: "新建 Godot 项目",
+    },
+    fairygui: {
+      title: "要做哪个界面的 UI？",
+      placeholder: "描述你想制作或修改的 FairyGUI 界面…",
+      new: "新建 FairyGUI 项目",
     },
   },
   examples: {

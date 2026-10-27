@@ -631,6 +631,7 @@ const en = {
     "interactive-story": "Interactive Story",
     "asset-canvas": "Asset Canvas",
     "godot-game": "Godot",
+    fairygui: "FairyGUI",
   },
   navigation: {
     backTo: "Back to {{page}}",
@@ -672,6 +673,11 @@ const en = {
       title: "What are we building in Godot?",
       placeholder: "Describe the Godot game you want to create...",
       new: "New Godot project",
+    },
+    fairygui: {
+      title: "Which UI should we build?",
+      placeholder: "Describe the FairyGUI interface to create or edit...",
+      new: "New FairyGUI project",
     },
   },
   examples: {

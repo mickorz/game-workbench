@@ -18,7 +18,7 @@ flowchart TD
 | P0 ✅ | 编辑器侧桥探活实测（2026-10-26 完成） | `ping` 通；`OpenDocument` 可用 / `screenshot` 被裁，结论已入文档 | （无仓库代码，补丁在 dev-examples 工程内） |
 
 | P1 ✅ | `plugins/fairygui/` 插件包落地（2026-10-26 完成） | daemon 识别 `ohmygame:fairygui`；MCP stdio 握手 + ping/list_packages 往返验证通过 | 见 git log |
-| P2 | 工作室壳（12 处小改） | `#/fairygui` 首页可开项目，会话工具就位 | feat: fairygui studio |
+| P2 ✅ | 工作室壳（12 处小改，2026-10-26 完成） | `#/fairygui` 首页出现、FairyGUI 项目卡片就位、type=fairygui 项目创建成功、预览与发布入口正确隐藏 | 见 git log |
 | P3 | 打磨（角标/文案/分组） | 无功能回归 | chore |
 
 ---
@@ -231,7 +231,7 @@ commit：`feat: add fairygui plugin package (bridge from fairygui-agent-bridge@4
 
 ---
 
-## P2 工作室壳（1 天，12 处小改，按序执行）
+## P2 工作室壳（12 处小改，按序执行）——✅ 已完成（2026-10-26）
 
 > 顺序原则：先加 shared 契约（让编译器指出所有强制改动），再补渲染层。每步后 `bun run typecheck`，报错清单就是下一步的待办。
 

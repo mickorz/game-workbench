@@ -126,7 +126,7 @@ export function CodingWorkspace({
 }: CodingWorkspaceProps) {
   const supportsPreview = supportsWebPreview(project);
   const hasPreview = supportsProjectPreview(project);
-  const publishingUnavailable = project?.type === "godot-game" || !!project?.integration;
+  const publishingUnavailable = project?.type === "godot-game" || project?.type === "fairygui" || !!project?.integration;
   const publishLabel = project?.type === "godot-game"
     ? t("workspace.godotPublishing")
     : publishing ? t("workspace.publishing") : t("workspace.publish");

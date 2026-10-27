@@ -28,6 +28,12 @@ export const GAME_STUDIOS = {
     placeholder: t("studio.godot.placeholder"),
     newLabel: t("studio.godot.new"),
   },
+  fairygui: {
+    page: "fairygui",
+    title: t("studio.fairygui.title"),
+    placeholder: t("studio.fairygui.placeholder"),
+    newLabel: t("studio.fairygui.new"),
+  },
 } as const;
 
 export function recentStudioProjects(
