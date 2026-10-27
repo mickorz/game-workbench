@@ -16,7 +16,8 @@ flowchart TD
 | 阶段 | 内容 | 出口标准 | commit |
 |---|---|---|---|
 | P0 ✅ | 编辑器侧桥探活实测（2026-10-26 完成） | `ping` 通；`OpenDocument` 可用 / `screenshot` 被裁，结论已入文档 | （无仓库代码，补丁在 dev-examples 工程内） |
-| P1 | `plugins/fairygui/` 插件包落地 | 插件页可启用；general 项目会话里 MCP 全链路通 | feat: fairygui plugin |
+
+| P1 ✅ | `plugins/fairygui/` 插件包落地（2026-10-26 完成） | daemon 识别 `ohmygame:fairygui`；MCP stdio 握手 + ping/list_packages 往返验证通过 | 见 git log |
 | P2 | 工作室壳（12 处小改） | `#/fairygui` 首页可开项目，会话工具就位 | feat: fairygui studio |
 | P3 | 打磨（角标/文案/分组） | 无功能回归 | chore |
 
@@ -35,7 +36,7 @@ flowchart TD
 | **screenshot** | **不可用**（`ScreenCapture` 被裁）→ P3 用 PowerShell CopyFromScreen 截窗口 |
 | create_component / set_property / save_all / delete_item | 可用；`set_property` 改尺寸用 `width`/`height`（`size` 字符串不落盘），改后须 `save_all` |
 
-**P1 收编 plugin/main.js 时必须带两个本地补丁**（见 `dev-docs/experience/fairygui-agent-bridge-local-patches.md`）：① `itemInfo` 空目录判空；② `App.add_onUpdate` + `Timers` 双泵（保险）。
+**P1 收编 plugin/main.js 时必须带三个本地补丁**（见 `dev-docs/experience/fairygui-agent-bridge-local-patches.md`）：① `itemInfo` 空目录判空；② `App.add_onUpdate` + `Timers` 双泵（保险）。
 
 ### 测试工程（已就位，探活已完成）
 
@@ -117,7 +118,8 @@ Copy-Item "$src/scripts/lint_components.mjs" plugins/fairygui/scripts/
 **P0 已验证的两个补丁必须一并打进 `editor-plugin/main.js`**（可从 `dev-examples/fairygui-test-project/plugins/agent-bridge/main.js` 直接 diff/复制，那里已验证可用）：
 
 1. `itemInfo` 空目录判空（`if (ch == null) return o;`）——不带此补丁，真实工程 `list_items` depth>1 必崩；
-2. `boot()` 双泵（`App.add_onUpdate` + `CS.FairyGUI.Timers.inst.Add(0.1, 0, onUpdate)`）与心跳日志。
+2. `boot()` 双泵（`App.add_onUpdate` + `CS.FairyGUI.Timers.inst.Add(0.1, 0, onUpdate)`）与心跳日志；
+3. `onUpdate()` 每帧重设 `Application.runInBackground`（P1 复现「桥长时间挂起」后根治，FairyGUI-MCP 同款坑）。
 
 改完必跑 `node --check editor-plugin/main.js`（JS 文件里误用 Lua 冒号语法会静默打死插件）。
 

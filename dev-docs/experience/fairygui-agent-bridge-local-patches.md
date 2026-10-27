@@ -28,6 +28,13 @@
 - 补丁 2（保险）：`boot()` 同时注册 `App.add_onUpdate` 与 `CS.FairyGUI.Timers.inst.Add(0.1, 0, onUpdate)` 双泵，带一次性心跳日志（谁先回调报谁名）。
 - 规范：改组件尺寸用 `props:{width, height}`，不用 `size` 字符串；改完必须 `save_all` 才落盘。
 
+## 追加（P1 期间复现并根治）
+
+桥挂起问题在 P1 复现：编辑器长时间空闲后 onUpdate 停跑（TCP 通、命令不执行），重启即恢复。
+根因与 FairyGUI-MCP 注释一致：`runInBackground` 被编辑器反复覆盖，agent-bridge 只在 boot 时设一次。
+**补丁 3（根治）**：`onUpdate()` 每帧重设 `CS.UnityEngine.Application.runInBackground = true`。已打进
+`plugins/fairygui/editor-plugin/main.js` 与 dev-examples 工程副本，重启后未再复现。
+
 ## 预防 / 注意事项
 
 - 改插件 JS 后必跑 `node --check main.js`；**别用 Lua 冒号语法**。

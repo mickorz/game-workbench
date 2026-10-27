@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "fairygui": {
+      "command": "node",
+      "args": ["./mcp/server.mjs"],
+      "env": {
+        "FGUI_BRIDGE_URL": "${config.bridge-url}",
+        "FGUI_EDITOR_EXE": "${config.editor-exe}"
+      },
+      "lifecycle": "lazy"
+    }
+  }
+}

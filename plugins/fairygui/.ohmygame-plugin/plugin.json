@@ -1,0 +1,34 @@
+{
+  "name": "fairygui",
+  "version": "0.1.0",
+  "enabledByDefault": false,
+  "description": "Build FairyGUI components and publish UI packages through the editor bridge.",
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json",
+  "requirements": { "commands": ["node"] },
+  "configuration": {
+    "editor-exe": {
+      "type": "text",
+      "label": "FairyGUI 编辑器可执行文件",
+      "description": "留空自动探测常见安装位置。"
+    },
+    "bridge-url": {
+      "type": "text",
+      "label": "Bridge URL",
+      "description": "缺省 http://localhost:7531；多实例时填实际端口。"
+    }
+  },
+  "interface": {
+    "beta": true,
+    "displayName": "FairyGUI",
+    "shortDescription": "Assemble FairyGUI components and publish UI packages via the editor.",
+    "longDescription": "Drive the FairyGUI editor through an in-editor bridge: list assets, create components, insert objects, set properties, and publish packages byte-identical to manual publishing. Requires the bridge plugin installed in your UI project (run scripts/install.bat, see Skill) and a running editor (free version works, can be minimized).",
+    "icon": { "type": "preset", "id": "layers" },
+    "defaultPrompt": [
+      "List the packages in my FairyGUI project and describe the main components.",
+      "Create a settings panel component with a title, close button, and toggles, then publish the package.",
+      "Read this component and suggest how to refactor duplicated buttons into a common component."
+    ],
+    "projectTypes": ["general"]
+  }
+}
