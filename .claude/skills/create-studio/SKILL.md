@@ -61,8 +61,16 @@ description_en: >-
 4. 双语文案 `locales/zh-CN.ts` 和 `locales/en.ts` 必须同改，key 漏一边编译不报错但运行时缺文案。
 5. 完成后按仓库 CLAUDE.md 约定更新 `dev-docs/progress/` 与 `dev-docs/progress-result/`。
 
-## 参照物
+## 参照物（全部在技能内 references/，自包含，不依赖仓库其它路径）
 
-- 设计依据：`dev-docs/design/FairyGUI工作室设计分析.md`
-- 执行记录：`dev-docs/planning/FairyGUI工作室执行文档.md`、`dev-docs/progress-result/P2-执行报告.md`
-- 最近两次落地样例：`git log` 搜 `fairygui studio`（P2 commit）与 Godot 工作室的存量代码
+| 文件 | 内容 |
+|---|---|
+| `references/add-studio-flow.md` | 12 步执行流程（主文档） |
+| `references/case-fairygui-design.md` | 案例设计分析（工作室机制四要素、方案对比、改动清单） |
+| `references/case-fairygui-execution.md` | 案例执行文档（P0~P3 全阶段步骤与实测结论，含桥补丁背景） |
+| `references/case-fairygui-p2-report.md` | 案例工作室壳落地报告（12 处改动逐项核对表） |
+
+另两个活参照（代码本身，随仓库走不会被删）：`src/renderer/studios.ts` 里 Godot 与
+FairyGUI 两个条目、`plugins/fairygui/.ohmygame-plugin/plugin.json` 的 interface 写法。
+
+注意：案例文档是快照；机制若因宿主演进变化，以源码 + 本技能流程为准，并回写流程文档。
