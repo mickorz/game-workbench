@@ -36,5 +36,7 @@ list_items 找素材 → read_component 拿子对象命名 → create_component 
 ## 验证
 
 发布前必跑：`node scripts/lint_components.mjs <工程根>`。
-截图给人看：`open_doc` 打开组件后 OS 级窗口截屏（PowerShell CopyFromScreen）。
+截图给人看：先 `open_doc` 打开目标组件，再跑
+`powershell -ExecutionPolicy Bypass -File scripts/capture_editor.ps1 -OutPath "<输出.png>"`
+（编辑器内置 ScreenCapture 在部分构建被裁，此脚本为 OS 级兜底，会自动激活编辑器窗口）。
 发布完成后核对产物（`_fui.bytes` / 图集）在工程发布目录且 mtime 更新。

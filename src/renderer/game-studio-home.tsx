@@ -17,6 +17,7 @@ import {
 import { ExampleShelf, useExamples } from "./examples.js";
 import { Plus, RefreshCw } from "./icons.js";
 import { AppSidebar } from "./app-sidebar.js";
+import { FairyguiBridgeStatus } from "./fairygui-bridge-status.js";
 import { ProjectCard } from "./project-card.js";
 import { ProjectCreateDialog } from "./project-create-dialog.js";
 import { projectDeletionConfirmation } from "./project-deletion.js";
@@ -113,6 +114,7 @@ export function GameStudioHome({
         <WindowDragRegion />
         <div className="home-start">
           <h1>{studio.title}</h1>
+          {projectType === "fairygui" ? <FairyguiBridgeStatus /> : null}
           <ProjectPromptCreator
             projectType={projectType}
             placeholder={studio.placeholder}

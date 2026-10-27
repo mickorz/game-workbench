@@ -2868,6 +2868,19 @@ select.settings-search-input {
   mask-image: url("./assets/sidebar/interactive-story.svg");
   -webkit-mask-image: url("./assets/sidebar/interactive-story.svg");
 }
+/* FairyGUI 工作室桥状态角标 */
+.fairygui-bridge-status {
+  margin: 0 0 12px;
+  font-size: 12px;
+  opacity: 0.75;
+}
+.fairygui-bridge-status.is-online {
+  color: var(--color-success, #3fb950);
+}
+.fairygui-bridge-status.is-offline {
+  color: var(--color-danger, #f85149);
+}
+
 .home-nav-icon-fairygui {
   mask-image: url("./assets/sidebar/fairygui.svg");
   -webkit-mask-image: url("./assets/sidebar/fairygui.svg");

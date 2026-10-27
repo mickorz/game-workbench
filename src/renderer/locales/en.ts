@@ -678,6 +678,8 @@ const en = {
       title: "Which UI should we build?",
       placeholder: "Describe the FairyGUI interface to create or edit...",
       new: "New FairyGUI project",
+      bridgeConnected: "Editor bridge: connected",
+      bridgeOffline: "Editor bridge: offline (start the editor or check the plugin)",
     },
   },
   examples: {

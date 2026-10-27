@@ -663,6 +663,8 @@ const zhCN: typeof en = {
       title: "要做哪个界面的 UI？",
       placeholder: "描述你想制作或修改的 FairyGUI 界面…",
       new: "新建 FairyGUI 项目",
+      bridgeConnected: "编辑器桥：已连接",
+      bridgeOffline: "编辑器桥：未连接（启动编辑器或检查插件）",
     },
   },
   examples: {

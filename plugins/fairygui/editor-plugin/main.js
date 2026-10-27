@@ -514,6 +514,10 @@ function startServer() {
         try {
             var listener = new CS.System.Net.HttpListener();
             listener.Prefixes.Add("http://localhost:" + port + "/");
+            // 补 127.0.0.1 前缀：宿主 CSP 只放行 127.0.0.1，且 localhost 前缀仅绑 IPv6 回环
+            try { listener.Prefixes.Add("http://127.0.0.1:" + port + "/"); } catch (ePrefix) {
+                plog("127.0.0.1 prefix unavailable (need URLACL/admin): " + ePrefix);
+            }
             listener.Start();
             Bridge.listener = listener;
             Bridge.port = port;

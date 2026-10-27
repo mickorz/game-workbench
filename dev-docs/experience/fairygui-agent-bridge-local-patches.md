@@ -35,6 +35,15 @@
 **补丁 3（根治）**：`onUpdate()` 每帧重设 `CS.UnityEngine.Application.runInBackground = true`。已打进
 `plugins/fairygui/editor-plugin/main.js` 与 dev-examples 工程副本，重启后未再复现。
 
+## 追加（P3：宿主 CSP 挡住渲染层探活）
+
+工作室首页桥状态角标首版轮询 `http://localhost:7531/` 永远「未连接」，浏览器 console 报
+CSP 违规：宿主 `connect-src` 只放行 `http://127.0.0.1:*`；且桥的 HttpListener 用 `localhost`
+前缀时仅绑 IPv6 `[::1]`，`127.0.0.1` 直连被拒。双重原因导致渲染层永远连不上。
+
+**补丁 4**：`startServer()` 在同一 listener 上补加 `http://127.0.0.1:<port>/` 前缀
+（实测免管理员可用，失败则记日志降级）；渲染层探活固定用 `127.0.0.1`。
+
 ## 预防 / 注意事项
 
 - 改插件 JS 后必跑 `node --check main.js`；**别用 Lua 冒号语法**。

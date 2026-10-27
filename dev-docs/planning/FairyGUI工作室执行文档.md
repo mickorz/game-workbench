@@ -359,7 +359,7 @@ commit：`feat: add fairygui studio (project type + sidebar + workspace boundari
 
 ---
 
-## P3 打磨（按需，各独立 commit）
+## P3 打磨——✅ 已完成（2026-10-26，三项全落地）
 
 | 项 | 内容 | 前置 |
 |---|---|---|
