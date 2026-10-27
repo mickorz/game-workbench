@@ -19,6 +19,8 @@
 | `backup-template` | 把当前代码与资源打包成模板 zip；执行层为仓库根 `backup_template.py`（`--no-delivery` 不带交付包 / `--list` 看清单） |
 | `create-studio` | 新增一个工作室（侧边栏工作室页 + 项目类型，12 步脚手架）；详细流程在技能内 `references/add-studio-flow.md`，改前必读 |
 
+**工作室 bug 同步规则**：修复任何工作室（studio / 项目类型）相关 bug 时，若根因属于「新增工作室流程会再踩的坑」（如某步骤遗漏、某文件漏改、某机制的反直觉行为），必须把坑点和修法同步进 `.claude/skills/create-studio/references/add-studio-flow.md`（补进步骤或坑位说明），防止下次创建工作室时重蹈。只影响单个工作室自身的业务 bug 不需要同步。
+
 ## 开发文档目录：`dev-docs/`
 
 `dev-docs/` 是本仓库专门保存开发过程文档的目录（已在 `.gitignore` 中忽略，不进入 git 仓库）。
