@@ -17,6 +17,7 @@
 | 技能 | 用途 |
 |------|------|
 | `backup-template` | 把当前代码与资源打包成模板 zip；执行层为仓库根 `backup_template.py`（`--no-delivery` 不带交付包 / `--list` 看清单） |
+| `create-studio` | 新增一个工作室（侧边栏工作室页 + 项目类型，12 步脚手架）；详细流程在技能内 `references/add-studio-flow.md`，改前必读 |
 
 ## 开发文档目录：`dev-docs/`
 
