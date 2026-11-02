@@ -31,6 +31,13 @@
 - 截图的是编辑器当前打开文档的画布，首次点组件需等 open_doc + 截图（约 1~2 秒）。
 - 检查器面板不跟随选中（上游已验证的死路，见可行性分析）。
 
+## 追加（2026-11-02）：单一工作目标
+
+需求：设计页/会话链接切换选中组件时，编辑器里只保留当前组件文档（此前 open_doc 只开不关，标签堆积）。
+实现：桥新增 `focus_component`（补丁 6）：HasUnsavedDocuments→SaveAllDocuments→CloseAllDocuments→OpenDocument；
+设计页选中流程 open_doc → focus_component。探查确认 docView 有 CloseAllDocuments/HasUnsavedDocuments/
+SaveAllDocuments/FindDocument 等 API（for-in 枚举可得，官方 API 语义可靠）。agent 侧 open_doc 保持原多开语义。
+
 ## 遗留 / 后续
 
 - 多态截图（switch_controller 逐态）——MCP 侧有 action，设计页未接。

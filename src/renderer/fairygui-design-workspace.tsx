@@ -8,7 +8,7 @@ import "./fairygui-design.css";
 /**
  * FairyGUI 工作室的设计页：
  * 左侧包/组件树（编辑器桥 list_packages / list_items），
- * 右侧组件真实渲染截图（open_doc + capture_component，FairyGUI 引擎级保真）
+ * 右侧组件真实渲染截图（focus_component + capture_component，FairyGUI 引擎级保真）
  * 与组件 XML 源码（read_component）。
  * 只读预览；修改走会话 agent（经插件 MCP 的 set_property 等工具）。
  */
@@ -120,7 +120,8 @@ export function FairyguiDesignWorkspace({ project, onContextChange, onLeave, ini
     setXml(undefined);
     (async () => {
       try {
-        await bridgeCall("open_doc", { pkg: target.pkg, name: target.name });
+        // focus_component：关掉编辑器里其它已开文档，保持「单一工作目标」
+        await bridgeCall("focus_component", { pkg: target.pkg, name: target.name });
         const capture = await bridgeCall<CaptureResult>("capture_component", { scale: 1 });
         if (cancelled) return;
         setPng(`data:image/png;base64,${capture.png}`);

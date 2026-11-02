@@ -19,9 +19,7 @@ coverage/
 .env.*
 !.env.example
 .claude/worktrees/
-docs/PRD/
-docs/DesignSpec/
-docs/TechSpec/
+
 
 # ohmygame 子模块本体的忽略规则已并入上方
 

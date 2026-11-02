@@ -419,7 +419,40 @@ COMMANDS.search_component_in_xml = function (a) {
     return ok({ matches: out, truncated: false });
 };
 
-COMMANDS.bridge_log = function (a) {
+// 聚焦组件：保存未保存文档 → 关闭所有已开文档 → 只打开目标（设计页「单一工作目标」语义）
+COMMANDS.focus_component = function (a) {
+    var pkgName = a.pkg, compName = a.name;
+    if (!pkgName || !compName) throw "args.pkg and args.name required";
+    var pkg = getPkg(pkgName);
+    var item = requireComponentItem(pkg, compName);
+    var url = itemUrl(pkg, item);
+    // 未保存改动先保存（我们的流程里改动都应被保存，避免静默丢失）
+    try {
+        if (App.docView.HasUnsavedDocuments()) {
+            App.docView.SaveAllDocuments();
+            plog("focus_component: auto-saved unsaved documents");
+        }
+    } catch (eSave) { plog("focus_component: save check failed: " + eSave); }
+    App.docView.CloseAllDocuments();
+    var doc = null;
+    var attempts = [
+        function () { return App.docView.OpenDocument(url, true); },
+        function () { return App.docView.OpenDocument(url); },
+    ];
+    var lastErr = null;
+    for (var i = 0; i < attempts.length; i++) {
+        try {
+            doc = attempts[i]();
+            if (doc == null) doc = App.docView.FindDocument(url);
+            if (doc != null) break;
+        } catch (eOpen) { lastErr = eOpen; plog("OpenDocument#" + i + " " + compName + ": " + eOpen); }
+    }
+    if (doc == null) throw "open failed after CloseAllDocuments: " + lastErr;
+    return ok({ opened: compName, url: url, closedOthers: true });
+};
+
+COMMANDS.bridge_log
+ = function (a) {
     var n = a && a.tail ? a.tail : 40;
     return ok(Bridge.logLines.slice(-n));
 };

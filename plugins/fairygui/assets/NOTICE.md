@@ -10,7 +10,7 @@
 | `mcp/server.mjs` | `mcp/server.mjs` | import 路径 `../cli/instances.mjs` → `./instances.mjs`（目录结构调整） |
 | `mcp/fgui.mjs` | `cli/fgui.mjs` | 无 |
 | `mcp/instances.mjs` | `cli/instances.mjs` | 无 |
-| `editor-plugin/main.js` | `plugin/main.js` | 五个补丁（在 dev-examples/fairygui-test-project 实测验证）：① `itemInfo` 空目录 children 判空（否则真实工程 list_items 递归崩溃）；② `App.add_onUpdate` + `CS.FairyGUI.Timers.inst.Add(0.1, 0, onUpdate)` 双泵与心跳日志；③ `onUpdate` 每帧重设 `Application.runInBackground`（编辑器切后台会反复覆盖此值，只设一次会导致桥长时间挂起——FairyGUI-MCP 同款坑）；④ `startServer()` 同时绑定 `localhost` 与 `127.0.0.1` 前缀（宿主 CSP 只放行 `127.0.0.1:*`，且 localhost 前缀仅绑 IPv6 回环，浏览器 fetch 会被双重挡住）；⑤ 新增 `capture_component` 命令：`doc.content.displayObject.GetScreenShot`（注意在 DisplayObject 上调，不在 GComponent 上）+ `EncodeToPNG` 返回 base64——编辑器内置 ScreenCapture 被裁后的引擎级保真截图，供设计页渲染组件用 |
+| `editor-plugin/main.js` | `plugin/main.js` | 六个补丁（在 dev-examples/fairygui-test-project 实测验证）：① `itemInfo` 空目录 children 判空（否则真实工程 list_items 递归崩溃）；② `App.add_onUpdate` + `CS.FairyGUI.Timers.inst.Add(0.1, 0, onUpdate)` 双泵与心跳日志；③ `onUpdate` 每帧重设 `Application.runInBackground`（编辑器切后台会反复覆盖此值，只设一次会导致桥长时间挂起——FairyGUI-MCP 同款坑）；④ `startServer()` 同时绑定 `localhost` 与 `127.0.0.1` 前缀（宿主 CSP 只放行 `127.0.0.1:*`，且 localhost 前缀仅绑 IPv6 回环，浏览器 fetch 会被双重挡住）；⑤ 新增 `capture_component` 命令：`doc.content.displayObject.GetScreenShot`（注意在 DisplayObject 上调，不在 GComponent 上）+ `EncodeToPNG` 返回 base64——编辑器内置 ScreenCapture 被裁后的引擎级保真截图，供设计页渲染组件用；⑥ 新增 `focus_component` 命令：HasUnsavedDocuments→SaveAllDocuments→CloseAllDocuments→OpenDocument，实现编辑器「同时只开一个组件」的单一工作目标语义（设计页切换选中时调用） |
 | `editor-plugin/package.json` | `plugin/package.json` | 无 |
 | `scripts/install.bat` / `install.sh` | 同名文件 | 源目录 `plugin/` → `editor-plugin/` |
 | `scripts/lint_components.mjs` | 同名文件 | 无 |
