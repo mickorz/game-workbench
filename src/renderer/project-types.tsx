@@ -14,7 +14,10 @@ export const PROJECT_TYPES: readonly ProjectTypeOption[] = [
   "general" as const,
 ].map((value) => ({ value, label: projectTypeLabel(value) }));
 
-export const GAME_PROJECT_TYPES: readonly ProjectTypeOption[] = PROJECT_TYPES.filter(({ value }) => value !== "asset-canvas");
+// 当前工具只开放 FairyGUI 与素材画布；其余类型在侧边栏（sidebar-config）与新建入口一并隐藏，恢复时删除该过滤即可
+const HIDDEN_PROJECT_TYPE_IDS = new Set(["web-game", "interactive-story", "godot-game", "general"] as const);
+
+export const GAME_PROJECT_TYPES: readonly ProjectTypeOption[] = PROJECT_TYPES.filter(({ value }) => value !== "asset-canvas" && !HIDDEN_PROJECT_TYPE_IDS.has(value));
 
 export function ProjectTypeIcon({ type, size = 14 }: { type: ProjectType; size?: number }) {
   if (type === "general") return <Gamepad2 size={size} aria-hidden="true" />;
