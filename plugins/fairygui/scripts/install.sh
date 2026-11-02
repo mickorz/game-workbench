@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install the agent-bridge plugin into a FairyGUI editor project.
+# Install the xc-link-plugin plugin into a FairyGUI editor project.
 # usage: install.sh <path-to-project-dir-containing-.fairy-file>
 set -euo pipefail
 
@@ -8,7 +8,7 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 SRC="$(cd "$(dirname "$0")/.." && pwd)/editor-plugin"&& pwd)/plugin" pwd)/editor-plugin"
-DST="$1/plugins/agent-bridge"
+DST="$1/plugins/xc-link-plugin"
 if [ ! -d "$1" ]; then
     echo "project dir not found: $1" >&2
     exit 1

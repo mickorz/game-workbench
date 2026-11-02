@@ -7,7 +7,7 @@ description: Create, inspect, edit, and publish FairyGUI UI components through t
 
 ## 环境准备（一次性）
 
-1. 桥不通时先装编辑器侧插件：`scripts/install.bat <UI 工程路径>`（把 `editor-plugin/` 复制到 `<工程>/plugins/agent-bridge/`）。
+1. 桥不通时先装编辑器侧插件：`scripts/install.bat <UI 工程路径>`（把 `editor-plugin/` 复制到 `<工程>/plugins/xc-link-plugin/`）。
 2. 拉起并确认就绪：`node mcp/fgui.mjs ensure '{"project":"<UI 工程绝对路径>"}'`；ping 通才继续。
 3. 编辑器可最小化（桥已设 runInBackground）；多窗口时所有工具必须显式传 project 参数，避免操作错窗口。
 

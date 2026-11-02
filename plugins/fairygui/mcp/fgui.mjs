@@ -144,7 +144,7 @@ if (cmd === "launch" || cmd === "ensure") {
             process.exit(5);
         }
     }
-    console.error(JSON.stringify({ ok: false, error: "bridge did not come up in time; check plugins/agent-bridge/bridge.log inside the project" }, null, 2));
+    console.error(JSON.stringify({ ok: false, error: "bridge did not come up in time; check plugins/xc-link-plugin/bridge.log inside the project" }, null, 2));
     process.exit(5);
 }
 
@@ -184,6 +184,6 @@ try {
     process.exit(json.ok ? 0 : 2);
 } catch (e) {
     console.error(JSON.stringify({ ok: false, error: String(e) }, null, 2));
-    console.error("Is the FairyGUI editor running with the agent-bridge plugin installed?");
+    console.error("Is the FairyGUI editor running with the xc-link-plugin installed?");
     process.exit(3);
 }

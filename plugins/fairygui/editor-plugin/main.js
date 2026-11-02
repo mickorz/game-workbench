@@ -1,4 +1,4 @@
-// FairyGUI Agent Bridge - editor-side plugin
+// FairyGUI XCLink Bridge - editor-side plugin
 //
 // Runs a localhost HTTP JSON endpoint inside the FairyGUI editor so that AI
 // agents (via CLI or MCP) can drive the editor: create components, insert
@@ -22,7 +22,7 @@ var App = FairyEditor.App;
 
 // ---------------- logger ----------------
 
-var PluginDir = App.pluginManager.basePath + "/agent-bridge";
+var PluginDir = App.pluginManager.basePath + "/xc-link-plugin";
 var Bridge = {
     listener: null,
     pendingAccept: null,   // IAsyncResult of BeginGetContext
@@ -34,7 +34,7 @@ var Bridge = {
 function plog(msg) {
     Bridge.logLines.push("[" + new Date().toISOString() + "] " + msg);
     if (Bridge.logLines.length > 500) Bridge.logLines.shift();
-    console.log("[agent-bridge] " + msg);
+    console.log("[xc-link-plugin] " + msg);
     try {
         CS.System.IO.File.WriteAllText(
             PluginDir + "/bridge.log",
@@ -419,6 +419,8 @@ COMMANDS.search_component_in_xml = function (a) {
     return ok({ matches: out, truncated: false });
 };
 
+// 临时探查：docView 上有哪些文档枚举属性/方法（探完即删）
+// 探查第二轮：activeDoc 之外的枚举路径（docView 原型链/其它属性）
 // 聚焦组件：保存未保存文档 → 关闭所有已开文档 → 只打开目标（设计页「单一工作目标」语义）
 COMMANDS.focus_component = function (a) {
     var pkgName = a.pkg, compName = a.name;
@@ -452,6 +454,8 @@ COMMANDS.focus_component = function (a) {
 };
 
 COMMANDS.bridge_log
+
+
  = function (a) {
     var n = a && a.tail ? a.tail : 40;
     return ok(Bridge.logLines.slice(-n));
@@ -607,7 +611,7 @@ function registryUnregister() {
 }
 
 function projectDirectory() {
-    // The plugin is installed at <project>/plugins/agent-bridge.
+    // The plugin is installed at <project>/plugins/xc-link-plugin.
     // Avoid additional native Path overloads in the stripped Unity editor build.
     return String(PluginDir).replace(/\\/g, '/').replace(/\/$/, '').split('/').slice(0, -2).join('/');
 }

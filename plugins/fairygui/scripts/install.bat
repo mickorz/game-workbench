@@ -1,5 +1,5 @@
 @echo off
-rem Install the agent-bridge plugin into a FairyGUI editor project.
+rem Install the xc-link-plugin plugin into a FairyGUI editor project.
 rem usage: install.bat <path-to-project-dir-containing-.fairy-file>
 rem example: install.bat D:\work\my-ui-project
 
@@ -9,7 +9,7 @@ if "%~1"=="" (
   exit /b 1
 )
 set "SRC=%~dp0..\editor-plugin"
-set "DST=%~1\plugins\agent-bridge"
+set "DST=%~1\plugins\xc-link-plugin"
 if not exist "%~1" (
   echo project dir not found: %~1
   exit /b 1

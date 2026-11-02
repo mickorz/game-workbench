@@ -1,0 +1,831 @@
+// FairyGUI XCLink Bridge - editor-side plugin
+//
+// Runs a localhost HTTP JSON endpoint inside the FairyGUI editor so that AI
+// agents (via CLI or MCP) can drive the editor: create components, insert
+// objects, set properties, and publish packages - all through official
+// editor APIs (undo-aware) with byte-identical publish output.
+//
+// Threading model: strictly single-threaded. HttpListener.BeginGetContext
+// is polled per frame (IsCompleted), so every request is accepted, executed
+// and answered on the main Unity thread. No JS ever runs off-thread.
+//
+// Endpoint: http://localhost:<port>/   (default 7531, override via port.txt
+// next to this file)
+// Protocol: POST with JSON body  {"cmd": "<command>", "args": {...}}
+// Response: JSON {"ok": true, "data": ...} or {"ok": false, "error": "..."}
+
+var VERSION = "0.2.0";
+
+var FairyGUI = CS.FairyGUI;
+var FairyEditor = CS.FairyEditor;
+var App = FairyEditor.App;
+
+// ---------------- logger ----------------
+
+var PluginDir = App.pluginManager.basePath + "/xc-link-plugin";
+var Bridge = {
+    listener: null,
+    pendingAccept: null,   // IAsyncResult of BeginGetContext
+    queue: [],             // [{ctx, cmd, args}]
+    current: null,         // command being executed across frames (publish)
+    logLines: []
+};
+
+function plog(msg) {
+    Bridge.logLines.push("[" + new Date().toISOString() + "] " + msg);
+    if (Bridge.logLines.length > 500) Bridge.logLines.shift();
+    console.log("[xc-link-plugin] " + msg);
+    try {
+        CS.System.IO.File.WriteAllText(
+            PluginDir + "/bridge.log",
+            Bridge.logLines.join("\n"));
+    } catch (e) { /* disk issues must never break the server */ }
+}
+
+function readPort() {
+    try {
+        var s = CS.System.IO.File.ReadAllText(PluginDir + "/port.txt").trim();
+        var p = parseInt(s, 10);
+        if (p > 0 && p < 65536) return p;
+    } catch (e) { }
+    return 7531;
+}
+
+// ---------------- helpers ----------------
+
+function ok(data) { return { ok: true, data: data === undefined ? null : data }; }
+function fail(msg) { return { ok: false, error: String(msg) }; }
+
+function getPkg(nameOrId) {
+    var p = App.project.GetPackageByName(String(nameOrId));
+    if (p == null) p = App.project.GetPackage(String(nameOrId));
+    if (p == null) throw "package not found: " + nameOrId;
+    // packages are lazily loaded: the item tree (rootItem.children) is only
+    // populated after EnsureOpen, otherwise it looks empty
+    try { if (!p.opened) p.EnsureOpen(); } catch (e) { plog("EnsureOpen(" + nameOrId + "): " + e); }
+    return p;
+}
+
+function itemUrl(pkg, item) {
+    // Encoded item URLs reserve exactly eight characters for the package ID.
+    // A short handmade package ID silently eats the beginning of the item ID.
+    if (String(pkg.id).length !== 8) {
+        throw "invalid package id '" + pkg.id + "' in package '" + pkg.name +
+            "': FairyGUI encoded URLs require 8 characters; repair package.xml and its ui:// references before editing";
+    }
+    return "ui://" + pkg.id + item.id;
+}
+
+function findItem(pkg, name, recursiveFrom) {
+    var root = recursiveFrom || pkg.rootItem;
+    if (root == null || root.name === name) return root;
+    var ch = root.children;
+    if (ch == null) return null;
+    for (var i = 0; i < ch.Count; i++) {
+        var r = findItem(pkg, name, ch.get_Item(i));
+        if (r != null) return r;
+    }
+    return null;
+}
+
+function requireComponentItem(pkg, compName) {
+    var it = findItem(pkg, compName);
+    if (it == null) throw "component not found in package '" + pkg.name + "': " + compName;
+    return it;
+}
+
+function ensureDocOpen(pkg, compName) {
+    var item = requireComponentItem(pkg, compName);
+    var url = itemUrl(pkg, item);
+    var doc = App.docView.FindDocument(url);
+    if (doc == null) {
+        // Installed editor.d.ts declares URL overloads only, not FPackageItem.
+        var attempts = [
+            function () { return App.docView.OpenDocument(url, true); },
+            function () { return App.docView.OpenDocument(url); },
+        ];
+        var lastErr = null;
+        for (var i = 0; i < attempts.length && doc == null; i++) {
+            try {
+                doc = attempts[i]();
+                if (doc == null) doc = App.docView.FindDocument(url);
+            } catch (e) { lastErr = e; plog("OpenDocument#" + i + " " + compName + ": " + e); }
+        }
+        if (doc == null) throw "failed to open document: " + compName + (lastErr ? (" (last: " + lastErr + ")") : "");
+    }
+    return { doc: doc, item: item, url: url };
+}
+
+function itemInfo(pkg, item, depth) {
+    var o = {
+        id: item.id,
+        name: item.name,
+        type: item.type,
+        path: item.path,
+        exported: false,
+        width: item.width,
+        height: item.height
+    };
+    try { o.exported = item.exported; } catch (e) { }
+    try { o.file = item.file; } catch (e) { }
+    if (depth > 0) {
+        o.children = [];
+        var ch = item.children;
+        if (ch == null) return o; // 空目录 children 为 null，跳过递归
+        for (var i = 0; i < ch.Count; i++) {
+            o.children.push(itemInfo(pkg, ch.get_Item(i), depth - 1));
+        }
+    }
+    return o;
+}
+
+function propValueIn(v) {
+    // pass-through: numbers/bools as-is, everything else as string
+    return v;
+}
+
+// ---------------- command implementations (sync) ----------------
+
+var COMMANDS = {};
+
+COMMANDS.ping = function (a) {
+    return ok({
+        version: VERSION,
+        editor: "FairyGUI",
+        port: Bridge.port,
+        projectPath: projectDirectory(),
+        projectOpen: App.project != null,
+        project: projectLabel()
+    });
+};
+
+COMMANDS.project_info = function (a) {
+    if (App.project == null) throw "no project open";
+    var p = App.project;
+    var d = { port: Bridge.port, packages: p.allPackages.Count, packageNames: [] };
+    d.projectPath = projectDirectory();
+    try { d.name = p.name; } catch (e) { }
+    try { d.path = p.projectPath; } catch (e) { }
+    for (var i = 0; i < p.allPackages.Count; i++) {
+        d.packageNames.push(p.allPackages.get_Item(i).name);
+    }
+    return ok(d);
+};
+
+COMMANDS.list_packages = function (a) {
+    if (App.project == null) throw "no project open";
+    var arr = [];
+    var ps = App.project.allPackages;
+    for (var i = 0; i < ps.Count; i++) {
+        var p = ps.get_Item(i);
+        arr.push({ id: p.id, name: p.name, basePath: p.basePath });
+    }
+    return ok(arr);
+};
+
+COMMANDS.list_items = function (a) {
+    var pkg = getPkg(a.pkg);
+    return ok(itemInfo(pkg, pkg.rootItem, a.depth === undefined ? 3 : a.depth));
+};
+
+COMMANDS.read_component = function (a) {
+    var pkg = getPkg(a.pkg);
+    var item = requireComponentItem(pkg, a.name);
+    return ok({
+        name: item.name,
+        url: itemUrl(pkg, item),
+        xml: CS.System.IO.File.ReadAllText(item.file)
+    });
+};
+
+COMMANDS.create_component = function (a) {
+    var pkg = getPkg(a.pkg);
+    if (String(pkg.id).length !== 8) itemUrl(pkg, { id: "" });
+    if (!(a.width > 0 && a.height > 0)) throw "positive component width and height required";
+    if (!a.name || findItem(pkg, String(a.name))) throw "component name missing or already exists: " + a.name;
+    // both path and extentionId must be null (not "") when unused - the
+    // empty string breaks internal dictionary lookups in CreateComponentItem
+    var path = a.path ? String(a.path) : null;
+    var exported = a.exported === undefined ? true : !!a.exported;
+    var ext = a.extention ? String(a.extention) : null;
+    var it = pkg.CreateComponentItem(String(a.name), a.width | 0, a.height | 0, path, ext, exported, false);
+    pkg.Save();
+    // Do not report a usable component until the editor can load its document.
+    var opened = ensureDocOpen(pkg, it.name);
+    return ok({ id: it.id, name: it.name, url: opened.url, file: it.file, openable: true });
+};
+
+COMMANDS.delete_item = function (a) {
+    var pkg = getPkg(a.pkg);
+    var item = requireComponentItem(pkg, a.name);
+    pkg.DeleteItem(item);
+    pkg.Save();
+    return ok({ deleted: a.name });
+};
+
+COMMANDS.open_doc = function (a) {
+    var pkg = getPkg(a.pkg);
+    var r = ensureDocOpen(pkg, a.name);
+    return ok({ opened: a.name, url: r.url });
+};
+
+COMMANDS.close_doc = function (a) {
+    var pkg = getPkg(a.pkg);
+    var item = requireComponentItem(pkg, a.name);
+    var doc = App.docView.FindDocument(itemUrl(pkg, item));
+    if (doc != null) App.docView.CloseDocument(doc);
+    return ok({ closed: a.name });
+};
+
+COMMANDS.list_children = function (a) {
+    var pkg = getPkg(a.pkg);
+    var r = ensureDocOpen(pkg, a.name);
+    var content = r.doc.content;
+    var arr = [];
+    var ch = content.children;
+    for (var i = 0; i < ch.Count; i++) {
+        var c = ch.get_Item(i);
+        var o = { name: c.name };
+        try { o.id = c.id; } catch (e) { }
+        try { o.objType = c.objType; } catch (e) { }
+        arr.push(o);
+    }
+    return ok({ component: a.name, children: arr });
+};
+
+// insert a library item (component/image/etc, referenced by url or pkg+name)
+// into a component's stage
+COMMANDS.insert_object = function (a) {
+    var pkg = getPkg(a.pkg);
+    var r = ensureDocOpen(pkg, a.name);
+    var url = a.url || null;
+    if (!url) {
+        var refPkg = getPkg(a.ref_pkg || a.pkg);
+        var refItem = requireComponentItem(refPkg, a.ref_name);
+        url = itemUrl(refPkg, refItem);
+    }
+    var pos = null;
+    if (a.x !== undefined && a.y !== undefined) {
+        pos = new CS.UnityEngine.Vector2(a.x + 0.0, a.y + 0.0);
+    }
+    var obj;
+    if (a.index === undefined) {
+        obj = pos != null ? r.doc.InsertObject(url, pos) : r.doc.InsertObject(url);
+    } else {
+        obj = r.doc.InsertObject(url, pos, a.index | 0);
+    }
+    if (obj == null) throw "InsertObject returned null for url " + url;
+    if (a.props) applyProps(obj, a.props);
+    App.docView.SaveDocument(r.doc);
+    return ok({ inserted: obj.name, url: url });
+};
+
+COMMANDS.set_property = function (a) {
+    var pkg = getPkg(a.pkg);
+    var r = ensureDocOpen(pkg, a.name);
+    var target = a.target ? findChild(r.doc.content, a.target) : r.doc.content;
+    if (target == null) throw "target not found: " + a.target;
+    var props = a.props || null;
+    if (props == null && a.prop !== undefined) props = {};
+    if (props == null) throw "no props given (args.props={...} or args.prop/args.value)";
+    if (a.prop !== undefined && props[a.prop] === undefined) props[a.prop] = a.value;
+    var applied = applyProps(target, props);
+    App.docView.SaveDocument(r.doc);
+    return ok({ target: a.target || "$root", applied: applied });
+};
+
+COMMANDS.remove_object = function (a) {
+    var pkg = getPkg(a.pkg);
+    var r = ensureDocOpen(pkg, a.name);
+    var target = findChild(r.doc.content, a.target);
+    if (target == null) throw "target not found: " + a.target;
+    r.doc.RemoveObject(target);
+    App.docView.SaveDocument(r.doc);
+    return ok({ removed: a.target });
+};
+
+COMMANDS.save_all = function (a) {
+    App.docView.SaveAllDocuments();
+    return ok({ saved: true });
+};
+
+COMMANDS.refresh = function (a) {
+    App.RefreshProject();
+    return ok({ refreshed: true });
+};
+
+COMMANDS.screenshot = function (a) {
+    if (!a.path) throw "args.path required (absolute png path)";
+    // 注意：被 Unity 裁剪的方法在 Jint 里可能暴露为 truthy 但不可调用，
+    // typeof/真值守卫都会漏，必须 try/catch 实调
+    var sc = null;
+    try { sc = CS.UnityEngine.ScreenCapture; } catch (e) {}
+    var last = null;
+    if (sc) {
+        try {
+            sc.CaptureScreenshotAsFile(String(a.path)); // 同步写盘
+            return ok({ screenshot: a.path });
+        } catch (e1) { last = e1; plog("screenshot: CaptureScreenshotAsFile failed: " + e1); }
+        try {
+            sc.CaptureScreenshot(String(a.path)); // 异步：帧末写盘
+            return ok({ screenshot: a.path, async: true });
+        } catch (e2) { last = e2; plog("screenshot: CaptureScreenshot failed: " + e2); }
+    }
+    throw "ScreenCapture API unavailable in this editor build (" + last + "); use OS-level window capture (e.g. PowerShell CopyFromScreen) instead";
+};
+
+// internal for tests: expose bridge log tail
+// 组件画布截图：用 FairyGUI 自身 GetScreenShot 截当前打开文档的舞台内容，
+// 返回 base64 PNG（编辑器内置 ScreenCapture 被裁，此路保真度 100%）
+COMMANDS.capture_component = function (a) {
+    var doc = App.activeDoc;
+    if (doc == null) throw "no open document (open_doc first)";
+    var scale = a && a.scale ? Number(a.scale) : 1;
+    var content = doc.content;
+    if (content == null) throw "document has no content";
+    var dobj = content.displayObject; // GetScreenShot 在 DisplayObject 上，不在 GComponent 上
+    if (dobj == null) throw "content has no displayObject";
+    var tex = null;
+    try {
+        tex = dobj.GetScreenShot(null, scale); // Texture2D
+    } catch (e) {
+        throw "GetScreenShot failed in this build: " + e;
+    }
+    if (tex == null) throw "GetScreenShot returned null";
+    var w = tex.width, h = tex.height;
+    var png;
+    try {
+        png = CS.UnityEngine.ImageConversion.EncodeToPNG(tex);
+    } finally {
+        try { CS.UnityEngine.Object.Destroy(tex); } catch (eDestroy) { }
+    }
+    return ok({ png: CS.System.Convert.ToBase64String(png), width: w, height: h, scale: scale });
+};
+
+// 跨包按名搜索组件：返回 [{pkg, name}]，用于会话文本中的组件名点击定位
+COMMANDS.search_component = function (a) {
+    var query = String(a && a.name || "").toLowerCase();
+    if (!query) throw "args.name required";
+    var out = [];
+    var pkgs = App.project.allPackages;
+    for (var i = 0; i < pkgs.Count; i++) {
+        var pkg = pkgs.get_Item(i);
+        try { pkg.EnsureOpen(); } catch (eOpen) { }
+        var items = pkg.items;
+        if (items == null) continue;
+        for (var j = 0; j < items.Count; j++) {
+            var item = items.get_Item(j);
+            var itemType = "";
+            try { itemType = String(item.type); } catch (eType) { }
+            if (itemType !== "component") continue;
+            var itemName = String(item.name || "");
+            if (itemName.toLowerCase().indexOf(query) >= 0) {
+                out.push({ pkg: pkg.name, name: itemName, id: String(item.id || "") });
+                if (out.length >= 20) return ok({ matches: out, truncated: true });
+            }
+        }
+    }
+    return ok({ matches: out, truncated: false });
+};
+
+// 子对象名 fallback：组件名搜不到时，扫各包组件 XML 找包含该名字的组件（磁盘读，点击时一次性）
+COMMANDS.search_component_in_xml = function (a) {
+    var query = String(a && a.name || "");
+    if (!query) throw "args.name required";
+    var out = [];
+    var pkgs = App.project.allPackages;
+    for (var i = 0; i < pkgs.Count; i++) {
+        var pkg = pkgs.get_Item(i);
+        try { pkg.EnsureOpen(); } catch (eOpen) { }
+        var basePath = String(pkg.basePath || "");
+        if (!basePath) continue;
+        var xmlFiles = null;
+        try { xmlFiles = CS.System.IO.Directory.GetFiles(basePath, "*.xml", CS.System.IO.SearchOption.AllDirectories); } catch (eScan) { continue; }
+        for (var j = 0; j < xmlFiles.Length; j++) {
+            var file = xmlFiles.GetValue(j);
+            var fileName = CS.System.IO.Path.GetFileName(file);
+            if (fileName === "package.xml") continue;
+            var text = "";
+            try { text = CS.System.IO.File.ReadAllText(file); } catch (eRead) { continue; }
+            if (text.indexOf('name="' + query + '"') >= 0) {
+                var compName = fileName.replace(/\.xml$/, "");
+                var dup = false;
+                for (var k = 0; k < out.length; k++) { if (out[k].name === compName) { dup = true; break; } }
+                if (!dup) out.push({ pkg: pkg.name, name: compName, via: "xml" });
+                if (out.length >= 10) return ok({ matches: out, truncated: true });
+            }
+        }
+    }
+    return ok({ matches: out, truncated: false });
+};
+
+// 临时探查：docView 上有哪些文档枚举属性/方法（探完即删）
+// 探查第二轮：activeDoc 之外的枚举路径（docView 原型链/其它属性）
+// 聚焦组件：保存未保存文档 → 关闭所有已开文档 → 只打开目标（设计页「单一工作目标」语义）
+COMMANDS.focus_component = function (a) {
+    var pkgName = a.pkg, compName = a.name;
+    if (!pkgName || !compName) throw "args.pkg and args.name required";
+    var pkg = getPkg(pkgName);
+    var item = requireComponentItem(pkg, compName);
+    var url = itemUrl(pkg, item);
+    // 未保存改动先保存（我们的流程里改动都应被保存，避免静默丢失）
+    try {
+        if (App.docView.HasUnsavedDocuments()) {
+            App.docView.SaveAllDocuments();
+            plog("focus_component: auto-saved unsaved documents");
+        }
+    } catch (eSave) { plog("focus_component: save check failed: " + eSave); }
+    App.docView.CloseAllDocuments();
+    var doc = null;
+    var attempts = [
+        function () { return App.docView.OpenDocument(url, true); },
+        function () { return App.docView.OpenDocument(url); },
+    ];
+    var lastErr = null;
+    for (var i = 0; i < attempts.length; i++) {
+        try {
+            doc = attempts[i]();
+            if (doc == null) doc = App.docView.FindDocument(url);
+            if (doc != null) break;
+        } catch (eOpen) { lastErr = eOpen; plog("OpenDocument#" + i + " " + compName + ": " + eOpen); }
+    }
+    if (doc == null) throw "open failed after CloseAllDocuments: " + lastErr;
+    return ok({ opened: compName, url: url, closedOthers: true });
+};
+
+COMMANDS.bridge_log
+
+
+ = function (a) {
+    var n = a && a.tail ? a.tail : 40;
+    return ok(Bridge.logLines.slice(-n));
+};
+
+function findChild(content, target) {
+    // supports plain name or "a/b/c" path
+    if (target.indexOf("/") >= 0) return content.GetChildByPath(target);
+    return content.GetChild(target);
+}
+
+function setOneProp(obj, k, v) {
+    try {
+        obj.docElement.SetProperty(k, v);
+        return "set";
+    } catch (e1) {
+        try {
+            // extention props (title/icon/... on Button/Label/ProgressBar
+            // extention components) live on a separate setter
+            obj.docElement.SetExtensionProperty(k, v);
+            return "ext";
+        } catch (e2) {
+            // vector-like editor xml attrs may map to scalar props
+            if (typeof v === "string" && v.indexOf(",") >= 0) {
+                var parts = v.split(",");
+                var x = parseInt(parts[0], 10), y = parseInt(parts[1], 10);
+                if (k === "size") {
+                    obj.docElement.SetProperty("width", x);
+                    obj.docElement.SetProperty("height", y);
+                    return "w/h";
+                }
+                if (k === "xy") {
+                    obj.docElement.SetProperty("x", x);
+                    obj.docElement.SetProperty("y", y);
+                    return "x/y";
+                }
+                if (k === "pivot" || k === "anchor" || k === "scale") {
+                    obj.docElement.SetProperty(k + "X", x);
+                    obj.docElement.SetProperty(k + "Y", y);
+                    return k + "X/" + k + "Y";
+                }
+            }
+            throw e2;
+        }
+    }
+}
+
+function applyProps(obj, props) {
+    var applied = [];
+    for (var k in props) {
+        applied.push(k + ":" + setOneProp(obj, k, propValueIn(props[k])));
+    }
+    return applied;
+}
+
+// ---------------- publish (async across frames) ----------------
+
+function startPublish(job) {
+    var pkg = getPkg(job.args.pkg);
+    var handler = new FairyEditor.PublishHandler(pkg, job.args.branch || "");
+    if (job.args.out_path) handler.exportPath = String(job.args.out_path);
+    job.handler = handler;
+    job.done = false;
+    job.files = [];
+    handler.add_onComplete(function () {
+        job.done = true;
+        job.isSuccess = handler.isSuccess;
+        job.exportPath = handler.exportPath;
+        try {
+            var files = CS.System.IO.Directory.GetFiles(handler.exportPath);
+            for (var i = 0; i < files.Length; i++) job.files.push(files.GetValue(i));
+        } catch (e) { }
+    });
+    var t0 = Date.now();
+    job.t0 = t0;
+    handler.Run(); // hot task; onComplete marks completion
+    job.deadline = t0 + (job.args.timeout_ms || 120000);
+}
+
+function stepPublish(job) {
+    if (job.done) {
+        return ok({ isSuccess: job.isSuccess, elapsedMs: Date.now() - job.t0, files: job.files });
+    }
+    if (Date.now() > job.deadline) {
+        try { job.handler.Exit(); } catch (e) { }
+        return fail("publish timed out after " + (Date.now() - job.t0) + "ms");
+    }
+    return null; // keep waiting, called again next frame
+}
+
+// ---------------- async command registry ----------------
+
+var ASYNC_STARTERS = { publish: startPublish };
+var ASYNC_STEPPERS = { publish: stepPublish };
+
+// ---------------- instance registry (multi-project support) ----------------
+// A fixed per-user registry file maps running editor instances to their
+// ports, so agents can tell several open projects apart.
+
+var RegistryPath = (function () {
+    try {
+        return CS.System.Environment.GetFolderPath(CS.System.Environment.SpecialFolder.UserProfile)
+            + "/.fgui-agent-bridge/registry.json";
+    } catch (e) { return null; }
+})();
+
+function registryRead() {
+    if (RegistryPath == null) return [];
+    try {
+        var s = CS.System.IO.File.ReadAllText(RegistryPath);
+        var arr = JSON.parse(s);
+        return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+}
+
+function registryWrite(arr) {
+    if (RegistryPath == null) return;
+    try {
+        CS.System.IO.Directory.CreateDirectory(
+            CS.System.IO.Path.GetDirectoryName(RegistryPath));
+        CS.System.IO.File.WriteAllText(RegistryPath, JSON.stringify(arr));
+    } catch (e) { plog("registry write failed: " + e); }
+}
+
+function registryRegister(port) {
+    // System.Diagnostics.Process reflection can crash the stripped Unity build.
+    // HTTP discovery proves liveness; the editor only records its own endpoint.
+    var arr = registryRead().filter(function (e) { return e.port !== port; });
+    var entry = {
+        port: port,
+        project: projectLabel(),
+        projectPath: projectDirectory(),
+        startedAt: new Date().toISOString()
+    };
+    arr.push(entry);
+    // Independent files avoid lost registrations when two editors start together.
+    try {
+        var folder = CS.System.IO.Path.GetDirectoryName(RegistryPath) + '/instances';
+        CS.System.IO.Directory.CreateDirectory(folder);
+        CS.System.IO.File.WriteAllText(folder + '/' + port + '.json', JSON.stringify(entry));
+    } catch (e) { plog('instance registration failed: ' + e); }
+    registryWrite(arr);
+    return entry;
+}
+
+function registryUnregister() {
+    var arr = registryRead().filter(function (e) { return e.port !== Bridge.port; });
+    registryWrite(arr);
+    try {
+        var file = CS.System.IO.Path.GetDirectoryName(RegistryPath) + '/instances/' + Bridge.port + '.json';
+        if (CS.System.IO.File.Exists(file)) CS.System.IO.File.Delete(file);
+    } catch (e) { }
+}
+
+function projectDirectory() {
+    // The plugin is installed at <project>/plugins/xc-link-plugin.
+    // Avoid additional native Path overloads in the stripped Unity editor build.
+    return String(PluginDir).replace(/\\/g, '/').replace(/\/$/, '').split('/').slice(0, -2).join('/');
+}
+
+function projectLabel() {
+    try {
+        if (App.project != null) {
+            var n = App.project.name;
+            if (n) return String(n);
+        }
+    } catch (e) { }
+    return "";
+}
+
+// ---------------- HTTP plumbing (main thread only) ----------------
+
+function startServer() {
+    var wanted = readPort();
+    var maxTries = 21; // e.g. 7531..7551
+    for (var port = wanted; port < wanted + maxTries; port++) {
+        try {
+            var listener = new CS.System.Net.HttpListener();
+            listener.Prefixes.Add("http://localhost:" + port + "/");
+            // 补 127.0.0.1 前缀：宿主 CSP 只放行 127.0.0.1，且 localhost 前缀仅绑 IPv6 回环
+            try { listener.Prefixes.Add("http://127.0.0.1:" + port + "/"); } catch (ePrefix) {
+                plog("127.0.0.1 prefix unavailable (need URLACL/admin): " + ePrefix);
+            }
+            listener.Start();
+            Bridge.listener = listener;
+            Bridge.port = port;
+            Bridge.pendingAccept = listener.BeginGetContext(null, null);
+            var entry = registryRegister(port);
+            plog("listening on http://localhost:" + port + "/ v" + VERSION
+                + (port !== wanted ? " (default port busy, auto-picked)" : ""));
+            return true;
+        } catch (e) {
+            // port busy or listener error - try the next port
+        }
+    }
+    plog("FAILED to start http listener on ports " + wanted + ".." + (wanted + maxTries - 1));
+    return false;
+}
+
+function readBody(ctx) {
+    var req = ctx.Request;
+    if (req.ContentLength64 <= 0) return "";
+    var ms = new CS.System.IO.MemoryStream();
+    req.InputStream.CopyTo(ms);
+    ms.Position = 0;
+    var sr = new CS.System.IO.StreamReader(ms);
+    var s = sr.ReadToEnd();
+    sr.Close();
+    return s;
+}
+
+function writeResponse(ctx, status, obj) {
+    try {
+        var resp = ctx.Response;
+        var body = JSON.stringify(obj);
+        resp.StatusCode = status;
+        resp.ContentType = "application/json; charset=utf-8";
+        resp.Headers.Set("Access-Control-Allow-Origin", "*");
+        // no ContentLength64 => chunked; avoids Encoding.GetBytes whose
+        // string overload is stripped in the editor's Unity runtime
+        var sw = new CS.System.IO.StreamWriter(resp.OutputStream);
+        sw.Write(body);
+        sw.Flush();
+        sw.Close();
+    } catch (e) {
+        plog("writeResponse failed (client gone?): " + e);
+    }
+}
+
+function pumpAccepts() {
+    if (Bridge.pendingAccept == null) return;
+    if (!Bridge.pendingAccept.IsCompleted) return;
+    var ctx = null;
+    try {
+        ctx = Bridge.listener.EndGetContext(Bridge.pendingAccept);
+    } catch (e) {
+        plog("EndGetContext error: " + e);
+    }
+    // immediately re-arm for the next request
+    try {
+        Bridge.pendingAccept = Bridge.listener.BeginGetContext(null, null);
+    } catch (e) {
+        Bridge.pendingAccept = null;
+        plog("re-arm failed, server down: " + e);
+    }
+    if (ctx == null) return;
+    handleRequest(ctx);
+}
+
+function handleRequest(ctx) {
+    var req = ctx.Request;
+    // simple CORS preflight support for browser consoles
+    if (req.HttpMethod === "OPTIONS") {
+        ctx.Response.Headers.Set("Access-Control-Allow-Origin", "*");
+        ctx.Response.Headers.Set("Access-Control-Allow-Methods", "POST, OPTIONS");
+        ctx.Response.Headers.Set("Access-Control-Allow-Headers", "Content-Type");
+        writeResponse(ctx, 200, ok({ cors: true }));
+        return;
+    }
+    var body = "";
+    try { body = readBody(ctx); } catch (e) { writeResponse(ctx, 400, fail("bad body: " + e)); return; }
+    var msg = null;
+    try { msg = body ? JSON.parse(body) : {}; } catch (e) { }
+    if (!msg || !msg.cmd) {
+        writeResponse(ctx, 400, fail("body must be JSON like {\"cmd\":..., \"args\":{...}}"));
+        return;
+    }
+    Bridge.queue.push({ ctx: ctx, cmd: String(msg.cmd), args: msg.args || {} });
+}
+
+function stepQueue() {
+    // finish the running async job first
+    if (Bridge.current != null) {
+        var job = Bridge.current;
+        var out = ASYNC_STEPPERS[job.cmd](job);
+        if (out !== null && out !== undefined) {
+            writeResponse(job.ctx, 200, out);
+            Bridge.current = null;
+        }
+        return; // one async job at a time
+    }
+    var next = Bridge.queue.shift();
+    if (next == null) return;
+    var cmd = next.cmd;
+    if (ASYNC_STARTERS[cmd]) {
+        var job = { ctx: next.ctx, cmd: cmd, args: next.args };
+        try {
+            ASYNC_STARTERS[cmd](job);
+            Bridge.current = job;
+        } catch (e) {
+            writeResponse(next.ctx, 200, fail(cmd + ": " + e));
+        }
+        return;
+    }
+    var fn = COMMANDS[cmd];
+    if (fn == null) {
+        writeResponse(next.ctx, 404, fail("unknown command: " + cmd + " (see commands in README)"));
+        return;
+    }
+    var result;
+    try {
+        result = fn(next.args);
+    } catch (e) {
+        var stack = e && e.stack ? " | " + String(e.stack).split("\n").slice(0, 4).join(" <- ") : "";
+        result = fail(cmd + ": " + (e && e.message ? e.message : e) + stack);
+    }
+    writeResponse(next.ctx, 200, result);
+}
+
+function onUpdate() {
+    // 每帧重设：编辑器切后台/预览时会反复覆盖此值，只设一次会导致桥挂起
+    try { CS.UnityEngine.Application.runInBackground = true; } catch (e) { }
+    if (Bridge.listener == null) return;
+    pumpAccepts();
+    stepQueue();
+}
+
+function boot() {
+    // keep the frame loop (and thus the HTTP pump) running when the editor
+    // window loses focus or is minimized - without this Unity pauses
+    try { CS.UnityEngine.Application.runInBackground = true; } catch (e) {
+        plog("runInBackground not settable: " + e);
+    }
+    if (App.project != null) {
+        startServer();
+    } else {
+        App.add_onProjectOpened(function () { startServer(); });
+    }
+    var pumpHooked = false;
+    try {
+        App.add_onUpdate(function () {
+            if (!pumpHooked) { pumpHooked = true; plog("pump via App.add_onUpdate OK"); }
+            onUpdate();
+        });
+    } catch (e) {
+        plog("App.add_onUpdate failed: " + e);
+    }
+    // 兜底泵：Timers 每 0.1 秒驱动一次（部分构建 add_onUpdate 不回调）
+    var lastBeat = 0;
+    try {
+        CS.FairyGUI.Timers.inst.Add(0.1, 0, function () {
+            if (!pumpHooked) { pumpHooked = true; plog("pump via Timers fallback OK"); }
+            onUpdate();
+        });
+        lastBeat = Date.now();
+    } catch (e2) {
+        plog("Timers fallback failed: " + e2);
+    }
+    // convenience menu item
+    try {
+        var toolMenu = App.menu.GetSubMenu("tool");
+        toolMenu.AddItem("Agent bridge: restart server", "agentbridge_restart", function () {
+            if (Bridge.current != null) {
+                plog('restart deferred: a command is still running');
+                return;
+            }
+            try { if (Bridge.listener != null) Bridge.listener.Close(); } catch (e) { }
+            Bridge.listener = null;
+            Bridge.pendingAccept = null;
+            try { registryUnregister(); } catch (e) { }
+            startServer();
+        });
+    } catch (e) {
+        plog("menu hook skipped: " + e);
+    }
+}
+
+boot();
+
+function onDestroy() {
+    try { registryUnregister(); } catch (e) { }
+    try { if (Bridge.listener != null) Bridge.listener.Close(); } catch (e) { }
+}

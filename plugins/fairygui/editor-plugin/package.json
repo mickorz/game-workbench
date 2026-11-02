@@ -1,11 +1,11 @@
 {
-	"name": "com.fgui.bridge.agent",
-	"displayName": "FairyGUI Agent Bridge",
-	"description": "HTTP command bridge for AI agents: create/modify components, publish packages",
-	"version": "0.2.0",
-	"author": {
-		"name": "fgui-agent-bridge contributors"
-	},
-	"icon": "",
-	"main": "main.js"
+  "name": "xc-link-plugin",
+  "displayName": "XCLink Bridge",
+  "description": "HTTP command bridge for AI agents: create/modify components, publish packages (fork of fairygui-agent-bridge, renamed)",
+  "version": "0.2.0",
+  "author": {
+    "name": "xc-ui-flow (fork of fgui-agent-bridge contributors)"
+  },
+  "icon": "",
+  "main": "main.js"
 }
