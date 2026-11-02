@@ -19,6 +19,7 @@
 | `backup-template` | 把当前代码与资源打包成模板 zip；执行层为仓库根 `backup_template.py`（`--no-delivery` 不带交付包 / `--list` 看清单） |
 | `create-studio` | 新增一个工作室（侧边栏工作室页 + 项目类型，12 步脚手架）；详细流程在技能内 `references/add-studio-flow.md`，改前必读 |
 | `chat-text-action` | 会话聊天文本新增可点击行为（markdown linkify + 自定义协议 + 动作透传，6 步）；详细流程在技能内 `references/chat-text-action-flow.md` |
+| `menu-item` | 侧边栏菜单项与新建下拉类型的显隐管理（sidebar-config + HIDDEN_PROJECT_TYPE_IDS，两落点 + 3 坑） |
 
 **工作室 bug 同步规则**：修复任何工作室（studio / 项目类型）相关 bug 时，若根因属于「新增工作室流程会再踩的坑」（如某步骤遗漏、某文件漏改、某机制的反直觉行为），必须把坑点和修法同步进 `.claude/skills/create-studio/references/add-studio-flow.md`（补进步骤或坑位说明），防止下次创建工作室时重蹈。只影响单个工作室自身的业务 bug 不需要同步。
 
