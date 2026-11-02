@@ -15,7 +15,7 @@ export const PROJECT_TYPES: readonly ProjectTypeOption[] = [
 ].map((value) => ({ value, label: projectTypeLabel(value) }));
 
 // 当前工具只开放 FairyGUI 与素材画布；其余类型在侧边栏（sidebar-config）与新建入口一并隐藏，恢复时删除该过滤即可
-const HIDDEN_PROJECT_TYPE_IDS = new Set(["web-game", "interactive-story", "godot-game", "general"] as const);
+const HIDDEN_PROJECT_TYPE_IDS: ReadonlySet<ProjectType> = new Set(["web-game", "interactive-story", "godot-game", "general"]);
 
 export const GAME_PROJECT_TYPES: readonly ProjectTypeOption[] = PROJECT_TYPES.filter(({ value }) => value !== "asset-canvas" && !HIDDEN_PROJECT_TYPE_IDS.has(value));
 
