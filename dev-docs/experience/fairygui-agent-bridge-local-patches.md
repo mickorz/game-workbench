@@ -44,6 +44,17 @@ CSP 违规：宿主 `connect-src` 只放行 `http://127.0.0.1:*`；且桥的 Htt
 **补丁 4**：`startServer()` 在同一 listener 上补加 `http://127.0.0.1:<port>/` 前缀
 （实测免管理员可用，失败则记日志降级）；渲染层探活固定用 `127.0.0.1`。
 
+## 追加（自定义设计页：capture_component 命令，补丁 5）
+
+设计页需要引擎级保真的组件渲染（HTML/CSS 无法表达九宫格/Gear/控制器）。解法不是
+Web 运行时（npm 无官方 fairygui-js，Web 版绑死 LayaAir 集成代价大），而是给桥加
+`capture_component`：`open_doc` 后对 `App.activeDoc.content.displayObject` 调
+`GetScreenShot(null, scale)` → `EncodeToPNG` → base64 返回。
+
+**关键坑**：`GetScreenShot` 在 `DisplayObject` 上，不在 GComponent 上——直接
+`doc.content.GetScreenShot` 会报 not a function（首版即踩）。参照
+FairyGUI-MCP 的 `handleScreenshot` 定位到正确对象。
+
 ## 预防 / 注意事项
 
 - 改插件 JS 后必跑 `node --check main.js`；**别用 Lua 冒号语法**。
