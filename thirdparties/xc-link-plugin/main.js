@@ -807,7 +807,7 @@ function boot() {
     // convenience menu item
     try {
         var toolMenu = App.menu.GetSubMenu("tool");
-        toolMenu.AddItem("Agent bridge: restart server", "agentbridge_restart", function () {
+        toolMenu.AddItem("XCLink: restart server", "xclink_restart", function () {
             if (Bridge.current != null) {
                 plog('restart deferred: a command is still running');
                 return;

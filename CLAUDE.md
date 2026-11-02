@@ -23,6 +23,25 @@
 
 **工作室 bug 同步规则**：修复任何工作室（studio / 项目类型）相关 bug 时，若根因属于「新增工作室流程会再踩的坑」（如某步骤遗漏、某文件漏改、某机制的反直觉行为），必须把坑点和修法同步进 `.claude/skills/create-studio/references/add-studio-flow.md`（补进步骤或坑位说明），防止下次创建工作室时重蹈。只影响单个工作室自身的业务 bug 不需要同步。
 
+## FairyGUI 插件：xc-link-plugin（改插件 / 新建 FGUI 工程必读）
+
+编辑器侧桥插件的**源码唯一真身在 `thirdparties/xc-link-plugin/`**（随 git 提交，含全部补丁；不要直接改 `dev-examples/` 或 `plugins/fairygui/editor-plugin/` 里的副本后再同步回来）。改名历史：原上游名 agent-bridge（fork 自 fairygui-agent-bridge），全局注册表目录 `~/.fgui-agent-bridge/` 为 MCP/CLI 发现协议约定保留不改。
+
+**接入 FGUI 工程的两种方式**：
+
+1. **开发联调（推荐）——junction 链接，修改即同步**：
+   ```powershell
+   thirdparties\xc-link-plugin\install-link.bat <FGUI工程根目录>
+   ```
+   它在 `<工程>\plugins\xc-link-plugin` 建 junction 指向源码目录（免管理员）。改 `thirdparties/xc-link-plugin/main.js` 保存即生效，无需复制；`bridge.log` 也写在源码目录。
+2. **分发给他人/交付——文件复制**：
+   ```powershell
+   plugins\fairygui\scripts\install.bat <FGUI工程根目录>
+   ```
+   把 `plugins/fairygui/editor-plugin/`（分发副本，内容与源码目录对齐）复制到 `<工程>\plugins\xc-link-plugin`。
+
+**约束**：① junction 只在本机有效，克隆仓库后需重跑 install-link.bat；② 修改插件后先 `node --check thirdparties/xc-link-plugin/main.js` 再重启编辑器；③ 三处副本（源码目录 / editor-plugin 分发副本 / 测试工程链接）内容必须保持一致，改源码目录后同步分发副本：`copy thirdparties\xc-link-plugin\main.js plugins\fairygui\editor-plugin\main.js`。
+
 ## 开发文档目录：`dev-docs/`
 
 `dev-docs/` 是本仓库专门保存开发过程文档的目录（已在 `.gitignore` 中忽略，不进入 git 仓库）。
