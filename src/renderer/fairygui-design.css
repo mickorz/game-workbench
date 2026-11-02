@@ -139,3 +139,13 @@
   color: var(--color-danger, #f85149);
   white-space: pre-wrap;
 }
+
+/* 会话文本中的 FGUI 组件名链接 */
+.fgui-component-link {
+  color: var(--color-link, #5a9dfd);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.fgui-component-link:hover {
+  opacity: 0.8;
+}

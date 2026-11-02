@@ -362,6 +362,63 @@ COMMANDS.capture_component = function (a) {
     return ok({ png: CS.System.Convert.ToBase64String(png), width: w, height: h, scale: scale });
 };
 
+// 跨包按名搜索组件：返回 [{pkg, name}]，用于会话文本中的组件名点击定位
+COMMANDS.search_component = function (a) {
+    var query = String(a && a.name || "").toLowerCase();
+    if (!query) throw "args.name required";
+    var out = [];
+    var pkgs = App.project.allPackages;
+    for (var i = 0; i < pkgs.Count; i++) {
+        var pkg = pkgs.get_Item(i);
+        try { pkg.EnsureOpen(); } catch (eOpen) { }
+        var items = pkg.items;
+        if (items == null) continue;
+        for (var j = 0; j < items.Count; j++) {
+            var item = items.get_Item(j);
+            var itemType = "";
+            try { itemType = String(item.type); } catch (eType) { }
+            if (itemType !== "component") continue;
+            var itemName = String(item.name || "");
+            if (itemName.toLowerCase().indexOf(query) >= 0) {
+                out.push({ pkg: pkg.name, name: itemName, id: String(item.id || "") });
+                if (out.length >= 20) return ok({ matches: out, truncated: true });
+            }
+        }
+    }
+    return ok({ matches: out, truncated: false });
+};
+
+// 子对象名 fallback：组件名搜不到时，扫各包组件 XML 找包含该名字的组件（磁盘读，点击时一次性）
+COMMANDS.search_component_in_xml = function (a) {
+    var query = String(a && a.name || "");
+    if (!query) throw "args.name required";
+    var out = [];
+    var pkgs = App.project.allPackages;
+    for (var i = 0; i < pkgs.Count; i++) {
+        var pkg = pkgs.get_Item(i);
+        try { pkg.EnsureOpen(); } catch (eOpen) { }
+        var basePath = String(pkg.basePath || "");
+        if (!basePath) continue;
+        var xmlFiles = null;
+        try { xmlFiles = CS.System.IO.Directory.GetFiles(basePath, "*.xml", CS.System.IO.SearchOption.AllDirectories); } catch (eScan) { continue; }
+        for (var j = 0; j < xmlFiles.Length; j++) {
+            var file = xmlFiles.GetValue(j);
+            var fileName = CS.System.IO.Path.GetFileName(file);
+            if (fileName === "package.xml") continue;
+            var text = "";
+            try { text = CS.System.IO.File.ReadAllText(file); } catch (eRead) { continue; }
+            if (text.indexOf('name="' + query + '"') >= 0) {
+                var compName = fileName.replace(/\.xml$/, "");
+                var dup = false;
+                for (var k = 0; k < out.length; k++) { if (out[k].name === compName) { dup = true; break; } }
+                if (!dup) out.push({ pkg: pkg.name, name: compName, via: "xml" });
+                if (out.length >= 10) return ok({ matches: out, truncated: true });
+            }
+        }
+    }
+    return ok({ matches: out, truncated: false });
+};
+
 COMMANDS.bridge_log = function (a) {
     var n = a && a.tail ? a.tail : 40;
     return ok(Bridge.logLines.slice(-n));

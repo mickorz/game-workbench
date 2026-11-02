@@ -157,6 +157,7 @@ export function ProjectShell({
   const saveDesign = useRef<(() => Promise<void>) | undefined>(undefined);
   const registerDesignSave = useCallback((save: (() => Promise<void>) | undefined) => { saveDesign.current = save; }, []);
   const [designContext, setDesignContext] = useState<PromptContext>();
+  const [pendingDesignComponent, setPendingDesignComponent] = useState<{ pkg: string; name: string; token: number }>();
   const [dismissedDesign, setDismissedDesign] = useState<string>();
   // "Ask AI to fix" in the Playtest window lands in this chat, ready to send.
   usePlaytestAskRequests(state.project?.id, requestPrompt);
@@ -764,6 +765,30 @@ export function ProjectShell({
     setOpenFileRequest((current) => ({ path, id: (current?.id ?? 0) + 1 }));
     if (isGodotProject) setGodotWorkspaceVisibility(true);
   }, [changeWorkspaceView, isGodotProject, setGodotWorkspaceVisibility]);
+  const openDesignComponent = useCallback(async (name: string): Promise<void> => {
+    const BRIDGE = "http://127.0.0.1:7531/";
+    async function call<T>(cmd: string, args: Record<string, unknown>): Promise<T> {
+      const response = await fetch(BRIDGE, { method: "POST", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ cmd, args }) });
+      const payload = await response.json() as { ok: boolean; data?: T; error?: string };
+      if (!payload.ok) throw new Error(payload.error ?? cmd);
+      return payload.data as T;
+    }
+    let target: { pkg: string; name: string } | undefined;
+    try {
+      const direct = await call<{ matches: { pkg: string; name: string }[] }>("search_component", { name });
+      if (direct.matches.length) target = { pkg: direct.matches[0].pkg, name: direct.matches[0].name };
+      else {
+        const inXml = await call<{ matches: { pkg: string; name: string }[] }>("search_component_in_xml", { name });
+        if (inXml.matches.length) target = { pkg: inXml.matches[0].pkg, name: inXml.matches[0].name };
+      }
+    } catch {
+      return; // 桥不通时静默放弃，不打断会话
+    }
+    if (!target) return;
+    setPendingDesignComponent({ ...target, token: Date.now() });
+    changeWorkspaceView(true);
+  }, [changeWorkspaceView]);
+
   const addToChat = useCallback((text: string) => {
     if (!conversation) return;
     composerDrafts.get({ projectId, conversationId: conversation.id }).update({ reference: { text } });
@@ -836,6 +861,7 @@ export function ProjectShell({
                 projectId={projectId}
                 workspacePath={project?.workspacePath}
                 onOpenWorkspaceFile={project ? openWorkspaceFile : undefined}
+                onComponentClick={project?.type === "fairygui" ? (name) => void openDesignComponent(name) : undefined}
                 revisionDisabled={agentBusy || restoring || unfinishedRestore || state.plan.mode !== "normal" || state.pendingPrompts.length > 0 || state.connection !== "open"}
                 waitingForInput={Boolean(questionnaire || approval)}
                 onRevise={revisePrompt}
@@ -946,6 +972,7 @@ export function ProjectShell({
           project={project}
           onContextChange={setDesignContext}
           onLeave={() => changeWorkspaceView(false)}
+          initialComponent={pendingDesignComponent}
         />
       ) : project.type !== "interactive-story" && project.type !== "asset-canvas" ? (
         <CodingWorkspace

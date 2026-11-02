@@ -30,3 +30,4 @@ backups/
 
 # FairyGUI 测试工程（开发期联调数据，体积大，不进 git）
 dev-examples/fairygui-test-project/
+raw_msg.txt

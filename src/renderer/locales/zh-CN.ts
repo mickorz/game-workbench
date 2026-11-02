@@ -10,6 +10,7 @@ const zhCN: typeof en = {
     checkAgain: "重新检测",
   },
   fairyguiDesign: {
+    openComponent: "在设计页查看",
     noComponents: "此包内没有组件",
     backToWorkspace: "返回工作区",
     title: "FairyGUI 设计",

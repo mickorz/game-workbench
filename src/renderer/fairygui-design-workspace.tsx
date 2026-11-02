@@ -42,10 +42,12 @@ function collectComponents(node: ItemInfo, pkgName: string, out: { pkg: string; 
   }
 }
 
-export function FairyguiDesignWorkspace({ project, onContextChange, onLeave }: {
+export function FairyguiDesignWorkspace({ project, onContextChange, onLeave, initialComponent }: {
   project: ProjectState;
   onContextChange?: (context: PromptContext | undefined) => void;
   onLeave?: () => void;
+  /** 从会话文本组件名点击进入时携带的目标；token 变化即重新选中 */
+  initialComponent?: { pkg: string; name: string; token: number };
 }) {
   const [packages, setPackages] = useState<PkgInfo[]>([]);
   // 包内组件按需加载：只有用户展开某包时才拉它的资源树，
@@ -75,6 +77,22 @@ export function FairyguiDesignWorkspace({ project, onContextChange, onLeave }: {
   }, []);
 
   useEffect(() => { void loadTree(); }, [loadTree]);
+
+  // 从会话组件名点击进入：直接选中目标组件（并展开其所在包）
+  useEffect(() => {
+    if (!initialComponent) return;
+    setSelected({ pkg: initialComponent.pkg, name: initialComponent.name });
+    setExpanded(initialComponent.pkg);
+    setPkgComponents((current) => current[initialComponent.pkg] ? current : { ...current, [initialComponent.pkg]: { names: [] } });
+    void (async () => {
+      try {
+        const root = await bridgeCall<ItemInfo>("list_items", { pkg: initialComponent.pkg, depth: 2 });
+        const out: { pkg: string; name: string }[] = [];
+        collectComponents(root, initialComponent.pkg, out);
+        setPkgComponents((current) => ({ ...current, [initialComponent.pkg]: { names: out.map((item) => item.name) } }));
+      } catch { /* 树加载失败不影响主预览 */ }
+    })();
+  }, [initialComponent?.token]);
 
   const togglePackage = useCallback(async (pkgName: string): Promise<void> => {
     if (expanded === pkgName) { setExpanded(undefined); return; }

@@ -49,6 +49,7 @@ interface AgentTimelineProps {
   projectId?: string;
   workspacePath?: string;
   onOpenWorkspaceFile?: (path: string) => void;
+  onComponentClick?: (name: string) => void;
   revisionDisabled?: boolean;
   onRevise?: (prompt: string) => Promise<boolean>;
   /** Puts the project back to before the message the checkpoint was taken for. */
@@ -61,7 +62,7 @@ interface AgentTimelineProps {
   waitingForInput?: boolean;
 }
 
-const WorkspaceLinkContext = createContext<{ workspacePath?: string; onOpenWorkspaceFile?: (path: string) => void }>({});
+const WorkspaceLinkContext = createContext<{ workspacePath?: string; onOpenWorkspaceFile?: (path: string) => void; onComponentClick?: (name: string) => void }>({});
 const completedDisplays = new WeakMap<ThreadTurn, TurnDisplay>();
 
 function turnDisplay(turn: ThreadTurn): TurnDisplay {
@@ -71,7 +72,7 @@ function turnDisplay(turn: ThreadTurn): TurnDisplay {
   return display;
 }
 
-export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, projectId = "", workspacePath, onOpenWorkspaceFile, revisionDisabled, onRevise, onRestore, changeControls, workspaceRevision, onAddToChat, waitingForInput = false }: AgentTimelineProps) {
+export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, projectId = "", workspacePath, onOpenWorkspaceFile, onComponentClick, revisionDisabled, onRevise, onRestore, changeControls, workspaceRevision, onAddToChat, waitingForInput = false }: AgentTimelineProps) {
   const [selectionRoot, setSelectionRoot] = useState<HTMLDivElement | null>(null);
   const [editingItemId, setEditingItemId] = useState<string>();
   const [draft, setDraft] = useState("");
@@ -80,7 +81,7 @@ export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, p
   const [submitting, setSubmitting] = useState(false);
   const turns = useMemo(() => mergeCompletedCompactionTurns(sourceTurns), [sourceTurns]);
   const displays = useMemo(() => turns.map(turnDisplay), [turns]);
-  const workspaceLinks = useMemo(() => ({ workspacePath, onOpenWorkspaceFile }), [workspacePath, onOpenWorkspaceFile]);
+  const workspaceLinks = useMemo(() => ({ workspacePath, onOpenWorkspaceFile, onComponentClick }), [workspacePath, onOpenWorkspaceFile, onComponentClick]);
   const activeIndex = turns.findIndex((turn) => turn.status === "inProgress");
   const latestSteeringIndex = turns.findLastIndex((turn) => turn.steering);
   const steeringPending = activeIndex >= 0 && latestSteeringIndex > activeIndex;

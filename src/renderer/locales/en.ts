@@ -9,6 +9,7 @@ const en = {
     checkAgain: "Check again",
   },
   fairyguiDesign: {
+    openComponent: "View in design",
     noComponents: "No components in this package",
     backToWorkspace: "Back to workspace",
     title: "FairyGUI Design",
