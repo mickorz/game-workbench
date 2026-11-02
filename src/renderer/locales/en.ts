@@ -8,6 +8,17 @@ const en = {
     unavailable: "Codex image generation needs attention",
     checkAgain: "Check again",
   },
+  fairyguiDesign: {
+    noComponents: "No components in this package",
+    backToWorkspace: "Back to workspace",
+    title: "FairyGUI Design",
+    components: "Components",
+    loadingTree: "Loading component tree from the editor…",
+    selectPrompt: "Select a component on the left to preview and read its source",
+    loadingComponent: "Rendering component…",
+    xmlSource: "Component XML source",
+    bridgeOffline: "Editor bridge offline: open the FairyGUI editor with the project loaded.",
+  },
   common: {
     openName: "Open {{name}}",
     tryAgain: "Try again",

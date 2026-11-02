@@ -9,6 +9,17 @@ const zhCN: typeof en = {
     unavailable: "Codex 图片生成需要处理",
     checkAgain: "重新检测",
   },
+  fairyguiDesign: {
+    noComponents: "此包内没有组件",
+    backToWorkspace: "返回工作区",
+    title: "FairyGUI 设计",
+    components: "组件",
+    loadingTree: "正在从编辑器加载组件树…",
+    selectPrompt: "在左侧选择一个组件查看渲染效果与源码",
+    loadingComponent: "正在渲染组件…",
+    xmlSource: "组件 XML 源码",
+    bridgeOffline: "编辑器桥未连接：请打开 FairyGUI 编辑器并确认工程已加载。",
+  },
   common: {
     openName: "打开 {{name}}",
     tryAgain: "重试",

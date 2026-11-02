@@ -335,6 +335,33 @@ COMMANDS.screenshot = function (a) {
 };
 
 // internal for tests: expose bridge log tail
+// 组件画布截图：用 FairyGUI 自身 GetScreenShot 截当前打开文档的舞台内容，
+// 返回 base64 PNG（编辑器内置 ScreenCapture 被裁，此路保真度 100%）
+COMMANDS.capture_component = function (a) {
+    var doc = App.activeDoc;
+    if (doc == null) throw "no open document (open_doc first)";
+    var scale = a && a.scale ? Number(a.scale) : 1;
+    var content = doc.content;
+    if (content == null) throw "document has no content";
+    var dobj = content.displayObject; // GetScreenShot 在 DisplayObject 上，不在 GComponent 上
+    if (dobj == null) throw "content has no displayObject";
+    var tex = null;
+    try {
+        tex = dobj.GetScreenShot(null, scale); // Texture2D
+    } catch (e) {
+        throw "GetScreenShot failed in this build: " + e;
+    }
+    if (tex == null) throw "GetScreenShot returned null";
+    var w = tex.width, h = tex.height;
+    var png;
+    try {
+        png = CS.UnityEngine.ImageConversion.EncodeToPNG(tex);
+    } finally {
+        try { CS.UnityEngine.Object.Destroy(tex); } catch (eDestroy) { }
+    }
+    return ok({ png: CS.System.Convert.ToBase64String(png), width: w, height: h, scale: scale });
+};
+
 COMMANDS.bridge_log = function (a) {
     var n = a && a.tail ? a.tail : 40;
     return ok(Bridge.logLines.slice(-n));

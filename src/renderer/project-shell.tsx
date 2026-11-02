@@ -66,6 +66,7 @@ import { ConversationMenu } from "./conversation-menu.js";
 import { AgentTimeline } from "./agent-timeline.js";
 import type { TurnChangesControls } from "./turn-changes.js";
 import { CodingWorkspace } from "./coding-workspace.js";
+import { FairyguiDesignWorkspace } from "./fairygui-design-workspace.js";
 import { PlayableEditorWorkspace } from "./playable-editor-workspace.js";
 import type { PlayableChatState } from "./playable-chat.js";
 import { Composer, type ComposerDraft } from "./composer.js";
@@ -940,7 +941,13 @@ export function ProjectShell({
       </WorkspaceAgentPane>}
     >
       <ErrorBoundary key={`${projectId}:${workspaceEpoch}`} label={t("errorBoundary.label.workspace")} resetKey={project?.id} onHome={onHome} homeLabel={homeLabel}>
-      {!project ? <section className="viewer-pane" /> : project.type !== "interactive-story" && project.type !== "asset-canvas" ? (
+      {!project ? <section className="viewer-pane" /> : project.type === "fairygui" && designOpen ? (
+        <FairyguiDesignWorkspace
+          project={project}
+          onContextChange={setDesignContext}
+          onLeave={() => changeWorkspaceView(false)}
+        />
+      ) : project.type !== "interactive-story" && project.type !== "asset-canvas" ? (
         <CodingWorkspace
           project={project}
           agentBusy={agentBusy}
@@ -957,7 +964,7 @@ export function ProjectShell({
             try { await stopPreview(project.id); } catch (cause) { dispatch({ type: "notice", message: errorMessage(cause) }); }
           }}
           onAskAgent={requestPrompt}
-          designOpen={designOpen}
+          designOpen={project.type === "fairygui" ? false : designOpen}
           onDesignOpenChange={changeWorkspaceView}
           onDesignSaveReady={registerDesignSave}
           onDesignContextChange={setDesignContext}
