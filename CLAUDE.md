@@ -63,12 +63,14 @@
    | 问题排查 | `dev-docs/troubleshooting/` | Bug 分析、故障排查、复盘 |
    | 调研笔记 | `dev-docs/research/` | 技术调研、选型对比、学习笔记 |
    | 任务计划 | `dev-docs/planning/` | 任务拆解、进度计划、里程碑 |
+   | 任务待办 | `dev-docs/todos/` | 后续计划中的任务池（backlog，尚未启动的任务想法与待办清单） |
    | 执行进度 | `dev-docs/progress/` | 阶段性进度总结、里程碑状态 |
    | 执行报告 | `dev-docs/progress-result/` | 阶段完整执行报告、验收结果（区别于 progress 的持续进度表） |
    | 使用指南 | `dev-docs/guides/` | 操作手册、环境搭建、工作流说明 |
    | 经验沉淀 | `dev-docs/experience/` | 踩坑记录、问题解决方案、经验教训 |
 
 4. 若现有分类不适用，可新建类型子文件夹，但需保持命名风格一致，并在本文件表格中补充登记。
+5. **需求/计划文档生命周期归档**：`dev-docs/design/` 中的需求文档完成后，移动到 `dev-docs/design/completed/` 下归档；`dev-docs/planning/` 中的执行/计划文档同理，完成后移动到 `dev-docs/planning/completed/`；`dev-docs/todos/` 中的待办同理，完成后移动到 `dev-docs/todos/completed/`。归档由后续会话自动执行，无需向用户确认。
 5. 文档统一使用 Markdown 格式，文件名应能体现内容，例如 `2026-10-03-workflow-design.md`。
 6. **自动归类，无需询问**：发现 `dev-docs/` 根目录下有未归类的文档时，直接按内容判断类型并移动到对应子文件夹，不要向用户确认。
 
