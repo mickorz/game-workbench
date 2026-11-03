@@ -15,7 +15,7 @@ agent 注册信息里都已经带着这些字符串落在磁盘上。改名会�
 
 | 标识符 | 位置 | 冻结原因 |
 | --- | --- | --- |
-| `.ohmygame-plugin/` | `plugins/` 下的插件目录 | 插件发现协议；15 个内置与第三方插件及存量工程按此目录名寻址。类似 `.git`，目录名即契约。 |
+| `.ohmygame-plugin/` | `plugins/` 与已装插件归档里的旧名插件清单目录 | 作为发现回退永久保留：存量已装插件与为上游 ohmygame 生态写的插件都带此目录。写入已迁移 `.xcflow-plugin/`（2026-11-03）；两者都在 `PLUGIN_MANIFEST_PATHS` 里，新名优先。类似 `.git`，目录名对已发布物是契约。 |
 | `ohmygame-godot` | `src/shared/mcp.ts` 的 `GODOT_MCP_SERVER_ID` | MCP 服务 id，daemon 与插件两端字符串匹配。 |
 | `ohmygame` | `src/shared/plugins.ts` 的插件市场索引 id | 插件目录查询按此 id 寻址。 |
 | `ohmygame-studio` | 外部 MCP 服务名（`EXTERNAL_MCP_SERVER_NAME`）与 `integrations/skills/xcflow-studio/SKILL.md` 里技能的 `name` | 外部 CLI 注册进 `~/.claude.json` 的名字、MCP 握手名，也是用户机器上的安装目录 `~/.claude/skills/ohmygame-studio`。改名会让存量注册孤儿化。仓库内源目录已改 `integrations/skills/xcflow-studio`，仅协议名保留。 |

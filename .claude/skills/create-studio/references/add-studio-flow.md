@@ -105,7 +105,7 @@ Web 预览不用管：`isWebRuntimeProjectType` 只认 `web-game`/`general`，�
 
 ## 步骤 10：配套插件（若有）
 
-配套插件包的 `plugins/<key>/.ohmygame-plugin/plugin.json`：
+配套插件包的 `plugins/<key>/.xcflow-plugin/plugin.json`（新名；旧名 `.ohmygame-plugin/plugin.json` 仅作存量回落，不再用于新建）：
 `interface.projectTypes` 加 `"<key>"`。
 若插件包尚未存在，本步骤跳过（壳不依赖插件也能跑）。
 

@@ -18,7 +18,7 @@ names — high risk, zero user value.
 
 | Identifier | Where | Why it must stay |
 | --- | --- | --- |
-| `.ohmygame-plugin/` | Plugin folders under `plugins/` | Plugin discovery protocol; 15 bundled and third-party plugins plus existing projects are addressed by this folder name. Like `.git`, the directory name is a contract. |
+| `.ohmygame-plugin/` | Legacy plugin manifest folder under `plugins/` and in installed/plugin archives | Still read forever as the discovery fallback: existing installed plugins and plugins written for the upstream ohmygame ecosystem carry this folder. Writing moved to `.xcflow-plugin/` (2026-11-03); both live in `PLUGIN_MANIFEST_PATHS` with the new path first. Like `.git`, the folder name is a contract for anything already shipped. |
 | `ohmygame-godot` | `GODOT_MCP_SERVER_ID` in `src/shared/mcp.ts` | MCP server id matched on both the daemon and plugin sides. |
 | `ohmygame` | Marketplace index id in `src/shared/plugins.ts` | Plugin catalog lookups key on this id. |
 | `ohmygame-studio` | External MCP server name (`EXTERNAL_MCP_SERVER_NAME`) and the Skill's `name` in `integrations/skills/xcflow-studio/SKILL.md` | The name external CLIs registered in `~/.claude.json`, the MCP handshake name, and the installed folder `~/.claude/skills/ohmygame-studio`. Renaming would orphan existing registrations. The repo's own source folder is `integrations/skills/xcflow-studio`; only the protocol name stays. |
