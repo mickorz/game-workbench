@@ -3,6 +3,7 @@ export interface McpToolIdentity {
   tool: string;
 }
 
+// 历史协议名：daemon 与插件两端字符串匹配的 MCP id，冻结不改（见 docs/protocol-names.md）
 export const GODOT_MCP_SERVER_ID = "ohmygame-godot";
 const KNOWN_MCP_SERVERS = [GODOT_MCP_SERVER_ID];
 

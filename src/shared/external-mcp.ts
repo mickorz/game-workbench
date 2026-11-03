@@ -9,6 +9,7 @@ export const EXTERNAL_MCP_CONTRACT_VERSION = 1;
  * server XC-UI-Flow gives the coding agents it runs, so a CLI that loads both
  * never confuses one for the other.
  */
+// 外部 CLI 注册与 MCP 握手用的服务名，存量注册按此寻址，冻结不改（见 docs/protocol-names.md）
 export const EXTERNAL_MCP_SERVER_NAME = "ohmygame-studio";
 
 /** Absolute folders the client works in, as a JSON array; the launcher sends the client's MCP roots. */

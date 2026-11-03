@@ -68,6 +68,7 @@ and how an import becomes a new project.
 | [model-image-history.md](model-image-history.md) | Request image budgets, recall, OpenAI continuation, and file lifecycle.                                                        |
 | [desktop-releases.md](desktop-releases.md)       | Maintainer packaging, signing, update feeds, publishing, and rollback.                                                         |
 | [ui-languages.md](ui-languages.md)               | Renderer translations, language selection, what stays in English, and terminology.                                             |
+| [protocol-names.md](protocol-names.md)         | Frozen `ohmygame` protocol names and identifiers: why they stay, the full list, and the rename policy.                          |
 
 [Video trimming](video-trimming.md) covers Library and Asset Canvas video
 trimming, the shared preview controls, encoding, and the Library record.

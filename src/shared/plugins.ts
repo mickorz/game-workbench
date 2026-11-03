@@ -53,6 +53,7 @@ export interface PluginMarketplaceRef {
   visibility?: "public" | "personal";
 }
 
+// id 为插件市场索引协议名，冻结不改；displayName 面向用户（见 docs/protocol-names.md）
 export const OHMYGAME_MARKETPLACE: PluginMarketplaceRef = { id: "ohmygame", displayName: "XC-UI-Flow" };
 export const PERSONAL_MARKETPLACE: PluginMarketplaceRef = { id: "personal", displayName: "Personal" };
 
