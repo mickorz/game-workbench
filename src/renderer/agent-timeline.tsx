@@ -539,7 +539,7 @@ function WaitingActivity() {
   );
 }
 
-// 已完成问卷的只读转写记录：每问列出全部选项，选中打勾，自定义答案引号显示，未答/跳过标灰。
+// 已完成问卷的只读转写记录：每问列出全部选项，选中打勾（多选支持多项），自定义答案引号显示，未答/跳过标灰，备注附在题下。
 function QuestionnaireRecord({ item }: { item: Extract<ThreadItem, { type: "userInputRequest" }> }) {
   const answers = new Map((item.answers ?? []).map((answer) => [answer.questionId, answer]));
   const skipped = (item.status === "cancelled" || item.status === "failed") || (item.answers?.length ?? 0) === 0;
@@ -548,26 +548,31 @@ function QuestionnaireRecord({ item }: { item: Extract<ThreadItem, { type: "user
       {item.error ? <div className="questionnaire-record-error">{item.error.message}</div> : null}
       {item.questions.map((question) => {
         const answer = answers.get(question.id);
+        // 多选答案的 value 为换行拼接，拆开匹配每个选项。
+        const selected = answer ? answer.value.split("\n").map((line) => line.trim()).filter(Boolean) : [];
         return (
           <div key={question.id} className="questionnaire-record-question">
             <div className="questionnaire-record-prompt">{question.prompt}</div>
             <ul className="questionnaire-record-options">
               {question.options.map((option) => {
-                const selected = answer?.custom !== true && answer?.value === option.value;
+                const isSelected = selected.includes(option.value);
                 return (
-                  <li key={option.value} className={selected ? "questionnaire-record-option-selected" : undefined} data-selected={selected || undefined}>
-                    {selected ? <Check size={14} aria-hidden="true" /> : <Circle size={14} aria-hidden="true" />}
+                  <li key={option.value} className={isSelected ? "questionnaire-record-option-selected" : undefined} data-selected={isSelected || undefined}>
+                    {isSelected ? <Check size={14} aria-hidden="true" /> : <Circle size={14} aria-hidden="true" />}
                     <span>{option.label}</span>
                   </li>
                 );
               })}
-              {answer?.custom ? (
-                <li className="questionnaire-record-option-selected" data-selected>
-                  <Check size={14} aria-hidden="true" />
-                  <span>{t("questionnaire.quotedAnswer", { answer: answer.label })}</span>
-                </li>
-              ) : null}
+              {answer?.custom ? selected
+                .filter((value) => !question.options.some((option) => option.value === value))
+                .map((value) => (
+                  <li key={value} className="questionnaire-record-option-selected" data-selected>
+                    <Check size={14} aria-hidden="true" />
+                    <span>{t("questionnaire.quotedAnswer", { answer: value })}</span>
+                  </li>
+                )) : null}
             </ul>
+            {answer?.notes ? <div className="questionnaire-record-notes">{t("questionnaire.notes", { notes: answer.notes })}</div> : null}
             {!answer ? <div className="questionnaire-record-skipped">{t("questionnaire.skippedQuestion")}</div> : null}
           </div>
         );

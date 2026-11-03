@@ -864,6 +864,10 @@ export interface QuestionnaireOption {
   label: string;
   description?: string;
   recommended?: boolean;
+  /** 推荐理由，内联显示在选项卡内（thinkrail recommendedReason）。 */
+  recommendedReason?: string;
+  /** 选项预览，任一选项带预览时卡片双栏展示。 */
+  preview?: string;
 }
 
 export interface QuestionnaireQuestion {
@@ -871,6 +875,10 @@ export interface QuestionnaireQuestion {
   prompt: string;
   options: QuestionnaireOption[];
   allowOther: boolean;
+  /** 多选：允许多个答案同时成立，值为换行拼接的选中项。 */
+  multiSelect?: boolean;
+  /** tab 导航用的短标题；缺省用 prompt。 */
+  header?: string;
 }
 
 export interface QuestionnaireAnswer {
@@ -878,6 +886,8 @@ export interface QuestionnaireAnswer {
   value: string;
   label: string;
   custom: boolean;
+  /** 针对该题答案的备注（多选时按「选项: 备注」逐行拼接）。 */
+  notes?: string;
 }
 
 export interface QuestionnaireResult {
@@ -887,7 +897,7 @@ export interface QuestionnaireResult {
 
 export interface AnswerQuestionnaireRequest {
   requestId: string;
-  answers?: Array<{ questionId: string; value: string }>;
+  answers?: Array<{ questionId: string; value: string; notes?: string }>;
   cancelled?: boolean;
 }
 

@@ -794,6 +794,27 @@ describe("AgentTimeline", () => {
     expect(html).not.toContain("questionnaire-record");
   });
 
+  it("recaps a multi-select questionnaire with notes", () => {
+    const html = renderToStaticMarkup(<AgentTimeline items={[
+      user(),
+      {
+        id: "q", turnId: "turn-1", type: "userInputRequest", requestId: "q", status: "completed",
+        questions: [{
+          id: "q1", prompt: "Which parts?", multiSelect: true,
+          options: [{ value: "a", label: "A" }, { value: "b", label: "B" }], allowOther: true,
+        }],
+        answers: [{ questionId: "q1", value: "a\nb\ncustom text", label: "A, B, custom text", custom: true, notes: "A: needs care" }],
+      },
+    ]} />);
+
+    // A 与 B 均勾选，自定义答案另列一行，备注附在题下。
+    expect(html.match(/questionnaire-record-option-selected/g)).toHaveLength(3);
+    expect(html).toContain(">A<");
+    expect(html).toContain(">B<");
+    expect(html).toContain("&quot;custom text&quot;");
+    expect(html).toContain("Notes: A: needs care");
+  });
+
   it("shows the Godot brand and operation for MCP tool calls", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       user(),

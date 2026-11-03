@@ -1337,6 +1337,13 @@ const zhCN: typeof en = {
     tabsLabel: "问题列表",
     quotedAnswer: "“{{answer}}”",
     skippedQuestion: "未作答",
+    why: "理由：",
+    preview: "预览 — {{label}}",
+    addNote: "添加备注",
+    editNote: "编辑备注",
+    noteLabel: "{{option}} 的备注",
+    notePlaceholder: "为该选项添加备注",
+    notes: "备注：{{notes}}",
   },
   agentError: {
     runtime_probe_failed: {

@@ -796,6 +796,40 @@ describe("AgentManager", () => {
     await manager.close();
   });
 
+  it("accepts multi-select questionnaire answers joined by newlines with notes", async () => {
+    const session = new FakeSession();
+    const prompt = deferred<void>();
+    session.prompt.mockImplementation(() => prompt.promise);
+    const events = new RuntimeEventBus();
+    const manager = new AgentManager(events, { createSession: async () => session });
+    const project = createProject();
+    const conversation = createConversation(project);
+
+    const run = manager.prompt(project, conversation, "Plan this", [], [], "planning").result!;
+    await vi.waitFor(() => expect(manager.agentState(conversation).status).toBe("running"));
+    const pending = manager.askQuestionnaire(project.id, conversation.summary.id, "questionnaire-1", {
+      questions: [{
+        id: "scope",
+        prompt: "Which parts should ship first?",
+        multiSelect: true,
+        options: [{ value: "game", label: "A game" }, { value: "tool", label: "A tool" }, { value: "site", label: "A site" }],
+      }],
+    });
+
+    manager.answerQuestionnaire(project.id, conversation.summary.id, "questionnaire-1", [{
+      questionId: "scope",
+      value: "game\ntool",
+      notes: "A game: start with the core loop",
+    }]);
+    await expect(pending).resolves.toMatchObject({
+      cancelled: false,
+      answers: [{ value: "game\ntool", label: "A game, A tool", custom: false, notes: "A game: start with the core loop" }],
+    });
+    prompt.resolve();
+    await expect(run).resolves.toBe("completed");
+    await manager.close();
+  });
+
   it("sends images through Pi prompt options", async () => {
     const session = new FakeSession();
     const manager = new AgentManager(new RuntimeEventBus(), { createSession: async () => session });

@@ -1331,7 +1331,9 @@ export class AgentManager {
       questions: Array<{
         id: string;
         prompt: string;
-        options: Array<{ value: string; label: string; description?: string; recommended?: boolean }>;
+        header?: string;
+        multiSelect?: boolean;
+        options: Array<{ value: string; label: string; description?: string; recommended?: boolean; recommendedReason?: string; preview?: string }>;
         allowOther?: boolean;
       }>;
     },
@@ -1351,11 +1353,15 @@ export class AgentManager {
       questions: input.questions.map((question) => ({
         id: question.id,
         prompt: question.prompt.trim(),
+        ...(question.header?.trim() ? { header: question.header.trim() } : {}),
+        ...(question.multiSelect ? { multiSelect: true } : {}),
         options: question.options.map((option) => ({
           value: option.value,
           label: option.label.trim(),
           ...(option.description?.trim() ? { description: option.description.trim() } : {}),
           ...(option.recommended ? { recommended: true } : {}),
+          ...(option.recommendedReason?.trim() ? { recommendedReason: option.recommendedReason.trim() } : {}),
+          ...(option.preview?.trim() ? { preview: option.preview.trim() } : {}),
         })),
         allowOther: question.allowOther !== false,
       })),
@@ -1381,7 +1387,7 @@ export class AgentManager {
     projectId: string,
     conversationId: string,
     requestId: string,
-    answers: Array<{ questionId: string; value: string }> = [],
+    answers: Array<{ questionId: string; value: string; notes?: string }> = [],
     cancelled = false,
   ): void {
     const key = conversationKey(projectId, conversationId);
@@ -2821,15 +2827,33 @@ function validateQuestionnaire(questions: Array<{
 
 function questionnaireAnswers(
   questions: QuestionnaireQuestion[],
-  answers: Array<{ questionId: string; value: string }>,
+  answers: Array<{ questionId: string; value: string; notes?: string }>,
 ): QuestionnaireAnswer[] {
   const byQuestion = new Map(answers.map((answer) => [answer.questionId, answer.value.trim()]));
   if (byQuestion.size !== questions.length || answers.length !== questions.length) {
     throw new Error("Every question requires one answer");
   }
   return questions.map((question) => {
+    const submitted = answers.find((answer) => answer.questionId === question.id);
     const value = byQuestion.get(question.id);
     if (!value) throw new Error("Question answers cannot be blank");
+    const notes = submitted?.notes?.trim();
+    const withNotes = notes ? { notes } : {};
+    if (question.multiSelect) {
+      // 多选答案的 value 为换行拼接的选中项，逐行校验。
+      const lines = value.split("\n").map((line) => line.trim()).filter(Boolean);
+      if (lines.length === 0) throw new Error("Question answers cannot be blank");
+      const options = lines.map((line) => question.options.find((candidate) => candidate.value === line) ?? null);
+      const custom = options.some((option) => !option);
+      if (custom && !question.allowOther) throw new Error("Custom answers are not allowed for this question");
+      return {
+        questionId: question.id,
+        value,
+        label: custom ? value : options.map((option) => option!.label).join(", "),
+        custom,
+        ...withNotes,
+      };
+    }
     const option = question.options.find((candidate) => candidate.value === value);
     if (!option && !question.allowOther) throw new Error("Custom answers are not allowed for this question");
     return {
@@ -2837,6 +2861,7 @@ function questionnaireAnswers(
       value,
       label: option?.label ?? value,
       custom: !option,
+      ...withNotes,
     };
   });
 }
@@ -2860,10 +2885,12 @@ function questionnaireThreadItem(
         label: option.label,
         ...(typeof option.description === "string" ? { description: option.description } : {}),
         ...(option.recommended === true ? { recommended: true } : {}),
+        ...(typeof option.recommendedReason === "string" && option.recommendedReason.trim() ? { recommendedReason: option.recommendedReason.trim() } : {}),
+        ...(typeof option.preview === "string" && option.preview.trim() ? { preview: option.preview.trim() } : {}),
       }];
     });
     if (options.length !== question.options.length) return [];
-    return [{ id: question.id, prompt: question.prompt, options, allowOther: question.allowOther !== false }];
+    return [{ id: question.id, prompt: question.prompt, options, allowOther: question.allowOther !== false, ...(question.multiSelect === true ? { multiSelect: true } : {}), ...(typeof question.header === "string" && question.header.trim() ? { header: question.header.trim() } : {}) }];
   });
   if (parsed.length !== questions.length) return undefined;
   return {

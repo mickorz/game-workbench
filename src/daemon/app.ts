@@ -439,7 +439,7 @@ const answerQuestionnaireSchema = {
       cancelled: { type: "boolean" },
       answers: {
         type: "array",
-        maxItems: 3,
+        maxItems: 4,
         items: {
           type: "object",
           additionalProperties: false,
@@ -447,6 +447,7 @@ const answerQuestionnaireSchema = {
           properties: {
             questionId: { type: "string", minLength: 1, maxLength: 80 },
             value: { type: "string", minLength: 1, maxLength: 2_000 },
+            notes: { type: "string", maxLength: 2_000 },
           },
         },
       },

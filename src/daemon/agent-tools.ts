@@ -117,14 +117,18 @@ export function createAgentTools(
       questions: Type.Array(Type.Object({
         id: Type.String({ minLength: 1, maxLength: 80, description: "Unique question identifier" }),
         prompt: Type.String({ minLength: 1, maxLength: 500, description: "Question shown to the user" }),
+        header: Type.Optional(Type.String({ maxLength: 40, description: "Short tab label when there are multiple questions; defaults to the prompt" })),
+        multiSelect: Type.Optional(Type.Boolean({ description: "Allow several answers to hold at once; selected values are joined by newlines. Use only when several options can be true together" })),
         options: Type.Array(Type.Object({
           value: Type.String({ minLength: 1, maxLength: 200, description: "Value returned for this option" }),
           label: Type.String({ minLength: 1, maxLength: 120, description: "Short option label" }),
           description: Type.Optional(Type.String({ maxLength: 300, description: "Optional explanation" })),
           recommended: Type.Optional(Type.Boolean({ description: "Whether this is the recommended option" })),
+          recommendedReason: Type.Optional(Type.String({ maxLength: 300, description: "Why this option is recommended; shown inline with the option" })),
+          preview: Type.Optional(Type.String({ maxLength: 2000, description: "Preview content shown beside the options (markdown-ish plain text)" })),
         }), { minItems: 2, maxItems: 4 }),
         allowOther: Type.Optional(Type.Boolean({ description: "Allow a custom answer; defaults to true" })),
-      }), { minItems: 1, maxItems: 3 }),
+      }), { minItems: 1, maxItems: 4 }),
     }),
     execute: async (toolCallId, input, signal) => {
       if (!askQuestionnaire) throw new Error("Questionnaire is not available");
@@ -133,7 +137,7 @@ export function createAgentTools(
         return { content: [{ type: "text", text: "The user skipped these questions. Continue with reasonable defaults." }], details: result };
       }
       return {
-        content: [{ type: "text", text: result.answers.map((answer) => `${answer.questionId}: ${answer.label}`).join("\n") }],
+        content: [{ type: "text", text: result.answers.map((answer) => `${answer.questionId}: ${answer.label}${answer.notes ? `\nNotes: ${answer.notes}` : ""}`).join("\n") }],
         details: result,
       };
     },

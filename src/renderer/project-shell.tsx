@@ -535,7 +535,7 @@ export function ProjectShell({
     }
   }
 
-  async function respondToQuestionnaire(answers: Array<{ questionId: string; value: string }>, cancelled = false): Promise<boolean> {
+  async function respondToQuestionnaire(answers: Array<{ questionId: string; value: string; notes?: string }>, cancelled = false): Promise<boolean> {
     if (!project || !conversation || !questionnaire) return false;
     try {
       await answerQuestionnaire(project.id, conversation.id, {

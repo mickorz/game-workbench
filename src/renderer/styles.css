@@ -12013,6 +12013,128 @@ button {
   flex: 0 0 auto;
 }
 
+.questionnaire-record-notes {
+  color: var(--text-muted);
+  font-size: 10px;
+  white-space: pre-wrap;
+}
+
+.questionnaire-body {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.questionnaire-body-preview {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  align-items: start;
+}
+
+.questionnaire-option-wrapper {
+  display: grid;
+  gap: 3px;
+}
+
+.questionnaire-why {
+  color: var(--accent, var(--text-muted));
+  font-size: 10px;
+}
+
+.questionnaire-option-note {
+  width: calc(100% - 37px);
+  margin-left: 37px;
+  padding: 5px 8px;
+  border: 1px solid color-mix(in srgb, var(--border) 64%, transparent);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 10px;
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.questionnaire-option-note:focus-visible {
+  outline: 2px solid var(--accent, var(--border-strong));
+  outline-offset: 1px;
+}
+
+.questionnaire-option-note-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 37px;
+  width: fit-content;
+  padding: 2px 7px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 9px;
+}
+
+.questionnaire-option-note-toggle:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.questionnaire-preview {
+  display: grid;
+  gap: 5px;
+  max-height: 300px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow: auto;
+  align-content: start;
+}
+
+.questionnaire-preview-title {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.questionnaire-preview-text {
+  margin: 0;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.questionnaire-footer-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.questionnaire-submit {
+  flex: 0 0 auto;
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
+  background: var(--accent, var(--surface-raised));
+  color: var(--text);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.questionnaire-submit:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 560px) {
+  .questionnaire-body-preview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .questionnaire-card > header > strong {
   min-width: 0;
   color: var(--text);

@@ -1359,6 +1359,13 @@ const en = {
     tabsLabel: "Questions",
     quotedAnswer: "\"{{answer}}\"",
     skippedQuestion: "Not answered",
+    why: "Why:",
+    preview: "Preview — {{label}}",
+    addNote: "Add note",
+    editNote: "Edit note",
+    noteLabel: "Note for {{option}}",
+    notePlaceholder: "Add a note for this option",
+    notes: "Notes: {{notes}}",
   },
   agentError: {
     runtime_probe_failed: {
