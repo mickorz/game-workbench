@@ -762,6 +762,12 @@ export type ThreadItem = (
   | {
       id: string;
       turnId: string;
+      type: "todoList";
+      todos: TodoSnapshot;
+    }
+  | {
+      id: string;
+      turnId: string;
       type: "dynamicToolCall";
       toolCallId: string;
       tool: string;
@@ -857,6 +863,19 @@ export type PromptMode = Extract<PlanMode, "normal" | "planning">;
 export interface PlanSessionState {
   mode: PlanMode;
   plan?: PlanState;
+}
+
+export const TODO_ITEM_STATUSES = ["pending", "in_progress", "done"] as const;
+export type TodoItemStatus = (typeof TODO_ITEM_STATUSES)[number];
+
+export interface TodoSnapshotItem {
+  title: string;
+  status: TodoItemStatus;
+}
+
+/** 任务清单快照：todo_write 每次全量重写，同 turn 后写覆盖前写。 */
+export interface TodoSnapshot {
+  items: TodoSnapshotItem[];
 }
 
 export interface QuestionnaireOption {

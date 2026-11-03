@@ -794,6 +794,32 @@ describe("AgentTimeline", () => {
     expect(html).not.toContain("questionnaire-record");
   });
 
+  it("renders the todo list snapshot in status sections", () => {
+    const html = renderToStaticMarkup(<AgentTimeline
+      items={[
+        user(),
+        {
+          id: "turn-1:todos",
+          turnId: "turn-1",
+          type: "todoList",
+          todos: {
+            items: [
+              { title: "Read files", status: "done" },
+              { title: "Edit game", status: "in_progress" },
+              { title: "Test it", status: "pending" },
+            ],
+          },
+        },
+      ]}
+    />);
+    expect(html).toContain("todo-list-card");
+    // 进行中置顶，其次待办，已完成置底。
+    expect(html.indexOf("Edit game")).toBeLessThan(html.indexOf("Test it"));
+    expect(html.indexOf("Test it")).toBeLessThan(html.indexOf("Read files"));
+    expect(html).toContain("todo-list-progress");
+    expect(html).toContain("1/3");
+  });
+
   it("recaps a multi-select questionnaire with notes", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       user(),

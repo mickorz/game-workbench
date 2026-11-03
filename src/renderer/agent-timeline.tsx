@@ -539,6 +539,40 @@ function WaitingActivity() {
   );
 }
 
+// 任务清单卡：进行中置顶、待办其次、已完成置底灰化；同 turn 后写覆盖只留最新一张。
+function TodoListCard({ item }: { item: Extract<ThreadItem, { type: "todoList" }> }) {
+  const items = item.todos.items;
+  const active = items.filter((entry) => entry.status === "in_progress");
+  const pending = items.filter((entry) => entry.status === "pending");
+  const done = items.filter((entry) => entry.status === "done");
+  return (
+    <div className="todo-list-card" data-testid="todo-list-card" aria-label={t("timeline.todo.label")}>
+      {active.length > 0 ? <div className="todo-list-section-label">{t("timeline.todo.inProgress")}</div> : null}
+      {active.map((entry, index) => (
+        <div key={`${entry.title}:${index}`} className="todo-list-row" data-status="in_progress" data-testid="todo-list-row">
+          <LoaderCircle className="spin" size={13} aria-hidden="true" />
+          <span className="todo-list-title">{entry.title}</span>
+        </div>
+      ))}
+      {pending.length > 0 ? <div className="todo-list-section-label">{t("timeline.todo.pending")}</div> : null}
+      {pending.map((entry, index) => (
+        <div key={`${entry.title}:${index}`} className="todo-list-row" data-status="pending" data-testid="todo-list-row">
+          <Circle size={13} aria-hidden="true" />
+          <span className="todo-list-title">{entry.title}</span>
+        </div>
+      ))}
+      {done.length > 0 ? <div className="todo-list-section-label">{t("timeline.todo.done")}</div> : null}
+      {done.map((entry, index) => (
+        <div key={`${entry.title}:${index}`} className="todo-list-row" data-status="done" data-testid="todo-list-row">
+          <Check size={13} aria-hidden="true" />
+          <span className="todo-list-title todo-list-title-done">{entry.title}</span>
+        </div>
+      ))}
+      <div className="todo-list-progress">{done.length}/{items.length}</div>
+    </div>
+  );
+}
+
 // 已完成问卷的只读转写记录：每问列出全部选项，选中打勾（多选支持多项），自定义答案引号显示，未答/跳过标灰，备注附在题下。
 function QuestionnaireRecord({ item }: { item: Extract<ThreadItem, { type: "userInputRequest" }> }) {
   const answers = new Map((item.answers ?? []).map((answer) => [answer.questionId, answer]));
@@ -626,6 +660,7 @@ function thinkingHeadline(text: string): string | undefined {
 function TimelineItem({ item, images, hideError = false }: { item: ThreadItem; images?: PromptImage[]; hideError?: boolean }) {
   const workspaceLinks = useContext(WorkspaceLinkContext);
   if (item.type === "reasoning") return <ThinkingBlock item={item} />;
+  if (item.type === "todoList") return <TodoListCard item={item} />;
   if (item.type === "userInputRequest") return <QuestionnaireRecord item={item} />;
   if (item.type === "modelChange") {
     return (

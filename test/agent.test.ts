@@ -300,6 +300,56 @@ describe("conversationItems", () => {
     expect(items[0]).toMatchObject({ type: "userMessage", text: "$review check this change" });
   });
 
+  it("restores the latest todo_write snapshot as one todoList item", () => {
+    const items = conversationItems([
+      sessionMessage("user", { role: "user", content: "Build", timestamp: 1 }),
+      sessionMessage("assistant-1", {
+        role: "assistant",
+        content: [{
+          type: "toolCall",
+          id: "todo-1",
+          name: "todo_write",
+          arguments: { items: [{ title: "Step one", status: "in_progress" }] },
+        }],
+        stopReason: "toolUse",
+      }),
+      sessionMessage("result-1", {
+        role: "toolResult",
+        toolCallId: "todo-1",
+        toolName: "todo_write",
+        content: [{ type: "text", text: "[in_progress] Step one" }],
+        isError: false,
+        timestamp: 2,
+      }),
+      sessionMessage("assistant-2", {
+        role: "assistant",
+        content: [{
+          type: "toolCall",
+          id: "todo-2",
+          name: "todo_write",
+          arguments: { items: [{ title: "Step one", status: "done" }, { title: "Step two", status: "pending" }] },
+        }],
+        stopReason: "toolUse",
+      }),
+      sessionMessage("result-2", {
+        role: "toolResult",
+        toolCallId: "todo-2",
+        toolName: "todo_write",
+        content: [{ type: "text", text: "[done] Step one\n[pending] Step two" }],
+        isError: false,
+        timestamp: 3,
+      }),
+    ] as never, false);
+
+    expect(items.filter((item) => item.type === "todoList")).toMatchObject([
+      {
+        type: "todoList",
+        todos: { items: [{ title: "Step one", status: "done" }, { title: "Step two", status: "pending" }] },
+      },
+    ]);
+    expect(items).not.toContainEqual(expect.objectContaining({ type: "dynamicToolCall", tool: "todo_write" }));
+  });
+
   it("restores a completed questionnaire as a user input request item", () => {
     const items = conversationItems([
       sessionMessage("user", { role: "user", content: "Plan", timestamp: 1 }),
@@ -793,6 +843,53 @@ describe("AgentManager", () => {
     });
     prompt.resolve();
     await expect(run).resolves.toBe("completed");
+    await manager.close();
+  });
+
+  it("writes a TODO snapshot item that the latest write replaces", async () => {
+    const session = new FakeSession();
+    const prompt = deferred<void>();
+    session.prompt.mockImplementation(() => prompt.promise);
+    const events = new RuntimeEventBus();
+    const manager = new AgentManager(events, { createSession: async () => session });
+    const project = createProject();
+    const conversation = createConversation(project);
+
+    const run = manager.prompt(project, conversation, "Do this", []).result!;
+    await vi.waitFor(() => expect(manager.agentState(conversation).status).toBe("running"));
+
+    const summary = manager.writeTodoList(project.id, conversation.summary.id, "todo-1", [
+      { title: "Read the files", status: "done" },
+      { title: "Edit the game", status: "in_progress" },
+    ]);
+    expect(summary).toContain("[in_progress] Edit the game");
+    expect(events.since(project.id).at(-1)).toMatchObject({
+      type: "item.started",
+      data: { item: { type: "todoList", todos: { items: [{ status: "done" }, { status: "in_progress" }] } } },
+    });
+
+    manager.writeTodoList(project.id, conversation.summary.id, "todo-2", [
+      { title: "Read the files", status: "done" },
+      { title: "Edit the game", status: "done" },
+    ]);
+    expect(events.since(project.id).at(-1)).toMatchObject({
+      type: "item.updated",
+      data: { item: { type: "todoList", todos: { items: [{ title: "Read the files", status: "done" }, { title: "Edit the game", status: "done" }] } } },
+    });
+    prompt.resolve();
+    await expect(run).resolves.toBe("completed");
+    await manager.close();
+  });
+
+  it("refuses a TODO write outside an active turn", async () => {
+    const session = new FakeSession();
+    const events = new RuntimeEventBus();
+    const manager = new AgentManager(events, { createSession: async () => session });
+    const project = createProject();
+    const conversation = createConversation(project);
+
+    expect(() => manager.writeTodoList(project.id, conversation.summary.id, "todo-1", [{ title: "Step", status: "pending" }]))
+      .toThrow("The TODO list can only be updated during an active turn");
     await manager.close();
   });
 

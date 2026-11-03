@@ -18,7 +18,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync } from "node:fs";
 import { createTrackedWriteTool, fileChangeMetadata } from "./file-line-changes.js";
 import { readWorkspaceNotice } from "./workspace-notice.js";
-import type { AgentContextUsage, AgentMessagePhase, AgentReasoningLevel, AgentStatus, ConversationAgentState, ConversationAttachment, PendingPrompt, PlanMode, PlanSessionState, PlanState, PluginMention, ProjectAgentActivity, ProjectState, PromptImage, PromptReference, QuestionnaireAnswer, QuestionnaireQuestion, QuestionnaireResult, ResponsesTransportMode, ThreadItem, ThreadItemError, ToolArtifact, TurnChanges } from "../shared/contracts.js";
+import type { AgentContextUsage, AgentMessagePhase, AgentReasoningLevel, AgentStatus, ConversationAgentState, ConversationAttachment, PendingPrompt, PlanMode, PlanSessionState, PlanState, PluginMention, ProjectAgentActivity, ProjectState, PromptImage, PromptReference, QuestionnaireAnswer, QuestionnaireQuestion, QuestionnaireResult, ResponsesTransportMode, ThreadItem, ThreadItemError, TodoSnapshot, ToolArtifact, TurnChanges } from "../shared/contracts.js";
 import { hasPluginMentionToken, parsePluginMentions, serializePluginMentions } from "../shared/plugins.js";
 import type { RuntimeEventBus } from "../shared/events.js";
 import type { AgentRuntimeId, ApprovalDecision, ApprovalRequestDetails } from "../shared/agent-runtimes.js";
@@ -274,6 +274,17 @@ export function conversationItems(entries: readonly SessionEntry[], markInterrup
         } else if (content.type === "toolCall") {
           if (content.name === "update_plan") {
             planCalls.add(content.id);
+            continue;
+          }
+          if (content.name === "todo_write") {
+            const snapshot = todoThreadSnapshot(content.arguments);
+            if (snapshot && turnId) {
+              // 同 turn 后写覆盖前写，与实时路径同 id。
+              const item: ThreadItem = { id: `${turnId}:todos`, turnId, type: "todoList", todos: snapshot, timestamp };
+              const index = items.findIndex((candidate) => candidate.id === item.id);
+              if (index < 0) items.push(item);
+              else items[index] = item;
+            }
             continue;
           }
           if (content.name === "questionnaire") {
@@ -1321,6 +1332,33 @@ export class AgentManager {
       turnId, prompt, mentions, references, images, attachments,
     }));
     return [...steering, ...pending];
+  }
+
+  // 写入任务清单快照：同 turn 同 id 后写覆盖前写，timeline 只留最新一张。
+  writeTodoList(
+    projectId: string,
+    conversationId: string,
+    toolCallId: string,
+    items: Array<{ title: string; status: "pending" | "in_progress" | "done" }>,
+  ): string {
+    const key = conversationKey(projectId, conversationId);
+    const active = this.#activeTurns.get(key);
+    if (!active) throw new Error("The TODO list can only be updated during an active turn");
+    const snapshot: TodoSnapshot = {
+      items: items.map((item) => ({
+        title: item.title.trim(),
+        status: item.status,
+      })),
+    };
+    if (snapshot.items.some((item) => !item.title)) throw new Error("TODO step titles cannot be blank");
+    this.#updateItem(projectId, active, {
+      id: `${active.turnId}:todos`,
+      turnId: active.turnId,
+      type: "todoList",
+      todos: snapshot,
+      timestamp: Date.now(),
+    });
+    return snapshot.items.map((item) => `[${item.status}] ${item.title}`).join("\n");
   }
 
   askQuestionnaire(
@@ -2864,6 +2902,19 @@ function questionnaireAnswers(
       ...withNotes,
     };
   });
+}
+
+function todoThreadSnapshot(input: unknown): TodoSnapshot | undefined {
+  const items = record(input)?.items;
+  if (!Array.isArray(items) || items.length === 0) return undefined;
+  const parsed = items.flatMap((value): Array<{ title: string; status: "pending" | "in_progress" | "done" }> => {
+    const item = record(value);
+    if (typeof item?.title !== "string" || !item.title.trim()) return [];
+    if (item.status !== "pending" && item.status !== "in_progress" && item.status !== "done") return [];
+    return [{ title: item.title.trim(), status: item.status }];
+  });
+  if (parsed.length !== items.length) return undefined;
+  return { items: parsed };
 }
 
 function questionnaireThreadItem(

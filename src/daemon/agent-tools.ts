@@ -68,6 +68,10 @@ export type AskQuestionnaire = (
 
 export type InstallPlugin = (sourcePath: string) => Promise<PluginDetail>;
 export type SearchWeb = (input: WebSearchInput, signal?: AbortSignal) => Promise<WebSearchExecution>;
+export type WriteTodoList = (
+  toolCallId: string,
+  input: { items: Array<{ title: string; status: "pending" | "in_progress" | "done" }> },
+) => Promise<string>;
 
 const mediaModelParameter = () => Type.Object({
   provider: Type.String({ description: "Model provider ID" }),
@@ -83,6 +87,7 @@ export function createAgentTools(
   playtest?: { driver: GameRuntimeAdapter; resolveOpenTarget: () => Promise<GameUseOpenTarget> },
   searchWeb?: SearchWeb,
   canvasStore?: CanvasStore,
+  writeTodoList?: WriteTodoList,
 ): PiToolDefinition[] {
   const saveGeneratedAudio = async (
     toolId: "generate-speech" | "generate-sound-effect" | "generate-music",
@@ -110,6 +115,22 @@ export function createAgentTools(
     } finally { await tools.removeRun(run.id); }
   };
   return [defineTool({
+    name: "todo_write",
+    label: "Update TODO List",
+    description: "Write the full current TODO list for this task as one complete snapshot. Call it before starting multi-step work, and rewrite the whole list whenever progress changes: mark a step in_progress before working on it and done once finished. Keep it focused, 3 to 8 steps.",
+    parameters: Type.Object({
+      items: Type.Array(Type.Object({
+        title: Type.String({ minLength: 1, maxLength: 200, description: "Short step title" }),
+        status: Type.Union([Type.Literal("pending"), Type.Literal("in_progress"), Type.Literal("done")], { description: "pending before work, in_progress while working on it, done when finished" }),
+      }), { minItems: 1, maxItems: 20, description: "The full list; every write replaces the previous snapshot" }),
+    }),
+    execute: async (toolCallId, input, signal) => {
+      if (!writeTodoList) throw new Error("The TODO list is not available");
+      signal?.throwIfAborted();
+      const text = await writeTodoList(toolCallId, input);
+      return { content: [{ type: "text" as const, text }], details: { todos: input.items } };
+    },
+  }), defineTool({
     name: "questionnaire",
     label: "Ask Questions",
     description: "Ask the user up to three high-impact clarifying questions when their answer is necessary to produce a correct plan. Do not ask for information you can discover from the project.",

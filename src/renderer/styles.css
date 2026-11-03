@@ -12019,6 +12019,69 @@ button {
   white-space: pre-wrap;
 }
 
+.todo-list-card {
+  display: grid;
+  gap: 4px;
+  margin: 6px 0;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.todo-list-section-label {
+  color: var(--text-faint);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.todo-list-card .todo-list-section-label:not(:first-child) {
+  margin-top: 5px;
+}
+
+.todo-list-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 20px;
+  color: var(--text-muted);
+}
+
+.todo-list-row[data-status="in_progress"] {
+  color: var(--text);
+}
+
+.todo-list-row[data-status="pending"] svg {
+  color: var(--text-faint);
+}
+
+.todo-list-row[data-status="in_progress"] svg {
+  color: var(--accent, var(--text));
+}
+
+.todo-list-row[data-status="done"] svg {
+  color: var(--success, var(--text-muted));
+}
+
+.todo-list-title {
+  min-width: 0;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.todo-list-title-done {
+  color: var(--text-faint);
+}
+
+.todo-list-progress {
+  margin-top: 3px;
+  color: var(--text-faint);
+  font-size: 9px;
+  text-align: right;
+}
+
 .questionnaire-body {
   display: grid;
   min-width: 0;

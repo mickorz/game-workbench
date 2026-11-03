@@ -1523,6 +1523,12 @@ const zhCN: typeof en = {
     workingFor: "已工作 {{duration}}",
     thinking: "思考中",
     thinkingChars: "{{chars}} 字符",
+    todo: {
+      label: "任务清单",
+      inProgress: "进行中",
+      pending: "待办",
+      done: "已完成",
+    },
     stoppedThinking: "思考时已停止",
     stoppedBefore: "开始工作前已停止",
     stoppedAfter: "你在 {{duration}} 后停止了",

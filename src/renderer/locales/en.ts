@@ -1556,6 +1556,12 @@ const en = {
     workingFor: "Working for {{duration}}",
     thinking: "Thinking",
     thinkingChars: "{{chars}} characters",
+    todo: {
+      label: "TODO list",
+      inProgress: "In progress",
+      pending: "Pending",
+      done: "Done",
+    },
     stoppedThinking: "Stopped while thinking",
     stoppedBefore: "Stopped before work began",
     stoppedAfter: "You stopped after {{duration}}",
