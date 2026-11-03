@@ -71,7 +71,7 @@ describe("mergeCompletedCompactionTurns", () => {
 });
 
 describe("projectTurnDisplay", () => {
-  it("keeps Pi facts separate from the initial activity display", () => {
+  it("keeps streaming thinking as a work row while the header stays Thinking", () => {
     const display = projectTurnDisplay(turn([
       thinking("**Planning the build**", "inProgress"),
     ], true));
@@ -79,10 +79,10 @@ describe("projectTurnDisplay", () => {
     expect(display).toMatchObject({
       status: "inProgress",
       working: false,
-      work: [],
       messages: [],
       finalMessages: [],
     });
+    expect(display.work).toEqual([{ kind: "thinking", item: thinking("**Planning the build**", "inProgress") }]);
   });
 
   it("switches the stable activity header to Working after visible text begins", () => {
@@ -125,10 +125,10 @@ describe("projectTurnDisplay", () => {
 
     expect(display.working).toBe(true);
     expect(display.work).toHaveLength(2);
-    expect(display.work.at(-1)).toMatchObject({ kind: "thinking" });
+    expect(display.work.at(-1)).toMatchObject({ kind: "waiting" });
   });
 
-  it("shows Thinking after stalled streamed commentary during work", () => {
+  it("shows the waiting placeholder after stalled streamed commentary during work", () => {
     const display = projectTurnDisplay(turn([
       commentary("I inspected the workspace."),
       tool("completed"),
@@ -143,15 +143,16 @@ describe("projectTurnDisplay", () => {
     ], true), 1_004);
 
     expect(display.working).toBe(true);
-    expect(display.work.at(-1)).toMatchObject({ kind: "thinking" });
+    expect(display.work.at(-1)).toMatchObject({ kind: "waiting" });
   });
 
-  it("does not show Thinking while waiting for questionnaire input", () => {
+  it("does not show the waiting placeholder while waiting for questionnaire input", () => {
     const display = projectTurnDisplay(turn([
       commentary("I need a decision before continuing."),
     ], true), Date.now(), true);
 
     expect(display.working).toBe(true);
+    expect(display.work).not.toContainEqual(expect.objectContaining({ kind: "waiting" }));
     expect(display.work).not.toContainEqual(expect.objectContaining({ kind: "thinking" }));
   });
 
@@ -163,7 +164,7 @@ describe("projectTurnDisplay", () => {
 
     expect(display.working).toBe(true);
     expect(display.work).toHaveLength(2);
-    expect(display.work.at(-1)).toMatchObject({ kind: "tool-group", thinking: false, tools: [{ type: "dynamicToolCall", status: "inProgress" }] });
+    expect(display.work.at(-1)).toMatchObject({ kind: "tool-group", tools: [{ type: "dynamicToolCall", status: "inProgress" }] });
   });
 
   it("keeps the trailing completed tool group while waiting", () => {
@@ -172,9 +173,10 @@ describe("projectTurnDisplay", () => {
       tool("completed"),
     ], true));
 
-    expect(display.work).toHaveLength(2);
+    expect(display.work).toHaveLength(3);
     expect(display.work[0]).toMatchObject({ kind: "item", item: { type: "agentMessage", phase: "commentary" } });
-    expect(display.work[1]).toMatchObject({ kind: "tool-group", thinking: true, tools: [{ type: "dynamicToolCall", status: "completed" }] });
+    expect(display.work[1]).toMatchObject({ kind: "tool-group", tools: [{ type: "dynamicToolCall", status: "completed" }] });
+    expect(display.work[2]).toEqual({ kind: "waiting" });
   });
 
   it("separates completed work from the final answer", () => {

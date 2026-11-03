@@ -87,14 +87,16 @@ describe("AgentTimeline", () => {
     expect(html).not.toContain("<details");
   });
 
-  it("hides streamed reasoning text behind the generic Thinking state", () => {
+  it("streams reasoning text in an expanded thinking block", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       user(),
       { id: "thinking", turnId: "turn-1", type: "reasoning", text: "**Planning Vite app creation**", status: "inProgress" },
     ]} activeTurnId="turn-1" />);
 
-    expect(html).toContain('<span class="activity-shimmer">Thinking<span class="activity-shimmer-highlight" aria-hidden="true">Thinking</span></span>');
-    expect(html).not.toContain("Planning Vite app creation");
+    expect(html).toContain("work-summary-thinking");
+    expect(html).toContain('<details class="thinking-block" open');
+    expect(html).toContain("Planning Vite app creation");
+    expect(html).toContain("thinking-block-text");
   });
 
   it("keeps completed tools visible when work begins", () => {
@@ -107,9 +109,9 @@ describe("AgentTimeline", () => {
     expect(html).toContain("Thinking");
     expect(html).toContain("Read package.json");
     expect(html).toContain('class="tool-activity-group"');
-    expect(html).toContain('<span class="tool-label activity-shimmer" title="Thinking" role="status">Thinking<span class="activity-shimmer-highlight" aria-hidden="true">Thinking</span></span>');
-    expect(html).toContain('<summary class="tool-group-summary tool-group-summary-thinking"><span class="tool-label activity-shimmer"');
-    expect(html).not.toContain('class="thinking-activity"');
+    expect(html).toContain('<span class="tool-label" title="Read a file">Read a file</span>');
+    expect(html).toContain('<span class="activity-shimmer">Thinking<span class="activity-shimmer-highlight" aria-hidden="true">Thinking</span></span>');
+    expect(html).toContain('class="thinking-activity"');
     expect(html).not.toContain('class="tool-activity-group" open');
     expect(html).not.toContain("<details class=\"work-activity\"");
   });
@@ -203,18 +205,19 @@ describe("AgentTimeline", () => {
     expect(html).toContain("private build output");
   });
 
-  it("does not keep completed Pi thinking as a history row", () => {
+  it("keeps completed Pi thinking as a collapsed history row", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       user(),
       { id: "thinking", turnId: "turn-1", type: "reasoning", text: "Inspect the project structure.", status: "completed" },
     ]} />);
 
-    expect(html).not.toContain("Thinking");
-    expect(html).not.toContain("Inspect the project structure.");
-    expect(html).not.toContain("<details");
+    expect(html).toContain("Worked for");
+    expect(html).toContain('class="thinking-block"');
+    expect(html).toContain("Inspect the project structure.");
+    expect(html).not.toContain('<details class="thinking-block" open');
   });
 
-  it("does not create empty Worked activity for Thinking followed by a final answer", () => {
+  it("keeps a thinking row in Worked activity before a final answer", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       user(),
       { id: "thinking", turnId: "turn-1", type: "reasoning", text: "private", status: "completed" },
@@ -222,12 +225,12 @@ describe("AgentTimeline", () => {
     ]} />);
 
     expect(html).toContain("Done.");
-    expect(html).not.toContain("Thinking");
-    expect(html).not.toContain("Worked for");
-    expect(html).not.toContain("work-items");
+    expect(html).toContain("Worked for");
+    expect(html).toContain("work-items");
+    expect(html).toContain('class="thinking-block"');
   });
 
-  it("describes an early stopped turn without exposing its reasoning text", () => {
+  it("shows a stopped turn with its reasoning collapsed", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       { ...user(), timestamp: 1_000 },
       { id: "thinking", turnId: "turn-1", type: "reasoning", text: "private reasoning", status: "completed", timestamp: 2_000 },
@@ -235,10 +238,11 @@ describe("AgentTimeline", () => {
     ]} cancelledTurnId="turn-1" />);
 
     expect(html).toContain("You stopped after 3s");
-    expect(html).toContain("Stopped while thinking");
     expect(html).toContain('class="work-activity work-activity-stopped"');
     expect(html).not.toContain('<details class="work-activity"');
-    expect(html).not.toContain("private reasoning");
+    expect(html).toContain('class="thinking-block"');
+    expect(html).toContain("private reasoning");
+    expect(html).not.toContain('<details class="thinking-block" open');
     expect(html).not.toContain('<span class="muted-text">Stopped</span>');
   });
 
@@ -276,10 +280,11 @@ describe("AgentTimeline", () => {
     ]} activeTurnId="turn-1" />);
 
     expect(html).toContain("Working for");
-    expect(html).not.toContain("thinking-block");
+    expect(html).toContain('class="thinking-block"');
     expect(html).toContain("I will inspect it.");
     expect(html).toContain("Thinking");
     expect(html).toContain("Read package.json");
+    expect(html.indexOf("thinking-block")).toBeLessThan(html.indexOf("I will inspect it."));
   });
 
   it("omits completed Thinking while preserving the surrounding event order", () => {
@@ -305,12 +310,10 @@ describe("AgentTimeline", () => {
     ]} activeTurnId="turn-1" />);
 
     expect(html).toContain("Working for");
-    expect(html).toContain("Thinking");
-    expect(html).not.toContain("Planning the next edit");
+    expect(html).toContain('<details class="thinking-block" open');
+    expect(html).toContain("Planning the next edit");
     expect(html).toContain("package.json");
     expect(html).toContain("tool-activity-group");
-    expect(html).toContain('<span class="tool-label activity-shimmer" title="Thinking" role="status">Thinking<span class="activity-shimmer-highlight" aria-hidden="true">Thinking</span></span>');
-    expect(html).toContain('<summary class="tool-group-summary tool-group-summary-thinking"><span class="tool-label activity-shimmer"');
     expect(html).not.toContain('class="thinking-activity"');
   });
 
@@ -326,7 +329,7 @@ describe("AgentTimeline", () => {
     expect(html).not.toContain('title="Thinking">Thinking</span>');
   });
 
-  it("keeps tools when completed reasoning returns to the generic status", () => {
+  it("keeps tools beside a collapsed completed thinking block", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       user(),
       tool(),
@@ -334,7 +337,9 @@ describe("AgentTimeline", () => {
     ]} activeTurnId="turn-1" />);
 
     expect(html).toContain("Thinking");
-    expect(html).not.toContain("Planning the next edit");
+    expect(html).toContain('class="thinking-block"');
+    expect(html).toContain("Planning the next edit");
+    expect(html).not.toContain('<details class="thinking-block" open');
     expect(html).toContain("Read package.json");
   });
 
@@ -747,10 +752,9 @@ describe("AgentTimeline", () => {
       },
     ]} activeTurnId="turn-1" />);
 
-    expect(html).toContain('<span class="tool-label activity-shimmer" title="Thinking" role="status">Thinking<span class="activity-shimmer-highlight" aria-hidden="true">Thinking</span></span>');
-    expect(html).toContain('<summary class="tool-group-summary tool-group-summary-thinking"><span class="tool-label activity-shimmer"');
-    expect(html).not.toContain('class="thinking-activity"');
-    expect(html).not.toContain("Edited a file, read a file, ran a command");
+    expect(html).toContain('<span class="activity-shimmer">Thinking<span class="activity-shimmer-highlight" aria-hidden="true">Thinking</span></span>');
+    expect(html).toContain('<div class="thinking-activity" role="status">');
+    expect(html).toContain("Edited a file, read a file, ran a command");
     expect(html).toContain("Read package.json");
     expect(html).toContain("Edited src/app.ts");
     expect(html).toContain("Ran npm run typecheck");

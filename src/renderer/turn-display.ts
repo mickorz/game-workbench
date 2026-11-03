@@ -58,7 +58,8 @@ export function projectTurnDisplay(turn: Turn, now = Date.now(), waitingForInput
   const hadThinking = activityItems.some((item) => item.type === "reasoning");
 
   if (!active) {
-    const workItems = activityItems.filter((item) => item.type !== "reasoning" && isWorkItem(item));
+    // 思考项属于工作过程：完成后作为可折叠块保留在 work 里。
+    const workItems = activityItems.filter(isWorkItem);
     return {
       user,
       work: projectWorkItems(workItems),
@@ -72,7 +73,8 @@ export function projectTurnDisplay(turn: Turn, now = Date.now(), waitingForInput
     };
   }
 
-  const visibleItems = withoutInitialThinking(activityItems);
+  // 思考流式进行中即渲染思考块，不再隐藏开头的思考项。
+  const visibleItems = activityItems;
   const live = !finalStarted;
   const working = workStarted || hasVisibleAssistantText(visibleItems);
   // Retry attempts update the same row, which may precede older activity in the array.
@@ -83,7 +85,7 @@ export function projectTurnDisplay(turn: Turn, now = Date.now(), waitingForInput
   }, undefined);
   const activeRetryId = live && latestActivity?.type === "retry" && latestActivity.status === "inProgress" ? latestActivity.id : undefined;
   const waiting = !activeRetryId && !waitingForInput && live && working && shouldShowWaiting(visibleItems, now);
-  const work = projectWorkItems(visibleItems, { active: live, waiting });
+  const work = projectWorkItems(visibleItems, { waiting });
   return {
     user,
     work,
@@ -131,11 +133,6 @@ function isFinalAnswer(item: ThreadItem): item is AssistantItem {
 
 function isCancelledStatusMessage(item: ThreadItem): item is AssistantItem {
   return item.type === "agentMessage" && item.status === "cancelled" && !item.text.trim();
-}
-
-function withoutInitialThinking(items: ThreadItem[]): ThreadItem[] {
-  const firstVisible = items.findIndex((item) => item.type !== "reasoning");
-  return firstVisible < 0 ? [] : items.slice(firstVisible);
 }
 
 function shouldShowWaiting(items: ThreadItem[], now: number): boolean {

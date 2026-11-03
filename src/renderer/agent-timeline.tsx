@@ -10,6 +10,7 @@ import {
   FileText,
   Gamepad2,
   Image,
+  Lightbulb,
   LoaderCircle,
   Pencil,
   Undo2,
@@ -31,7 +32,7 @@ import { useNearViewport } from "./asset-gallery.js";
 import { mcpToolBrand, mcpToolLabel } from "./mcp-tool-presentation.js";
 import { ModelPreview } from "./model-preview.js";
 import { formatBytes } from "./format-bytes.js";
-import { toolGroupSummary, type ToolItem } from "./work-items.js";
+import { toolGroupSummary, type ThinkingItem, type ToolItem } from "./work-items.js";
 import { mergeCompletedCompactionTurns, projectTurnDisplay, type TurnDisplay } from "./turn-display.js";
 import { SelectedTextMenu } from "./selected-text-menu.js";
 import { PromptContextIcon } from "./chat-reference.js";
@@ -425,8 +426,9 @@ function CompletedWork({ display }: { display: TurnDisplay }) {
 
 function WorkItems({ items, images, failed = false, activeRetryId }: { items: TurnDisplay["work"]; images?: PromptImage[]; failed?: boolean; activeRetryId?: string }) {
   const rendered = items.map((item) => {
-    if (item.kind === "tool-group") return <ToolActivityGroup key={item.id} tools={item.tools} thinking={item.thinking} />;
-    if (item.kind === "thinking") return <ThinkingActivity key={item.id} />;
+    if (item.kind === "tool-group") return <ToolActivityGroup key={item.id} tools={item.tools} />;
+    if (item.kind === "thinking") return <ThinkingBlock key={item.item.id} item={item.item} />;
+    if (item.kind === "waiting") return <WaitingActivity key="waiting" />;
     if (item.item.type === "retry") return <AgentErrorActivity key={item.item.id} error={item.item.error} retry={item.item} active={item.item.id === activeRetryId} />;
     return <TimelineItem
       key={item.item.id}
@@ -445,18 +447,17 @@ function WorkItems({ items, images, failed = false, activeRetryId }: { items: Tu
   return rendered;
 }
 
-function ToolActivityGroup({ tools, thinking }: { tools: ToolItem[]; thinking: boolean }) {
+function ToolActivityGroup({ tools }: { tools: ToolItem[] }) {
   const runningTool = tools.findLast((tool) => tool.status === "preparing" || tool.status === "inProgress");
   const runningPresentation = runningTool ? toolPresentation(runningTool) : undefined;
   const Icon = runningPresentation?.icon ?? toolGroupIcon(tools);
   const runningLabel = runningTool && runningPresentation ? runningToolGroupLabel(runningTool, runningPresentation.label) : undefined;
-  const showThinking = thinking && !runningTool;
-  const summaryLabel = showThinking ? t("timeline.thinking") : runningLabel ?? toolGroupSummary(tools);
+  const summaryLabel = runningLabel ?? toolGroupSummary(tools);
   return (
     <LazyDetails className="tool-activity-group" summary={
-      <summary className={`tool-group-summary${showThinking ? " tool-group-summary-thinking" : ""}`}>
-        {showThinking ? null : <Icon size={13} aria-hidden="true" />}
-        <ShimmerText text={summaryLabel} active={Boolean(runningTool || showThinking)} className="tool-label" title={summaryLabel} role={showThinking ? "status" : undefined} />
+      <summary className="tool-group-summary">
+        <Icon size={13} aria-hidden="true" />
+        <ShimmerText text={summaryLabel} active={Boolean(runningTool)} className="tool-label" title={summaryLabel} />
         <ChevronRight className="tool-group-chevron" size={13} aria-hidden="true" />
       </summary>}>
       <div className="tool-group-items">
@@ -495,6 +496,7 @@ function activeTurnDuration(display: TurnDisplay, now: number): string {
   const workTimestamps = display.work.flatMap((item) => {
     if (item.kind === "item") return [item.item.timestamp];
     if (item.kind === "tool-group") return item.tools.map((tool) => tool.timestamp);
+    if (item.kind === "thinking") return [item.item.timestamp];
     return [];
   });
   const startedAt = [display.user?.timestamp, ...workTimestamps]
@@ -528,7 +530,7 @@ function durationLabel(seconds: number): string {
   return minutes > 0 ? t("timeline.duration.minutes", { minutes, seconds: seconds % 60 }) : t("timeline.duration.seconds", { seconds });
 }
 
-function ThinkingActivity() {
+function WaitingActivity() {
   return (
     <div className="thinking-activity" role="status">
       <ShimmerText text={t("timeline.thinking")} />
@@ -536,9 +538,51 @@ function ThinkingActivity() {
   );
 }
 
+// 思考块展开状态按 item id 持久（组件重挂载、切回会话后保持用户选择）。
+const thinkingFold = new Map<string, boolean>();
+
+function ThinkingBlock({ item }: { item: ThinkingItem }) {
+  const live = item.status === "inProgress";
+  // 默认：流式进行中展开，结束收起；用户手动切换过后以用户选择为准。
+  const [open, setOpen] = useState(() => (thinkingFold.has(item.id) ? thinkingFold.get(item.id)! : live));
+  useEffect(() => {
+    if (!live && !thinkingFold.has(item.id)) setOpen(false);
+  }, [live, item.id]);
+  const headline = thinkingHeadline(item.text);
+  const label = headline ?? t("timeline.thinking");
+  return (
+    <details className="thinking-block" open={open} onToggle={(event) => {
+      const next = event.currentTarget.open;
+      thinkingFold.set(item.id, next);
+      setOpen(next);
+    }}>
+      <summary className="thinking-block-summary" title={headline}>
+        <Lightbulb size={13} aria-hidden="true" />
+        <ShimmerText text={label} active={live} className="thinking-block-label" title={label} role={live ? "status" : undefined} />
+        <span className="thinking-block-meta">{t("timeline.thinkingChars", { chars: item.text.length })}</span>
+        <ChevronRight className="tool-group-chevron" size={13} aria-hidden="true" />
+      </summary>
+      <div className="thinking-block-text">{item.text}</div>
+    </details>
+  );
+}
+
+// 思考首行作为折叠条标题：取第一段非空文本，剥掉首尾加粗标记。
+function thinkingHeadline(text: string): string | undefined {
+  const first = text.split("\n").find((line) => line.trim().length > 0)?.trim();
+  if (!first) return undefined;
+  for (const marker of ["**", "__"]) {
+    if (first.startsWith(marker) && first.endsWith(marker) && first.length > marker.length * 2) {
+      const inner = first.slice(marker.length, -marker.length).trim();
+      return inner || undefined;
+    }
+  }
+  return first;
+}
+
 function TimelineItem({ item, images, hideError = false }: { item: ThreadItem; images?: PromptImage[]; hideError?: boolean }) {
   const workspaceLinks = useContext(WorkspaceLinkContext);
-  if (item.type === "reasoning") return null;
+  if (item.type === "reasoning") return <ThinkingBlock item={item} />;
   if (item.type === "modelChange") {
     return (
       <div className="model-change-event" role="status">

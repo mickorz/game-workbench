@@ -11423,6 +11423,70 @@ button {
   line-height: 1.5;
 }
 
+.thinking-block {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.thinking-block-summary {
+  display: grid;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 28px;
+  grid-template-columns: 14px minmax(0, auto) minmax(0, auto) 14px;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.thinking-block-summary::-webkit-details-marker {
+  display: none;
+}
+
+.thinking-block-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.thinking-block-meta {
+  color: var(--text-faint);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.thinking-block-summary:hover .thinking-block-label,
+.thinking-block-summary:focus-visible .thinking-block-label {
+  color: var(--text);
+}
+
+.thinking-block-summary:hover .tool-group-chevron,
+.thinking-block-summary:focus-visible .tool-group-chevron {
+  opacity: 1;
+}
+
+.thinking-block[open] > .thinking-block-summary .tool-group-chevron {
+  transform: rotate(90deg);
+}
+
+.thinking-block-text {
+  max-height: 280px;
+  padding: 2px 6px 2px 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  animation: tool-details-reveal 140ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .activity-shimmer {
   position: relative;
   display: inline-block;

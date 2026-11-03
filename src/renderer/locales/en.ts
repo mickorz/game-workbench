@@ -1545,6 +1545,7 @@ const en = {
     editorContext: "Editor context",
     workingFor: "Working for {{duration}}",
     thinking: "Thinking",
+    thinkingChars: "{{chars}} characters",
     stoppedThinking: "Stopped while thinking",
     stoppedBefore: "Stopped before work began",
     stoppedAfter: "You stopped after {{duration}}",

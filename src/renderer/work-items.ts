@@ -3,42 +3,36 @@ import { mcpServerName } from "./mcp-tool-presentation.js";
 import { t } from "./i18n.js";
 
 export type ToolItem = Extract<ThreadItem, { type: "dynamicToolCall" | "mcpToolCall" }>;
-type ThinkingItem = Extract<ThreadItem, { type: "reasoning" }>;
-type ActivityItem = ToolItem | ThinkingItem;
+export type ThinkingItem = Extract<ThreadItem, { type: "reasoning" }>;
 
 export type WorkDisplayItem =
   | { kind: "item"; item: ThreadItem }
-  | { kind: "tool-group"; id: string; tools: ToolItem[]; thinking: boolean }
-  | { kind: "thinking"; id: string };
+  | { kind: "tool-group"; id: string; tools: ToolItem[] }
+  | { kind: "thinking"; item: ThinkingItem }
+  | { kind: "waiting" };
 
-export function projectWorkItems(items: ThreadItem[], { active = false, waiting = false }: { active?: boolean; waiting?: boolean } = {}): WorkDisplayItem[] {
+export function projectWorkItems(items: ThreadItem[], { waiting = false }: { waiting?: boolean } = {}): WorkDisplayItem[] {
   const projected: WorkDisplayItem[] = [];
-  let activity: ActivityItem[] = [];
+  let tools: ToolItem[] = [];
 
-  function flushActivity(includeThinking: boolean) {
-    if (activity.length === 0) return;
-    const tools = activity.filter((item): item is ToolItem => item.type === "dynamicToolCall" || item.type === "mcpToolCall");
-    const latest = activity.at(-1);
-    const thinking = Boolean(includeThinking && latest?.type === "reasoning" && latest.status === "inProgress");
-    if (tools.length > 0) projected.push({ kind: "tool-group", id: activity[0].id, tools, thinking });
-    else if (thinking && latest) projected.push({ kind: "thinking", id: latest.id });
-    activity = [];
+  function flushTools() {
+    if (tools.length === 0) return;
+    projected.push({ kind: "tool-group", id: tools[0].id, tools });
+    tools = [];
   }
 
   for (const item of items) {
-    if (item.type === "dynamicToolCall" || item.type === "mcpToolCall" || item.type === "reasoning") {
-      activity.push(item);
+    if (item.type === "dynamicToolCall" || item.type === "mcpToolCall") {
+      tools.push(item);
       continue;
     }
-    flushActivity(false);
-    projected.push({ kind: "item", item });
+    flushTools();
+    if (item.type === "reasoning") projected.push({ kind: "thinking", item });
+    else projected.push({ kind: "item", item });
   }
-  flushActivity(active);
-  if (waiting) {
-    const latest = projected.at(-1);
-    if (latest?.kind === "tool-group") projected[projected.length - 1] = { ...latest, thinking: true };
-    else projected.push({ kind: "thinking", id: "waiting" });
-  }
+  flushTools();
+  // 排队占位：代理看似空闲（无进行中工具与思考）时显示等待动效。
+  if (waiting) projected.push({ kind: "waiting" });
   return projected;
 }
 
