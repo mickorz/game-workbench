@@ -26,7 +26,7 @@ export default defineConfig({
     sentryAuthToken
       ? sentryVitePlugin({
           org: "whitetower-hk-limited",
-          project: "ohmygame",
+          project: "xc-ui-flow",
           authToken: sentryAuthToken,
           telemetry: false,
           // Matches the release @sentry/electron reports by default.

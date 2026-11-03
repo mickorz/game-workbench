@@ -1,5 +1,5 @@
 import type { ParseKeys } from "i18next";
-import brandMark from "../shared/assets/ohmygame-mark-v2.svg";
+import brandMark from "../shared/assets/xcflow-mark-v2.svg";
 import type { SidebarPage } from "./routes.js";
 
 /** 侧边栏导航图标（与 NavigationItem 的 icon 联合类型保持一致） */
@@ -20,7 +20,7 @@ export type SidebarIcon =
 export type SidebarGroup = "main" | "studios";
 
 /** 品牌配置：改这里即可换侧边栏品牌名与图标
- *  mark 填图片 URL（如 "./assets/ohmygame-mark-v2.svg"、"/my-logo.png" 或 data URI）
+ *  mark 填图片 URL（如 "./assets/xcflow-mark-v2.svg"、"/my-logo.png" 或 data URI）
  */
 export const SIDEBAR_BRAND = {
   /** 品牌名，同时用于文字展示与图标 alt */

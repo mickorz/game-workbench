@@ -7,7 +7,7 @@ import { GameGrid, GameStats, useGameCover } from "./community-game-card.js";
 import { CommunityGameActions } from "./community-game-actions.js";
 import { CommunityToolbar, DEFAULT_COMMUNITY_FILTERS, filterCommunityGames } from "./community-filters.js";
 import { useAuth } from "./auth.js";
-import brandMark from "../shared/assets/ohmygame-mark-v2.svg";
+import brandMark from "../shared/assets/xcflow-mark-v2.svg";
 import { getExploreGame, listExploreGames, waitForRuntime } from "./api.js";
 import { communityProfileHash, type AppNavigationTarget } from "./routes.js";
 import { SidebarPageHeader, SidebarPageLayout } from "./sidebar-page.js";

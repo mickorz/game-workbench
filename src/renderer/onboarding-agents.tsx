@@ -26,7 +26,7 @@ import { PROVIDER_ICONS } from "./provider-icons.js";
 import { openModelAuthExternal } from "./use-model-provider-auth.js";
 import { t } from "./i18n.js";
 import { useReadyRuntimeGeneration } from "./runtime-connection.js";
-import brandMark from "../shared/assets/ohmygame-mark-v2.svg";
+import brandMark from "../shared/assets/xcflow-mark-v2.svg";
 
 /** CLI discovery stays independent of provider loading, and never enables an agent. */
 export function OnboardingAgents({

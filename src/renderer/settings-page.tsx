@@ -16,7 +16,7 @@ import { readChatLayout, setChatLayout, type ChatLayout } from "./chat-layout.js
 import { SegmentedControl } from "./segmented-control.js";
 import { readLanguagePreference, setLanguagePreference, t, type LanguagePreference } from "./i18n.js";
 import { ChangelogPanel } from "./changelog-panel.js";
-import brandMark from "../shared/assets/ohmygame-mark-v2.svg";
+import brandMark from "../shared/assets/xcflow-mark-v2.svg";
 
 const BILLING_DASHBOARD_URL = "https://account.ohmygame.ai/account/billing";
 const CHAT_LAYOUT_OPTIONS: readonly { value: ChatLayout; label: string }[] = [

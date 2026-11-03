@@ -3,8 +3,8 @@
 # Keep our controls separate from NSIS/Nsis7z's per-phase progress controls.
 # The app-builder-lib patch supplies extraction callbacks and a copy-complete hook.
 !macro customPageAfterChangeDir
-  !define MUI_PAGE_CUSTOMFUNCTION_SHOW OhMyGameInstallProgressStart
-  !define MUI_PAGE_CUSTOMFUNCTION_LEAVE OhMyGameInstallProgressFinish
+  !define MUI_PAGE_CUSTOMFUNCTION_SHOW XcFlowInstallProgressStart
+  !define MUI_PAGE_CUSTOMFUNCTION_LEAVE XcFlowInstallProgressFinish
 !macroend
 
 !macro customHeader
@@ -17,7 +17,7 @@
     Var omgExtractCompleted
     Var omgExtractTotal
 
-    Function OhMyGameInstallProgressStart
+    Function XcFlowInstallProgressStart
       System::Store S
       # Use the existing page geometry/font so Windows scaling is respected.
       System::Call '*(i, i, i, i) p .r0'
@@ -44,11 +44,11 @@
       StrCpy $omgProgress 0
       StrCpy $omgProgressNext 0
       StrCpy $omgProgressPhase "$(omgPreparing)"
-      Call OhMyGameInstallProgressUpdate
+      Call XcFlowInstallProgressUpdate
       System::Store L
     FunctionEnd
 
-    Function OhMyGameInstallProgressUpdate
+    Function XcFlowInstallProgressUpdate
       IfSilent progress_update_done
       # Retry callbacks and native progress resets must never move us backwards.
       ${If} $omgProgressNext > $omgProgress
@@ -78,17 +78,17 @@
         ${If} $omgProgressNext > 85
           StrCpy $omgProgressNext 85
         ${EndIf}
-        Call OhMyGameInstallProgressUpdate
+        Call XcFlowInstallProgressUpdate
       ${EndIf}
       System::Store L
     FunctionEnd
 
-    Function OhMyGameInstallProgressFinish
+    Function XcFlowInstallProgressFinish
       # The leave callback also runs on failure. Only success may show 100%.
       IfAbort progress_done
       StrCpy $omgProgressNext 100
       StrCpy $omgProgressPhase "$(omgComplete)"
-      Call OhMyGameInstallProgressUpdate
+      Call XcFlowInstallProgressUpdate
       progress_done:
     FunctionEnd
   !endif
@@ -97,25 +97,25 @@
 !macro customExtractUsing7za FILE
   StrCpy $omgProgressNext 10
   StrCpy $omgProgressPhase "$(omgExtracting)"
-  Call OhMyGameInstallProgressUpdate
+  Call XcFlowInstallProgressUpdate
   Push $R9
   GetFunctionAddress $R9 OhMyGameExtractProgress
   Nsis7z::ExtractWithCallback "${FILE}" $R9
   Pop $R9
   StrCpy $omgProgressNext 85
   StrCpy $omgProgressPhase "$(omgCopying)"
-  Call OhMyGameInstallProgressUpdate
+  Call XcFlowInstallProgressUpdate
 !macroend
 
 !macro customAppFilesCopied
   StrCpy $omgProgressNext 95
   StrCpy $omgProgressPhase "$(omgFinalizing)"
-  Call OhMyGameInstallProgressUpdate
+  Call XcFlowInstallProgressUpdate
 !macroend
 
 !macro customInstall
   StrCpy $omgProgressNext 99
-  Call OhMyGameInstallProgressUpdate
+  Call XcFlowInstallProgressUpdate
 !macroend
 
 !macro customCheckAppRunning

@@ -10,7 +10,7 @@ export default defineConfig({
         "src/renderer/playable-sandbox-entry.ts",
       ),
       formats: ["iife"],
-      name: "OhMyGamePlayableSandbox",
+      name: "XcFlowPlayableSandbox",
       fileName: () => "assets/playable-sandbox.js",
     },
     rollupOptions: {

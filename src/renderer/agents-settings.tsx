@@ -11,7 +11,7 @@ import {
 } from "./coding-agents-settings.js";
 import { useAgentModels } from "./model-selector.js";
 import { t } from "./i18n.js";
-import brandMark from "../shared/assets/ohmygame-mark-v2.svg";
+import brandMark from "../shared/assets/xcflow-mark-v2.svg";
 
 export type AgentsView =
   { page: "agents" } | { page: "agent"; id: AgentRuntimeId };
