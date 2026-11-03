@@ -179,6 +179,31 @@ describe("projectTurnDisplay", () => {
     expect(display.work[2]).toEqual({ kind: "waiting" });
   });
 
+  it("keeps an answered questionnaire in the transcript record", () => {
+    const questionnaire: ThreadItem = {
+      id: "q", turnId: "turn-1", type: "userInputRequest", requestId: "q", status: "completed",
+      questions: [{ id: "q1", prompt: "Which engine?", options: [{ value: "a", label: "A" }, { value: "b", label: "B" }], allowOther: true }],
+      answers: [{ questionId: "q1", value: "a", label: "A", custom: false }],
+      timestamp: 3,
+    };
+    const display = projectTurnDisplay(turn([questionnaire, answer("Done.")], false));
+
+    expect(display.messages).toEqual([questionnaire]);
+    expect(display.work).toEqual([]);
+  });
+
+  it("keeps a pending questionnaire out of the transcript while its card is above the composer", () => {
+    const questionnaire: ThreadItem = {
+      id: "q", turnId: "turn-1", type: "userInputRequest", requestId: "q", status: "inProgress",
+      questions: [{ id: "q1", prompt: "Which engine?", options: [{ value: "a", label: "A" }], allowOther: true }],
+      timestamp: 3,
+    };
+    const display = projectTurnDisplay(turn([questionnaire], true));
+
+    expect(display.messages).toEqual([]);
+    expect(display.work).toEqual([]);
+  });
+
   it("separates completed work from the final answer", () => {
     const display = projectTurnDisplay(turn([
       commentary("I inspected the file."),

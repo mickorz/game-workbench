@@ -47,7 +47,8 @@ export function projectTurnDisplay(turn: Turn, now = Date.now(), waitingForInput
   const active = turn.status === "inProgress";
   const user = turn.items.find((item): item is Extract<ThreadItem, { type: "userMessage" }> => item.type === "userMessage");
   // A request still waiting is answered in its card above the composer; once answered it is part of the work.
-  const items = turn.items.filter((item) => item !== user && item.type !== "userInputRequest" && !(item.type === "approvalRequest" && item.status === "inProgress") && !isCancelledStatusMessage(item) &&
+  // 进行中的问卷由输入框上方的卡片承载；已完成的进入消息流作为转写记录。
+  const items = turn.items.filter((item) => item !== user && !(item.type === "userInputRequest" && item.status === "inProgress") && !(item.type === "approvalRequest" && item.status === "inProgress") && !isCancelledStatusMessage(item) &&
     !(item.type === "retry" && item.status === "completed"));
   const finalStarted = items.some(isFinalAnswer);
   const finalMessages = active ? [] : items.filter(isFinalAnswer);

@@ -11892,6 +11892,127 @@ button {
   gap: 16px;
 }
 
+.questionnaire-tabs {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.questionnaire-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.questionnaire-tabs button {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  max-width: 220px;
+  padding: 4px 9px 4px 5px;
+  border: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.questionnaire-tabs button:hover:not(:disabled) {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.questionnaire-tabs .questionnaire-tab-active {
+  border-color: var(--border-strong);
+  background: color-mix(in srgb, var(--surface-hover) 82%, var(--surface-raised));
+  color: var(--text);
+}
+
+.questionnaire-tab-mark {
+  display: grid;
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--border-strong) 68%, transparent);
+  border-radius: 50%;
+  font-size: 9px;
+}
+
+.questionnaire-tabs [data-answered] .questionnaire-tab-mark {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.questionnaire-tab-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.questionnaire-prompt {
+  min-width: 0;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 550;
+  line-height: 1.4;
+}
+
+.questionnaire-record {
+  display: grid;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.questionnaire-record-question {
+  display: grid;
+  gap: 5px;
+}
+
+.questionnaire-record-prompt {
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 550;
+  line-height: 1.4;
+}
+
+.questionnaire-record-options {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.questionnaire-record-options li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-faint);
+  font-size: 11px;
+}
+
+.questionnaire-record-options .questionnaire-record-option-selected {
+  color: var(--text);
+}
+
+.questionnaire-record-skipped {
+  color: var(--text-faint);
+  font-size: 10px;
+  font-style: italic;
+}
+
+.questionnaire-record-error {
+  color: var(--danger);
+  font-size: 11px;
+}
+
+.questionnaire-record-options svg {
+  flex: 0 0 auto;
+}
+
 .questionnaire-card > header > strong {
   min-width: 0;
   color: var(--text);

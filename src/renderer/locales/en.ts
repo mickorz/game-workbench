@@ -1356,6 +1356,9 @@ const en = {
     skipAll: "Skip questions",
     other: "Type another answer",
     submit: "Submit answer",
+    tabsLabel: "Questions",
+    quotedAnswer: "\"{{answer}}\"",
+    skippedQuestion: "Not answered",
   },
   agentError: {
     runtime_probe_failed: {

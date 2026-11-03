@@ -760,6 +760,40 @@ describe("AgentTimeline", () => {
     expect(html).toContain("Ran npm run typecheck");
   });
 
+  it("keeps an answered questionnaire as a transcript record", () => {
+    const html = renderToStaticMarkup(<AgentTimeline items={[
+      user(),
+      questionnaire("completed", [{ questionId: "q1", value: "a", label: "A", custom: false }]),
+    ]} />);
+
+    expect(html).toContain('class="questionnaire-record"');
+    expect(html).toContain('data-tone="answered"');
+    expect(html).toContain("Which engine?");
+    expect(html).toContain("questionnaire-record-option-selected");
+    // 未选中的选项同样列出，回放展示完整选项集。
+    expect(html).toContain(">A<");
+    expect(html).toContain(">B<");
+  });
+
+  it("marks a skipped questionnaire record as skipped", () => {
+    const html = renderToStaticMarkup(<AgentTimeline items={[
+      user(),
+      questionnaire("cancelled"),
+    ]} />);
+
+    expect(html).toContain('data-tone="skipped"');
+    expect(html).toContain("Not answered");
+  });
+
+  it("does not render a pending questionnaire in the timeline", () => {
+    const html = renderToStaticMarkup(<AgentTimeline items={[
+      user(),
+      questionnaire("inProgress"),
+    ]} activeTurnId="turn-1" />);
+
+    expect(html).not.toContain("questionnaire-record");
+  });
+
   it("shows the Godot brand and operation for MCP tool calls", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       user(),
@@ -1388,6 +1422,17 @@ function changeControls(disabled = false): NonNullable<ComponentProps<typeof Thr
 
 function user(): ThreadItemOf<"userMessage"> {
   return { id: "user", turnId: "turn-1", type: "userMessage", text: "Build", timestamp: Date.now() - 1_000 };
+}
+
+function questionnaire(
+  status: "inProgress" | "completed" | "cancelled" | "failed",
+  answers?: Array<{ questionId: string; value: string; label: string; custom: boolean }>,
+): ThreadItemOf<"userInputRequest"> {
+  return {
+    id: "q", turnId: "turn-1", type: "userInputRequest", requestId: "q", status,
+    questions: [{ id: "q1", prompt: "Which engine?", options: [{ value: "a", label: "A" }, { value: "b", label: "B" }], allowOther: true }],
+    ...(answers ? { answers } : {}),
+  };
 }
 
 function tool(): ThreadItemOf<"dynamicToolCall"> {

@@ -1334,6 +1334,9 @@ const zhCN: typeof en = {
     skipAll: "跳过问题",
     other: "输入其他答案",
     submit: "提交答案",
+    tabsLabel: "问题列表",
+    quotedAnswer: "“{{answer}}”",
+    skippedQuestion: "未作答",
   },
   agentError: {
     runtime_probe_failed: {

@@ -4,6 +4,7 @@ import { FileDiff } from "./file-diff.js";
 import {
   Check,
   ChevronRight,
+  Circle,
   Copy,
   Diskette,
   FilePenLine,
@@ -538,6 +539,43 @@ function WaitingActivity() {
   );
 }
 
+// 已完成问卷的只读转写记录：每问列出全部选项，选中打勾，自定义答案引号显示，未答/跳过标灰。
+function QuestionnaireRecord({ item }: { item: Extract<ThreadItem, { type: "userInputRequest" }> }) {
+  const answers = new Map((item.answers ?? []).map((answer) => [answer.questionId, answer]));
+  const skipped = (item.status === "cancelled" || item.status === "failed") || (item.answers?.length ?? 0) === 0;
+  return (
+    <div className="questionnaire-record" data-testid="questionnaire-record" data-tone={skipped ? "skipped" : "answered"}>
+      {item.error ? <div className="questionnaire-record-error">{item.error.message}</div> : null}
+      {item.questions.map((question) => {
+        const answer = answers.get(question.id);
+        return (
+          <div key={question.id} className="questionnaire-record-question">
+            <div className="questionnaire-record-prompt">{question.prompt}</div>
+            <ul className="questionnaire-record-options">
+              {question.options.map((option) => {
+                const selected = answer?.custom !== true && answer?.value === option.value;
+                return (
+                  <li key={option.value} className={selected ? "questionnaire-record-option-selected" : undefined} data-selected={selected || undefined}>
+                    {selected ? <Check size={14} aria-hidden="true" /> : <Circle size={14} aria-hidden="true" />}
+                    <span>{option.label}</span>
+                  </li>
+                );
+              })}
+              {answer?.custom ? (
+                <li className="questionnaire-record-option-selected" data-selected>
+                  <Check size={14} aria-hidden="true" />
+                  <span>{t("questionnaire.quotedAnswer", { answer: answer.label })}</span>
+                </li>
+              ) : null}
+            </ul>
+            {!answer ? <div className="questionnaire-record-skipped">{t("questionnaire.skippedQuestion")}</div> : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 // 思考块展开状态按 item id 持久（组件重挂载、切回会话后保持用户选择）。
 const thinkingFold = new Map<string, boolean>();
 
@@ -583,6 +621,7 @@ function thinkingHeadline(text: string): string | undefined {
 function TimelineItem({ item, images, hideError = false }: { item: ThreadItem; images?: PromptImage[]; hideError?: boolean }) {
   const workspaceLinks = useContext(WorkspaceLinkContext);
   if (item.type === "reasoning") return <ThinkingBlock item={item} />;
+  if (item.type === "userInputRequest") return <QuestionnaireRecord item={item} />;
   if (item.type === "modelChange") {
     return (
       <div className="model-change-event" role="status">
