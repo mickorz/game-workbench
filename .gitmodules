@@ -7,3 +7,6 @@
 [submodule "thirdparties/fairygui-agent-bridge"]
 	path = thirdparties/fairygui-agent-bridge
 	url = https://github.com/wingcd/fairygui-agent-bridge.git
+[submodule "thirdparties/grasp"]
+	path = thirdparties/grasp
+	url = https://github.com/cocofhu/grasp.git

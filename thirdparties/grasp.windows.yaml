@@ -1,0 +1,26 @@
+# Windows (Docker Desktop) 适配 override：
+# 官方栈用 network_mode host（仅 Linux 验证过），Docker Desktop 的 host 网络
+# 不暴露到 Windows localhost。本文件改桥接 + 端口映射，让 UI/API/网关可达。
+# 用法：
+#   docker compose -f compose.release.yaml -f compose.windows.yaml up -d
+# 限制：agent 沙箱端口由网关 publish 在 docker 宿主 loopback，桥接模式下
+# grasp 容器无法经 127.0.0.1 直连沙箱数据面——Windows 上仅适合 UI/API 评估，
+# 完整 agent 工作流需 Linux 宿主或 WSL2 mirrored 网络 + Docker Desktop host networking。
+services:
+  gateway:
+    network_mode: bridge
+    ports:
+      - "8899:8899"
+
+  grasp:
+    network_mode: bridge
+    ports:
+      - "8080:8080"
+    environment:
+      # 桥接网络下用服务名寻址网关，不再走 127.0.0.1
+      GRASP_SANDBOX_GATEWAY_URL: http://gateway:8899
+# 完整启动命令（在本仓库根执行，或 cd thirdparties/grasp 后去掉 --project-directory）：
+#   docker compose --project-directory thirdparties/grasp \
+#     -f thirdparties/grasp/compose.release.yaml -f thirdparties/grasp.windows.yaml up -d
+# 登录：admin / demo1234（仅本地评估）
+# 停止：同上把 up -d 换成 down
