@@ -45,3 +45,8 @@
 
 - `test/project-types.test.ts` 2 条 + `test/bundled-plugins.test.ts` 1 条失败：**隐藏工作室（menu-item）特性的断言未同步**，与品牌清理无关（基线同样失败），待单独修
 - runner 坑：`bun test`（bun 自带 runner）与 `bun run test`（vitest）行为不同——bun test 会扫进 `thirdparties/` 子模块测试且缺 `vi.waitFor`，验收一律用 `bun run test`
+
+## 补遗（commit `2187a1b`）
+
+- `integrations/skills/ohmygame-studio` 源目录改名 `xcflow-studio`：文件夹名不是协议（4 处路径引用同版本原子改：app.ts / main.ts / check-packaged-desktop.mjs / 打包测试）；SKILL.md 文案改 XC-UI-Flow。
+- 冻结拆分澄清：真协议是 frontmatter `name: ohmygame-studio`（= EXTERNAL_MCP_SERVER_NAME，落到用户机 `~/.claude/skills/ohmygame-studio`），仓库源目录名可改。protocol-names.md 双语已更新。
