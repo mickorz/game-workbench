@@ -1,26 +1,26 @@
 ---
 name: ohmygame-studio
-description: Use OhMyGame's game studio tools from this agent - generate images, video, 3D models, animation, speech, sound effects and music with the person's configured providers, keep the project's Design and Asset Canvas valid, and playtest the game in a real window. Use when working in an OhMyGame project folder, or when the person asks for game art, 3D assets, audio or a playtest through OhMyGame.
+description: Use XC-UI-Flow's game studio tools from this agent - generate images, video, 3D models, animation, speech, sound effects and music with the person's configured providers, keep the project's Design and Asset Canvas valid, and playtest the game in a real window. Use when working in an XC-UI-Flow project folder, or when the person asks for game art, 3D assets, audio or a playtest through XC-UI-Flow.
 ---
 
-# OhMyGame Studio
+# XC-UI-Flow Studio
 
-OhMyGame is a desktop app for making games. Its tools reach you through the
+XC-UI-Flow is a desktop app for making games. Its tools reach you through the
 `ohmygame-studio` MCP server. You keep writing code with your own tools;
-OhMyGame adds what you cannot do alone: media generation with the person's
+XC-UI-Flow adds what you cannot do alone: media generation with the person's
 providers, its canvas, and playing the game like a player.
 
 ## Choose the project
 
-Every tool except `list_projects` and `open_project` works on one OhMyGame
+Every tool except `list_projects` and `open_project` works on one XC-UI-Flow
 project.
 
 - Working inside a project's folder selects it. Call `get_project` to confirm
   the project, its type and its workspace folder.
 - Otherwise call `list_projects`, then `open_project` with an ID or folder.
-- If a tool says OhMyGame is turned off or could not be started, tell the
-  person to open OhMyGame and turn on **Settings → MCP Server → Allow other
-  agents to use OhMyGame**. Do not retry in a loop.
+- If a tool says XC-UI-Flow is turned off or could not be started, tell the
+  person to open XC-UI-Flow and turn on **Settings → MCP Server → Allow other
+  agents to use XC-UI-Flow**. Do not retry in a loop.
 
 ## Generate assets
 
@@ -50,7 +50,7 @@ reports. `canvas_initialize` creates the canvas in a project without one.
 
 ## Playtest
 
-`game_use` opens the game in OhMyGame's player window, acts as a player and
+`game_use` opens the game in XC-UI-Flow's player window, acts as a player and
 captures screenshots. Use it after changing gameplay: a successful build is
 not a playtest.
 
@@ -59,7 +59,7 @@ not a playtest.
 3. `capture` for screenshots of canvas or WebGL games.
 4. `close` the session when finished.
 
-It needs the OhMyGame desktop app and a project with a game preview.
+It needs the XC-UI-Flow desktop app and a project with a game preview.
 
 ## Interactive Story projects
 
@@ -69,5 +69,5 @@ use mode `publish` before the person publishes.
 ## What stays with you
 
 Edit code and files, run commands, plan, and ask the person questions with
-your own tools. OhMyGame cannot undo changes you make outside its tools, so
+your own tools. XC-UI-Flow cannot undo changes you make outside its tools, so
 keep the project in version control.

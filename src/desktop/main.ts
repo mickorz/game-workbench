@@ -508,8 +508,8 @@ try {
       : undefined,
     ...(externalMcpLauncher ? { externalMcpLauncher } : {}),
     externalSkillDirectory: app.isPackaged
-      ? path.join(process.resourcesPath, "integrations", "skills", "ohmygame-studio")
-      : path.join(repositoryRoot, "integrations", "skills", "ohmygame-studio"),
+      ? path.join(process.resourcesPath, "integrations", "skills", "xcflow-studio")
+      : path.join(repositoryRoot, "integrations", "skills", "xcflow-studio"),
     runtimeBin: app.isPackaged
       ? process.platform === "win32"
         ? path.join(process.resourcesPath, "runtime", "node")

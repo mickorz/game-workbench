@@ -18,7 +18,7 @@ agent 注册信息里都已经带着这些字符串落在磁盘上。改名会�
 | `.ohmygame-plugin/` | `plugins/` 下的插件目录 | 插件发现协议；15 个内置与第三方插件及存量工程按此目录名寻址。类似 `.git`，目录名即契约。 |
 | `ohmygame-godot` | `src/shared/mcp.ts` 的 `GODOT_MCP_SERVER_ID` | MCP 服务 id，daemon 与插件两端字符串匹配。 |
 | `ohmygame` | `src/shared/plugins.ts` 的插件市场索引 id | 插件目录查询按此 id 寻址。 |
-| `ohmygame-studio` | 外部 MCP 服务名（`EXTERNAL_MCP_SERVER_NAME`）、技能目录名 | 外部 CLI 注册进 `~/.claude.json` 的名字，也是 MCP 握手用的名字。改名会让存量注册孤儿化。 |
+| `ohmygame-studio` | 外部 MCP 服务名（`EXTERNAL_MCP_SERVER_NAME`）与 `integrations/skills/xcflow-studio/SKILL.md` 里技能的 `name` | 外部 CLI 注册进 `~/.claude.json` 的名字、MCP 握手名，也是用户机器上的安装目录 `~/.claude/skills/ohmygame-studio`。改名会让存量注册孤儿化。仓库内源目录已改 `integrations/skills/xcflow-studio`，仅协议名保留。 |
 | `ohmygame:*` | Electron IPC 通道名（`src/desktop/main.ts`、`preload.cts`） | 渲染进程与主进程约定的字符串；保存的会话与测试都在引用。 |
 | `ohMyGameDesktop` | `preload.cts` 的 `contextBridge` 暴露键 | 同 IPC 通道契约，暴露给网页游戏页面。 |
 | `OHMYGAME_*` 环境变量 | `OHMYGAME_RENDERER_URL`、旧 `OHMYGAME_FFMPEG_PATH`、daemon token/数据目录变量 | 由用户或外部启动器配置，不在我们控制内。新变量用 `XCUIFLOW_` 前缀，读取处保留 `OHMYGAME_` fallback（见 `.env.example`、`src/daemon/project-process.ts`）。 |

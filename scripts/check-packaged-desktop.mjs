@@ -69,7 +69,7 @@ export default async function checkPackagedDesktop(context) {
     });
     assert.equal(response.status, 200, "Packaged daemon must serve the projects API");
     assert.deepEqual(await response.json(), [], "Package check must use an empty isolated workspace");
-    await access(path.join(resources, "integrations", "skills", "ohmygame-studio", "SKILL.md"));
+    await access(path.join(resources, "integrations", "skills", "xcflow-studio", "SKILL.md"));
     const handshake = await externalMcpHandshake(executable, path.join(archive, "dist", "desktop", "external-mcp-main.js"), path.join(directory, "data"), environment);
     assert.equal(handshake.result?.serverInfo?.name, "ohmygame-studio", "Packaged MCP launcher must answer from the app archive");
     await checkStoryWeb(daemon.runtime);

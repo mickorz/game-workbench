@@ -929,7 +929,7 @@ export function createApp(options: AppOptions = {}) {
   const externalClients = new ExternalAgentClients({
     dataDirectory,
     ...(options.externalMcpLauncher ? { launcher: options.externalMcpLauncher } : {}),
-    skillDirectory: options.externalAgentSkillDirectory ?? path.join(repositoryRoot, "integrations", "skills", "ohmygame-studio"),
+    skillDirectory: options.externalAgentSkillDirectory ?? path.join(repositoryRoot, "integrations", "skills", "xcflow-studio"),
     resolve: (runtime) => agentRuntimes.cli(runtime),
     run: options.runExternalAgentCli ?? runCli,
   });
