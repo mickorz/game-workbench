@@ -8,12 +8,14 @@ describe("project types", () => {
       { label: "Interactive Story", value: "interactive-story" },
       { label: "Asset Canvas", value: "asset-canvas" },
       { label: "Godot", value: "godot-game" },
+      { label: "FairyGUI", value: "fairygui" },
       { label: "General Game", value: "general" },
     ]);
   });
 
-  it("keeps Asset Canvas out of the home game types", () => {
-    expect(GAME_PROJECT_TYPES.map(({ value }) => value)).toEqual(["web-game", "interactive-story", "godot-game", "general"]);
+  it("keeps Asset Canvas and the hidden types out of the home game types", () => {
+    // HIDDEN_PROJECT_TYPE_IDS 隐藏 4 类工作室，首页只剩 FairyGUI
+    expect(GAME_PROJECT_TYPES.map(({ value }) => value)).toEqual(["fairygui"]);
   });
 
   it("provides labels and default names", () => {

@@ -32,7 +32,9 @@ export function Home({ onNavigate, onCreate, onOpen, inert = false }: HomeProps)
   const activity = useProjectActivity(phase === "ready" && projects.length > 0, setProjects);
   const [loadError, setLoadError] = useState<string>();
   const [projectActionError, setProjectActionError] = useState<string>();
-  const [projectType, setProjectType] = useState<ProjectType>("web-game");
+  // 默认类型取可见列表首项：隐藏工作室后硬编码的旧默认（如 web-game）可能已不在列表里，
+  // 会让 ProjectTypeSelector 的 options.find 落空而崩溃
+  const [projectType, setProjectType] = useState<ProjectType>(GAME_PROJECT_TYPES[0]?.value ?? "web-game");
   const [createOpen, setCreateOpen] = useState(false);
   const [renameTarget, setRenameTarget] = useState<ProjectState>();
   const renameTrigger = useRef<HTMLElement | null>(null);

@@ -10,10 +10,15 @@ describe("bundled plugins", () => {
     const store = new BundledPluginStore(path.resolve("plugins"));
     await store.load();
     expect(store.list().filter(plugin => plugin.beta).map(plugin => plugin.name)).toEqual([
-      "aseprite", "blender", "cocos-creator", "douyin-minigame", "godot",
+      "aseprite", "blender", "cocos-creator", "douyin-minigame", "fairygui", "godot",
       "taptap-maker", "tiled", "unity", "unreal-engine", "wechat-minigame",
     ]);
     for (const plugin of store.list().filter(plugin => plugin.beta)) {
+      // 图标要么是可读的 asset，要么是合法的 preset（preset 由渲染层映射，readIcon 返回 undefined）
+      if (plugin.icon?.type === "preset") {
+        expect(plugin.icon.id, plugin.name).toBeTruthy();
+        continue;
+      }
       expect(plugin.icon?.type, plugin.name).toBe("asset");
       const image = await store.readIcon(plugin.id);
       expect(image, plugin.name).toBeDefined();

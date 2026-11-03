@@ -165,6 +165,7 @@ describe("plugin catalog API", () => {
         { id: "ohmygame:blender", installed: true, beta: true },
         { id: "ohmygame:cocos-creator", installed: true, beta: true, enabled: false },
         { id: "ohmygame:douyin-minigame", installed: true, beta: true, enabled: false },
+        { id: "ohmygame:fairygui", installed: true, beta: true },
         { id: "ohmygame:game-studio", installed: true },
         { id: "ohmygame:godot", installed: true, beta: true },
         { id: "ohmygame:taptap-maker", installed: true, beta: true, enabled: false },
