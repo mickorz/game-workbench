@@ -19,6 +19,8 @@ services:
     environment:
       # 桥接网络下用服务名寻址网关，不再走 127.0.0.1
       GRASP_SANDBOX_GATEWAY_URL: http://gateway:8899
+      # demo 账号 admin/demo1234（上游 start.sh 同一 bcrypt 哈希；$$ 转义防 compose 吃掉 $）
+      GRASP_AUTH_USERS: '[{"username":"admin","password_hash":"$$2a$$10$$EY.SdHq0p6drMz6U9JVrz.Kq0jNkg7TWmsVUFLtB1dL1yIelDkITi","is_admin":true}]'
 # 完整启动命令（在本仓库根执行，或 cd thirdparties/grasp 后去掉 --project-directory）：
 #   docker compose --project-directory thirdparties/grasp \
 #     -f thirdparties/grasp/compose.release.yaml -f thirdparties/grasp.windows.yaml up -d
