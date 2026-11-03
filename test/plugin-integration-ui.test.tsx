@@ -364,6 +364,7 @@ describe("plugin connection UI", () => {
       root.render(
         <ProjectCreateDialog
           initialType="general"
+          projectTypes={[{ label: "General Game", value: "general" }]}
           onClose={() => {}}
           onCreated={opened}
         />,
