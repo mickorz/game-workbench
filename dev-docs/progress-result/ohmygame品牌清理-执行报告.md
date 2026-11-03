@@ -50,3 +50,11 @@
 
 - `integrations/skills/ohmygame-studio` 源目录改名 `xcflow-studio`：文件夹名不是协议（4 处路径引用同版本原子改：app.ts / main.ts / check-packaged-desktop.mjs / 打包测试）；SKILL.md 文案改 XC-UI-Flow。
 - 冻结拆分澄清：真协议是 frontmatter `name: ohmygame-studio`（= EXTERNAL_MCP_SERVER_NAME，落到用户机 `~/.claude/skills/ohmygame-studio`），仓库源目录名可改。protocol-names.md 双语已更新。
+
+## 遗留问题清零（commit `61cb8c0`）
+
+- 修复曾被误判为"环境性"的 5 条真实回归（均为 fairygui/隐藏工作室特性断言未同步 + 真实崩溃）：
+  - `home.tsx` 默认 `projectType="web-game"` 在隐藏后落空 → 首页新建弹窗崩溃（`ProjectTypeSelector` 的 `current.value`）；修法：默认值取 `GAME_PROJECT_TYPES[0]`
+  - `project-types` ×2、`bundled-plugins` ×1、`plugin-catalog-api` ×1 断言同步 fairygui 入列（beta 清单、preset 图标合法化）
+- 复查其余基线失败：确认全部为环境性（Windows symlink EPERM、全量并发资源竞争、tasklist 冒烟），单跑均过或与改动无关
+- 教训沉淀：`dev-docs/experience/隐藏工作室默认projectType落空崩溃.md`（基线对比必须逐条看失败原因，不能只对比名单）
