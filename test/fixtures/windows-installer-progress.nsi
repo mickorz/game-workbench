@@ -93,13 +93,13 @@ Section
   # Exercise 64-bit arithmetic, even when the actual fixture archive is small.
   Push 5000000000
   Push 2500000000
-  Call OhMyGameExtractProgress
+  Call XcFlowExtractProgress
   Push "large-payload"
   Call Snapshot
   # Retry from an earlier extraction point must hold the visible percentage.
   Push 100
   Push 10
-  Call OhMyGameExtractProgress
+  Call XcFlowExtractProgress
   Push "retry"
   Call Snapshot
   SendMessage $mui.InstFilesPage.ProgressBar ${PBM_SETPOS} 24000 0

@@ -26,7 +26,7 @@ Configure these GitHub Actions repository variables:
 | -------------------------- | ------------------------------------- | --------------------------------------------------- |
 | `DESKTOP_UPDATE_URL`       | `https://github.com/mickorz/xc-ui-flow/releases` | Public feed URL embedded in the app                 |
 | `R2_ACCOUNT_ID`            | Cloudflare account ID                 | Builds the R2 S3 endpoint                           |
-| `R2_BUCKET`                | `ohmygame-releases`                   | Destination bucket                                  |
+| `R2_BUCKET`                | `xcflow-releases`                   | Destination bucket                                  |
 | `R2_DESKTOP_UPDATE_PREFIX` | `desktop`                             | Destination key prefix, without surrounding slashes |
 
 Configure these repository secrets:
@@ -43,8 +43,8 @@ Configure these repository secrets:
 | `SENTRY_AUTH_TOKEN`           | Sentry token that uploads renderer source maps   |
 
 When `SENTRY_AUTH_TOKEN` is set, `vite build` generates hidden renderer source
-maps, uploads them to the `ohmygame` Sentry project under the
-`ohmygame@<version>` release, and deletes them. The package also excludes
+maps, uploads them to the `xcflow` Sentry project under the
+`xcflow@<version>` release, and deletes them. The package also excludes
 renderer `.map` files, so a failed upload cannot ship them. Builds without the
 token, including local builds and fork PRs, generate no source maps.
 
@@ -257,7 +257,7 @@ Markdown; its optional version or tag argument must match the package version.
 To save the notes to a file, use `--output` (parent directories are created):
 
 ```bash
-bun run release:notes --output /tmp/ohmygame-release-notes.md v0.0.0-beta.4.7
+bun run release:notes --output /tmp/xcflow-release-notes.md v0.0.0-beta.4.7
 ```
 
 CI checks the changelog on ordinary PRs as well, so a version bump and its notes

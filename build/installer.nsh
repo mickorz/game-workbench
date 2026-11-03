@@ -63,7 +63,7 @@
       progress_update_done:
     FunctionEnd
 
-    Function OhMyGameExtractProgress
+    Function XcFlowExtractProgress
       # Nsis7z pushes completed bytes followed by total bytes. Always consume
       # both, including silent installations. Use 64-bit math for large payloads.
       Pop $omgExtractCompleted
@@ -99,7 +99,7 @@
   StrCpy $omgProgressPhase "$(omgExtracting)"
   Call XcFlowInstallProgressUpdate
   Push $R9
-  GetFunctionAddress $R9 OhMyGameExtractProgress
+  GetFunctionAddress $R9 XcFlowExtractProgress
   Nsis7z::ExtractWithCallback "${FILE}" $R9
   Pop $R9
   StrCpy $omgProgressNext 85

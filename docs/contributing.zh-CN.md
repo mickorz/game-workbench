@@ -15,8 +15,8 @@
 Fork 仓库后，把下面的 `YOUR_USERNAME` 换成你的 GitHub 用户名：
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ohmygame.git
-cd ohmygame
+git clone https://github.com/YOUR_USERNAME/xc-ui-flow.git
+cd xc-ui-flow
 git remote add upstream https://github.com/WhiteTowerAI/ohmygame.git
 git fetch upstream
 git switch --no-track -c fix/short-description upstream/dev

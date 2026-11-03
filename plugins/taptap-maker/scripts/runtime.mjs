@@ -150,7 +150,7 @@ async function npmEntry() {
     }
   }
   throw new Error(
-    "npm is unavailable. Restart OhMyGame with its bundled Node/npm runtime.",
+    "npm is unavailable. Restart XC-UI-Flow with its bundled Node/npm runtime.",
   );
 }
 
