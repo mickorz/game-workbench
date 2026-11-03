@@ -81,7 +81,8 @@ export function Home({ onNavigate, onCreate, onOpen, inert = false }: HomeProps)
   }
 
   const visibleProjects = projects.slice(0, recentProjectLimit);
-  const visibleExamples = examples.slice(0, columns);
+  // 「探索」示例同样跟随隐藏配置：类型被隐藏的示例不展示（全被隐藏时整个区块不渲染）
+  const visibleExamples = examples.filter((example) => GAME_PROJECT_TYPES.some(({ value }) => value === example.type)).slice(0, columns);
 
   return (
     <main className="home-shell" inert={inert}>

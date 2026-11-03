@@ -43,7 +43,7 @@ description_en: >-
 | 常量 | 消费点 | 隐藏影响 |
 |---|---|---|
 | `SIDEBAR_ITEMS.visible` | 侧边栏渲染 | 只藏菜单项 |
-| `HIDDEN_PROJECT_TYPE_IDS` → `GAME_PROJECT_TYPES` | 首页下拉（`home.tsx` 显式传）+ **新建对话框默认列表**（`ProjectCreateDialog` 默认 `projectTypes = GAME_PROJECT_TYPES`）+ 首页默认选中类型（`home.tsx` 取 `GAME_PROJECT_TYPES[0]`） | 只藏新建入口；「项目」页等未显式传列表的调用点也跟随 |
+| `HIDDEN_PROJECT_TYPE_IDS` → `GAME_PROJECT_TYPES` | 首页下拉（`home.tsx` 显式传）+ **新建对话框默认列表**（`ProjectCreateDialog` 默认 `projectTypes = GAME_PROJECT_TYPES`）+ 首页默认选中类型（`home.tsx` 取 `GAME_PROJECT_TYPES[0]`）+ **首页「探索」示例区**（`home.tsx` 按类型过滤示例，全被隐藏时整个区块不渲染） | 只藏新建入口与探索示例；「项目」页等未显式传列表的调用点也跟随 |
 | `PROJECT_TYPES` | 项目页筛选下拉 + 需要全量类型的调用点（显式传 `projectTypes` 参数可提供隐藏类型） | **不要动**——历史项目筛选需要全类型 |
 
 ## 必须向用户说明的两点（每次都要说）
@@ -65,7 +65,7 @@ description_en: >-
 ## 验收
 
 1. `bun run typecheck` 通过（**单独跑**，确认无输出）。
-2. 刷新页面逐点检查：侧边栏目标项消失；首页新建下拉不含目标类型；**「项目」页的新建弹窗也不含目标类型**（坑 4 的验收点）。
+2. 刷新页面逐点检查：侧边栏目标项消失；首页新建下拉不含目标类型；**「项目」页的新建弹窗也不含目标类型**（坑 4 的验收点）；**首页「探索」区不展示被隐藏类型的示例**（示例源 `.runtime/examples/catalog.json`，全被隐藏时区块整体消失）。
 3. 路由直输 `#/<隐藏项>` 仍可达（预期行为，不是 bug）。
 4. commit + push；提交信息写明「隐藏（可逆）」与涉及类型。
 
