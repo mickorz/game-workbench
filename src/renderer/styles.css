@@ -12082,6 +12082,56 @@ button {
   text-align: right;
 }
 
+.todo-list-group-title {
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.todo-list-card .todo-list-group + .todo-list-group {
+  margin-top: 6px;
+  padding-top: 5px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 45%, transparent);
+}
+
+.todo-list-origin {
+  flex: none;
+  padding: 1px 4px;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: 4px;
+  color: var(--text-faint);
+  font-size: 8px;
+  line-height: 1.2;
+}
+
+.todo-list-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  padding: 2px 0;
+  border: none;
+  background: none;
+  color: var(--text-faint);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.todo-list-add:hover {
+  color: var(--text-muted);
+}
+
+.todo-list-add-input {
+  margin-top: 4px;
+  width: 100%;
+  padding: 4px 7px;
+  border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--text);
+  font-size: 11px;
+}
+
 .questionnaire-body {
   display: grid;
   min-width: 0;

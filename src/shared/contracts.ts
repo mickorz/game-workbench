@@ -868,9 +868,16 @@ export interface PlanSessionState {
 export const TODO_ITEM_STATUSES = ["pending", "in_progress", "done"] as const;
 export type TodoItemStatus = (typeof TODO_ITEM_STATUSES)[number];
 
+/** nudge 控制消息前缀：daemon 注入的加 todo 引导提示，renderer 不渲染成气泡（仿 thinkrail isControlMessage）。 */
+export const TODO_NUDGE_PREFIX = "[xc-ui-flow:todo-nudge] ";
+
 export interface TodoSnapshotItem {
   title: string;
   status: TodoItemStatus;
+  /** 用户在卡片上手动添加的条目；agent 重写快照时不得丢弃。 */
+  origin?: "user";
+  /** 可选分组名；同组条目在卡片里归为一节，无组条目为首块。 */
+  group?: string;
 }
 
 /** 任务清单快照：todo_write 每次全量重写，同 turn 后写覆盖前写。 */

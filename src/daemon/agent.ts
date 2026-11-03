@@ -18,7 +18,8 @@ import { createHash, randomUUID } from "node:crypto";
 import { existsSync } from "node:fs";
 import { createTrackedWriteTool, fileChangeMetadata } from "./file-line-changes.js";
 import { readWorkspaceNotice } from "./workspace-notice.js";
-import type { AgentContextUsage, AgentMessagePhase, AgentReasoningLevel, AgentStatus, ConversationAgentState, ConversationAttachment, PendingPrompt, PlanMode, PlanSessionState, PlanState, PluginMention, ProjectAgentActivity, ProjectState, PromptImage, PromptReference, QuestionnaireAnswer, QuestionnaireQuestion, QuestionnaireResult, ResponsesTransportMode, ThreadItem, ThreadItemError, TodoSnapshot, ToolArtifact, TurnChanges } from "../shared/contracts.js";
+import type { AgentContextUsage, AgentMessagePhase, AgentReasoningLevel, AgentStatus, ConversationAgentState, ConversationAttachment, PendingPrompt, PlanMode, PlanSessionState, PlanState, PluginMention, ProjectAgentActivity, ProjectState, PromptImage, PromptReference, QuestionnaireAnswer, QuestionnaireQuestion, QuestionnaireResult, ResponsesTransportMode, ThreadItem, ThreadItemError, TodoItemStatus, TodoSnapshot, TodoSnapshotItem, ToolArtifact, TurnChanges } from "../shared/contracts.js";
+import { TODO_NUDGE_PREFIX } from "../shared/contracts.js";
 import { hasPluginMentionToken, parsePluginMentions, serializePluginMentions } from "../shared/plugins.js";
 import type { RuntimeEventBus } from "../shared/events.js";
 import type { AgentRuntimeId, ApprovalDecision, ApprovalRequestDetails } from "../shared/agent-runtimes.js";
@@ -279,9 +280,17 @@ export function conversationItems(entries: readonly SessionEntry[], markInterrup
           if (content.name === "todo_write") {
             const snapshot = todoThreadSnapshot(content.arguments);
             if (snapshot && turnId) {
-              // 同 turn 后写覆盖前写，与实时路径同 id。
-              const item: ThreadItem = { id: `${turnId}:todos`, turnId, type: "todoList", todos: snapshot, timestamp };
-              const index = items.findIndex((candidate) => candidate.id === item.id);
+              // 同 turn 后写覆盖前写，与实时路径同 id；与旧快照 reconcile（done 保持 + 用户条目追加）。
+              const itemId = `${turnId}:todos`;
+              const previous = items.findLast((candidate): candidate is Extract<ThreadItem, { type: "todoList" }> => candidate.id === itemId && candidate.type === "todoList");
+              const item: ThreadItem = {
+                id: itemId,
+                turnId,
+                type: "todoList",
+                todos: { items: reconcileTodoItems(previous?.todos.items, snapshot.items) },
+                timestamp,
+              };
+              const index = items.findIndex((candidate) => candidate.id === itemId);
               if (index < 0) items.push(item);
               else items[index] = item;
             }
@@ -1335,20 +1344,23 @@ export class AgentManager {
   }
 
   // 写入任务清单快照：同 turn 同 id 后写覆盖前写，timeline 只留最新一张。
+  // agent 重写时与旧快照 reconcile：done 不回退、用户条目身份保持、未收录的用户条目追加。
   writeTodoList(
     projectId: string,
     conversationId: string,
     toolCallId: string,
-    items: Array<{ title: string; status: "pending" | "in_progress" | "done" }>,
+    items: Array<{ title: string; status: "pending" | "in_progress" | "done"; group?: string }>,
   ): string {
     const key = conversationKey(projectId, conversationId);
     const active = this.#activeTurns.get(key);
     if (!active) throw new Error("The TODO list can only be updated during an active turn");
+    const previous = active.items.get(`${active.turnId}:todos`);
     const snapshot: TodoSnapshot = {
-      items: items.map((item) => ({
+      items: reconcileTodoItems(previous?.type === "todoList" ? previous.todos.items : undefined, items.map((item) => ({
         title: item.title.trim(),
         status: item.status,
-      })),
+        ...(item.group?.trim() ? { group: item.group.trim() } : {}),
+      }))),
     };
     if (snapshot.items.some((item) => !item.title)) throw new Error("TODO step titles cannot be blank");
     this.#updateItem(projectId, active, {
@@ -1359,6 +1371,30 @@ export class AgentManager {
       timestamp: Date.now(),
     });
     return snapshot.items.map((item) => `[${item.status}] ${item.title}`).join("\n");
+  }
+
+  // 用户从卡片上加 todo：追加 pending 用户条目，并注入 steering 提示让 agent 纳入后续工作。
+  async addUserTodo(projectId: string, conversationId: string, title: string): Promise<void> {
+    const key = conversationKey(projectId, conversationId);
+    const active = this.#activeTurns.get(key);
+    if (!active) throw new Error("A TODO can only be added during an active turn");
+    const trimmed = title.trim();
+    if (!trimmed) throw new Error("A TODO title cannot be blank");
+    const current = active.items.get(`${active.turnId}:todos`);
+    const items = current?.type === "todoList" ? [...current.todos.items] : [];
+    const existing = items.find((item) => item.title === trimmed && !item.group);
+    if (!existing) items.push({ title: trimmed, status: "pending", origin: "user" });
+    this.#updateItem(projectId, active, {
+      id: `${active.turnId}:todos`,
+      turnId: active.turnId,
+      type: "todoList",
+      todos: { items },
+      timestamp: Date.now(),
+    });
+    if (!existing) {
+      const nudge = `${TODO_NUDGE_PREFIX}A TODO was added to the list: "${trimmed}". Rewrite the full list with todo_write to include it, keeping existing statuses, then work the pending items.`;
+      await this.#sessions.get(key)?.session.steer?.(nudge);
+    }
   }
 
   askQuestionnaire(
@@ -2907,14 +2943,45 @@ function questionnaireAnswers(
 function todoThreadSnapshot(input: unknown): TodoSnapshot | undefined {
   const items = record(input)?.items;
   if (!Array.isArray(items) || items.length === 0) return undefined;
-  const parsed = items.flatMap((value): Array<{ title: string; status: "pending" | "in_progress" | "done" }> => {
+  const parsed = items.flatMap((value): Array<{ title: string; status: "pending" | "in_progress" | "done"; group?: string }> => {
     const item = record(value);
     if (typeof item?.title !== "string" || !item.title.trim()) return [];
     if (item.status !== "pending" && item.status !== "in_progress" && item.status !== "done") return [];
-    return [{ title: item.title.trim(), status: item.status }];
+    const group = typeof item.group === "string" && item.group.trim() ? item.group.trim() : undefined;
+    return [{ title: item.title.trim(), status: item.status, ...(group ? { group } : {}) }];
   });
   if (parsed.length !== items.length) return undefined;
   return { items: parsed };
+}
+
+// agent 新快照与旧快照 reconcile：同组同名条目旧 done 保持 done、旧 user 身份保持；
+// 旧用户条目未被新快照收录时原样追加（agent 重写不能删用户条目）。
+function reconcileTodoItems(
+  previous: readonly TodoSnapshotItem[] | undefined,
+  next: ReadonlyArray<{ title: string; status: TodoItemStatus; group?: string }>,
+): TodoSnapshotItem[] {
+  const previousByKey = new Map<string, TodoSnapshotItem>();
+  for (const item of previous ?? []) {
+    const key = todoItemKey(item);
+    if (!previousByKey.has(key)) previousByKey.set(key, item);
+  }
+  const merged = next.map((item) => {
+    const hit = previousByKey.get(todoItemKey(item));
+    return {
+      ...item,
+      ...(hit?.origin ? { origin: hit.origin } : {}),
+      ...(hit && hit.status === "done" && item.status !== "done" ? { status: "done" as const } : {}),
+    };
+  });
+  const titles = new Set(merged.map((item) => todoItemKey(item)));
+  for (const item of previous ?? []) {
+    if (item.origin === "user" && !titles.has(todoItemKey(item))) merged.push({ ...item });
+  }
+  return merged;
+}
+
+function todoItemKey(item: { title: string; group?: string }): string {
+  return `${item.group ?? ""}\u0000${item.title}`;
 }
 
 function questionnaireThreadItem(

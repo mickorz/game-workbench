@@ -1,4 +1,5 @@
 import type { ThreadItem, ToolArtifact, Turn } from "../shared/contracts.js";
+import { TODO_NUDGE_PREFIX } from "../shared/contracts.js";
 import { projectWorkItems, type WorkDisplayItem } from "./work-items.js";
 
 type AssistantItem = Extract<ThreadItem, { type: "agentMessage" }>;
@@ -49,7 +50,8 @@ export function projectTurnDisplay(turn: Turn, now = Date.now(), waitingForInput
   // A request still waiting is answered in its card above the composer; once answered it is part of the work.
   // 进行中的问卷由输入框上方的卡片承载；已完成的进入消息流作为转写记录。
   const items = turn.items.filter((item) => item !== user && !(item.type === "userInputRequest" && item.status === "inProgress") && !(item.type === "approvalRequest" && item.status === "inProgress") && !isCancelledStatusMessage(item) &&
-    !(item.type === "retry" && item.status === "completed"));
+    !(item.type === "retry" && item.status === "completed") &&
+    !(item.type === "userMessage" && item.text.startsWith(TODO_NUDGE_PREFIX)));
   const finalStarted = items.some(isFinalAnswer);
   const finalMessages = active ? [] : items.filter(isFinalAnswer);
   const processItems = active ? items : items.filter((item) => !isFinalAnswer(item));

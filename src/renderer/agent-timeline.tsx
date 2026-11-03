@@ -14,6 +14,7 @@ import {
   Lightbulb,
   LoaderCircle,
   Pencil,
+  Plus,
   Undo2,
   Plug,
   Search,
@@ -61,10 +62,14 @@ interface AgentTimelineProps {
   /** Changes whenever the files of the workspace may have changed, so that what the turns show of them is read again. */
   workspaceRevision?: number;
   onAddToChat?: (text: string) => void;
+  /** 在活动 turn 的任务清单上追加用户 todo；仅活动 turn 的清单卡显示入口。 */
+  onAddTodo?: (title: string) => void;
   waitingForInput?: boolean;
 }
 
 const WorkspaceLinkContext = createContext<{ workspacePath?: string; onOpenWorkspaceFile?: (path: string) => void; onComponentClick?: (name: string) => void }>({});
+// 任务清单卡的加 todo 入口：仅活动 turn 的清单卡消费。
+const TodoActionsContext = createContext<{ turnId: string; add: (title: string) => void } | undefined>(undefined);
 const completedDisplays = new WeakMap<ThreadTurn, TurnDisplay>();
 
 function turnDisplay(turn: ThreadTurn): TurnDisplay {
@@ -74,7 +79,7 @@ function turnDisplay(turn: ThreadTurn): TurnDisplay {
   return display;
 }
 
-export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, projectId = "", workspacePath, onOpenWorkspaceFile, onComponentClick, revisionDisabled, onRevise, onRestore, changeControls, workspaceRevision, onAddToChat, waitingForInput = false }: AgentTimelineProps) {
+export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, projectId = "", workspacePath, onOpenWorkspaceFile, onComponentClick, revisionDisabled, onRevise, onRestore, changeControls, workspaceRevision, onAddToChat, onAddTodo, waitingForInput = false }: AgentTimelineProps) {
   const [selectionRoot, setSelectionRoot] = useState<HTMLDivElement | null>(null);
   const [editingItemId, setEditingItemId] = useState<string>();
   const [draft, setDraft] = useState("");
@@ -85,6 +90,7 @@ export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, p
   const displays = useMemo(() => turns.map(turnDisplay), [turns]);
   const workspaceLinks = useMemo(() => ({ workspacePath, onOpenWorkspaceFile, onComponentClick }), [workspacePath, onOpenWorkspaceFile, onComponentClick]);
   const activeIndex = turns.findIndex((turn) => turn.status === "inProgress");
+  const todoActions = useMemo(() => onAddTodo && activeIndex >= 0 ? { turnId: turns[activeIndex].id, add: onAddTodo } : undefined, [onAddTodo, activeIndex, turns]);
   const latestSteeringIndex = turns.findLastIndex((turn) => turn.steering);
   const steeringPending = activeIndex >= 0 && latestSteeringIndex > activeIndex;
   const latestUserId = [...turns].reverse().flatMap((turn) => turn.items).find((item) => item.type === "userMessage")?.id;
@@ -136,6 +142,7 @@ export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, p
 
   return (
     <WorkspaceLinkContext.Provider value={workspaceLinks}>
+    <TodoActionsContext.Provider value={todoActions}>
       <div className="agent-timeline-selection-root" ref={setSelectionRoot}>
         <TurnChangesViews key={turns[0]?.conversationId} workspaceRevision={workspaceRevision}>
           {turns.map((turn, index) => (
@@ -169,6 +176,7 @@ export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, p
         </TurnChangesViews>
         {onAddToChat ? <SelectedTextMenu root={selectionRoot} onAdd={onAddToChat} /> : null}
       </div>
+    </TodoActionsContext.Provider>
     </WorkspaceLinkContext.Provider>
   );
 });
@@ -541,35 +549,83 @@ function WaitingActivity() {
 
 // 任务清单卡：进行中置顶、待办其次、已完成置底灰化；同 turn 后写覆盖只留最新一张。
 function TodoListCard({ item }: { item: Extract<ThreadItem, { type: "todoList" }> }) {
+  const actions = useContext(TodoActionsContext);
+  const [adding, setAdding] = useState(false);
+  const [draft, setDraft] = useState("");
   const items = item.todos.items;
-  const active = items.filter((entry) => entry.status === "in_progress");
-  const pending = items.filter((entry) => entry.status === "pending");
-  const done = items.filter((entry) => entry.status === "done");
+  // 按 group 字段分块（首次出现顺序，无组条目为首块无标题）；组内三段式：进行中置顶、待办其次、已完成置底。
+  const groups: Array<{ title?: string; items: typeof items }> = [];
+  for (const entry of items) {
+    const group = entry.group?.trim();
+    let bucket = groups.find((candidate) => (candidate.title ?? "") === (group ?? ""));
+    if (!bucket) {
+      bucket = group ? { title: group, items: [] } : { items: [] };
+      groups.push(bucket);
+    }
+    bucket.items.push(entry);
+  }
+  const doneCount = items.filter((entry) => entry.status === "done").length;
+  const submit = () => {
+    const title = draft.trim();
+    if (!title) { setAdding(false); return; }
+    setDraft("");
+    setAdding(false);
+    actions?.add(title);
+  };
   return (
     <div className="todo-list-card" data-testid="todo-list-card" aria-label={t("timeline.todo.label")}>
-      {active.length > 0 ? <div className="todo-list-section-label">{t("timeline.todo.inProgress")}</div> : null}
-      {active.map((entry, index) => (
-        <div key={`${entry.title}:${index}`} className="todo-list-row" data-status="in_progress" data-testid="todo-list-row">
-          <LoaderCircle className="spin" size={13} aria-hidden="true" />
-          <span className="todo-list-title">{entry.title}</span>
+      {groups.map((group, groupIndex) => (
+        <div key={group.title ?? `ungrouped:${groupIndex}`} className="todo-list-group">
+          {group.title ? <div className="todo-list-group-title">{group.title}</div> : null}
+          <TodoGroupRows items={group.items} />
         </div>
       ))}
-      {pending.length > 0 ? <div className="todo-list-section-label">{t("timeline.todo.pending")}</div> : null}
-      {pending.map((entry, index) => (
-        <div key={`${entry.title}:${index}`} className="todo-list-row" data-status="pending" data-testid="todo-list-row">
-          <Circle size={13} aria-hidden="true" />
-          <span className="todo-list-title">{entry.title}</span>
-        </div>
-      ))}
-      {done.length > 0 ? <div className="todo-list-section-label">{t("timeline.todo.done")}</div> : null}
-      {done.map((entry, index) => (
-        <div key={`${entry.title}:${index}`} className="todo-list-row" data-status="done" data-testid="todo-list-row">
-          <Check size={13} aria-hidden="true" />
-          <span className="todo-list-title todo-list-title-done">{entry.title}</span>
-        </div>
-      ))}
-      <div className="todo-list-progress">{done.length}/{items.length}</div>
+      <div className="todo-list-progress">{doneCount}/{items.length}</div>
+      {actions?.turnId === item.turnId ? adding ? (
+        <input
+          className="todo-list-add-input"
+          data-testid="todo-list-add-input"
+          value={draft}
+          placeholder={t("timeline.todo.addPlaceholder")}
+          aria-label={t("timeline.todo.addLabel")}
+          autoFocus
+          onChange={(event) => setDraft(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") { event.preventDefault(); submit(); }
+            if (event.key === "Escape") { event.preventDefault(); setAdding(false); setDraft(""); }
+          }}
+          onBlur={() => setAdding(false)}
+        />
+      ) : (
+        <button type="button" className="todo-list-add" data-testid="todo-list-add" onClick={() => setAdding(true)}>
+          <Plus size={11} aria-hidden="true" /> {t("timeline.todo.addLabel")}
+        </button>
+      ) : null}
     </div>
+  );
+}
+
+function TodoGroupRows({ items }: { items: Array<{ title: string; status: string; origin?: string }> }) {
+  const sections: Array<{ label: string; entries: typeof items }> = [
+    { label: t("timeline.todo.inProgress"), entries: items.filter((entry) => entry.status === "in_progress") },
+    { label: t("timeline.todo.pending"), entries: items.filter((entry) => entry.status === "pending") },
+    { label: t("timeline.todo.done"), entries: items.filter((entry) => entry.status === "done") },
+  ];
+  return (
+    <>
+      {sections.flatMap((section) => section.entries.length === 0 ? [] : [
+        <div key={section.label} className="todo-list-section-label">{section.label}</div>,
+        ...section.entries.map((entry, index) => (
+          <div key={`${entry.title}:${index}`} className="todo-list-row" data-status={entry.status} data-testid="todo-list-row">
+            {entry.status === "in_progress" ? <LoaderCircle className="spin" size={13} aria-hidden="true" /> : null}
+            {entry.status === "pending" ? <Circle size={13} aria-hidden="true" /> : null}
+            {entry.status === "done" ? <Check size={13} aria-hidden="true" /> : null}
+            <span className={`todo-list-title${entry.status === "done" ? " todo-list-title-done" : ""}`}>{entry.title}</span>
+            {entry.origin === "user" ? <span className="todo-list-origin" title={t("timeline.todo.yours")}>{t("timeline.todo.yours")}</span> : null}
+          </div>
+        )),
+      ])}
+    </>
   );
 }
 

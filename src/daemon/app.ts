@@ -3578,6 +3578,23 @@ export function createApp(options: AppOptions = {}) {
     },
   );
 
+  app.post<{ Params: { projectId: string; conversationId: string }; Body: { title: string } }>(
+    "/projects/:projectId/conversations/:conversationId/todos",
+    { schema: { body: { type: "object", additionalProperties: false, required: ["title"], properties: { title: { type: "string", minLength: 1, maxLength: 200 } } } } },
+    async (request, reply) => {
+      const project = projects.get(request.params.projectId);
+      if (!project) return reply.code(404).send({ error: "Project not found" });
+      const conversation = await conversations.get(project, request.params.conversationId);
+      if (!conversation) return reply.code(404).send({ error: "Conversation not found" });
+      try {
+        await agents.addUserTodo(project.id, conversation.summary.id, request.body.title);
+      } catch (cause) {
+        return reply.code(409).send({ error: cause instanceof Error ? cause.message : String(cause) });
+      }
+      return reply.code(204).send();
+    },
+  );
+
   app.delete<{ Params: { projectId: string; conversationId: string; turnId: string } }>(
     "/projects/:projectId/conversations/:conversationId/queue/:turnId",
     async (request, reply) => {

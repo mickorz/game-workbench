@@ -31,6 +31,7 @@ import {
   approvePlan,
   answerApproval,
   answerQuestionnaire,
+  addUserTodo,
   cancelPrompt,
   cancelPlan,
   compactConversation,
@@ -869,6 +870,9 @@ export function ProjectShell({
                 changeControls={turnChanges}
                 workspaceRevision={workspaceRevision}
                 onAddToChat={addToChat}
+                onAddTodo={project && conversation ? (title) => {
+                  addUserTodo(project.id, conversation.id, title).catch((error) => dispatch({ type: "notice", message: errorMessage(error) }));
+                } : undefined}
               />
               </ErrorBoundary>
             </Activity>

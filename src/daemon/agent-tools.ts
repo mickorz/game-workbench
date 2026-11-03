@@ -70,7 +70,7 @@ export type InstallPlugin = (sourcePath: string) => Promise<PluginDetail>;
 export type SearchWeb = (input: WebSearchInput, signal?: AbortSignal) => Promise<WebSearchExecution>;
 export type WriteTodoList = (
   toolCallId: string,
-  input: { items: Array<{ title: string; status: "pending" | "in_progress" | "done" }> },
+  input: { items: Array<{ title: string; status: "pending" | "in_progress" | "done"; group?: string }> },
 ) => Promise<string>;
 
 const mediaModelParameter = () => Type.Object({
@@ -122,6 +122,7 @@ export function createAgentTools(
       items: Type.Array(Type.Object({
         title: Type.String({ minLength: 1, maxLength: 200, description: "Short step title" }),
         status: Type.Union([Type.Literal("pending"), Type.Literal("in_progress"), Type.Literal("done")], { description: "pending before work, in_progress while working on it, done when finished" }),
+        group: Type.Optional(Type.String({ minLength: 1, maxLength: 40, description: "Optional group name; steps with the same name render as one section" })),
       }), { minItems: 1, maxItems: 20, description: "The full list; every write replaces the previous snapshot" }),
     }),
     execute: async (toolCallId, input, signal) => {

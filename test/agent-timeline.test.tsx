@@ -820,6 +820,35 @@ describe("AgentTimeline", () => {
     expect(html).toContain("1/3");
   });
 
+  it("renders todo groups as sections with a user-origin marker", () => {
+    const html = renderToStaticMarkup(<AgentTimeline
+      items={[
+        user(),
+        {
+          id: "turn-1:todos",
+          turnId: "turn-1",
+          type: "todoList",
+          todos: {
+            items: [
+              { title: "Ungrouped step", status: "pending" },
+              { title: "Parse", status: "done", group: "Import" },
+              { title: "Validate", status: "in_progress", group: "Import" },
+              { title: "Write tests", status: "pending", origin: "user" },
+            ],
+          },
+        },
+      ]}
+    />);
+    // 无组首块无标题，Import 组带标题分节。
+    expect(html).toContain("todo-list-group-title");
+    expect(html).toContain(">Import<");
+    // 用户条目带标记。
+    expect(html).toContain("todo-list-origin");
+    expect(html).toContain(">you<");
+    // 无交互入口（未传 onAddTodo）。
+    expect(html).not.toContain("todo-list-add");
+  });
+
   it("recaps a multi-select questionnaire with notes", () => {
     const html = renderToStaticMarkup(<AgentTimeline items={[
       user(),

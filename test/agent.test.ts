@@ -300,6 +300,50 @@ describe("conversationItems", () => {
     expect(items[0]).toMatchObject({ type: "userMessage", text: "$review check this change" });
   });
 
+  it("reconciles done steps and user todos when the agent rewrites the list", async () => {
+    const session = new FakeSession();
+    const prompt = deferred<void>();
+    session.prompt.mockImplementation(() => prompt.promise);
+    const events = new RuntimeEventBus();
+    const manager = new AgentManager(events, { createSession: async () => session });
+    const project = createProject();
+    const conversation = createConversation(project);
+
+    const run = manager.prompt(project, conversation, "Do this", []).result!;
+    await vi.waitFor(() => expect(manager.agentState(conversation).status).toBe("running"));
+
+    manager.writeTodoList(project.id, conversation.summary.id, "todo-1", [
+      { title: "Read the files", status: "done" },
+      { title: "Edit the game", status: "in_progress" },
+    ]);
+    await manager.addUserTodo(project.id, conversation.summary.id, "Write tests");
+    expect(session.steer).toHaveBeenCalledWith(expect.stringContaining("Write tests"));
+
+    // agent 重写：把已完成的写成 pending，且丢掉用户条目。
+    manager.writeTodoList(project.id, conversation.summary.id, "todo-2", [
+      { title: "Edit the game", status: "done" },
+      { title: "Read the files", status: "pending" },
+    ]);
+    expect(events.since(project.id).at(-1)).toMatchObject({
+      type: "item.updated",
+      data: {
+        item: {
+          type: "todoList",
+          todos: {
+            items: [
+              { title: "Edit the game", status: "done" },
+              { title: "Read the files", status: "done" },
+              { title: "Write tests", status: "pending", origin: "user" },
+            ],
+          },
+        },
+      },
+    });
+    prompt.resolve();
+    await expect(run).resolves.toBe("completed");
+    await manager.close();
+  });
+
   it("restores the latest todo_write snapshot as one todoList item", () => {
     const items = conversationItems([
       sessionMessage("user", { role: "user", content: "Build", timestamp: 1 }),
@@ -309,7 +353,10 @@ describe("conversationItems", () => {
           type: "toolCall",
           id: "todo-1",
           name: "todo_write",
-          arguments: { items: [{ title: "Step one", status: "in_progress" }] },
+          arguments: { items: [
+            { title: "Step one", status: "done", group: "Setup" },
+            { title: "Step two", status: "pending", group: "Setup" },
+          ] },
         }],
         stopReason: "toolUse",
       }),
@@ -317,7 +364,7 @@ describe("conversationItems", () => {
         role: "toolResult",
         toolCallId: "todo-1",
         toolName: "todo_write",
-        content: [{ type: "text", text: "[in_progress] Step one" }],
+        content: [{ type: "text", text: "[done] Step one" }],
         isError: false,
         timestamp: 2,
       }),
@@ -327,7 +374,10 @@ describe("conversationItems", () => {
           type: "toolCall",
           id: "todo-2",
           name: "todo_write",
-          arguments: { items: [{ title: "Step one", status: "done" }, { title: "Step two", status: "pending" }] },
+          arguments: { items: [
+            { title: "Step one", status: "pending", group: "Setup" },
+            { title: "Step two", status: "done", group: "Setup" },
+          ] },
         }],
         stopReason: "toolUse",
       }),
@@ -335,7 +385,7 @@ describe("conversationItems", () => {
         role: "toolResult",
         toolCallId: "todo-2",
         toolName: "todo_write",
-        content: [{ type: "text", text: "[done] Step one\n[pending] Step two" }],
+        content: [{ type: "text", text: "[pending] Step one" }],
         isError: false,
         timestamp: 3,
       }),
@@ -344,7 +394,11 @@ describe("conversationItems", () => {
     expect(items.filter((item) => item.type === "todoList")).toMatchObject([
       {
         type: "todoList",
-        todos: { items: [{ title: "Step one", status: "done" }, { title: "Step two", status: "pending" }] },
+        todos: { items: [
+          // Step one 曾完成，重写成 pending 时 reconcile 保持 done。
+          { title: "Step one", status: "done", group: "Setup" },
+          { title: "Step two", status: "done", group: "Setup" },
+        ] },
       },
     ]);
     expect(items).not.toContainEqual(expect.objectContaining({ type: "dynamicToolCall", tool: "todo_write" }));

@@ -1090,6 +1090,14 @@ export async function answerQuestionnaire(
   });
 }
 
+/** 在活动 turn 的任务清单上追加一条用户 todo（daemon 会同时 nudge agent）。 */
+export async function addUserTodo(projectId: string, conversationId: string, title: string): Promise<void> {
+  await request(`/projects/${projectId}/conversations/${conversationId}/todos`, {
+    method: "POST",
+    body: JSON.stringify({ title }),
+  });
+}
+
 export async function reviseLastPrompt(
   projectId: string,
   conversationId: string,

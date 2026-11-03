@@ -71,6 +71,16 @@ describe("mergeCompletedCompactionTurns", () => {
 });
 
 describe("projectTurnDisplay", () => {
+  it("hides the daemon-injected todo nudge message from the timeline", () => {
+    const display = projectTurnDisplay(turn([
+      { id: "nudge", turnId: "turn-1", type: "userMessage", text: "[xc-ui-flow:todo-nudge] A TODO was added", timestamp: 2 },
+      tool("inProgress"),
+    ], false));
+
+    expect(display.messages).not.toContainEqual(expect.objectContaining({ id: "nudge" }));
+    expect(display.user?.id).toBe("user");
+  });
+
   it("keeps streaming thinking as a work row while the header stays Thinking", () => {
     const display = projectTurnDisplay(turn([
       thinking("**Planning the build**", "inProgress"),
