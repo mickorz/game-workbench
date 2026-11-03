@@ -8,7 +8,8 @@ import {
   PERSONAL_MARKETPLACE,
   PLUGIN_ARCHIVE_MAX_BYTES,
   PLUGIN_FORMAT_VERSION,
-  PLUGIN_MANIFEST_PATH,
+  PLUGIN_MANIFEST_PATHS,
+  PLUGIN_MANIFEST_WRITE_PATH,
   pluginCollection,
 } from "../shared/plugins.js";
 import type {
@@ -30,7 +31,9 @@ import { extractPluginArchive } from "./plugin-installer.js";
 import { createPluginArchive } from "./publish/archive.js";
 import { inspectPluginDependencies } from "./plugin-dependencies.js";
 
-const BACKUP_PATH = ".ohmygame-plugin/backup.json";
+const BACKUP_WRITE_PATH = ".xcflow-plugin/backup.json";
+// backup 读取双落：新名优先，旧名回落（旧归档兼容）
+const BACKUP_READ_PATHS: readonly string[] = [BACKUP_WRITE_PATH, ".ohmygame-plugin/backup.json"];
 const BackupSchema = Type.Object(
   {
     version: Type.Literal(1),
@@ -95,7 +98,7 @@ export class PluginPortability {
       // copyForAuthoring already removed imported manifests, which can contain
       // inline credentials; this writes the redacted native manifest.
       await writeFile(
-        path.join(root, PLUGIN_MANIFEST_PATH),
+        path.join(root, PLUGIN_MANIFEST_WRITE_PATH),
         JSON.stringify(manifest, null, 2),
       );
       const view = this.capabilities.configuration.view(plugin);
@@ -110,7 +113,7 @@ export class PluginPortability {
         ),
       };
       await writeFile(
-        path.join(root, BACKUP_PATH),
+        path.join(root, BACKUP_WRITE_PATH),
         JSON.stringify(backup, null, 2),
       );
       const bytes = await createPluginArchive(
@@ -261,14 +264,19 @@ export class PluginPortability {
       await extractPluginArchive(archivePath, root);
       let backup: PluginPortableSettings | undefined;
       try {
-        const value: unknown = JSON.parse(
-          await readFile(path.join(root, BACKUP_PATH), "utf8"),
-        );
-        if (!Check(BackupSchema, value))
-          throw new LocalPluginError(
-            "Plugin backup format is invalid or unsupported",
-          );
-        backup = value as PluginPortableSettings;
+        let backupContent: string | undefined;
+        for (const candidate of BACKUP_READ_PATHS) {
+          try { backupContent = await readFile(path.join(root, candidate), "utf8"); break; } catch { /* 尝试下一个候选路径 */ }
+        }
+        // 无 backup 是正常场景（非本应用导出的插件包），保持 undefined 继续
+        if (backupContent) {
+          const value: unknown = JSON.parse(backupContent);
+          if (!Check(BackupSchema, value))
+            throw new LocalPluginError(
+              "Plugin backup format is invalid or unsupported",
+            );
+          backup = value as PluginPortableSettings;
+        }
       } catch (cause) {
         if ((cause as NodeJS.ErrnoException).code !== "ENOENT") throw cause;
       }

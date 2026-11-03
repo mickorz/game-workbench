@@ -4,6 +4,7 @@ import path from "node:path";
 import {
   isPluginManifest,
   pluginComponentKey,
+  PLUGIN_MANIFEST_WRITE_PATH,
   type CreateMcpPluginRequest,
   type McpServerDefinition,
   type PluginConfigurationField,
@@ -358,9 +359,9 @@ export class PluginCapabilities {
     );
     if (await this.localPlugins.read(`personal:${input.name}`))
       throw new LocalPluginError("Plugin already exists", 409);
-    await mkdir(path.join(source, ".ohmygame-plugin"), { recursive: true });
+    await mkdir(path.join(source, ".xcflow-plugin"), { recursive: true });
     await writeFile(
-      path.join(source, ".ohmygame-plugin", "plugin.json"),
+      path.join(source, PLUGIN_MANIFEST_WRITE_PATH),
       JSON.stringify(manifest, null, 2),
     );
     await writeFile(
