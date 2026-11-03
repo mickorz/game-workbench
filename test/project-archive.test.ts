@@ -635,7 +635,7 @@ describe("project archive import", () => {
     [
       "no manifest",
       { "index.html": "game" },
-      "not an OhMyGame project archive",
+      "not an XC-UI-Flow project archive",
     ],
     [
       "another format",
@@ -645,7 +645,7 @@ describe("project archive import", () => {
           version: 1,
         }),
       },
-      "not an OhMyGame project archive",
+      "not an XC-UI-Flow project archive",
     ],
     [
       "a newer format version",
@@ -656,7 +656,7 @@ describe("project archive import", () => {
           project: {},
         }),
       },
-      "newer version of OhMyGame",
+      "newer version of XC-UI-Flow",
     ],
     [
       "an unknown project type",

@@ -33,7 +33,7 @@ export async function discoverPlugins(root: string): Promise<DiscoveredPlugin[]>
   for (const candidate of manifests) {
     if (!await exists(path.join(root, candidate.path))) continue;
     const manifest = candidate.format === "ohmygame"
-      ? await readOhMyGameManifest(path.join(root, candidate.path))
+      ? await readXcFlowManifest(path.join(root, candidate.path))
       : await normalizeManifest(root, await readJson(path.join(root, candidate.path)), candidate.format);
     const issue = pluginCompatibilityIssue(manifest);
     if (issue) throw new LocalPluginError(issue);
@@ -80,7 +80,7 @@ async function discoverMarketplace(root: string, manifestPath: string): Promise<
     const codexPath = path.join(sourceRoot, ".codex-plugin", "plugin.json");
     const claudePath = path.join(sourceRoot, ".claude-plugin", "plugin.json");
     if (await exists(nativePath)) {
-      manifest = await readOhMyGameManifest(nativePath);
+      manifest = await readXcFlowManifest(nativePath);
     } else if (await exists(codexPath)) manifest = await normalizeManifest(sourceRoot, await readJson(codexPath), "codex");
     else if (await exists(claudePath)) manifest = await normalizeManifest(sourceRoot, await readJson(claudePath), "claude");
     else manifest = await normalizeManifest(sourceRoot, entry, format, rawSkills.length ? rawSkills : undefined);
@@ -255,9 +255,9 @@ function rebasePaths(repositoryRoot: string, pluginRoot: string, value: Resolved
   return paths.length === 1 ? paths[0] : paths;
 }
 
-async function readOhMyGameManifest(manifestPath: string): Promise<PluginManifest> {
+async function readXcFlowManifest(manifestPath: string): Promise<PluginManifest> {
   const value = await readJson(manifestPath);
-  if (!isPluginManifest(value)) throw new LocalPluginError("OhMyGame Plugin manifest is invalid");
+  if (!isPluginManifest(value)) throw new LocalPluginError("XC-UI-Flow Plugin manifest is invalid");
   return value;
 }
 

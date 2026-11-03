@@ -36,7 +36,7 @@ export function OnboardingDemo() {
           y="32"
           dominantBaseline="central"
         >
-          OhMyGame
+          XC-UI-Flow
         </text>
       </svg>
     </div>

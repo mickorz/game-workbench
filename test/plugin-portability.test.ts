@@ -321,7 +321,7 @@ describe("plugin portability", () => {
     await packageAt(root);
     const backup = {
       version: 1,
-      marketplace: { id: "ohmygame", displayName: "OhMyGame" },
+      marketplace: { id: "ohmygame", displayName: "XC-UI-Flow" },
       settings: { enabled: true, components: {} },
       values: {},
     };
@@ -453,7 +453,7 @@ describe("plugin contract and dependency checks", () => {
         { ...manifest, minimumHostVersion: "1.0.0" },
         "1.0.0-beta.1",
       ),
-    ).toContain("requires OhMyGame");
+    ).toContain("requires XC-UI-Flow");
     expect(
       pluginCompatibilityIssue(
         { ...manifest, minimumHostVersion: "1.0.0-beta.1" },
@@ -468,7 +468,7 @@ describe("plugin contract and dependency checks", () => {
     await expect(env.local.install(root)).rejects.toThrow("Plugin format 2");
     await packageAt(root, { ...manifest, minimumHostVersion: "999.0.0" });
     await expect(env.local.install(root)).rejects.toThrow(
-      "requires OhMyGame 999.0.0",
+      "requires XC-UI-Flow 999.0.0",
     );
   });
 

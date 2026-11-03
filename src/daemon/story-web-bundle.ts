@@ -49,7 +49,7 @@ export function storyWebEditorBridge(): Promise<string> {
 
 /**
  * The story runtime a web story project carries, as readable modules keyed by
- * their path in the project: each is one OhMyGame source file with its types
+ * their path in the project: each is one XC-UI-Flow source file with its types
  * removed, so the Agent can read and change it like any project code.
  */
 export function storyWebRuntimeModules(): Promise<Record<string, string>> {

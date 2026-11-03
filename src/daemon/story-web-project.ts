@@ -12,14 +12,14 @@ import { STORY_WEB_DIRECTORY, STORY_WEB_ENTRY, storyWebRuntimeModules } from "./
  * and keeps those files.
  */
 
-/** Records which runtime OhMyGame wrote, and each file as it wrote it. */
+/** Records which runtime XC-UI-Flow wrote, and each file as it wrote it. */
 export const STORY_WEB_MANIFEST = `${STORY_WEB_DIRECTORY}/manifest.json`;
 /** Where a newer runtime waits for the files the author changed, in the editor cache. */
 export const STORY_WEB_UPDATES = ".ohmygame/story-runtime";
 
 export interface StoryWebManifest {
   version: string;
-  /** SHA-256 of each runtime file as OhMyGame wrote it, by project path. */
+  /** SHA-256 of each runtime file as XC-UI-Flow wrote it, by project path. */
   files: Record<string, string>;
   /**
    * Files the author changed that a newer runtime also changes. The newer
@@ -40,7 +40,7 @@ export async function isWebStory(workspacePath: string): Promise<boolean> {
 }
 
 /**
- * Brings the project's story runtime up to the one OhMyGame ships. A file the
+ * Brings the project's story runtime up to the one XC-UI-Flow ships. A file the
  * author never changed is replaced; one they changed is kept, and the newer
  * file is left beside the project for the Agent to merge. Files the runtime
  * no longer has go if they were never changed.
@@ -206,7 +206,7 @@ export async function upgradeToWebStory(
   }
   const runtime = await installStoryRuntime(workspacePath);
   await writeText(workspacePath, "index.html", storyWebIndexHtml(graph.title));
-  // The guides OhMyGame wrote gain the web story rules; ones the author changed stay theirs.
+  // The guides XC-UI-Flow wrote gain the web story rules; ones the author changed stay theirs.
   for (const [relative, content] of [["AGENTS.md", AGENT_INSTRUCTIONS], ["README.md", PROJECT_DOCUMENTATION]] as const) {
     const current = await readText(workspacePath, relative);
     if (current !== undefined && PROJECT_GUIDE_UPGRADES[relative].includes(hash(current))) await writeText(workspacePath, relative, content);

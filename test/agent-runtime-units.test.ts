@@ -47,7 +47,7 @@ import {
 const home = os.homedir();
 const workspace = path.join(
   home,
-  "OhMyGame",
+  "XC-UI-Flow",
   "data",
   "projects",
   "p1",
@@ -55,7 +55,7 @@ const workspace = path.join(
 );
 const policy = {
   workspacePath: workspace,
-  neverTouch: neverTouchPaths(path.join(home, "OhMyGame", "data")),
+  neverTouch: neverTouchPaths(path.join(home, "XC-UI-Flow", "data")),
 };
 
 it("requires Claude's sandbox when the policy automatically allows confined commands", () => {
@@ -78,7 +78,7 @@ it("requires Claude's sandbox when the policy automatically allows confined comm
 });
 
 describe("coding agent approval policy", () => {
-  it("lets an agent work in its workspace, even inside OhMyGame's data folder", () => {
+  it("lets an agent work in its workspace, even inside XC-UI-Flow's data folder", () => {
     expect(
       judgeApproval(
         {
@@ -125,7 +125,7 @@ describe("coding agent approval policy", () => {
     ).toBe("allow");
   });
 
-  it("keeps every agent out of sign-ins, OhMyGame's data and other projects", () => {
+  it("keeps every agent out of sign-ins, XC-UI-Flow's data and other projects", () => {
     expect(
       judgeApproval(
         {
@@ -144,7 +144,7 @@ describe("coding agent approval policy", () => {
           tool: "Write",
           path: path.join(
             home,
-            "OhMyGame",
+            "XC-UI-Flow",
             "data",
             "projects",
             "p2",
@@ -249,7 +249,7 @@ describe("coding agent approval policy", () => {
         policy,
       ),
     ).toBe("ask");
-    // Beside this workspace is OhMyGame's own data, where no agent goes.
+    // Beside this workspace is XC-UI-Flow's own data, where no agent goes.
     expect(
       judgeApproval(
         {
@@ -341,7 +341,7 @@ describe("conversation handoff", () => {
   });
 });
 
-describe("OhMyGame tool bridge", () => {
+describe("XC-UI-Flow tool bridge", () => {
   const echo = defineTool({
     name: "echo_tool",
     label: "Echo",
@@ -371,7 +371,7 @@ describe("OhMyGame tool bridge", () => {
     execute: async () => ({ content: [], details: undefined }),
   });
 
-  it("offers OhMyGame's tools but not the file and shell tools every agent has", () => {
+  it("offers XC-UI-Flow's tools but not the file and shell tools every agent has", () => {
     const bridge = new ToolBridge([echo, failing, bash] as never);
     expect(bridge.list().map((tool) => tool.name)).toEqual([
       "echo_tool",
@@ -483,7 +483,7 @@ describe("OhMyGame tool bridge", () => {
 });
 
 describe("coding agent tool names", () => {
-  it("shows every agent's file and shell tools as Pi's, and OhMyGame's tools by their own names", () => {
+  it("shows every agent's file and shell tools as Pi's, and XC-UI-Flow's tools by their own names", () => {
     expect(
       claudeToolCall("Bash", { command: "ls", description: "List" }),
     ).toEqual({ name: "bash", args: { command: "ls", description: "List" } });
@@ -716,7 +716,7 @@ describe("coding agent discovery", () => {
     );
     expect(nativeEnv).not.toHaveProperty("OPENCODE_CONFIG_CONTENT");
     expect(nativeEnv).not.toHaveProperty("OPENAI_API_KEY");
-    // An ohmygame-mcp launcher the CLI may start must not connect back to OhMyGame.
+    // An ohmygame-mcp launcher the CLI may start must not connect back to XC-UI-Flow.
     expect(env.OHMYGAME_EXTERNAL_MCP_DISABLED).toBe("1");
   });
 });

@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="docs/assets/banner.webp" alt="OhMyGame — the open-source studio for making games with AI" width="100%" />
+<img src="docs/assets/banner.webp" alt="XC-UI-Flow — the open-source studio for making games with AI" width="100%" />
 
 **Your own one-person game studio.** Everything you need to make games with AI, in one app. Bring your own key.
 
 <p>
-  <a href="https://ohmygame.ai/download/mac"><img src="https://img.shields.io/badge/Download-macOS%20(Apple%20silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download for macOS" /></a>
-  <a href="https://ohmygame.ai/download/windows"><img src="https://img.shields.io/badge/Download-Windows%20x64-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" /></a>
+  <a href="https://github.com/mickorz/xc-ui-flow/releases"><img src="https://img.shields.io/badge/Download-macOS%20(Apple%20silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download for macOS" /></a>
+  <a href="https://github.com/mickorz/xc-ui-flow/releases"><img src="https://img.shields.io/badge/Download-Windows%20x64-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" /></a>
 </p>
 
 <p>
@@ -26,13 +26,13 @@ https://github.com/user-attachments/assets/4d5805fe-92a2-40b4-a232-c7452f9a796a
 </div>
 
 > [!NOTE]
-> 🚧 OhMyGame is in beta. Expect rough edges. Join us and let's build it together!
+> 🚧 XC-UI-Flow is in beta. Expect rough edges. Join us and let's build it together!
 
 ## What it is
 
 Making a game takes design docs, 2D art, 3D models, video, code, and somewhere
 to put it when it's done. Today those live in five or six different tools.
-OhMyGame puts them in one app: describe your game, and the agent designs it,
+XC-UI-Flow puts them in one app: describe your game, and the agent designs it,
 makes the assets, builds it, plays it to check it works, and publishes it to a
 link you can share.
 
@@ -82,29 +82,29 @@ https://github.com/user-attachments/assets/5a35964d-87b3-4153-8b1b-fc6deced5bb3
 
 ### 🔗 Publish: one link, playable anywhere
 
-Sign in and publish: OhMyGame builds your game and gives it a link anyone can
+Sign in and publish: XC-UI-Flow builds your game and gives it a link anyone can
 play in the browser. Republishing updates the same link. Published games are
 listed in the in-app Community, where you can play what others have made.
 
-### 🔌 Use OhMyGame from Claude Code, Codex, and other agents
+### 🔌 Use XC-UI-Flow from Claude Code, Codex, and other agents
 
 Already working in another coding agent? Turn on **Settings → MCP Server →
-Allow other agents to use OhMyGame** and connect Claude Code or Codex with one
+Allow other agents to use XC-UI-Flow** and connect Claude Code or Codex with one
 click.
-They get OhMyGame's media generation with your providers, the canvas, and
+They get XC-UI-Flow's media generation with your providers, the canvas, and
 playtesting, plus a Skill that explains the workflow. DeepSeek Harness and
 other MCP clients can add the `ohmygame-studio` command shown there. See
 [External agents](docs/external-agents.md).
 
 ## What you can make
 
-Three games our team made with OhMyGame:
+Three games our team made with XC-UI-Flow:
 
 <table>
   <tr>
-    <td width="33%"><img src="docs/assets/showcase/interactive-film.webp" alt="Interactive film made with OhMyGame: a monkey warrior dodges a sword strike" width="100%" /></td>
-    <td width="33%"><img src="docs/assets/showcase/island-builder.webp" alt="Island builder made with OhMyGame: building a workshop on a floating dock" width="100%" /></td>
-    <td width="33%"><img src="docs/assets/showcase/deckbuilding-roguelike.webp" alt="Deckbuilding roguelike made with OhMyGame: playing cards in a gothic battle" width="100%" /></td>
+    <td width="33%"><img src="docs/assets/showcase/interactive-film.webp" alt="Interactive film made with XC-UI-Flow: a monkey warrior dodges a sword strike" width="100%" /></td>
+    <td width="33%"><img src="docs/assets/showcase/island-builder.webp" alt="Island builder made with XC-UI-Flow: building a workshop on a floating dock" width="100%" /></td>
+    <td width="33%"><img src="docs/assets/showcase/deckbuilding-roguelike.webp" alt="Deckbuilding roguelike made with XC-UI-Flow: playing cards in a gothic battle" width="100%" /></td>
   </tr>
   <tr>
     <td align="center">Interactive film</td>
@@ -133,7 +133,7 @@ plays. The architecture and authoring model are documented in
 [Playable Nodes](docs/playable-nodes/README.md).
 
 <!-- TODO(asset): screenshot or GIF, Node Graph with two finished screens,
-made with OhMyGame. Leave out until there is a real one. -->
+made with XC-UI-Flow. Leave out until there is a real one. -->
 
 ### 🎲 General games: any engine or stack
 
@@ -151,7 +151,7 @@ game? Choose Web Game**: it is tuned for the browser.
 
 The idea that holds this together: one agent drives every part of the studio.
 
-**1 · A full Pi agent with a GUI.** OhMyGame runs
+**1 · A full Pi agent with a GUI.** XC-UI-Flow runs
 [Pi](https://www.npmjs.com/package/@earendil-works/pi-coding-agent) with its
 full toolset and persistent sessions, in a GUI built for watching results
 rather than reading diffs. Close the app, come back, and the project,
@@ -171,7 +171,7 @@ and play the result in one conversation.
 
 ## Any model, your keys
 
-OhMyGame does not lock you into one model or charge per run.
+XC-UI-Flow does not lock you into one model or charge per run.
 
 - **Coding models from 40+ providers** through Pi, including Anthropic,
   OpenAI, Google, DeepSeek, Qwen, Kimi, GLM, MiniMax, xAI, Mistral, Groq,
@@ -180,7 +180,7 @@ OhMyGame does not lock you into one model or charge per run.
   GitHub Copilot, or paste an API key.
   <!-- TODO(legal): check each provider's terms before naming more subscriptions -->
 - **Coding agents you already use**: Claude Code, Codex, and OpenCode run a
-  conversation with their own sign-in, while OhMyGame keeps its history, Undo,
+  conversation with their own sign-in, while XC-UI-Flow keeps its history, Undo,
   canvas, media tools, and plugins. Enable them in Settings; native CLI
   permission limits apply. See [coding agents](docs/coding-agents.md).
 - **Media models** for images, video, and 3D through OpenAI, OpenRouter,
@@ -200,7 +200,7 @@ See [the changelog](CHANGELOG.md) for changes in each release, or open
 **Settings → About → Changelog** inside the app.
 
 Grab the installer from the buttons at the top or from
-[Releases](https://github.com/WhiteTowerAI/ohmygame/releases). Builds are
+[Releases](https://github.com/mickorz/xc-ui-flow/releases). Builds are
 available for macOS (Apple silicon) and Windows (x64). The Windows build is
 not code-signed yet, so Windows may show a SmartScreen warning during install.
 
@@ -208,13 +208,13 @@ not code-signed yet, so Windows may show a SmartScreen warning during install.
 
 ![First-run AI connection screen](docs/assets/first-run-onboarding.png)
 
-OhMyGame ships without a model. On first launch, a small game world forms and
-transforms into the OhMyGame logo. The wordmark, **Your own game studio.**, and
+XC-UI-Flow ships without a model. On first launch, a small game world forms and
+transforms into the XC-UI-Flow logo. The wordmark, **Your own game studio.**, and
 **Next** appear in sequence over about five seconds.
 Returning from a later setup step shows the welcome content immediately.
 Click **Next** to connect a model before your first prompt:
 
-1. **Connect your AI.** OhMyGame (Pi) is enabled by default and uses your model
+1. **Connect your AI.** XC-UI-Flow (Pi) is enabled by default and uses your model
    providers; connect a provider with sign-in or an API key, or use an installed
    Claude Code, Codex or OpenCode CLI. Agents share one horizontally scrolling row. Use **+** beside
    provider search to add a custom or local endpoint. CLI connections use their
@@ -222,7 +222,7 @@ Click **Next** to connect a model before your first prompt:
    permissions or personal configuration. Start by choosing an agent; the choices
    then collapse into a compact row with **Switch** to reopen them.
    Multiple agents can stay connected; choosing one does not disconnect the others.
-   Model provider setup belongs to OhMyGame. A check marks an enabled agent. Choose the
+   Model provider setup belongs to XC-UI-Flow. A check marks an enabled agent. Choose the
    default conversation model below the selected agent's configuration; selections
    are retained while switching agents and saved with **Next**. Sign-in,
    API key and configuration actions use icons with tooltips. Connected
@@ -282,8 +282,8 @@ page opens it as a new project. See [Project archives](docs/project-archives.md)
 Requires Bun 1.4.2 or newer for the toolchain and Node.js 22.19+ for the daemon.
 
 ```bash
-git clone --branch main https://github.com/WhiteTowerAI/ohmygame.git
-cd ohmygame
+git clone --branch main https://github.com/mickorz/xc-ui-flow.git
+cd xc-ui-flow
 bun install --frozen-lockfile
 bun run dev            # web renderer + local daemon
 # or
@@ -302,7 +302,7 @@ contract and offline migration instructions.
 ## Privacy
 
 Your projects and keys stay on your machine. Prompts and generation requests go
-directly to the model providers you choose. Publishing requires an OhMyGame
+directly to the model providers you choose. Publishing requires an XC-UI-Flow
 account and uploads only your game's static build. Release builds check for
 updates and send anonymous usage events (PostHog, no session recording) and
 crash reports (Sentry, no personal data). Builds from source send no telemetry.
@@ -311,9 +311,9 @@ crash reports (Sentry, no personal data). Builds from source send no telemetry.
 
 We're working on plain-language playtest reports, remixing
 games from the Community, and Intel Mac / Linux builds. See
-[Issues](https://github.com/WhiteTowerAI/ohmygame/issues) for what's next, and
+[Issues](https://github.com/mickorz/xc-ui-flow/issues) for what's next, and
 vote with 👍 on what matters to you. Want to help? Look for
-[`help wanted`](https://github.com/WhiteTowerAI/ohmygame/labels/help%20wanted)
+[`help wanted`](https://github.com/mickorz/xc-ui-flow/labels/help%20wanted)
 issues.
 
 ## Contributing
@@ -327,15 +327,15 @@ Report security issues using [SECURITY.md](SECURITY.md).
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=whitetowerai%2Fohmygame&type=date&legend=top-left">
+<a href="https://www.star-history.com/?repos=mickorz%2Fxc-ui-flow&type=date&legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=whitetowerai/ohmygame&type=date&theme=dark&legend=top-left" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=whitetowerai/ohmygame&type=date&legend=top-left" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=whitetowerai/ohmygame&type=date&legend=top-left" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&theme=dark&legend=top-left" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&legend=top-left" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&legend=top-left" />
   </picture>
 </a>
 
 ## License
 
-[Apache-2.0](LICENSE). The OhMyGame name and logo are not covered by the
+[Apache-2.0](LICENSE). The XC-UI-Flow name and logo are not covered by the
 license.

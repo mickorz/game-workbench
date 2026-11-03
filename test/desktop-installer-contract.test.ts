@@ -74,9 +74,9 @@ describe("Windows desktop installer safety", () => {
 
   it("reserves completion for a successful installation", async () => {
     const include = await readFile("build/installer.nsh", "utf8");
-    expect(include).toContain("!define MUI_PAGE_CUSTOMFUNCTION_SHOW OhMyGameInstallProgressStart");
-    expect(include).toContain("!define MUI_PAGE_CUSTOMFUNCTION_LEAVE OhMyGameInstallProgressFinish");
-    const finish = include.slice(include.indexOf("Function OhMyGameInstallProgressFinish"), include.indexOf("!macro customCheckAppRunning"));
+    expect(include).toContain("!define MUI_PAGE_CUSTOMFUNCTION_SHOW XcFlowInstallProgressStart");
+    expect(include).toContain("!define MUI_PAGE_CUSTOMFUNCTION_LEAVE XcFlowInstallProgressFinish");
+    const finish = include.slice(include.indexOf("Function XcFlowInstallProgressFinish"), include.indexOf("!macro customCheckAppRunning"));
     expect(finish.indexOf("IfAbort progress_done")).toBeLessThan(finish.indexOf("StrCpy $omgProgressNext 100"));
     expect(include).not.toContain("PBM_SETMARQUEE");
   });

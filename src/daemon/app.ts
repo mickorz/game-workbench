@@ -655,7 +655,7 @@ export function createApp(options: AppOptions = {}) {
   const volcengineTtsSettings = new VolcengineTtsSettingsStore(dataDirectory);
   const volcengineSeedAudioSettings = new VolcengineSeedAudioSettingsStore(dataDirectory);
   const providerModelSettings = new ProviderModelSettingsStore(dataDirectory, piAgentDirectory);
-  // Coding agents reach OhMyGame's tools over loopback only when they cannot take them over their own pipe.
+  // Coding agents reach XC-UI-Flow's tools over loopback only when they cannot take them over their own pipe.
   const agentRuntimes = new AgentRuntimeService(dataDirectory, () => {
     const address = app.server.address();
     return address && typeof address === "object" ? `http://127.0.0.1:${address.port}` : undefined;
@@ -864,7 +864,7 @@ export function createApp(options: AppOptions = {}) {
       app.log.warn({ err, projectId: project.id }, "Could not prune checkpoints");
     }
   };
-  /** OhMyGame's own tools for a conversation, the same for Pi and for a coding agent. */
+  /** XC-UI-Flow's own tools for a conversation, the same for Pi and for a coding agent. */
   const projectAgentTools = (project: ProjectState, conversation: StoredConversation) => {
     const playtestKey = `${project.id}:${conversation.summary.id}`;
     let playtest = agentPlaytests.get(playtestKey);
@@ -894,7 +894,7 @@ export function createApp(options: AppOptions = {}) {
       ? await playableDrafts.open(project)
       : previewPageUrl(await previews.ensureStarted(project, false), "playtest"),
   });
-  /** OhMyGame's tools for agents outside the app; playtest windows belong to their MCP session. */
+  /** XC-UI-Flow's tools for agents outside the app; playtest windows belong to their MCP session. */
   const externalMcp = new ExternalMcpService({
     dataDirectory,
     projects: () => projects.list(),
@@ -2715,7 +2715,7 @@ export function createApp(options: AppOptions = {}) {
         provider: providerId, providerName: provider?.name ?? providerId, id: model.id, name: model.name, reasoningLevels: [], capabilities: [model.capability],
         visible: providerModelSettings.isVisible(model), custom: false, source: "cloud",
         description: [model.estimatedCredits !== undefined && `${model.estimatedCredits} credits / generation`, model.maxReferenceImages && `up to ${model.maxReferenceImages} references`, model.polycount && `${model.polycount.min.toLocaleString()}–${model.polycount.max.toLocaleString()} faces`].filter(Boolean).join(" · "),
-      })), defaultApi: "cloud", canAddCustomModel: false, catalogNotice: "Models and generation options are managed by OhMyGame. You can choose which models to show." };
+      })), defaultApi: "cloud", canAddCustomModel: false, catalogNotice: "Models and generation options are managed by XC-UI-Flow. You can choose which models to show." };
     }
     const catalog = providerModelSettings.isCustom(providerId) ? customModelCatalog(runtime.getModels()) : new Map();
     const models = runtime.getModels(providerId).map((model) => providerModelSettings.resolveModel(model, catalog));

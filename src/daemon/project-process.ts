@@ -8,7 +8,8 @@ export function projectProcessEnvironment(environment: NodeJS.ProcessEnv = proce
   delete result.ESBUILD_BINARY_PATH;
   for (const name of Object.keys(result)) {
     const key = name.toUpperCase();
-    if (key.startsWith("OHMYGAME_") || key === "DAEMON_HOST" || key === "DAEMON_PORT") delete result[name];
+    // 旧前缀 OHMYGAME_ 是历史协议名，冻结保留；新前缀 XCUIFLOW_ 同样要过滤
+    if (key.startsWith("OHMYGAME_") || key.startsWith("XCUIFLOW_") || key === "DAEMON_HOST" || key === "DAEMON_PORT") delete result[name];
   }
   return result;
 }

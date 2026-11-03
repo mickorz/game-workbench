@@ -126,7 +126,7 @@ runtime evidence. Keep existing scenes and other Editor projects unchanged.
 建立测试项目，启用 Model Context Protocol 及所需场景/Actor 工具集。若当前版本根本
 没有该插件，记为“前置条件不满足”，不要自动升级或装社区桥接。
 
-在该 Editor 控制台执行 `ModelContextProtocol.StartServer`，在 OhMyGame 插件中把
+在该 Editor 控制台执行 `ModelContextProtocol.StartServer`，在 XC-UI-Flow 插件中把
 Local Unreal MCP URL 配成对应的 loopback 地址，默认 `http://127.0.0.1:8000/mcp`。
 启用 Unreal Engine，测试连接。默认只发现 3 个工具是工具搜索模式，仍需做真实调用。
 
@@ -197,7 +197,7 @@ verify collision and reaching the goal.
 每项保留一份记录，失败时连同对话工具日志反馈；隐藏账号、密钥等敏感信息。
 
 ```text
-Plugin / OhMyGame branch or commit:
+Plugin / XC-UI-Flow branch or commit:
 OS / engine / tool / SDK versions:
 Project type / source path / output path:
 Result: PASS / FAIL / NOT RUN
@@ -216,7 +216,7 @@ Failure: exact error, reproduction steps, expected versus observed behavior
 1. 在插件页启用 Maker，点击「准备环境」并完成「连接账号」。应通过官方浏览器授权，不能要求在对话中提供 token，也不能修改 Codex/Cursor/Claude 配置。
 2. 首页引用 Maker，确认类型切换为 General。填写需求并创建，应保留原输入框，并弹出带 Maker 图标和名称的创建窗口；默认「新建项目」，账号已就绪时只显示一行摘要，其他操作收进「账号选项」。填写名称后点击「创建 TapTap Maker 项目并开始」；成功后才进入会话，不应在首次发送会话时弹出接入窗口。也应能切换「已有项目」并明确选择项目。关闭或按 Escape 后需求和附件应保留，焦点回到创建入口；创建时应显示进度，失败时保留名称并允许继续。插件页「新建项目」和普通新建窗口的「项目插件」应使用同一流程。
    创建成功后模拟本地拉取失败，重试必须继续初始化同一个 Maker 项目；结果未知时应检查项目列表，不能直接再创建一次。
-3. 新导入一个已经绑定的 Maker 目录，应识别为插件项目，保留原绑定。重新导入一个已登记为 OhMyGame 项目的目录，项目应保持原样。已有 Web 项目的 @ 菜单中不应出现 Maker。
+3. 新导入一个已经绑定的 Maker 目录，应识别为插件项目，保留原绑定。重新导入一个已登记为 XC-UI-Flow 项目的目录，项目应保持原样。已有 Web 项目的 @ 菜单中不应出现 Maker。
 4. 在一个已有的 General 项目中引用 Maker 并发送：应打开连接面板并说明会关闭 Web 预览和社区发布。直接关闭面板，项目设置和 Web 预览应保持不变；再次发送并点击「继续」后才切换为 Maker 项目。
 5. 在预览标签页安装 Runtime、启动、刷新、查看日志、停止。游戏在独立原生窗口中运行，不能出现 Web iframe 或 Web Play 按钮。刷新会重启游戏。
 6. 关闭并重开项目，检查绑定仍在；离开预览标签页后不得继续轮询预览状态。准备过程取消或失败后应能显式重试；在插件页授权进行中时打开项目连接面板，应显示授权进度而不是报错。

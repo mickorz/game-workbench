@@ -1,5 +1,5 @@
-appId: ai.ohmygame.desktop
-productName: OhMyGame
+appId: com.xc.uiflow
+productName: XC-UI-Flow
 asar: true
 beforePack: scripts/prepare-desktop-typebox.mjs
 afterPack: scripts/check-packaged-desktop.mjs
@@ -58,7 +58,7 @@ win:
   icon: build/icon.ico
   target:
     - nsis
-  artifactName: OhMyGame-${version}-${arch}.${ext}
+  artifactName: XC-UI-Flow-${version}-${arch}.${ext}
 
 nsis:
   include: build/installer.nsh
@@ -77,4 +77,4 @@ publish:
   channel: latest
 
 dmg:
-  artifactName: OhMyGame-${version}-${arch}.${ext}
+  artifactName: XC-UI-Flow-${version}-${arch}.${ext}

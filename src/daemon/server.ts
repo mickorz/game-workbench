@@ -2,7 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { takeAccessToken } from "./access-token.js";
 import { createApp } from "./app.js";
-import { ensureOhMyGamePiEnvironment } from "./pi-agent.js";
+import { ensureXcFlowPiEnvironment } from "./pi-agent.js";
 import { activateNetworkProxy } from "./proxy.js";
 import { loadEnvironmentFiles } from "./environment.js";
 import { NetworkSettingsService } from "./network-settings.js";
@@ -53,9 +53,9 @@ try {
   await networkSettings.load();
   activateNetworkProxy(networkSettings.runtime());
   try {
-    await ensureOhMyGamePiEnvironment(piAgentDirectory);
+    await ensureXcFlowPiEnvironment(piAgentDirectory);
   } catch (error) {
-    console.warn("Could not initialize the OhMyGame Pi environment; continuing without managed MCP configuration.", error);
+    console.warn("Could not initialize the XC-UI-Flow Pi environment; continuing without managed MCP configuration.", error);
   }
   app = createApp({
     dataDirectory,

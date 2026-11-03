@@ -111,7 +111,7 @@ export class PublishMediaOptimizer {
 
   async #encodeVideo(source: string, destination: string): Promise<boolean> {
     const child = spawn(
-      process.env.OHMYGAME_FFMPEG_PATH || "ffmpeg",
+      process.env.XCUIFLOW_FFMPEG_PATH || process.env.OHMYGAME_FFMPEG_PATH || "ffmpeg",
       [
         "-nostdin",
         "-v",

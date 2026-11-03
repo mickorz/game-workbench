@@ -274,7 +274,7 @@ function AboutSettings({ onOpenNetwork, onOpenOnboarding }: { onOpenNetwork: () 
   const copyDetails = async () => {
     if (status?.type !== "error") return;
     await navigator.clipboard.writeText([
-      `OhMyGame ${update?.currentVersion ?? __APP_VERSION__}`,
+      `XC-UI-Flow ${update?.currentVersion ?? __APP_VERSION__}`,
       `Update ${status.phase}/${status.code}`,
       status.detail,
     ].join("\n"));
@@ -290,7 +290,7 @@ function AboutSettings({ onOpenNetwork, onOpenOnboarding }: { onOpenNetwork: () 
             <img className="settings-about-logo" src={brandMark} alt="" />
             <div className="settings-about-copy">
               <div className="settings-about-product">
-                <strong>OhMyGame</strong>
+                <strong>XC-UI-Flow</strong>
                 <span>v{update?.currentVersion ?? __APP_VERSION__}</span>
               </div>
               {updates && message ? <p className="settings-about-status" role="status">{message}</p> : null}

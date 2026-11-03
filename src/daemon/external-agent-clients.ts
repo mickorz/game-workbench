@@ -56,7 +56,7 @@ export interface ExternalAgentClientsOptions {
 }
 
 /**
- * Adds OhMyGame to Claude Code and Codex through their own `mcp` commands,
+ * Adds XC-UI-Flow to Claude Code and Codex through their own `mcp` commands,
  * which keep working as the CLIs change their configuration files, and copies
  * the Skill that teaches them the workflow. See docs/external-agents.md.
  */
@@ -131,7 +131,7 @@ export class ExternalAgentClients {
     return this.#serial(async () => {
       const launcher = this.#options.launcher;
       if (!launcher)
-        throw new Error("Connecting agents needs the OhMyGame desktop app");
+        throw new Error("Connecting agents needs the XC-UI-Flow desktop app");
       const cli = await this.#cli(id);
       // Replacing an earlier entry keeps connecting idempotent.
       await this.#options.run(
@@ -275,7 +275,7 @@ export function removeArguments(id: ExternalAgentClientId): string[] {
     : ["mcp", "remove", EXTERNAL_MCP_SERVER_NAME];
 }
 
-/** A Skill folder OhMyGame may replace or remove: missing, or one it wrote. */
+/** A Skill folder XC-UI-Flow may replace or remove: missing, or one it wrote. */
 async function ownsSkill(
   folder: string,
   missingIsOwned: boolean,
@@ -316,5 +316,5 @@ function failure(
     .split("\n")
     .slice(-3)
     .join(" ");
-  return `${clientName(id)} could not ${action} OhMyGame${detail ? `: ${detail}` : ""}`;
+  return `${clientName(id)} could not ${action} XC-UI-Flow${detail ? `: ${detail}` : ""}`;
 }

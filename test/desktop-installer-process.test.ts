@@ -66,7 +66,7 @@ describe.skipIf(process.platform !== "win32")(
       expect(
         check(
           script,
-          "OhMyGame-NoSuch345.exe",
+          "XC-UI-Flow-NoSuch345.exe",
           path.join(directory, "processes.txt"),
         ),
       ).toBe(17);
@@ -91,7 +91,7 @@ describe.skipIf(process.platform !== "win32")(
         ),
       );
       expect(
-        check(script, "OhMyGame.exe", path.join(directory, "processes.txt"), {
+        check(script, "XC-UI-Flow.exe", path.join(directory, "processes.txt"), {
           ...env,
           SystemRoot: path.join(root, "missing-windows"),
         }),
@@ -103,7 +103,7 @@ describe.skipIf(process.platform !== "win32")(
       expect(
         check(
           script,
-          "OhMyGame.exe",
+          "XC-UI-Flow.exe",
           path.join(directory, "missing", "processes.txt"),
         ),
       ).toBe(18);
@@ -158,12 +158,12 @@ Unicode true
 RequestExecutionLevel user
 SilentInstall silent
 SilentUnInstall silent
-Name "OhMyGame installer regression"
+Name "XC-UI-Flow installer regression"
 OutFile "${executable}"
 !include LogicLib.nsh
 !define BUILD_RESOURCES_DIR "${path.resolve("build")}"
-!define APP_EXECUTABLE_FILENAME "OhMyGame-NoSuch345.exe"
-!define PRODUCT_NAME "OhMyGame"
+!define APP_EXECUTABLE_FILENAME "XC-UI-Flow-NoSuch345.exe"
+!define PRODUCT_NAME "XC-UI-Flow"
 !define isUpdated '1 = 1'
 !macro TestDetail TEXT
   FileOpen $R3 "${logPath}" a

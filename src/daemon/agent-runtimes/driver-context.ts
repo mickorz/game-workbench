@@ -29,12 +29,12 @@ export interface DriverContext {
   /** A folder of the daemon's for this session's generated files, outside the workspace and removed with the session. */
   privateDirectory: string;
   processDirectory?: string;
-  /** OhMyGame's instructions for the project, added to the agent's own. */
+  /** XC-UI-Flow's instructions for the project, added to the agent's own. */
   instructions: string;
   bridge: ToolBridge;
   saveGeneratedImage?: SaveGeneratedImage;
   policy: AgentPolicyContext;
-  /** Folders that each hold a SKILL.md: plugin Skills and OhMyGame's own. */
+  /** Folders that each hold a SKILL.md: plugin Skills and XC-UI-Flow's own. */
   skillDirectories: readonly string[];
   /**
    * A loopback MCP endpoint for agents that can only reach tools over HTTP. Its
@@ -63,7 +63,7 @@ export interface HttpBridgeHandlers {
 }
 
 /**
- * Asks OhMyGame's policy, then the person when the policy leaves it to them.
+ * Asks XC-UI-Flow's policy, then the person when the policy leaves it to them.
  * Allowed, the decision is final for this request; asked, the person's
  * answer is.
  */
@@ -86,7 +86,7 @@ export async function decideApproval(
   );
 }
 
-/** Stores what a bridged OhMyGame tool returned, so its record keeps the artifact and not just MCP's text. */
+/** Stores what a bridged XC-UI-Flow tool returned, so its record keeps the artifact and not just MCP's text. */
 export class BridgeResults {
   #results = new Map<string, { result: NativeToolResult; isError: boolean }>();
 
@@ -108,7 +108,7 @@ export class BridgeResults {
   }
 }
 
-/** Text a CLI returned for a tool, as OhMyGame's tool result. */
+/** Text a CLI returned for a tool, as XC-UI-Flow's tool result. */
 export function textResult(value: unknown): NativeToolResult {
   if (typeof value === "string")
     return { content: [{ type: "text", text: value }] };

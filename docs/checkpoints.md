@@ -122,7 +122,7 @@ depth, with Git's rules: the deepest `.gitignore` that matches a path decides,
 without a Git repository. `.git/info/exclude` and global Git excludes are not
 read, because they differ between machines. Two kinds of path are always
 recorded whatever a `.gitignore` says: `.data/` and `canvas/` at the workspace
-root, which OhMyGame keeps together with the assets they describe, and the
+root, which XC-UI-Flow keeps together with the assets they describe, and the
 `.gitignore` files themselves. A `.gitignore` that is not a regular file, cannot
 be read, or is larger than 1 MiB ignores nothing.
 
@@ -144,7 +144,7 @@ matched by `*.png`, are not recorded, so Undo cannot bring them back.
 
 A snapshot lives as long as something names it. After a completed run, at most
 once a day, the daemon removes the stored objects that no snapshot it keeps
-needs. It keeps every snapshot named by an OhMyGame entry on any branch of any
+needs. It keeps every snapshot named by an XC-UI-Flow entry on any branch of any
 of the project's session files, read as text so that no file is rewritten; a
 line that is not JSON is passed over, as Pi passes it over. It also keeps the
 newest snapshot, the recovery target of an unfinished restore, every snapshot

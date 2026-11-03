@@ -17,10 +17,10 @@ const RELATED_GAMES_LIMIT = 10;
 
 export function GamesPage({
   onNavigate,
-  onOhMyGame,
+  onXcFlow,
 }: {
   onNavigate: (page: AppNavigationTarget) => void;
-  onOhMyGame: (gameId: string) => void;
+  onXcFlow: (gameId: string) => void;
 }) {
   const auth = useAuth();
   const serviceGeneration = useReadyRuntimeGeneration();
@@ -91,7 +91,7 @@ export function GamesPage({
         {phase === "error" ? <div className="explore-state explore-error"><X size={20} />{error}</div> : null}
         {phase === "ready" && games.length === 0 ? <div className="explore-state">{t("community.none")}</div> : null}
         {phase === "ready" && games.length > 0 && visibleGames.length === 0 ? <div className="explore-state">{t("community.noMatches")}</div> : null}
-        {phase !== "error" && visibleGames.length > 0 ? <GameGrid games={visibleGames} onOpen={game => onOhMyGame(game.id)} onStatsChange={(gameId, stats) => {
+        {phase !== "error" && visibleGames.length > 0 ? <GameGrid games={visibleGames} onOpen={game => onXcFlow(game.id)} onStatsChange={(gameId, stats) => {
           pendingStats.current?.set(gameId, stats);
           setGames(previous => previous.map(game => game.id === gameId ? { ...game, stats } : game));
         }} /> : null}
@@ -100,11 +100,11 @@ export function GamesPage({
   );
 }
 
-export function GamePlayer({ gameId, onBack, onNavigate, onOhMyGame }: {
+export function GamePlayer({ gameId, onBack, onNavigate, onXcFlow }: {
   gameId: string;
   onBack: () => void;
   onNavigate: (page: AppNavigationTarget) => void;
-  onOhMyGame: (gameId: string) => void;
+  onXcFlow: (gameId: string) => void;
 }) {
   const auth = useAuth();
   const serviceGeneration = useReadyRuntimeGeneration();
@@ -194,17 +194,17 @@ export function GamePlayer({ gameId, onBack, onNavigate, onOhMyGame }: {
             <button className="quiet-button" type="button" onClick={() => void load()}>{t("common.retry")}</button>
           </div>
         ) : null}
-        {game ? <GameDetail key={`${game.id}:${game.deploymentId}`} game={game} accessToken={owner ? accessToken : undefined} relatedGames={relatedGames} onOhMyGame={onOhMyGame} onPlayerLoad={() => void refreshStats(game.deploymentId)} onStatsChange={(id, stats) => updateGame(id, { stats })} /> : null}
+        {game ? <GameDetail key={`${game.id}:${game.deploymentId}`} game={game} accessToken={owner ? accessToken : undefined} relatedGames={relatedGames} onXcFlow={onXcFlow} onPlayerLoad={() => void refreshStats(game.deploymentId)} onStatsChange={(id, stats) => updateGame(id, { stats })} /> : null}
       </section>
     </SidebarPageLayout>
   );
 }
 
-function GameDetail({ game, accessToken, relatedGames, onOhMyGame, onPlayerLoad, onStatsChange }: {
+function GameDetail({ game, accessToken, relatedGames, onXcFlow, onPlayerLoad, onStatsChange }: {
   game: CommunityGame;
   accessToken?: string;
   relatedGames: CommunityGame[];
-  onOhMyGame: (gameId: string) => void;
+  onXcFlow: (gameId: string) => void;
   onPlayerLoad: () => void;
   onStatsChange: (gameId: string, stats: CommunityGameStats) => void;
 }) {
@@ -253,7 +253,7 @@ function GameDetail({ game, accessToken, relatedGames, onOhMyGame, onPlayerLoad,
           <h2>{t("community.moreGames")}</h2>
           <GameGrid
             games={relatedGames}
-            onOpen={relatedGame => onOhMyGame(relatedGame.id)}
+            onOpen={relatedGame => onXcFlow(relatedGame.id)}
             onStatsChange={onStatsChange}
           />
         </section>

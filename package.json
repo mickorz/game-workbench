@@ -1,15 +1,15 @@
 {
-  "name": "ohmygame",
+  "name": "xc-ui-flow",
   "version": "0.0.0-beta.4.13",
   "description": "An open-source local-first agent for creating and publishing games.",
   "author": "WhiteTowerAI",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WhiteTowerAI/ohmygame.git"
+    "url": "git+https://github.com/mickorz/xc-ui-flow.git"
   },
   "bugs": {
-    "url": "https://github.com/WhiteTowerAI/ohmygame/issues"
+    "url": "https://github.com/mickorz/xc-ui-flow/issues"
   },
   "private": true,
   "type": "module",

@@ -6,10 +6,10 @@ import { PLUGIN_AUTHORING_RULES } from "./plugin-authoring.js";
 
 const PLUGIN_CREATOR_SKILL = `---
 name: plugin-creator
-description: Create or update an OhMyGame plugin from a natural-language request, validate it, and install it for the user.
+description: Create or update an XC-UI-Flow plugin from a natural-language request, validate it, and install it for the user.
 ---
 
-# OhMyGame Plugin Creator
+# XC-UI-Flow Plugin Creator
 
 Create or update a plugin directory inside the current workspace. Read existing files before editing.
 
@@ -19,21 +19,21 @@ Call \`install_plugin\` with the directory relative to the workspace to validate
 `;
 const pendingConfiguration = new Map<string, Promise<void>>();
 
-export function isOhMyGameManagedPiPackage(source: string): boolean {
+export function isXcFlowManagedPiPackage(source: string): boolean {
   return source === "npm:pi-mcp-adapter" || source.startsWith("npm:pi-mcp-adapter@");
 }
 
-export function withoutOhMyGameManagedPiPackages(
+export function withoutXcFlowManagedPiPackages(
   packages: ReturnType<SettingsManager["getPackages"]>,
 ): ReturnType<SettingsManager["getPackages"]> {
   const retained = packages.filter((entry) => {
     const source = typeof entry === "string" ? entry : entry.source;
-    return !isOhMyGameManagedPiPackage(source);
+    return !isXcFlowManagedPiPackage(source);
   });
   return retained.length === packages.length ? packages : retained;
 }
 
-export function ensureOhMyGamePiEnvironment(agentDir: string): Promise<void> {
+export function ensureXcFlowPiEnvironment(agentDir: string): Promise<void> {
   const directory = path.resolve(agentDir);
   const existing = pendingConfiguration.get(directory);
   if (existing) return existing;
@@ -48,7 +48,7 @@ async function configure(agentDir: string): Promise<void> {
   await mkdir(agentDir, { recursive: true });
   const settings = SettingsManager.create(agentDir, agentDir);
   const packages = settings.getGlobalSettings().packages ?? [];
-  const migratedPackages = withoutOhMyGameManagedPiPackages(packages);
+  const migratedPackages = withoutXcFlowManagedPiPackages(packages);
   if (migratedPackages !== packages) {
     settings.setPackages(migratedPackages);
     await settings.flush();

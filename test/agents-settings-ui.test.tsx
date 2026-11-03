@@ -96,7 +96,7 @@ const row = (name: string) =>
       name,
   );
 
-it("lists OhMyGame's own agent with its default model above the coding agent CLIs", async () => {
+it("lists XC-UI-Flow's own agent with its default model above the coding agent CLIs", async () => {
   catalog = {
     models: [gpt, sonnet],
     defaultModel: { provider: "openai", id: "gpt-5" },
@@ -107,16 +107,16 @@ it("lists OhMyGame's own agent with its default model above the coding agent CLI
   const names = [
     ...host.querySelectorAll(".settings-provider-name > span"),
   ].map((item) => item.textContent);
-  expect(names).toEqual(["OhMyGame", "Claude Code", "Codex"]);
+  expect(names).toEqual(["XC-UI-Flow", "Claude Code", "Codex"]);
   expect(
-    row("OhMyGame")!.querySelector(".settings-provider-details"),
+    row("XC-UI-Flow")!.querySelector(".settings-provider-details"),
   ).toBeNull();
-  expect(row("OhMyGame")!.querySelector("small")?.textContent).toBe("Default");
+  expect(row("XC-UI-Flow")!.querySelector("small")?.textContent).toBe("Default");
   expect(
     row("Claude Code")!.querySelector(".settings-provider-name small"),
   ).toBeNull();
   await act(async () =>
-    row("OhMyGame")!
+    row("XC-UI-Flow")!
       .querySelector<HTMLButtonElement>('button[aria-label="Manage models"]')!
       .click(),
   );
@@ -131,7 +131,7 @@ it("marks the CLI new conversations start with and opens its settings", async ()
   };
   const onViewChange = vi.fn();
   await render(onViewChange);
-  expect(row("OhMyGame")!.querySelector("small")).toBeNull();
+  expect(row("XC-UI-Flow")!.querySelector("small")).toBeNull();
   expect(
     row("Claude Code")!.querySelector(".settings-provider-name small")
       ?.textContent,
@@ -144,20 +144,20 @@ it("marks the CLI new conversations start with and opens its settings", async ()
   expect(onViewChange).toHaveBeenCalledWith({ page: "agent", id: "codex-cli" });
 });
 
-it("waits for a CLI still listing its models before marking OhMyGame as the default", async () => {
+it("waits for a CLI still listing its models before marking XC-UI-Flow as the default", async () => {
   catalog = {
     models: [gpt],
     loadingRuntimes: ["claude-code-cli"],
     defaultReasoningLevel: "medium",
   };
   await render();
-  expect(row("OhMyGame")!.querySelector("small")).toBeNull();
+  expect(row("XC-UI-Flow")!.querySelector("small")).toBeNull();
 });
 
-it("asks for a provider when OhMyGame has no models", async () => {
+it("asks for a provider when XC-UI-Flow has no models", async () => {
   catalog = { models: [sonnet], defaultReasoningLevel: "medium" };
   await render();
-  expect(row("OhMyGame")!.textContent).toContain(
+  expect(row("XC-UI-Flow")!.textContent).toContain(
     "No models yet. Connect a provider in Providers & Models.",
   );
 });

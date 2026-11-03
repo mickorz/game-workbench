@@ -31,7 +31,7 @@ function lines(...entries: unknown[]): string {
 const id = (digit: string) => digit.repeat(40);
 
 describe("snapshots named by session files", () => {
-  it("collects every id in OhMyGame entries on every branch of every file", async () => {
+  it("collects every id in XC-UI-Flow entries on every branch of every file", async () => {
     const directory = await sessions({
       "a.jsonl": lines(
         { type: "session", version: 3, id: "a" },

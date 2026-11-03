@@ -156,7 +156,7 @@ async function renderPlayer(gameId = "listed") {
         gameId={gameId}
         onBack={() => undefined}
         onNavigate={() => undefined}
-        onOhMyGame={() => undefined}
+        onXcFlow={() => undefined}
       />,
     ),
   );
@@ -544,7 +544,7 @@ describe("Community card interactions", () => {
   async function renderGames() {
     await act(async () =>
       root.render(
-        <GamesPage onNavigate={() => undefined} onOhMyGame={() => undefined} />,
+        <GamesPage onNavigate={() => undefined} onXcFlow={() => undefined} />,
       ),
     );
   }
@@ -579,7 +579,7 @@ describe("Community card interactions", () => {
     mocks.auth.requestAccessToken.mockImplementationOnce(async () => {
       mocks.auth.state = { status: "signed-in", user: { id: "viewer" } };
       root.render(
-        <GamesPage onNavigate={() => undefined} onOhMyGame={() => undefined} />,
+        <GamesPage onNavigate={() => undefined} onXcFlow={() => undefined} />,
       );
       return "token";
     });
@@ -623,7 +623,7 @@ describe("Community card interactions", () => {
           gameId="listed"
           onBack={() => undefined}
           onNavigate={() => undefined}
-          onOhMyGame={() => undefined}
+          onXcFlow={() => undefined}
         />,
       ),
     );

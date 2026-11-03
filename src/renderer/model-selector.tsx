@@ -260,7 +260,7 @@ export type AgentModelCatalogStatus = "loading" | "ready" | "error";
 export type AgentModelCatalogState = AgentModelCatalog & { status: AgentModelCatalogStatus };
 
 const EMPTY_CATALOG: AgentModelCatalogState = { models: [], defaultReasoningLevel: "medium", status: "loading" };
-/** The models a picker offers. Conversations pass `agentRuntimes` to list coding agents' models with OhMyGame's own. */
+/** The models a picker offers. Conversations pass `agentRuntimes` to list coding agents' models with XC-UI-Flow's own. */
 export function useAgentModels(options: { agentRuntimes?: boolean } = {}): AgentModelCatalogState {
   const [catalog, setCatalog] = useState<AgentModelCatalogState>(EMPTY_CATALOG);
   const agentRuntimes = options.agentRuntimes === true;

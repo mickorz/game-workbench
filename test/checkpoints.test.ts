@@ -460,7 +460,7 @@ describe("workspace checkpoints", () => {
     ).toBe("notes");
   });
 
-  it("keeps OhMyGame's own files and every .gitignore whatever a .gitignore says", async () => {
+  it("keeps XC-UI-Flow's own files and every .gitignore whatever a .gitignore says", async () => {
     const game = await project({
       ".gitignore": ".data/\ncanvas/\n.gitignore\n*.json\n",
       ".data/assets.json": "{}",

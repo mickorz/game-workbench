@@ -16,11 +16,11 @@ export function pluginCompatibilityIssue(
 ): string | undefined {
   const format = manifest.formatVersion ?? 1;
   if (format > PLUGIN_FORMAT_VERSION)
-    return `Plugin format ${format} requires a newer OhMyGame version (supported: ${PLUGIN_FORMAT_VERSION})`;
+    return `Plugin format ${format} requires a newer XC-UI-Flow version (supported: ${PLUGIN_FORMAT_VERSION})`;
   if (
     manifest.minimumHostVersion &&
     isNewerPluginVersion(manifest.minimumHostVersion, hostVersion)
   )
-    return `Plugin requires OhMyGame ${manifest.minimumHostVersion} or newer (installed: ${hostVersion})`;
+    return `Plugin requires XC-UI-Flow ${manifest.minimumHostVersion} or newer (installed: ${hostVersion})`;
   return undefined;
 }

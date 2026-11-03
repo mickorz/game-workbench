@@ -35,7 +35,7 @@ it("terminates the active encoder when the builder closes", async () => {
     path.join(tmpdir(), "ohmygame-publish-close-"),
   );
   const builder = new ArtifactBuilder();
-  vi.stubEnv("OHMYGAME_FFMPEG_PATH", "publish-test-ffmpeg");
+  vi.stubEnv("XCUIFLOW_FFMPEG_PATH", "publish-test-ffmpeg");
   let publishing: Promise<Buffer> | undefined;
   try {
     await createNodeCodebase(

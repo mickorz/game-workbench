@@ -1,4 +1,4 @@
-# Native OhMyGame plugins
+# Native XC-UI-Flow plugins
 
 Plugins is the single place to install Skills and MCP services, change configuration, test connections, and authorize services. A plugin may bundle Skills (including supporting scripts, references, and assets), existing MCP servers, or both.
 
@@ -138,7 +138,7 @@ SemVer `version`. The host currently supports format `1`; an omitted field also
 means `1`, so existing native packages remain readable. A newer format is
 rejected during discovery, installation, and archive import with an upgrade
 message; in a marketplace, only the incompatible plugins are skipped. Optional
-`minimumHostVersion` is a SemVer release of OhMyGame required by the package.
+`minimumHostVersion` is a SemVer release of XC-UI-Flow required by the package.
 It is checked against the running application's version, including prereleases.
 Already installed plugins remain listed after a downgrade, so they can still be
 exported or uninstalled.
@@ -177,7 +177,7 @@ The legacy `connections` manifest field is a provider reference. It neither owns
 
 The Add plugin menu supports folder/Git installation, manual MCP configuration, and a dedicated AI assistant. Existing MCP configuration JSON can be pasted into the manual dialog. Credentials in environment/header fields are extracted into private configuration rather than copied into the generated package. The detail page offers configuration forms, definition editing, tests, and HTTP authorization controls.
 
-The library groups plugins into **Public** and **Personal**. Public contains plugins provided by OhMyGame, including bundled and preinstalled packages, plus catalog entries whose trusted adapter marks the marketplace as official. Personal contains user-created plugins and user imports from folders, Git repositories, and third-party marketplaces. These are display groups: plugin IDs, original marketplace identities, and configuration keys are preserved. Imported archives always enter Personal, even when their source metadata came from a public catalog. Both groups expose plugin switches, including for bundled plugins. Bundled packages cannot be uninstalled.
+The library groups plugins into **Public** and **Personal**. Public contains plugins provided by XC-UI-Flow, including bundled and preinstalled packages, plus catalog entries whose trusted adapter marks the marketplace as official. Personal contains user-created plugins and user imports from folders, Git repositories, and third-party marketplaces. These are display groups: plugin IDs, original marketplace identities, and configuration keys are preserved. Imported archives always enter Personal, even when their source metadata came from a public catalog. Both groups expose plugin switches, including for bundled plugins. Bundled packages cannot be uninstalled.
 
 Create with AI opens a dedicated Plugin Builder page with a conversation and four preview views: Overview, Files, Setup, and Checks. Each new plugin gets its own persisted workspace. The Plugins page lists AI workspaces that can be resumed or deleted; unsent input and the selected model are saved per workspace on the current device.
 
@@ -282,7 +282,7 @@ projects. Existing saved switch choices are preserved.
   the plugin directory. The plugin's runtime script starts both from the same
   pinned install with `TAPTAP_MAKER_DISTRIBUTION=ohmygame_plugin`. Authentication remains in
   Maker's own local store. Read project `.agents/skills` explicitly as needed;
-  they are not automatically added to OhMyGame's Skill catalog.
+  they are not automatically added to XC-UI-Flow's Skill catalog.
 
 Maker's connection panel prepares a private pinned CLI and Python/Lua diagnostics,
 then opens official browser authorization. Python 3.8+ with venv/pip and Git are
@@ -307,7 +307,7 @@ of creating another one; an unknown creation outcome requires checking the proje
 list before reconnecting. Reconnecting the
 same binding only checks its status; it does not run initialization again.
 A newly imported directory with a Maker binding uses the plugin's compatible
-type. A directory already registered as an OhMyGame project reopens unchanged.
+type. A directory already registered as an XC-UI-Flow project reopens unchanged.
 Referencing Maker in an existing compatible project opens the connection panel;
 the project switches to Maker only when you continue, which turns off its Web
 preview and Community publishing. Closing the panel leaves the project as it was.
@@ -329,7 +329,7 @@ calls, without starting the adapter. Agents use the same adapter through
 `project_preview`.
 The pinned release does not provide `preview validate` or native screenshots.
 Local previews do not submit remotely. `maker_build_current_directory` commits,
-pushes, and builds the bound branch; use Maker's own page to publish. OhMyGame
+pushes, and builds the bound branch; use Maker's own page to publish. XC-UI-Flow
 Community publishing is unavailable for integrated projects.
 
 See the [TapTap Maker Skill](../plugins/taptap-maker/skills/taptap-maker/SKILL.md).
@@ -412,7 +412,7 @@ JSON-lines progress/result/error messages, validated against
 [`plugin-integration.ts`](../src/shared/plugin-integration.ts). Requests contain
 an action, private data directory, resolved plugin configuration, and (for project
 actions) the registered workspace path. `projectId` on a bind request is the
-explicitly selected service project; the HTTP query uses the OhMyGame project ID.
+explicitly selected service project; the HTTP query uses the XC-UI-Flow project ID.
 Plugins with `createProject: true` also accept `create`, with the registered
 `projectName` and workspace path. Creation and binding both acquire the project's
 write guard. The adapter must preserve a created identity across initialization

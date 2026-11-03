@@ -26,7 +26,7 @@ by the endpoint. Remove those models explicitly if you no longer want them.
 
 ## Gemini 4
 
-OhMyGame bundles Pi 1.3.0, including `gemini-4-argon` for Google Gemini and
+XC-UI-Flow bundles Pi 1.3.0, including `gemini-4-argon` for Google Gemini and
 Google Vertex AI. Connect the provider with credentials that have access to the
 model, enable it in **Providers & Models**, and select it for a conversation.
 New Google connections recommend Gemini 4 Argon; saved default models are preserved.
@@ -37,14 +37,14 @@ level when selecting the model. Pi sends `thinkingLevel` for both Google protoco
 Compatible custom providers using the exact `gemini-4-argon` ID inherit the
 matching protocol's reasoning template unless explicitly overridden.
 
-Upgrading Pi preserves OhMyGame's local provider-failure diagnostics and retry
+Upgrading Pi preserves XC-UI-Flow's local provider-failure diagnostics and retry
 patch. Pi 1.3 also changes Kimi Coding to OpenAI Chat Completions: existing
 `kimi-coding` Base URL overrides must include `/v1`.
 
 ## Azure provider upgrade
 
 Pi 1.2 uses provider ID `azure` in place of `azure-openai-responses`.
-At startup, OhMyGame migrates saved credentials, custom model definitions,
+At startup, XC-UI-Flow migrates saved credentials, custom model definitions,
 Pi model preferences, and provider visibility settings. Existing `azure`
 entries take precedence. JSONC comments and UTF-8 BOMs are preserved.
 If a file is invalid, it is left untouched and the error is logged; other
@@ -156,7 +156,7 @@ stable. The connection uses `https://openapi.tripo3d.ai/v3`; custom relays can u
 their own Base URL and headers with the same protocol. Rigging and animation
 continue to use the built-in Meshy connection.
 
-The built-in **Hyper3D** provider uses your own API key and requires no OhMyGame
+The built-in **Hyper3D** provider uses your own API key and requires no XC-UI-Flow
 login. The same **Hyper3D** settings page also offers **Free account credits**.
 The generation picker labels this account connection **Hyper3D · Free**; its
 daily credits and model settings are managed separately from your API key.

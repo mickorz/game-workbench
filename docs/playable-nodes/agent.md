@@ -12,7 +12,7 @@ and the tools it uses to verify results.
   Agent-only representation or hidden editing API.
 - **The public contract is enough.** [runtime.md](runtime.md), the project
   `AGENTS.md` and `README.md`, and `schemas/` are sufficient to build normal
-  content. The OhMyGame Runtime source is open for understanding edge cases,
+  content. The XC-UI-Flow Runtime source is open for understanding edge cases,
   but projects never copy or modify it.
 - **Verify, don't assume.** A change is finished when validation passes,
   every surface compiles, and the affected route has been exercised in the
@@ -69,7 +69,7 @@ The rules for every story:
   `story.label` when players should see another name than the title.
 - Files a Preset added under `shared/`, such as the Project Style and the
   Visual Novel player in `shared/vn/`, are the project's source: change them
-  freely. OhMyGame writes them only when they are missing and never updates
+  freely. XC-UI-Flow writes them only when they are missing and never updates
   them.
 - Keep IDs and source paths stable. Do not rely on `window` globals.
 - Run the checks below before finishing.

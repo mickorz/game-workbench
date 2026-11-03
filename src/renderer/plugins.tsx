@@ -678,13 +678,13 @@ function PluginManagement({ plugin, updating, onBrowse, onRemove, onToggle }: {
   const canBrowse = pluginCollection(plugin) === "personal" && Boolean(window.ohMyGameDesktop);
   let source: ReactNode;
   if (plugin.preinstalled || plugin.source.type === "builtIn") {
-    source = t("plugins.includedWithOhMyGame");
+    source = t("plugins.includedWithXcFlow");
   } else if (plugin.origin?.type === "github") {
     source = <RepositoryLink repository={plugin.origin.repository} />;
   } else if (plugin.origin?.type === "claude-marketplace") {
     source = t("plugins.claudeMarketplace", { marketplace: plugin.origin.marketplace });
   } else if (plugin.source.type === "preinstalled") {
-    source = t("plugins.includedWithOhMyGame");
+    source = t("plugins.includedWithXcFlow");
   } else if (plugin.source.type === "authored") {
     source = t("plugins.createdWithAi");
   } else if (plugin.source.type === "archive") {

@@ -55,7 +55,7 @@ const JOB_TOOLS = new Set<string>([
 /** Why a public tool can be missing from a project's tools. */
 const UNAVAILABLE_HINTS: Record<string, string> = {
   game_use:
-    "It needs the OhMyGame desktop app and a project with a game preview.",
+    "It needs the XC-UI-Flow desktop app and a project with a game preview.",
   playable_add_node: "It needs an Interactive Story project.",
   playable_check: "It needs an Interactive Story project.",
 };
@@ -66,8 +66,8 @@ const SESSION_IDLE_MS = 6 * 60 * 60_000;
 const FINISHED_JOB_RETENTION_MS = 6 * 60 * 60_000;
 
 const INSTRUCTIONS = [
-  "OhMyGame's tools for game projects: image, video, 3D and audio generation with the person's configured providers, the Design and Asset Canvas, and playtesting the game in a real window.",
-  "Every tool except list_projects and open_project acts on one OhMyGame project. Working in a project folder selects it; otherwise call list_projects and open_project.",
+  "XC-UI-Flow's tools for game projects: image, video, 3D and audio generation with the person's configured providers, the Design and Asset Canvas, and playtesting the game in a real window.",
+  "Every tool except list_projects and open_project acts on one XC-UI-Flow project. Working in a project folder selects it; otherwise call list_projects and open_project.",
   "Generation tools return their result when it is ready within about 45 seconds; otherwise they return a jobId. Call wait_job with it until the job finishes, and do not start the same generation again.",
   "Generated files are saved in the project workspace and its asset library; results name each file's workspace-relative path. Read them with your own file tools.",
 ].join("\n");
@@ -76,7 +76,7 @@ const OWN_TOOLS: BridgeTool[] = [
   {
     name: "list_projects",
     description:
-      "List OhMyGame projects with their ID, name, type and workspace folder, and which one this session uses.",
+      "List XC-UI-Flow projects with their ID, name, type and workspace folder, and which one this session uses.",
     inputSchema: {
       type: "object",
       properties: {},
@@ -86,7 +86,7 @@ const OWN_TOOLS: BridgeTool[] = [
   {
     name: "open_project",
     description:
-      "Use an OhMyGame project for the rest of this session, chosen by its ID or by a folder inside its workspace.",
+      "Use an XC-UI-Flow project for the rest of this session, chosen by its ID or by a folder inside its workspace.",
     inputSchema: {
       type: "object",
       properties: {
@@ -192,7 +192,7 @@ export interface ExternalMcpOptions {
 }
 
 /**
- * OhMyGame as an MCP server for agents outside the app (Claude Code, Codex,
+ * XC-UI-Flow as an MCP server for agents outside the app (Claude Code, Codex,
  * DeepSeek Harness). See docs/external-agents.md. The token lives only as long
  * as the daemon and is published to the launcher in `endpoint.json`.
  */
@@ -252,7 +252,7 @@ export class ExternalMcpService {
     if (!this.#token || !matchesBearerToken(request.authorization, this.#token))
       return {
         status: 401,
-        body: { error: "Unknown or revoked OhMyGame token" },
+        body: { error: "Unknown or revoked XC-UI-Flow token" },
       };
     this.#prune();
     const messages = Array.isArray(request.body)
@@ -333,7 +333,7 @@ export class ExternalMcpService {
   async #publishNow(): Promise<void> {
     if (!this.#enabled || !this.#url) return this.#revoke();
     if (this.#token) return;
-    // The launcher lists these while OhMyGame is closed, so a client starting does not start the app.
+    // The launcher lists these while XC-UI-Flow is closed, so a client starting does not start the app.
     await this.#write(this.#catalogPath, {
       version: 1,
       contractVersion: EXTERNAL_MCP_CONTRACT_VERSION,
@@ -556,7 +556,7 @@ export class ExternalMcpService {
             : undefined);
         if (!project)
           return failure(
-            `No OhMyGame project has the ID or contains the folder ${value}. Call list_projects to see them.`,
+            `No XC-UI-Flow project has the ID or contains the folder ${value}. Call list_projects to see them.`,
           );
         session.explicit = true;
         await this.#bind(session, project.id);
@@ -612,7 +612,7 @@ export class ExternalMcpService {
       typeof input.jobId === "string" ? this.#jobs.get(input.jobId) : undefined;
     if (!job)
       return failure(
-        "Generation job not found. Jobs end when OhMyGame closes.",
+        "Generation job not found. Jobs end when XC-UI-Flow closes.",
       );
     if (name === "cancel_job" && job.status === "running") {
       job.status = "cancelled";
@@ -702,7 +702,7 @@ function jobSchema(
 }
 
 function noProject(): string {
-  return "No OhMyGame project is selected. Work in a project folder, or call list_projects and open_project.";
+  return "No XC-UI-Flow project is selected. Work in a project folder, or call list_projects and open_project.";
 }
 
 function json(value: unknown): { result: NativeToolResult; isError: boolean } {

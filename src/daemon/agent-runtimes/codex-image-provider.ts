@@ -337,7 +337,7 @@ export class CodexImageProvider {
 function connectionError(connection: Connection): string | undefined {
   if (connection.error) return connection.error;
   if (connection.auth?.status !== "signed-in")
-    return "Sign in to Codex CLI, then check again. OhMyGame uses the CLI's saved login.";
+    return "Sign in to Codex CLI, then check again. XC-UI-Flow uses the CLI's saved login.";
   return undefined;
 }
 

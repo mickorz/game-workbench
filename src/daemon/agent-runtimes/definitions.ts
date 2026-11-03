@@ -6,7 +6,7 @@ import type {
 } from "../../shared/agent-runtimes.js";
 
 /**
- * What OhMyGame knows about a coding agent CLI before running it: how to find
+ * What XC-UI-Flow knows about a coding agent CLI before running it: how to find
  * it, read its version and sign it in. Everything about how a session talks
  * to it lives in its protocol adapter. A new CLI starts as one entry here
  * and an adapter; nothing in the Provider, media, canvas or plugin code
@@ -33,7 +33,7 @@ export interface AgentRuntimeDefinition {
   versionArgs: readonly string[];
   /** A real acceptance run, not a minimum version or a guarantee about later releases. */
   testedVersion: string;
-  /** What to run in a terminal to sign in, when OhMyGame cannot start it itself. */
+  /** What to run in a terminal to sign in, when XC-UI-Flow cannot start it itself. */
   loginCommand: string;
   installUrl: string;
 }
@@ -84,7 +84,7 @@ export const AGENT_RUNTIME_DEFINITIONS: Record<
 
 /**
  * Codex confines commands with its own sandbox and Claude Code with its
- * native one (Seatbelt on macOS, bubblewrap on Linux), which OhMyGame turns
+ * native one (Seatbelt on macOS, bubblewrap on Linux), which XC-UI-Flow turns
  * on; OpenCode has none. Windows support is not established for either.
  * Claude Code runs commands unconfined when bubblewrap or socat is missing.
  */

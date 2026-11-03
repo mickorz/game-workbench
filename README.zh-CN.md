@@ -1,12 +1,12 @@
 <div align="center">
 
-<img src="docs/assets/banner.webp" alt="OhMyGame：用 AI 做游戏的开源工作室" width="100%" />
+<img src="docs/assets/banner.webp" alt="XC-UI-Flow：用 AI 做游戏的开源工作室" width="100%" />
 
 **你的一人游戏工作室。** 用 AI 做游戏需要的一切，都在一个应用里。使用你自己的模型密钥。
 
 <p>
-  <a href="https://ohmygame.ai/download/mac"><img src="https://img.shields.io/badge/Download-macOS%20(Apple%20silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="下载 macOS 版" /></a>
-  <a href="https://ohmygame.ai/download/windows"><img src="https://img.shields.io/badge/Download-Windows%20x64-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="下载 Windows 版" /></a>
+  <a href="https://github.com/mickorz/xc-ui-flow/releases"><img src="https://img.shields.io/badge/Download-macOS%20(Apple%20silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="下载 macOS 版" /></a>
+  <a href="https://github.com/mickorz/xc-ui-flow/releases"><img src="https://img.shields.io/badge/Download-Windows%20x64-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="下载 Windows 版" /></a>
 </p>
 
 <p>
@@ -26,12 +26,12 @@ https://github.com/user-attachments/assets/4d5805fe-92a2-40b4-a232-c7452f9a796a
 </div>
 
 > [!NOTE]
-> 🚧 OhMyGame 目前处于 Beta 阶段，难免还有粗糙的地方。欢迎加入我们，一起把它做好！
+> 🚧 XC-UI-Flow 目前处于 Beta 阶段，难免还有粗糙的地方。欢迎加入我们，一起把它做好！
 
 ## 这是什么
 
 做一款游戏，需要设计文档、2D 美术、3D 模型、视频、代码，做完还要有地方发布。
-现在这些工作分散在五六个不同的工具里。OhMyGame 把它们放进了一个应用：描述你想做的游戏，
+现在这些工作分散在五六个不同的工具里。XC-UI-Flow 把它们放进了一个应用：描述你想做的游戏，
 Agent 会设计它、制作素材、搭建游戏、亲自试玩确认能正常运行，再发布成一个可以分享的链接。
 
 它围绕两个核心设计理念：
@@ -42,7 +42,7 @@ Agent 会设计它、制作素材、搭建游戏、亲自试玩确认能正常�
 2. **活由 Agent 来干。** 它像你一样操作画布：起草设计文档，把角色草图变成绑好骨骼的
    3D 模型，编写代码，再试玩检验结果。
 
-OhMyGame 是开源的，通过 Pi 支持 40 多家模型服务商，从 Anthropic、OpenAI 到 DeepSeek、
+XC-UI-Flow 是开源的，通过 Pi 支持 40 多家模型服务商，从 Anthropic、OpenAI 到 DeepSeek、
 通义千问。密钥留在你自己的电脑上，没有按次计费的点数，做出来的东西归你所有。
 
 ## 功能
@@ -72,26 +72,26 @@ https://github.com/user-attachments/assets/5a35964d-87b3-4153-8b1b-fc6deced5bb3
 
 ### 🔗 发布：一个链接，随处可玩
 
-登录后即可发布：OhMyGame 会构建你的游戏，并生成一个任何人都能在浏览器里打开就玩的链接。
+登录后即可发布：XC-UI-Flow 会构建你的游戏，并生成一个任何人都能在浏览器里打开就玩的链接。
 重新发布会更新同一个链接。发布的游戏会出现在应用内的社区（Community）里，
 你也可以在那里玩到别人做的游戏。
 
-### 🔌 在 Claude Code、Codex 等 Agent 中使用 OhMyGame
+### 🔌 在 Claude Code、Codex 等 Agent 中使用 XC-UI-Flow
 
-已经在用别的编程 Agent？打开 **设置 → MCP 服务 → 允许其他 Agent 使用 OhMyGame**，
-一键连接 Claude Code 或 Codex。它们会获得 OhMyGame 的媒体生成（使用你配置的服务商）、
+已经在用别的编程 Agent？打开 **设置 → MCP 服务 → 允许其他 Agent 使用 XC-UI-Flow**，
+一键连接 Claude Code 或 Codex。它们会获得 XC-UI-Flow 的媒体生成（使用你配置的服务商）、
 画布和试玩能力，以及一个讲解工作流程的 Skill。DeepSeek Harness 和其他 MCP 客户端可以添加
 那里显示的 `ohmygame-studio` 命令。详见 [External agents](docs/external-agents.md)。
 
 ## 你可以做什么
 
-我们团队用 OhMyGame 做的三款游戏：
+我们团队用 XC-UI-Flow 做的三款游戏：
 
 <table>
   <tr>
-    <td width="33%"><img src="docs/assets/showcase/interactive-film.webp" alt="用 OhMyGame 制作的互动电影：猴子武士躲开一记剑击" width="100%" /></td>
-    <td width="33%"><img src="docs/assets/showcase/island-builder.webp" alt="用 OhMyGame 制作的海岛建造游戏：在浮动码头上建造工坊" width="100%" /></td>
-    <td width="33%"><img src="docs/assets/showcase/deckbuilding-roguelike.webp" alt="用 OhMyGame 制作的卡牌构筑 Roguelike：在哥特风战斗中出牌" width="100%" /></td>
+    <td width="33%"><img src="docs/assets/showcase/interactive-film.webp" alt="用 XC-UI-Flow 制作的互动电影：猴子武士躲开一记剑击" width="100%" /></td>
+    <td width="33%"><img src="docs/assets/showcase/island-builder.webp" alt="用 XC-UI-Flow 制作的海岛建造游戏：在浮动码头上建造工坊" width="100%" /></td>
+    <td width="33%"><img src="docs/assets/showcase/deckbuilding-roguelike.webp" alt="用 XC-UI-Flow 制作的卡牌构筑 Roguelike：在哥特风战斗中出牌" width="100%" /></td>
   </tr>
   <tr>
     <td align="center">互动电影</td>
@@ -114,7 +114,7 @@ Agent 会走完一整套网页游戏流程：设计文档、关键画面 mockup�
 故事作为独立的网页运行，运行时也是项目的一部分，所以 Agent 可以改动它运行方式的任何地方。
 架构和创作模型见 [Playable Nodes](docs/playable-nodes/README.md)。
 
-<!-- TODO(asset): 截图或 GIF，展示节点图和两个用 OhMyGame 做好的画面。
+<!-- TODO(asset): 截图或 GIF，展示节点图和两个用 XC-UI-Flow 做好的画面。
 有真实素材之前先不放。 -->
 
 ### 🎲 General Game：任意引擎与技术栈
@@ -130,7 +130,7 @@ Agent 会走完一整套网页游戏流程：设计文档、关键画面 mockup�
 
 把这一切串起来的思路是：一个 Agent 驱动工作室的每个部分。
 
-**1 · 带图形界面的完整 Pi Agent。** OhMyGame 运行的是
+**1 · 带图形界面的完整 Pi Agent。** XC-UI-Flow 运行的是
 [Pi](https://www.npmjs.com/package/@earendil-works/pi-coding-agent)，带有完整的工具集和持久化会话，
 界面专为查看结果而设计，而不是让你读 diff。关掉应用再回来，项目、对话和上下文都还在。
 你负责描述、审阅和把控方向；随时可以手动编辑，但那不是主要的用法。
@@ -146,7 +146,7 @@ Agent 会走完一整套网页游戏流程：设计文档、关键画面 mockup�
 
 ## 任意模型，自带密钥
 
-OhMyGame 不会把你绑定在某一个模型上，也不按次收费。
+XC-UI-Flow 不会把你绑定在某一个模型上，也不按次收费。
 
 - **40 多家服务商的编程模型**，通过 Pi 接入，包括 Anthropic、OpenAI、Google、DeepSeek、
   通义千问（Qwen）、Kimi、智谱 GLM、MiniMax、xAI、Mistral、Groq、OpenRouter、
@@ -154,7 +154,7 @@ OhMyGame 不会把你绑定在某一个模型上，也不按次收费。
 - **直接登录你已有的订阅**，例如 ChatGPT Plus/Pro 或 GitHub Copilot，也可以粘贴 API 密钥。
   <!-- TODO(legal): 列出更多订阅前，先确认各服务商的条款 -->
 - **你已经在用的编程智能体**：Claude Code、Codex 和 OpenCode 使用各自的登录来运行对话，
-  对话记录、撤销、画布、媒体工具和插件仍由 OhMyGame 提供。在设置中启用，并遵循原生 CLI
+  对话记录、撤销、画布、媒体工具和插件仍由 XC-UI-Flow 提供。在设置中启用，并遵循原生 CLI
   的权限边界。详见[编程智能体](docs/coding-agents.md)。
 - **媒体模型**：图片、视频和 3D 生成，可通过 OpenAI、OpenRouter、火山方舟 / BytePlus ModelArk
   和 Meshy 接入。
@@ -170,7 +170,7 @@ OhMyGame 不会把你绑定在某一个模型上，也不按次收费。
 每个版本的变化可查看[更新日志](CHANGELOG.md)，或在应用内打开
 **设置 → 关于 → 更新日志**。
 
-点击页面顶部的按钮，或者前往 [Releases](https://github.com/WhiteTowerAI/ohmygame/releases)
+点击页面顶部的按钮，或者前往 [Releases](https://github.com/mickorz/xc-ui-flow/releases)
 下载安装包。目前提供 macOS（Apple 芯片）和 Windows（x64）版本。Windows 版暂时还没有代码签名，
 安装时 Windows 可能会弹出 SmartScreen 警告。
 
@@ -178,18 +178,18 @@ OhMyGame 不会把你绑定在某一个模型上，也不按次收费。
 
 ![首次运行 AI 连接页](docs/assets/first-run-onboarding.png)
 
-OhMyGame 不内置模型。首次启动时，一个小小的游戏世界逐渐成形，随后变为 OhMyGame 标志。
+XC-UI-Flow 不内置模型。首次启动时，一个小小的游戏世界逐渐成形，随后变为 XC-UI-Flow 标志。
 品牌名称、**你的专属游戏工作室** 和 **下一步** 会在约五秒内依次出现。
 从后续引导步骤返回第一页时，直接显示完整内容，不再重播动画。
 点击 **下一步**，在发送第一条提示词之前连接模型：
 
-1. **连接你的 AI。** OhMyGame（Pi）默认启用，使用你连接的模型服务商。
+1. **连接你的 AI。** XC-UI-Flow（Pi）默认启用，使用你连接的模型服务商。
    可以通过登录或 API 密钥连接服务商，也可以使用已安装的 Claude Code、Codex 或 OpenCode CLI；
    智能体在同一行横向滚动。点击服务商搜索框旁的 **+** 可添加自定义或本地接口。
    CLI 使用自身的登录状态；选择已连接的智能体会启用它，保留现有权限与个人配置设置。
    先连接智能体，再进入配置；选项会收成一行，点击 **切换** 可重新展开。
    可连接多个智能体，选择其中一个不会断开其他连接。
-   模型服务商配置归在 OhMyGame 下，对号表示已启用，
+   模型服务商配置归在 XC-UI-Flow 下，对号表示已启用，
    配置下方可更换默认对话模型，切换智能体会保留各自的选择，点击 **下一步** 时保存。
    登录、API 密钥与配置操作使用带提示的图标；已连接显示对号，已停用的连接可直接启用。选择未安装的 CLI 会显示安装提示，点击 **安装指南**
    才会打开外部页面，安装后可点击 **重新检查**。有可用语言模型后，**下一步** 进入后续配置；
@@ -231,8 +231,8 @@ OhMyGame 不内置模型。首次启动时，一个小小的游戏世界逐渐�
 工具链需要 Bun 1.4.2 或更高版本，守护进程需要 Node.js 22.19 及以上。
 
 ```bash
-git clone --branch main https://github.com/WhiteTowerAI/ohmygame.git
-cd ohmygame
+git clone --branch main https://github.com/mickorz/xc-ui-flow.git
+cd xc-ui-flow
 bun install --frozen-lockfile
 bun run dev            # 网页渲染端 + 本地守护进程
 # 或者
@@ -249,16 +249,16 @@ bun run dev:desktop    # Electron 桌面应用
 ## 隐私
 
 你的项目和密钥都留在你自己的电脑上。提示词和生成请求直接发送给你选择的模型服务商。
-发布游戏需要 OhMyGame 账号，并且只上传游戏的静态构建产物。正式版会检查更新，
+发布游戏需要 XC-UI-Flow 账号，并且只上传游戏的静态构建产物。正式版会检查更新，
 并发送匿名使用数据（PostHog，不录制会话）和崩溃报告（Sentry，不含个人数据）。
 从源码构建的版本不发送任何遥测数据。
 
 ## 路线图
 
 我们正在做通俗易懂的试玩报告、从社区 Remix 游戏，以及 Intel Mac / Linux 版本。
-接下来的计划见 [Issues](https://github.com/WhiteTowerAI/ohmygame/issues)，
+接下来的计划见 [Issues](https://github.com/mickorz/xc-ui-flow/issues)，
 你可以给关心的功能点 👍 投票。想参与的话，可以看看标有
-[`help wanted`](https://github.com/WhiteTowerAI/ohmygame/labels/help%20wanted) 的 Issue。
+[`help wanted`](https://github.com/mickorz/xc-ui-flow/labels/help%20wanted) 的 Issue。
 
 ## 参与贡献
 
@@ -269,14 +269,14 @@ bun run dev:desktop    # Electron 桌面应用
 
 ## Star 历史
 
-<a href="https://www.star-history.com/?repos=whitetowerai%2Fohmygame&type=date&legend=top-left">
+<a href="https://www.star-history.com/?repos=mickorz%2Fxc-ui-flow&type=date&legend=top-left">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=whitetowerai/ohmygame&type=date&theme=dark&legend=top-left" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=whitetowerai/ohmygame&type=date&legend=top-left" />
-    <img alt="Star 历史曲线" src="https://api.star-history.com/svg?repos=whitetowerai/ohmygame&type=date&legend=top-left" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&theme=dark&legend=top-left" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&legend=top-left" />
+    <img alt="Star 历史曲线" src="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&legend=top-left" />
   </picture>
 </a>
 
 ## 许可证
 
-[Apache-2.0](LICENSE)。OhMyGame 的名称和标志不在该许可证的授权范围内。
+[Apache-2.0](LICENSE)。XC-UI-Flow 的名称和标志不在该许可证的授权范围内。

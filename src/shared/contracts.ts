@@ -394,7 +394,7 @@ export interface ProjectState extends ProjectPreviewSettings {
   type: ProjectType;
   updatedAt: string;
   workspacePath: string;
-  /** The plugin owns the binding file; OhMyGame stores only its identity and presentation. */
+  /** The plugin owns the binding file; XC-UI-Flow stores only its identity and presentation. */
   integration?: { pluginId: string; preview?: "external" };
   /** General Game's explicit Web preview opt-in; missing means disabled. */
   webPreviewEnabled?: boolean;
@@ -409,9 +409,9 @@ export interface ProjectState extends ProjectPreviewSettings {
   /** Device preset selected when a Web Game preview starts. */
   previewViewport?: PreviewViewport;
   mediaModelDefaults?: MediaModelDefaults;
-  /** Internal OhMyGame data kept separately from a user-selected workspace. */
+  /** Internal XC-UI-Flow data kept separately from a user-selected workspace. */
   storagePath?: string;
-  /** Whether OhMyGame owns the workspace directory or only references it. */
+  /** Whether XC-UI-Flow owns the workspace directory or only references it. */
   workspaceLocation?: "managed" | "external";
   /** False when a previously selected workspace is no longer available on disk. */
   workspaceAvailable?: boolean;

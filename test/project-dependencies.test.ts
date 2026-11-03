@@ -293,6 +293,7 @@ describe("project process environment", () => {
       OHMYGAME_ALLOWED_ORIGINS: "app://ohmygame",
       ohmygame_daemon_token: "stale-secret",
       OhMyGame_Daemon_Token_Stdin: "1",
+      XCUIFLOW_Daemon_Token_Stdin: "1",
       DAEMON_HOST: "127.0.0.1",
       DAEMON_PORT: "43110",
       Daemon_Port: "43111",

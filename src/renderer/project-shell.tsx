@@ -1139,7 +1139,7 @@ function leftUnfinished(error: unknown): boolean {
 
 async function initialConversationModel(): Promise<AgentModelRef | undefined> {
   try {
-    // OhMyGame's own models come first; with none connected, the first coding agent that is set up.
+    // XC-UI-Flow's own models come first; with none connected, the first coding agent that is set up.
     const catalog = await listModels({ agentRuntimes: true });
     return catalog.defaultModel ?? catalog.models[0];
   } catch {

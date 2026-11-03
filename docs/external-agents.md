@@ -1,10 +1,10 @@
-# External agents (OhMyGame as an MCP server)
+# External agents (XC-UI-Flow as an MCP server)
 
-Coding agents running outside OhMyGame — Claude Code, Codex, DeepSeek Harness
-(`dsh`) and any other MCP client — use OhMyGame's capabilities through one MCP
+Coding agents running outside XC-UI-Flow — Claude Code, Codex, DeepSeek Harness
+(`dsh`) and any other MCP client — use XC-UI-Flow's capabilities through one MCP
 server, `ohmygame-studio`. This is the reverse of
-[coding agents](coding-agents.md), where OhMyGame starts a CLI and offers it
-OhMyGame's tools for one conversation.
+[coding agents](coding-agents.md), where XC-UI-Flow starts a CLI and offers it
+XC-UI-Flow's tools for one conversation.
 
 | Part               | Code                                                                                      | Tests                                       |
 | ------------------ | ----------------------------------------------------------------------------------------- | ------------------------------------------- |
@@ -18,14 +18,14 @@ OhMyGame's tools for one conversation.
 ## Goal and scope
 
 People who already work in a coding agent have chosen and paid for its model.
-What they lack is what only OhMyGame has: the media providers configured in
+What they lack is what only XC-UI-Flow has: the media providers configured in
 Providers & Models, the Design and Asset Canvas, and the playtest window.
-OhMyGame offers exactly those as tools; the external agent plans and writes
+XC-UI-Flow offers exactly those as tools; the external agent plans and writes
 the code.
 
 Not in scope, and why:
 
-- **Delegating a task to OhMyGame's own agent.** It nests two agent loops,
+- **Delegating a task to XC-UI-Flow's own agent.** It nests two agent loops,
   hides progress, and bills two models for one task. It can be added later as
   another tool on the same server.
 - **A record of external calls in the app.** Generated files already appear in
@@ -43,7 +43,7 @@ Not in scope, and why:
 ## Decisions
 
 1. **Three layers, one contract.** The MCP server is the only way to run
-   OhMyGame capabilities and is versioned. A Skill teaches the workflow.
+   XC-UI-Flow capabilities and is versioned. A Skill teaches the workflow.
    Connecting a client installs both. A Skill alone cannot replace the
    server: the daemon's port and token change with every launch and its HTTP
    API is private.
@@ -59,15 +59,15 @@ Not in scope, and why:
 
 4. **Off by default, no extra approvals.** Turning the feature on and
    connecting a client is the person's consent. Each client already asks before
-   running MCP tools under its own permission settings, and OhMyGame's own
-   agent runs these tools without a prompt, so OhMyGame adds no approval step.
+   running MCP tools under its own permission settings, and XC-UI-Flow's own
+   agent runs these tools without a prompt, so XC-UI-Flow adds no approval step.
 
-5. **Clients are configured with their own commands.** OhMyGame runs
+5. **Clients are configured with their own commands.** XC-UI-Flow runs
    `claude mcp add` and `codex mcp add` rather than editing their
    configuration files, whose formats change between releases.
 
 6. **A name of its own.** Clients register the server as `ohmygame-studio`,
-   not `ohmygame`, which is the name of the server OhMyGame gives the coding
+   not `ohmygame`, which is the name of the server XC-UI-Flow gives the coding
    agents it runs. A CLI that loads both never confuses them.
 
 ## Architecture
@@ -79,7 +79,7 @@ Claude Code / Codex / dsh
 ohmygame-mcp launcher        answers initialize and tools/list itself
   │ HTTP POST /external-mcp
   │ Authorization: Bearer <token from endpoint.json>
-  │ Mcp-Session-Id, X-OhMyGame-Roots
+  │ Mcp-Session-Id, X-XC-UI-Flow-Roots
   ▼
 Daemon: ExternalMcpService
   ├── sessions: bound project, playtest windows
@@ -90,7 +90,7 @@ Daemon: ExternalMcpService
 ### Settings and files
 
 Settings → **MCP Server** has its own page, apart from Agents, which sets up
-the agents OhMyGame runs. **Allow other agents to use OhMyGame** turns the
+the agents XC-UI-Flow runs. **Allow other agents to use XC-UI-Flow** turns the
 feature on; **Connect agents** then lists Claude Code and Codex with
 **Connect** and **Disconnect**, and other clients get the launcher command to
 configure by hand. See the [MCP Server page](assets/external-agents-settings.webp).
@@ -108,7 +108,7 @@ Files in `<dataDirectory>/external-mcp/`:
 | --------------- | --------------------------------------------------------------------------------------------- |
 | `settings.json` | Whether the feature is on.                                                                    |
 | `endpoint.json` | URL, token, contract version and daemon `pid`, POSIX mode `0600`; only while the daemon runs. |
-| `tools.json`    | The public tool list and instructions, kept so the launcher works while OhMyGame is closed.   |
+| `tools.json`    | The public tool list and instructions, kept so the launcher works while XC-UI-Flow is closed.   |
 | `clients.json`  | Connected clients and the launcher each was connected with.                                   |
 | `app.json`      | The desktop app's `pid` while it runs, written before its daemon starts.                      |
 
@@ -135,13 +135,13 @@ Files in `<dataDirectory>/external-mcp/`:
 - It answers `initialize` and `tools/list` from `tools.json`. Clients start
   every configured MCP server when a session opens, in any folder, so the app
   must not start just because a client did.
-- The first tool call starts OhMyGame if `endpoint.json` is missing or its
+- The first tool call starts XC-UI-Flow if `endpoint.json` is missing or its
   `pid` is gone, and waits up to 30 seconds. An app whose `app.json` process
   is alive is starting or restarting its daemon, so the launcher only waits:
   the app has no single-instance lock, and a second copy would run a second
   daemon on the same data. If the feature is off, the call instead explains
   where to turn it on.
-- It sends the client's MCP roots in `X-OhMyGame-Roots`, or, for clients
+- It sends the client's MCP roots in `X-XC-UI-Flow-Roots`, or, for clients
   without roots, `CLAUDE_PROJECT_DIR` and its working directory. A restarted
   daemon or an expired session is reconnected once. An explicit `open_project`
   selection is remembered by its returned project ID and restored before any
@@ -154,17 +154,17 @@ Files in `<dataDirectory>/external-mcp/`:
   execution status is unknown; check the project before starting them again.
   This prevents a lost response from creating a second paid generation.
 
-### Inside OhMyGame
+### Inside XC-UI-Flow
 
-A person who connected Claude Code or Codex may also run them inside OhMyGame
-with their own configuration. They already have OhMyGame's tools there, so
+A person who connected Claude Code or Codex may also run them inside XC-UI-Flow
+with their own configuration. They already have XC-UI-Flow's tools there, so
 the external server is kept out three ways:
 
 - Claude Code gets `--disallowedTools mcp__ohmygame-studio` when it uses the
   person's configuration; isolated sessions load no user servers at all.
 - Codex gets `mcp_servers.ohmygame-studio.enabled = false` when the person's
   configuration has it.
-- Every CLI OhMyGame runs has `OHMYGAME_EXTERNAL_MCP_DISABLED=1`, and the
+- Every CLI XC-UI-Flow runs has `OHMYGAME_EXTERNAL_MCP_DISABLED=1`, and the
   launcher refuses to start with it.
 
 ### The daemon endpoint
@@ -176,7 +176,7 @@ and answers with JSON; nothing is streamed, so `GET` returns 405.
   requests without the header get 400; an unknown or expired session gets 404,
   telling the client to initialize again. `DELETE` ends a session. Sessions
   idle for six hours end.
-- `X-OhMyGame-Roots` carries a JSON array of absolute paths or `file:` URLs.
+- `X-XC-UI-Flow-Roots` carries a JSON array of absolute paths or `file:` URLs.
   The first one inside a project's workspace binds the session to that
   project until `open_project` chooses one explicitly.
 - `instructions` in the `initialize` result give a short usage guide, so
@@ -207,7 +207,7 @@ and `update_plan`, since the client asks and plans itself; `install_plugin`,
 
 Generated files are saved in the project workspace and its Asset Library.
 Results name each file's workspace-relative path; the agent reads it with its
-own tools. Files the agent edits with its own tools bypass OhMyGame
+own tools. Files the agent edits with its own tools bypass XC-UI-Flow
 checkpoints and cannot be undone from the app. A session's playtest windows
 close when the session ends, changes project, or its project is deleted.
 
@@ -235,7 +235,7 @@ is 60 seconds.
 - Jobs belong to the daemon, not the session. A disconnected client does not
   stop a generation a provider may already be charging for; another session
   can collect its result. Only `cancel_job` stops it. Finished jobs are kept
-  for six hours, and all jobs end when OhMyGame closes.
+  for six hours, and all jobs end when XC-UI-Flow closes.
 - Quick tools, such as `canvas_check` and `game_use`, run in the request and
   stop if the client disconnects.
 
@@ -247,7 +247,7 @@ is 60 seconds.
 | Codex       | `codex mcp add ohmygame-studio`               | `~/.agents/skills`                                   |
 | dsh, others | Hand configuration with the command shown     | `~/.agents/skills` for `dsh`, copied by hand         |
 
-OhMyGame copies the Skill only into a missing folder or one it wrote, and
+XC-UI-Flow copies the Skill only into a missing folder or one it wrote, and
 removes it on disconnect unless another connected client reads the same
 folder. Existing folders without `SKILL.md` and symlinked folders are left alone.
 
@@ -269,7 +269,7 @@ For `dsh`, add a `@deepseek-ai/dsh-mcp-client` entry to the profile's
 Automated tests cover the contract, sessions, project binding, jobs, token
 revocation, the launcher against the service, the launcher script, client
 commands and Skill installation, the Settings flow, and the guards inside
-OhMyGame. The packaged app check (`scripts/check-packaged-desktop.mjs`) runs
+XC-UI-Flow. The packaged app check (`scripts/check-packaged-desktop.mjs`) runs
 the launcher from the app archive with the app's executable and checks the
 Skill is shipped.
 

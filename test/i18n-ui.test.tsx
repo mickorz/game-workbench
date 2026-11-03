@@ -118,7 +118,7 @@ it("translates all three onboarding steps and preserves provider names", async (
   expect(host.querySelector(".onboarding-section-heading")?.textContent).toBe("连接智能体");
   expect(host.querySelector(".onboarding-agents-hint")?.textContent).toBe("可连接多个智能体，随时切换使用。");
   expect(host.querySelector(".onboarding-picker")).toBeNull();
-  await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="OhMyGame"]')!.click());
+  await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="XC-UI-Flow"]')!.click());
   expect(host.querySelector(".onboarding-selected-agent button")?.textContent).toBe("切换");
   expect(host.querySelector(".onboarding-agents-hint")).toBeNull();
   expect(host.querySelector('[aria-label="DeepSeek"]')?.textContent).toBe(

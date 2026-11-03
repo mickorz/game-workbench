@@ -87,7 +87,7 @@ export function agentEnvironment(
     result[pathKey] ?? "",
     ...commonBinaryDirectories(),
   ]);
-  // The person may have connected this CLI to OhMyGame; inside OhMyGame it already has OhMyGame's tools.
+  // The person may have connected this CLI to XC-UI-Flow; inside XC-UI-Flow it already has XC-UI-Flow's tools.
   return { ...result, [EXTERNAL_MCP_DISABLED_ENV]: "1", ...extra };
 }
 

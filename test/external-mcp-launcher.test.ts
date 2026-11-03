@@ -221,7 +221,7 @@ async function fixture() {
   };
 }
 
-it("answers the handshake and tool list itself, without starting OhMyGame", async () => {
+it("answers the handshake and tool list itself, without starting XC-UI-Flow", async () => {
   const { service, requests, create, ask, starts } = await fixture();
   // A daemon that was enabled once leaves its tool list behind.
   await service.listening("http://127.0.0.1:1/external-mcp");
@@ -253,13 +253,13 @@ it("explains how to turn the feature on instead of starting the app", async () =
   expect(await call(launcher, "canvas_check")).toEqual({
     isError: true,
     text: expect.stringContaining(
-      "Settings → MCP Server → Allow other agents to use OhMyGame",
+      "Settings → MCP Server → Allow other agents to use XC-UI-Flow",
     ),
   });
   expect(starts()).toBe(0);
 });
 
-it("starts OhMyGame on the first tool call and binds the folder the client works in", async () => {
+it("starts XC-UI-Flow on the first tool call and binds the folder the client works in", async () => {
   const { service, game, requests, create, ask, call } = await fixture();
   await service.setEnabled(true);
   let started = 0;
@@ -329,7 +329,7 @@ it("looks for the daemon again after a dropped connection, then explains", async
   failNext(2);
   expect(await call(launcher, "canvas_check")).toEqual({
     isError: true,
-    text: "Could not reach OhMyGame (fetch failed). Open the OhMyGame app and try again.",
+    text: "Could not reach XC-UI-Flow (fetch failed). Open the XC-UI-Flow app and try again.",
   });
 });
 
@@ -405,13 +405,13 @@ it("writes a launcher script that keeps arguments with spaces and quotes intact"
   expect(
     await installExternalMcpLauncher({
       binDirectory: "unused",
-      executable: "C:\\OhMyGame\\OhMyGame.exe",
+      executable: "C:\\XC-UI-Flow\\XC-UI-Flow.exe",
       entry: "main.js",
       dataDirectory: "C:\\data",
       platform: "win32",
     }),
   ).toEqual({
-    command: "C:\\OhMyGame\\OhMyGame.exe",
+    command: "C:\\XC-UI-Flow\\XC-UI-Flow.exe",
     args: ["main.js", "--data-dir", "C:\\data"],
     env: { ELECTRON_RUN_AS_NODE: "1" },
   });
@@ -540,7 +540,7 @@ it("blocks project tools when the explicit project is gone and permits selecting
   await service.setEnabled(true);
   expect(await call(launcher, "generate_image")).toMatchObject({
     isError: true,
-    text: expect.stringContaining("No OhMyGame project"),
+    text: expect.stringContaining("No XC-UI-Flow project"),
   });
   expect(await call(launcher, "canvas_initialize")).toMatchObject({
     isError: true,

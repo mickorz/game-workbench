@@ -440,7 +440,7 @@ app.on("activate", () => {
   if (!daemon || mainWindow || quitting) return;
   openMainWindow().catch((error) => {
     console.error(error);
-    dialog.showErrorBox("OhMyGame could not open a window", error instanceof Error ? error.message : String(error));
+    dialog.showErrorBox("XC-UI-Flow could not open a window", error instanceof Error ? error.message : String(error));
   });
 });
 app.on("before-quit", (event) => {
@@ -488,7 +488,7 @@ try {
     entry: path.join(moduleDirectory, "external-mcp-main.js"),
     dataDirectory,
     ...(app.isPackaged ? {} : { appPath: repositoryRoot }),
-  }).catch((error) => { console.warn("Could not install the OhMyGame MCP launcher", error); return undefined; });
+  }).catch((error) => { console.warn("Could not install the XC-UI-Flow MCP launcher", error); return undefined; });
   clearExternalMcpApp = await markExternalMcpApp(dataDirectory).catch(() => undefined);
   daemon = new DaemonSupervisor({
     daemonEntry: path.join(moduleDirectory, "../daemon/server.js"),
@@ -547,7 +547,7 @@ try {
 } catch (error) {
   const message = error instanceof Error ? error.message : String(error);
   console.error(error);
-  if (app.isReady()) dialog.showErrorBox("OhMyGame could not start", message);
+  if (app.isReady()) dialog.showErrorBox("XC-UI-Flow could not start", message);
   await stopServices();
   app.exit(1);
 }

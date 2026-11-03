@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-OhMyGame is in beta. Security fixes go into the latest release only.
+XC-UI-Flow is in beta. Security fixes go into the latest release only.
 
 ## Reporting a vulnerability
 

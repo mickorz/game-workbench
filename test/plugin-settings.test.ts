@@ -91,7 +91,7 @@ function godotPlugin(): PluginDetail {
     name: "godot",
     displayName: "Godot",
     description: "Connect the agent to the Godot editor.",
-    marketplace: { id: "ohmygame", displayName: "OhMyGame" },
+    marketplace: { id: "ohmygame", displayName: "XC-UI-Flow" },
     source: { type: "builtIn" },
     installed: true,
     enabled: true,
