@@ -1,0 +1,32 @@
+# Windows (Docker Desktop) 适配 override：
+# 官方栈用 network_mode host（仅 Linux 验证过），Docker Desktop 的 host 网络
+# 不暴露到 Windows localhost。本文件重置 network_mode 让服务回归 compose
+# 默认网络（服务名 DNS 可用），并做端口映射让 UI/API/网关可达。
+# 用法（在本仓库根执行）：
+#   docker compose --project-directory thirdparties/grasp \
+#     -f thirdparties/grasp/compose.release.yaml -f thirdparties/grasp.windows.yaml up -d
+# 登录：admin / demo1234（仅本地评估）
+# 停止：同上把 up -d 换成 down
+# 限制：grasp 到沙箱的 session/ssh 数据面依赖 host 网络共享 loopback，
+# 桥接模式下 agent 步骤无法连上沙箱；UI/API/沙箱创建/预览端口可用。
+# 完整 agent 工作流需 Linux 宿主，或 Docker Desktop 开启 host networking
+# （Settings 里 Enable host networking + WSL2 mirrored 网络）后改回官方 host 栈。
+services:
+  gateway:
+    # !reset 清除官方栈的 network_mode host，回归 compose 默认网络（服务名 DNS）
+    network_mode: !reset null
+    ports:
+      - "8899:8899"
+    environment:
+      # 沙箱端口发布到全部接口（默认 127.0.0.1 只对 host 网络有效）
+      SBGW_DOCKER_BIND_IP: 0.0.0.0
+
+  grasp:
+    network_mode: !reset null
+    ports:
+      - "8080:8080"
+    environment:
+      # compose 网络下用服务名寻址网关
+      GRASP_SANDBOX_GATEWAY_URL: http://gateway:8899
+      # demo 账号 admin/demo1234（上游 start.sh 同一 bcrypt 哈希；$$ 转义防 compose 吃掉 $）
+      GRASP_AUTH_USERS: '[{"username":"admin","password_hash":"$$2a$$10$$EY.SdHq0p6drMz6U9JVrz.Kq0jNkg7TWmsVUFLtB1dL1yIelDkITi","is_admin":true}]'

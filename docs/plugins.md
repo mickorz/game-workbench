@@ -15,7 +15,9 @@ Beta remains a status badge, and saved enablement choices are preserved.
 
 ## Package format
 
-A package contains `.ohmygame-plugin/plugin.json`:
+A package contains `.xcflow-plugin/plugin.json` (the legacy
+`.ohmygame-plugin/plugin.json` path is still read for plugins made before the
+rename, but new packages use the new path):
 
 ```json
 {
@@ -212,8 +214,9 @@ MCP templates, nonsecret configuration, and plugin/component switches. Imported
 formats are normalized to native metadata and retain their original Personal
 or third-party marketplace identity. An imported plugin does not take ownership
 of that marketplace, so the marketplace can still be installed from its folder
-or Git repository. `.ohmygame-plugin/backup.json` holds the
-versioned nonsecret restore data; ordinary native ZIP packages without this
+or Git repository. `.xcflow-plugin/backup.json` holds the
+versioned nonsecret restore data (the legacy `.ohmygame-plugin/backup.json`
+from old exports is still read); ordinary native ZIP packages without this
 file can also be imported. Executable file permission is preserved without
 special permission bits. ZIP files are limited to 50 MB and extraction rejects
 unsafe paths, symbolic links, private hidden files, and `node_modules`.

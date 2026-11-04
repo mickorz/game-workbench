@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   PLUGIN_MANIFEST_PATH,
+  PLUGIN_MANIFEST_PATHS,
+  PLUGIN_MANIFEST_WRITE_PATH,
   isPluginManifest,
   isNewerPluginVersion,
   isPluginVersion,
@@ -8,10 +10,56 @@ import {
   serializePluginMentions,
   type PluginSummary,
 } from "../src/shared/plugins.js";
+import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { readPluginManifest } from "../src/daemon/local-plugins.js";
+
+const minimalManifest = {
+  name: "protocol-check",
+  version: "1.0.0",
+  description: "Manifest path protocol check",
+};
+
+async function pluginWithManifest(relative: string): Promise<string> {
+  const root = await mkdtemp(path.join(tmpdir(), "xcflow-manifest-protocol-"));
+  await mkdir(path.join(root, path.dirname(relative)), { recursive: true });
+  await writeFile(path.join(root, relative), JSON.stringify(minimalManifest));
+  return root;
+}
+
+async function withTemp<T>(root: string, action: () => Promise<T>): Promise<T> {
+  try { return await action(); } finally { await rm(root, { recursive: true, force: true }); }
+}
 
 describe("plugin protocol", () => {
+  it("exposes the new manifest path with the legacy fallback", () => {
+    // 写入侧只用新名；读取优先级新名在前，旧名永久回落
+    expect(PLUGIN_MANIFEST_WRITE_PATH).toBe(".xcflow-plugin/plugin.json");
+    expect(PLUGIN_MANIFEST_PATHS).toEqual([".xcflow-plugin/plugin.json", ".ohmygame-plugin/plugin.json"]);
+  });
+
+  it("reads the new manifest path, the legacy path, and prefers the new one when both exist", async () => {
+    // 新名单独存在
+    const onlyNew = await pluginWithManifest(PLUGIN_MANIFEST_WRITE_PATH);
+    await withTemp(onlyNew, async () => {
+      await expect(readPluginManifest(onlyNew)).resolves.toMatchObject(minimalManifest);
+    });
+    // 旧名单独存在（存量已装插件与上游生态）
+    const onlyLegacy = await pluginWithManifest(PLUGIN_MANIFEST_PATH);
+    await withTemp(onlyLegacy, async () => {
+      await expect(readPluginManifest(onlyLegacy)).resolves.toMatchObject(minimalManifest);
+    });
+    // 双存时新名优先
+    const both = await pluginWithManifest(PLUGIN_MANIFEST_WRITE_PATH);
+    await mkdir(path.join(both, ".ohmygame-plugin"), { recursive: true });
+    await writeFile(path.join(both, PLUGIN_MANIFEST_PATH), JSON.stringify({ ...minimalManifest, description: "legacy must lose" }));
+    await withTemp(both, async () => {
+      await expect(readPluginManifest(both)).resolves.toMatchObject(minimalManifest);
+    });
+  });
+
   it("accepts a minimal plugin manifest", () => {
-    expect(PLUGIN_MANIFEST_PATH).toBe(".ohmygame-plugin/plugin.json");
     expect(isPluginManifest({
       name: "character-writer",
       enabledByDefault: false,

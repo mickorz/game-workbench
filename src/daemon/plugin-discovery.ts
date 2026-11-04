@@ -1,7 +1,7 @@
 import { glob, lstat, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import {
-  PLUGIN_MANIFEST_PATH,
+  PLUGIN_MANIFEST_PATHS,
   PERSONAL_MARKETPLACE,
   isPluginManifest,
   isPluginIcon,
@@ -25,8 +25,9 @@ export async function discoverPlugins(root: string): Promise<DiscoveredPlugin[]>
   ]);
   if (marketplacePath) return discoverMarketplace(root, marketplacePath);
 
+  // 原生清单候选：新名优先，旧名回落（上游与存量插件兼容）
   const manifests: Array<{ path: string; format: "ohmygame" | "codex" | "claude" }> = [
-    { path: PLUGIN_MANIFEST_PATH, format: "ohmygame" },
+    ...PLUGIN_MANIFEST_PATHS.map((manifestPath) => ({ path: manifestPath, format: "ohmygame" as const })),
     { path: ".codex-plugin/plugin.json", format: "codex" },
     { path: ".claude-plugin/plugin.json", format: "claude" },
   ];
@@ -76,10 +77,15 @@ async function discoverMarketplace(root: string, manifestPath: string): Promise<
     const sourceRoot = marketplaceSourceRoot(root, entry.source);
     const rawSkills = stringArray(entry.skills);
     let manifest: ResolvedPluginManifest;
-    const nativePath = path.join(sourceRoot, PLUGIN_MANIFEST_PATH);
+    // 新名优先，旧名回落（上游与存量插件兼容）
+    let nativePath: string | undefined;
+    for (const candidate of PLUGIN_MANIFEST_PATHS) {
+      const candidatePath = path.join(sourceRoot, candidate);
+      if (await exists(candidatePath)) { nativePath = candidatePath; break; }
+    }
     const codexPath = path.join(sourceRoot, ".codex-plugin", "plugin.json");
     const claudePath = path.join(sourceRoot, ".claude-plugin", "plugin.json");
-    if (await exists(nativePath)) {
+    if (nativePath) {
       manifest = await readXcFlowManifest(nativePath);
     } else if (await exists(codexPath)) manifest = await normalizeManifest(sourceRoot, await readJson(codexPath), "codex");
     else if (await exists(claudePath)) manifest = await normalizeManifest(sourceRoot, await readJson(claudePath), "claude");

@@ -3,10 +3,10 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { ConversationCapabilities, ProjectState, ProjectType } from "../shared/contracts.js";
 import { createProject, getHomeComposerCapabilities } from "./api.js";
 import { usePluginIntegrationGate } from "./plugin-integration.js";
-import { defaultProjectName, PROJECT_TYPES, ProjectTypeIcon, projectTypeLabel, type ProjectTypeOption } from "./project-types.js";
+import { defaultProjectName, GAME_PROJECT_TYPES, ProjectTypeIcon, projectTypeLabel, type ProjectTypeOption } from "./project-types.js";
 import { t } from "./i18n.js";
 
-export function ProjectCreateDialog({ initialType = "web-game", fixedType, projectTypes = PROJECT_TYPES, onClose, onCreated }: {
+export function ProjectCreateDialog({ initialType = "web-game", fixedType, projectTypes = GAME_PROJECT_TYPES, onClose, onCreated }: {
   initialType?: ProjectType;
   fixedType?: ProjectType;
   projectTypes?: readonly ProjectTypeOption[];
@@ -19,7 +19,10 @@ export function ProjectCreateDialog({ initialType = "web-game", fixedType, proje
   const creatingRef = useRef(false);
   const onCloseRef = useRef(onClose);
   const [name, setName] = useState("");
-  const [type, setType] = useState<ProjectType>(fixedType ?? initialType);
+  // 初始类型若不在可选列表里（如被隐藏配置过滤掉）回落到首项，避免无选中状态
+  const [type, setType] = useState<ProjectType>(
+    fixedType ?? (projectTypes.some((option) => option.value === initialType) ? initialType : projectTypes[0]?.value ?? initialType),
+  );
   const [workspacePath, setWorkspacePath] = useState<string>();
   const [selectingWorkspace, setSelectingWorkspace] = useState(false);
   const [creating, setCreating] = useState(false);

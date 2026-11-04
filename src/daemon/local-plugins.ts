@@ -6,7 +6,8 @@ import {
   OHMYGAME_MARKETPLACE,
   PLUGIN_ARCHIVE_MAX_BYTES,
   PLUGIN_ARCHIVE_MAX_ENTRIES,
-  PLUGIN_MANIFEST_PATH,
+  PLUGIN_MANIFEST_PATHS,
+  PLUGIN_MANIFEST_WRITE_PATH,
   isPluginManifest,
   isPluginVersion,
   type McpServerDefinition,
@@ -124,11 +125,13 @@ export class LocalPluginStore {
       const { revision } = await inspectPluginFiles(destination);
       // Imported formats have a normalized manifest in the index. Author native
       // drafts so their content can be reviewed and validated independently.
+      // 只删各格式的清单文件（可能含内联凭据），不动其他结构；旧名原生清单同样删除避免双清单并存
       for (const directory of [".codex-plugin", ".claude-plugin"])
         for (const file of ["plugin.json", "marketplace.json"])
           await rm(path.join(destination, directory, file), { force: true });
-      await mkdir(path.join(destination, ".ohmygame-plugin"), { recursive: true });
-      await writeFile(path.join(destination, PLUGIN_MANIFEST_PATH), JSON.stringify({ ...record.manifest, version: record.version ?? "0.1.0" }, null, 2));
+      await rm(path.join(destination, ".ohmygame-plugin", "plugin.json"), { force: true });
+      await mkdir(path.join(destination, ".xcflow-plugin"), { recursive: true });
+      await writeFile(path.join(destination, PLUGIN_MANIFEST_WRITE_PATH), JSON.stringify({ ...record.manifest, version: record.version ?? "0.1.0" }, null, 2));
       return { source: { name: record.name, marketplace: record.marketplace, provenance: record.provenance }, revision };
     });
   }
@@ -402,14 +405,19 @@ export function assertPluginCompatible(manifest: ResolvedPluginManifest): void {
 }
 
 export async function readPluginManifest(pluginRoot: string): Promise<PluginManifest> {
-  const manifestPath = path.join(pluginRoot, PLUGIN_MANIFEST_PATH);
+  // 新名优先，旧名回落：存量已装插件与上游插件仍用 .ohmygame-plugin
+  let manifestPath: string | undefined;
   let value: unknown;
-  try {
-    value = JSON.parse(await readFile(manifestPath, "utf8"));
-  } catch (cause) {
-    if ((cause as NodeJS.ErrnoException).code === "ENOENT") throw new LocalPluginError(`XC-UI-Flow Plugin manifest not found at ${PLUGIN_MANIFEST_PATH}`);
-    throw new LocalPluginError(`Could not read plugin manifest: ${errorMessage(cause)}`);
+  for (const candidate of PLUGIN_MANIFEST_PATHS) {
+    try {
+      value = JSON.parse(await readFile(path.join(pluginRoot, candidate), "utf8"));
+      manifestPath = candidate;
+      break;
+    } catch (cause) {
+      if ((cause as NodeJS.ErrnoException).code !== "ENOENT") throw new LocalPluginError(`Could not read plugin manifest: ${errorMessage(cause)}`);
+    }
   }
+  if (!manifestPath) throw new LocalPluginError(`XC-UI-Flow Plugin manifest not found at ${PLUGIN_MANIFEST_PATHS.join(" or ")}`);
   if (!isPluginManifest(value)) throw new LocalPluginError("Plugin manifest is invalid");
   return value;
 }

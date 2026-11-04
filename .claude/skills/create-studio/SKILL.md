@@ -71,6 +71,6 @@ description_en: >-
 | `references/case-fairygui-p2-report.md` | 案例工作室壳落地报告（12 处改动逐项核对表） |
 
 另两个活参照（代码本身，随仓库走不会被删）：`src/renderer/studios.ts` 里 Godot 与
-FairyGUI 两个条目、`plugins/fairygui/.ohmygame-plugin/plugin.json` 的 interface 写法。
+FairyGUI 两个条目、`plugins/fairygui/.xcflow-plugin/plugin.json` 的 interface 写法。
 
 注意：案例文档是快照；机制若因宿主演进变化，以源码 + 本技能流程为准，并回写流程文档。

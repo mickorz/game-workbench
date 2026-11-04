@@ -10,3 +10,6 @@
 [submodule "thirdparties/thinkrail"]
 	path = thirdparties/thinkrail
 	url = https://github.com/JetBrains/thinkrail
+[submodule "thirdparties/grasp"]
+	path = thirdparties/grasp
+	url = https://github.com/cocofhu/grasp.git

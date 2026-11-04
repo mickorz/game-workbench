@@ -42,7 +42,7 @@ import { mcpPluginPackage } from "./plugin-capabilities.js";
 import { inspectPluginDraft, pluginDraftPath, readPluginDraftFile } from "./plugin-draft.js";
 import { PLUGIN_AUTHORING_RULES } from "./plugin-authoring.js";
 import { openRouterAttributionExtension } from "./openrouter-attribution.js";
-import { isPluginIcon, isPluginManifest, pluginCollection, PLUGIN_MANIFEST_PATH } from "../shared/plugins.js";
+import { isPluginIcon, isPluginManifest, pluginCollection, PLUGIN_MANIFEST_PATHS, PLUGIN_MANIFEST_WRITE_PATH } from "../shared/plugins.js";
 import { PLUGIN_ICON_MAX_BYTES, PLUGIN_ICON_MEDIA_TYPES } from "../shared/plugin-icons.js";
 import { readPluginIconAsset, validatePluginIconImage } from "./plugin-icons.js";
 
@@ -272,8 +272,13 @@ export class PluginSetupManager {
     if (!state.draftPath) return undefined;
     const root = await pluginDraftPath(path.join(this.#directory(id), "workspace"), state.draftPath);
     if (requested) return readPluginIconAsset(root, { type: "asset", path: requested });
-    const { content } = await readPluginDraftFile(root, PLUGIN_MANIFEST_PATH);
-    const manifest: unknown = JSON.parse(content);
+    // 清单双落：新名优先，旧名回落（存量 draft 兼容）
+    let manifestContent: string | undefined;
+    for (const candidate of PLUGIN_MANIFEST_PATHS) {
+      try { manifestContent = (await readPluginDraftFile(root, candidate)).content; break; } catch { /* 尝试下一个候选路径 */ }
+    }
+    if (!manifestContent) throw new Error("Plugin draft manifest not found");
+    const manifest: unknown = JSON.parse(manifestContent);
     return readPluginIconAsset(root, isPluginManifest(manifest) ? manifest.interface?.icon : undefined);
   }
   async updateIcon(id: string, input: PluginIconUpdate): Promise<PluginDraft> {
@@ -304,7 +309,13 @@ export class PluginSetupManager {
       }
       if (icon && !isPluginIcon(icon)) throw new Error("Choose a supported preset ID or a PNG/WebP/SVG path inside the plugin");
       await readPluginIconAsset(root, icon ?? undefined);
-      const file = path.join(root, PLUGIN_MANIFEST_PATH);
+      // 清单双落：找到实际存在的那份（新名优先），原地写回，避免双清单并存
+      let file: string | undefined;
+      for (const candidate of PLUGIN_MANIFEST_PATHS) {
+        const candidateFile = path.join(root, candidate);
+        if (await readFile(candidateFile, "utf8").then(() => true, () => false)) { file = candidateFile; break; }
+      }
+      if (!file) file = path.join(root, PLUGIN_MANIFEST_WRITE_PATH);
       const manifest = JSON.parse(await readFile(file, "utf8"));
       if (!isPluginManifest(manifest)) throw new Error("Plugin manifest is invalid");
       manifest.interface = { ...manifest.interface };
@@ -570,9 +581,9 @@ export class PluginSetupManager {
               if (cause.code === "EEXIST") throw new Error("The draft directory already exists. Edit its files and call prepare");
               throw cause;
             });
-            await mkdir(path.join(source, ".ohmygame-plugin"));
+            await mkdir(path.join(source, ".xcflow-plugin"));
             await pluginDraftPath(cwd, source);
-            await writeFile(path.join(source, ".ohmygame-plugin/plugin.json"), JSON.stringify(manifest, null, 2));
+            await writeFile(path.join(source, PLUGIN_MANIFEST_WRITE_PATH), JSON.stringify(manifest, null, 2));
             await writeFile(path.join(source, "mcp.json"), JSON.stringify({ mcpServers: servers }, null, 2));
             result = await this.prepare(state.id, source);
           } else if (params.action === "prepare") {

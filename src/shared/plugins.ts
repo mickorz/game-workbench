@@ -9,6 +9,10 @@ export type PluginOrigin =
   | { type: "claude-marketplace"; marketplace: string; repository?: string };
 
 export const PLUGIN_MANIFEST_PATH = ".ohmygame-plugin/plugin.json";
+// 写入侧新名；旧名是已装插件与上游 ohmygame 生态的兼容面，永久读回落（见 docs/protocol-names.md）
+export const PLUGIN_MANIFEST_WRITE_PATH = ".xcflow-plugin/plugin.json";
+// 读取优先级：新名优先，旧名回落
+export const PLUGIN_MANIFEST_PATHS: readonly string[] = [PLUGIN_MANIFEST_WRITE_PATH, PLUGIN_MANIFEST_PATH];
 export const PLUGIN_FORMAT_VERSION = 1;
 export const PLUGIN_ARCHIVE_MAX_ENTRIES = 5_000;
 export const PLUGIN_ARCHIVE_MAX_BYTES = 50 * 1024 * 1024;
@@ -18,6 +22,7 @@ export const PLUGIN_ARCHIVE_ALLOWED_HIDDEN_DIRECTORIES: readonly string[] = [
   ".claude-plugin",
   ".codex-plugin",
   ".ohmygame-plugin",
+  ".xcflow-plugin",
 ];
 
 export type PluginSource =
