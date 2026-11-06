@@ -1,0 +1,15 @@
+</Suspense> : project.type === "{{key}}" ? (
+        <{{Component}}
+          project={project}
+          onProjectUpdated={(updated) => dispatch({ type: "project-updated", project: updated })}
+          workspaceRevision={workspaceRevision}
+          openFileRequest={openFileRequest}
+          onSaveReady={registerDesignSave}
+          onContextChange={setDesignContext}
+          chatOnRight={chatLayout === "right"}
+          chatCollapsed={agentIsCollapsed}
+          onHome={requestHome}
+          homeLabel={homeLabel}
+          onToggleChat={() => setAgentCollapsed((collapsed) => !collapsed)}
+        />
+      ) : <PlayableEditorWorkspace

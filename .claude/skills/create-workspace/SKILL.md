@@ -59,8 +59,10 @@ description_en: >-
 
 进入 `references/create-workspace-flow.md`：
 
-- **创建**：决策（方案 A 够不够）→ 新组件 → 分支接入（两种形态）→ 数据契约 →
-  上下文联动 → 验收。
+- **创建**：**快速路径（推荐）**——接线用脚本一步完成：
+  `python .claude/skills/create-workspace/scripts/wire.py --key <key> --mode design|full [--zh <中文名>]`
+  （组件骨架生成 + project-shell 接线，含未注册/已接线/锚点漂移三重保护；
+  骨架只保证可编译，内容区是 TODO）。之后走第 0 步决策确认 + 第 3 步起填语义内容。
 - **修改**：映射表定位落点 → 改 → 回归。
 
 组件全景、props 契约速查在 `references/workspace-map.md`（自包含，不依赖 dev-docs）。
@@ -79,8 +81,9 @@ description_en: >-
 |---|---|
 | `references/create-workspace-flow.md` | 创建 / 修改主流程（主文档） |
 | `references/workspace-map.md` | 工作区组件全景 + props 契约速查（自包含） |
+| `scripts/wire.py` | 接线脚本：组件骨架生成 + project-shell 分支接入（前置/幂等/锚点保护，--dry-run 预览） |
+| `templates/` | 组件骨架（design/full 两形态）+ 分支 JSX 片段 + 骨架生成源，手动接线时直接取用 |
 | 活参照（代码，随仓库走） | `src/renderer/fairygui-design-workspace.tsx`（192 行最小样例）、`src/renderer/canvas-workspace.tsx`（props 契约源）、`src/renderer/project-shell.tsx` 970~1040 行（四向分支） |
-| 深度分析（dev-docs，不随 git） | `dev-docs/design/设计页面机制分析与自定义指南.md`（方案 A/B/C 权威分析）；缺失时以技能内文档为准 |
 
 ## 执行回写约定
 

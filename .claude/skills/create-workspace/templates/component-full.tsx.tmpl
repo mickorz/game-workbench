@@ -1,0 +1,31 @@
+import type { ProjectState, PromptContext } from "../shared/contracts.js";
+import { t } from "./i18n.js";
+
+/**
+ * {{zh}} 工作室的工作区（完全替换型：整个会话页工作区都换，普通/设计视图都是它）。
+ * TODO: 替换内容——画布变体 / 专属编辑器，参照 canvas-workspace.tsx / playable-editor-workspace.tsx。
+ * props 契约照 canvas-workspace.tsx（接入壳的全量要求），骨架先接通，内容逐步填。
+ */
+export function {{Component}}({ project, workspaceRevision = 0, openFileRequest, onContextChange, onSaveReady, chatOnRight = false, chatCollapsed = false, onHome, homeLabel = t("navigation.backTo", { page: t("sidebar.projects") }), onToggleChat, onProjectUpdated }: {
+  project: ProjectState;
+  /** agent 改工作区文件后递增，内容要随之刷新 */
+  workspaceRevision?: number;
+  openFileRequest?: { path: string; id: number };
+  onContextChange?: (context: PromptContext | undefined) => void;
+  /** Ctrl+S 保存回调，接好保存逻辑后注册 */
+  onSaveReady?: (save: (() => Promise<void>) | undefined) => void;
+  chatOnRight?: boolean;
+  chatCollapsed?: boolean;
+  onHome?: () => void;
+  homeLabel?: string;
+  onToggleChat?: () => void;
+  onProjectUpdated?: (project: ProjectState) => void;
+}) {
+  // TODO: workspaceRevision（驱动刷新）/ openFileRequest（点击打开文件）接入内容区
+  return (
+    <section className="viewer-pane" aria-label={t("projectType.{{key}}")}>
+      <p>{project.name}</p>
+      {/* TODO: 专属工作区内容 */}
+    </section>
+  );
+}

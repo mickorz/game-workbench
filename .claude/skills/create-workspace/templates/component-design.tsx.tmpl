@@ -1,0 +1,24 @@
+import type { ProjectState, PromptContext } from "../shared/contracts.js";
+import { t } from "./i18n.js";
+
+/**
+ * {{zh}} 工作室的设计页（整页替换型：仅 hash 带 /design 时渲染，普通会话仍走 CodingWorkspace）。
+ * TODO: 内容区——组件树 / 预览 / 专属 UI，参照 src/renderer/fairygui-design-workspace.tsx。
+ * 数据源可接编辑器桥 / 外部服务（CSP 已放行 127.0.0.1:*），只读先行。
+ */
+export function {{Component}}({ project, onContextChange, onLeave, initialComponent }: {
+  project: ProjectState;
+  /** 选中目标后上报设计上下文 chip，agent 感知当前在看什么 */
+  onContextChange?: (context: PromptContext | undefined) => void;
+  onLeave?: () => void;
+  /** 从会话文本点击进入时携带的目标；token 变化即重新选中 */
+  initialComponent?: { name: string; token: number };
+}) {
+  // TODO: 加载内容（useState/useEffect）；失败要展示错误文案，不要静默吞掉
+  return (
+    <section className="viewer-pane" aria-label={t("projectType.{{key}}")}>
+      <p>{project.name}</p>
+      {/* TODO: 专属 UI 内容区；选中态经 onContextChange 上报 */}
+    </section>
+  );
+}

@@ -1,0 +1,7 @@
+project.type === "{{key}}" && designOpen ? (
+        <{{Component}}
+          project={project}
+          onContextChange={setDesignContext}
+          onLeave={() => changeWorkspaceView(false)}
+        />
+      ) : 

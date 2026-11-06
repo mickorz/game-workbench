@@ -5,6 +5,20 @@
 
 ## 创建专属工作区（方案 B）
 
+### 快速路径（接线机械化，推荐）
+
+前置（缺一不可）：① 类型已注册（create-studio 12 步完成）；② 已确认走方案 B。
+
+```
+python .claude/skills/create-workspace/scripts/wire.py --key <key> --mode design|full [--zh <中文名>] [--dry-run]
+```
+
+脚本做：组件文件从 `templates/` 骨架渲染生成（内容区全是 TODO，只保证可编译）+
+`project-shell.tsx` 接线（import 行 + 分支 JSX；full 另改排除分支）。
+保护：未注册类型拒接（防 TS2367）、组件/分支已存在拒接（防重复）、锚点恰好
+1 次、全过才写盘。**接线后 typecheck 必须过，但 typecheck 过 ≠ 接对（见坑 2），
+必须浏览器实测分支命中**。脚本完成后从第 3 步（数据契约）继续，内容区填模板 TODO 位。
+
 ### 第 0 步：决策——真的需要专属工作区吗（必做）
 
 三档方案，逐档判断：
@@ -100,6 +114,7 @@ composer 的上下文 chip → 用户发消息自动带上，agent 感知设计�
 | # | 坑 | 修法 |
 |---|---|---|
 | 1 | 新分支加在 ErrorBoundary **外**或 WorkspaceShell **外**，布局塌 | 分支必须在 `<ErrorBoundary key={projectId:workspaceEpoch}>` 内、`<WorkspaceShell>` 的 children 里（照现有分支缩进位置插） |
-| 2 | 只改了排除分支没加自己的分支（或反之），类型落进 CodingWorkspace 或渲染 null | 完全替换型两处一起改：排除分支 + 新分支 |
-| 3 | 自定义数据契约忘了同步 agent 侧，UI 写的文件 agent 看不见 | 契约文件（AGENTS.md/schema）与工具一起交付 |
-| 4 | 编辑回写直接改工程文件，与编辑器内存态/agent 并发写冲突 | 回写一律走官方 API / revision 乐观锁；只读版先行 |
+| 2 | **typecheck 过 ≠ 接对**（2026-11-06 wire.py 实测）：分支 JSX 若被插进既有 JSX 标签内部（如 `/>` 与 `</Suspense>` 之间），新分支变成 Suspense 的子内容（裸文本 + 双组件），编译合法、渲染逻辑错 | 分支插入点在两个完整 JSX 表达式**之间**（三元链的 `: ` 处）；接线后必须浏览器实测：目标类型命中新组件 + asset-canvas 回归无泄漏文本（页面 grep `project.type`） |
+| 3 | 只改了排除分支没加自己的分支（或反之），类型落进 CodingWorkspace 或渲染 null | 完全替换型两处一起改：排除分支 + 新分支（wire.py full 模式已含） |
+| 4 | 自定义数据契约忘了同步 agent 侧，UI 写的文件 agent 看不见 | 契约文件（AGENTS.md/schema）与工具一起交付 |
+| 5 | 编辑回写直接改工程文件，与编辑器内存态/agent 并发写冲突 | 回写一律走官方 API / revision 乐观锁；只读版先行 |
