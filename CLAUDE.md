@@ -118,10 +118,10 @@
 ## 看图与视觉验证
 
 模型不能直接看截图。需要看图验证视觉效果时：
-截图存文件（`chrome_devtools_take_screenshot` 带 `filePath`，存 `dev-examples/`）
+截图存文件（`chrome-use screenshot "dev-examples/xx.png"`，存 `dev-examples/`）
 → `zai_mcp_server_analyze_image` 传入截图路径 + 具体视觉断言提问（如「九宫格
 中心是否填充」，不要泛泛「看看对不对」）。截图前先刷新页面
-（tsx watch 重启后浏览器仍持旧 HTML）。
+（`chrome-use reload --observe`；tsx watch 重启后浏览器仍持旧 HTML）。
 
 ## opencode run 测试约定
 
