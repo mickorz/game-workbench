@@ -3,6 +3,28 @@
 前置：SKILL.md 的输入表已拿齐（key、中英文名、文案、图标 SVG）。
 下文 `<key>` 一律替换为工作室 key（如 `fairygui`），`<Key>` 为首字母大写形式。
 
+## 快速路径（新增性质，推荐）
+
+**机械插入全部用脚本一步完成**（覆盖步骤 1~9、11 + 双图标 SVG）：
+
+```
+python .claude/skills/create-studio/scripts/scaffold.py --key <key> --zh <中文名> --en <英文名> \
+    [--title-zh/--title-en/--placeholder-zh/--placeholder-en/--new-zh/--new-en 文案] [--icon SVG路径] [--dry-run]
+```
+
+- 缺省文案草案自动生成（title=类型名，占位/new 按类型名拼），交付后可改；
+  图标缺省用 `templates/icon.svg` 占位。
+- 三重保护：锚点在目标文件恰好出现 1 次（漂移即报错）、key 已存在即报错
+ （防重复脚手架）、全部校验通过才写盘（不写半截）。同文件多条规则递进应用。
+- 锚点基准：全部锚定 fairygui（`PROJECT_TYPE_IDS` 只加不减，fairygui 永在，
+  锚不随新增漂移）；新工作室统一插在 fairygui 之后，顺序无功能影响，
+  侧边栏位置想调整再按步骤 5 手动挪。
+- 跑完脚本直接做：`bun run typecheck`（护航报错清零才算结构完整）→
+  文案打磨（可选）→ 图标换真 SVG（可选）→ 验收 → commit。
+
+以下 12 步是手动路径（也是脚本无法覆盖时的方法论地图，修改工作室的落点
+对照表）；新增时优先用上面的脚本。
+
 执行顺序固定：**先加 shared 契约，让编译器报出强制改动点，再逐个补渲染层**。
 
 ## 步骤 1：类型契约（一切的前提）

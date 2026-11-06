@@ -50,9 +50,21 @@ description_en: >-
 
 ## 主流程
 
-进入 `references/add-studio-flow.md`，按序执行 12 步。
+**快速路径（新增性质，推荐）**：机械插入全部用脚本一步完成：
+
+```
+python .claude/skills/create-studio/scripts/scaffold.py --key <key> --zh <中文名> --en <英文名> [文案参数 --icon 路径]
+```
+
+脚本覆盖 12 步中全部机械插入点（步骤 1~9、11 + 双图标 SVG，含锚点
+唯一/幂等/漂移三重保护，--dry-run 可预览）；片段模板在技能
+`templates/`（studio 条目、双语文案块、CSS 块、图标样例），手动套用时直接
+取用。脚本完成后只做语义步骤：文案打磨、图标选型（可选）、验收、commit。
+
+**手动路径**：进入 `references/add-studio-flow.md`，按序执行 12 步。
 **顺序本身就是方法论**：第 1 步先加 shared 类型契约，让 TS 编译器强制报出
 所有待补点（GAME_STUDIOS、locales 等），逐个补齐后 typecheck 通过即结构完整。
+脚本路径同样靠 typecheck 收口（护航报错清零才算结构完整）。
 
 每步改完跑 `bun run typecheck`；全部完成后按流程文档的「验收」节实测
 （daemon 重启 → 插件/项目 API → 浏览器 `#/<key>`）。
@@ -72,6 +84,8 @@ description_en: >-
 | 文件 | 内容 |
 |---|---|
 | `references/add-studio-flow.md` | 12 步执行流程（主文档） |
+| `scripts/scaffold.py` | 新增工作室脚手架脚本（机械插入自动化，锚点/幂等/漂移保护，--dry-run 预览） |
+| `templates/` | 片段模板：studio 条目 / 双语文案块 / 两处 CSS 块 / icon.svg 占位图标（手动套用时直接取用，脚本的渲染源） |
 | `references/case-fairygui-design.md` | 案例设计分析（工作室机制四要素、方案对比、改动清单） |
 | `references/case-fairygui-execution.md` | 案例执行文档（P0~P3 全阶段步骤与实测结论，含桥补丁背景） |
 | `references/case-fairygui-p2-report.md` | 案例工作室壳落地报告（12 处改动逐项核对表） |
