@@ -33,7 +33,7 @@ description_en: >-
 | `key`（类型 id，小写连字符） | `fairygui` | 问用户；同时用作侧边栏 page id（避免 godot 那种两处不同名的心智负担） |
 | 中文名 + 英文名 | FairyGUI / FairyGUI | 用 key 首字母大写兜底 |
 | 工作室标题/占位/新建按钮文案（中英） | 「要做哪个界面的 UI？」 | 按 key 语义生成草案，交付时列出供用户改 |
-| 图标 SVG（单色镂空，可作 mask） | `fairygui.svg` | 无则用简单几何形占位并明确告知 |
+| 图标 SVG（单色镂空，可作 mask） | `fairygui.svg` | 无则按业务语义到 Lucide 图标库选同义线性图标（如需求检查 → clipboard-check）抄 path 改成仓库格式（24x24、stroke 1.5），两处文件相同直接 cp |
 
 ## 边界
 

@@ -79,6 +79,16 @@ export const PROJECT_TYPE_IDS = [..., "<key>"] as const;
 坑：只有 `web-game` 和 `general` 走内联 SVG 三元分支，其它都走 CSS mask；
 SVG 若是多色/带脚本则 mask 出来是黑块。
 
+**图标怎么选、怎么快速造（项目无图标库，2026-11-06 需求检查工作室实测）**：
+
+- 仓库不依赖任何图标库（无 lucide/iconify），既有做法就是本地 SVG 文件，不要为此新加依赖。
+- **选型**：按工作室业务语义到 Lucide 图标库（lucide.dev/icons）找同名/同义线性图标，
+  直接抄它的 path（MIT 许可）。例：需求检查 → `clipboard-check`（剪贴板+勾）。
+- **格式**：按现有文件格式改写——`viewBox="0 0 24 24"`、`fill="none"`、
+  `stroke="black"`、`stroke-width="1.5"`（参照 `assets/sidebar/assets.svg`）。
+  mask 只取形状，颜色无所谓，多色反而出黑块。
+- **两处文件内容相同**：步骤 8 的 `assets/<key>.svg` 直接 `cp` 侧边栏这份，不要写两遍。
+
 ## 步骤 7：页面分发
 
 `src/renderer/app.tsx` 工作室分支（约 69 行）：
@@ -120,6 +130,12 @@ Web 预览不用管：`isWebRuntimeProjectType` 只认 `web-game`/`general`，�
 **默认不过滤**；若用户不希望首页「新建游戏」出现该类型，
 在 `home.tsx` 显式 `.filter(({ value }) => value !== "<key>")` 并告知用户。
 
+**初始可见性与 `HIDDEN_PROJECT_TYPE_IDS` 的关系（2026-11-06 补）**：
+新建类型只要不进 `project-types.tsx` 的 `HIDDEN_PROJECT_TYPE_IDS` 集合就自动可见，
+侧边栏/首页下拉两处都是——即默认可见时本步零改动。若用户要默认隐藏，
+用 `menu-item` 技能两落点一起改（`SIDEBAR_ITEMS` 加 `visible: false` + 集合加成员），
+不要只改一半。集合声明须为 `ReadonlySet<ProjectType>`（否则下次新增类型时 `.has()` 报 TS2345）。
+
 ## 可选步骤：定制设计页
 
 新工作室默认复用共享画布（`CanvasWorkspace`，数据在工程 `canvas/` 目录，agent 用
@@ -131,15 +147,25 @@ Web 预览不用管：`isWebRuntimeProjectType` 只认 `web-game`/`general`，�
 ## 验收（全部通过才算完成）
 
 1. `bun run typecheck` 通过。
-2. 重启 daemon（杀掉 43110 监听进程，`bun run dev:daemon` 后台拉起，等 `/health` ok）。
+2. 重启 daemon。具体命令（只杀监听 PID，禁止 `taskkill //F //IM node.exe` 这种全杀）：
+   `netstat -ano | grep ":43110" | grep LISTENING` 拿 PID →
+   `taskkill //F //PID <pid>` → `bun run dev:daemon` 后台拉起 →
+   轮询 `curl http://127.0.0.1:43110/health` 到 ok。
+   注：`dev:daemon` 是 tsx --watch 模式，改 daemon/shared 代码通常自动重启，
+   但验收前手动重启一次最保险（watch 对个别变化不敏感）。
 3. `GET http://127.0.0.1:43110/plugins`：配套插件（若有）projectTypes 含新类型。
 4. `POST /projects`（body 用文件 `--data-binary @file`，含中文时 curl 直传会
    Content-Length 不匹配）：`{"name":"...","type":"<key>","workspacePath":"..."}` 返回 200。
-5. 浏览器（或 Chrome DevTools MCP）开 `http://127.0.0.1:43120/#/<key>`：
-   - 侧边栏工作室组出现新菜单项、图标正常
-   - 首页标题/提示语/新建按钮文案正确
-   - 「查看全部」跳 `#/projects?type=<key>`
-   - 新建的项目卡片出现
+5. 浏览器（或 Chrome DevTools MCP）验证 `http://127.0.0.1:43120/#/<key>`：
+   - **坑：启动恢复会劫持导航（2026-11-06 踩）**：直接开 `#/<key>` 或整页 navigate
+     会触发 reload → 应用「恢复上次会话」逻辑把 URL 拉回上次的项目会话页，
+     误判为路由解析失败。正确做法：等应用加载完后用 hashchange 切换
+     （`location.hash = "#/<key>"`，不触发 reload）。
+   - DevTools MCP 的 `evaluate_script` 用 `async () => { ...; await new Promise(r => setTimeout(r, 800)); ... }`
+     平铺写法；嵌套 Promise 回调 + 复杂字面量容易报语法错（missing ) after argument list）。
+   - 检查点：侧边栏工作室组出现新菜单项、图标正常（computed style 的 mask-image 有 data URI）；
+     首页标题/提示语/新建按钮文案正确；「查看全部」跳 `#/projects?type=<key>`；
+     新建的项目卡片出现。
 6. 回归：既有工作室（网页游戏/互动故事/Godot/素材画布/通用）页面正常。
 
 ## 提交与文档
