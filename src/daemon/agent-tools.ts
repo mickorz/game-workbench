@@ -1,4 +1,4 @@
-import { readFile, realpath } from "node:fs/promises";
+import { mkdir, readFile, realpath, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { defineTool, type ToolDefinition as PiToolDefinition } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
@@ -20,6 +20,14 @@ import type { CanvasStore } from "./canvas-workspace.js";
 import { readCanvasAssets } from "./canvas-assets.js";
 import { AUDIO_VOICE_ID_MAX_LENGTH, AUDIO_VOICE_ID_PATTERN } from "../shared/audio.js";
 import { inspectPluginDraft } from "./plugin-draft.js";
+import {
+  checkPlanLeaves,
+  requirementOpenQuestions,
+  validateCheckPlan,
+  validateCheckResult,
+  validateRequirementSpec,
+  type CheckPlan,
+} from "../shared/requirement-check.js";
 
 const PI_TOOL_NAMES: Record<ToolId, string> = {
   "generate-image": "generate_image",
@@ -612,9 +620,162 @@ export function createAgentTools(
         return { content: [{ type: "text", text: `Generated media for node ${input.nodeId}. Saved: ${paths.join(", ")}. Inspect or play the relevant output to evaluate the actual result.` }], details: { canvasGeneration: current } };
       } finally { signal?.removeEventListener("abort", cancel); }
     },
-  })] : []), ...(playtest?.driver.available && playtest.driver.capabilities.projectTypes.includes(project.type) && (project.type !== "general" || supportsWebPreview(project))
+  })] : []), ...(project.type === "requirement-check" ? createRequirementCheckTools(project) : []), ...(playtest?.driver.available && playtest.driver.capabilities.projectTypes.includes(project.type) && (project.type !== "general" || supportsWebPreview(project))
     ? [createGameUseTool(playtest.driver, playtest.resolveOpenTarget, { bridge: project.type === "interactive-story" ? "reset" : "full" })]
     : [])];
+}
+
+/**
+ * 需求检查工作室的结构化产物工具（grasp 需求处理机制的 xc-ui-flow 版）。
+ * 门禁语义：校验不过即 throw（工具失败文本回给 agent，驱动修复重试）；
+ * open_questions 非空时不准提交，必须先用 questionnaire 让用户拍板。
+ */
+function createRequirementCheckTools(project: ProjectState): PiToolDefinition[] {
+  const specPath = () => path.join(project.workspacePath, "requirements", "requirement-spec.json");
+  const planPath = () => path.join(project.workspacePath, "requirements", "check-plan.json");
+  const resultPath = () => path.join(project.workspacePath, "check", "check-result.json");
+  const saveJson = async (file: string, value: unknown) => {
+    await mkdir(path.dirname(file), { recursive: true });
+    await writeFile(file, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+  };
+  const rejection = (errors: readonly string[]): string =>
+    ["Requirement artifacts rejected:", ...errors.map((line) => `- ${line}`)].join("\n");
+  const saveSpec = async (input: Record<string, unknown>) => {
+    const { spec, errors } = validateRequirementSpec(input);
+    if (!spec) throw new Error(rejection(errors));
+    const open = requirementOpenQuestions(JSON.stringify(spec));
+    if (open.length > 0) {
+      throw new Error(rejection([
+        "openQuestions must be empty before the spec can be submitted. Resolve each one with the questionnaire tool first:",
+        ...open.map((question) => `- ${question}`),
+      ]));
+    }
+    await saveJson(specPath(), spec);
+    const acceptanceCount = spec.functionalRequirements.reduce((total, item) => total + item.acceptanceCriteria.length, 0);
+    return `Requirement spec saved to requirements/requirement-spec.json (${spec.functionalRequirements.length} functional requirements, ${acceptanceCount} acceptance criteria).`;
+  };
+  const readPlan = async () => {
+    try {
+      const plan = JSON.parse(await readFile(planPath(), "utf8")) as CheckPlan;
+      if (!plan || !Array.isArray(plan.goals)) throw new Error("invalid plan");
+      return plan;
+    } catch {
+      throw new Error("No check plan found. Call set_check_plan with the spec's goals before submitting a check result.");
+    }
+  };
+  return [defineTool({
+    name: "set_requirement_spec",
+    label: "Save Requirement Spec",
+    description: [
+      "Submit the clarified requirement spec as structured JSON (SRS subset; no timeline, no tech design).",
+      "Validation rejects it when a required section is empty, a functional requirement lacks detail or at least 1 acceptance criterion, or openQuestions is non-empty: resolve open questions with the questionnaire tool first, then resubmit.",
+      "Required sections: title, summary, background, goals, inScope, outOfScope, functionalRequirements, assumptions, dependencies, constraints. workKind is bug, feature or other; when bug, rootCause is required.",
+    ].join("\n"),
+    parameters: Type.Object({
+      title: Type.String({ minLength: 1, maxLength: 200 }),
+      summary: Type.String({ minLength: 1, maxLength: 2_000 }),
+      background: Type.String({ minLength: 1, maxLength: 4_000 }),
+      workKind: Type.Union([Type.Literal("bug"), Type.Literal("feature"), Type.Literal("other")]),
+      rootCause: Type.Optional(Type.String({ maxLength: 4_000, description: "Required when workKind is bug; empty otherwise" })),
+      goals: Type.Array(Type.String({ minLength: 1, maxLength: 300 }), { minItems: 1, maxItems: 20 }),
+      successMetrics: Type.Optional(Type.Array(Type.String({ maxLength: 300 }), { maxItems: 20 })),
+      inScope: Type.Array(Type.String({ minLength: 1, maxLength: 300 }), { minItems: 1, maxItems: 40 }),
+      outOfScope: Type.Array(Type.String({ minLength: 1, maxLength: 300 }), { minItems: 1, maxItems: 40 }),
+      scenarios: Type.Optional(Type.Array(Type.Object({
+        name: Type.String({ minLength: 1, maxLength: 120 }),
+        actor: Type.Optional(Type.String({ maxLength: 120 })),
+        trigger: Type.Optional(Type.String({ maxLength: 300 })),
+        flow: Type.Optional(Type.String({ maxLength: 1_000 })),
+        outcome: Type.Optional(Type.String({ maxLength: 300 })),
+      }), { maxItems: 30 })),
+      functionalRequirements: Type.Array(Type.Object({
+        title: Type.String({ minLength: 1, maxLength: 200 }),
+        detail: Type.String({ minLength: 1, maxLength: 2_000 }),
+        priority: Type.Optional(Type.Union([Type.Literal("must"), Type.Literal("should"), Type.Literal("could")], { description: "Defaults to must" })),
+        acceptanceCriteria: Type.Array(Type.String({ minLength: 1, maxLength: 500 }), { minItems: 1, maxItems: 20 }),
+        scenarioIds: Type.Optional(Type.Array(Type.String({ maxLength: 40 }), { maxItems: 10 })),
+      }), { minItems: 1, maxItems: 60 }),
+      assumptions: Type.Array(Type.String({ minLength: 1, maxLength: 300 }), { minItems: 1, maxItems: 20, description: "Write \"none confirmed with the user\" when there is nothing to add; do not omit the section" }),
+      dependencies: Type.Array(Type.String({ minLength: 1, maxLength: 300 }), { minItems: 1, maxItems: 20 }),
+      constraints: Type.Array(Type.String({ minLength: 1, maxLength: 300 }), { minItems: 1, maxItems: 20 }),
+      openQuestions: Type.Optional(Type.Array(Type.String({ maxLength: 300 }), { maxItems: 20, description: "Must be empty at submission; resolve with questionnaire first" })),
+    }),
+    execute: async (_toolCallId, input, signal) => {
+      signal?.throwIfAborted();
+      const text = await saveSpec(input);
+      return { content: [{ type: "text" as const, text }], details: { requirementSpec: "saved" } };
+    },
+  }), defineTool({
+    name: "set_check_plan",
+    label: "Save Check Plan",
+    description: [
+      "Submit the check plan as a strict two-level list: goals, each with optional subgoals. A subgoal is a leaf and may not nest further; a goal without subgoals is itself a leaf.",
+      "Every acceptance criterion from the requirement spec must be covered by a leaf. Leaf granularity: one leaf is one checkable acceptance point.",
+      "Stable ids (g1, g1.2) are assigned on save.",
+    ].join("\n"),
+    parameters: Type.Object({
+      title: Type.Optional(Type.String({ maxLength: 200 })),
+      goals: Type.Array(Type.Object({
+        title: Type.String({ minLength: 1, maxLength: 200 }),
+        detail: Type.Optional(Type.String({ maxLength: 1_000 })),
+        subgoals: Type.Optional(Type.Array(Type.Object({
+          title: Type.String({ minLength: 1, maxLength: 200 }),
+          detail: Type.Optional(Type.String({ maxLength: 1_000 })),
+        }), { maxItems: 20 })),
+      }), { minItems: 1, maxItems: 12 }),
+    }),
+    execute: async (_toolCallId, input, signal) => {
+      signal?.throwIfAborted();
+      const { plan, errors } = validateCheckPlan(input);
+      if (!plan) throw new Error(rejection(errors));
+      await saveJson(planPath(), plan);
+      const leaves = checkPlanLeaves(plan);
+      return {
+        content: [{ type: "text" as const, text: `Check plan saved to requirements/check-plan.json (${plan.goals.length} goals, ${leaves.length} leaves: ${leaves.map((leaf) => leaf.id).join(", ")}).` }],
+        details: { checkPlan: plan },
+      };
+    },
+  }), defineTool({
+    name: "set_check_result",
+    label: "Save Check Result",
+    description: [
+      "Submit the check result. Full-coverage gate: every plan leaf (gN or gN.M) needs exactly one coverage entry with passed, non-empty evidence, and at least 1 referenced case whose status is passed; unknown or duplicate planIds are rejected.",
+      "Failing or missing leaves must be reported honestly: set passed=false, record the problem as a finding with severity blocker, major, minor or info, and say in assessment whether the requirement passes the check.",
+    ].join("\n"),
+    parameters: Type.Object({
+      summary: Type.String({ minLength: 1, maxLength: 2_000 }),
+      cases: Type.Array(Type.Object({
+        name: Type.String({ minLength: 1, maxLength: 200 }),
+        status: Type.Union([Type.Literal("passed"), Type.Literal("failed"), Type.Literal("skipped")]),
+        detail: Type.Optional(Type.String({ maxLength: 1_000 })),
+      }), { minItems: 1, maxItems: 60 }),
+      coverage: Type.Array(Type.Object({
+        planId: Type.String({ minLength: 1, maxLength: 20, description: "Plan leaf id, gN or gN.M" }),
+        title: Type.Optional(Type.String({ maxLength: 200 })),
+        passed: Type.Boolean(),
+        evidence: Type.String({ minLength: 1, maxLength: 2_000, description: "What was checked and how it was verified" }),
+        cases: Type.Array(Type.String({ minLength: 1, maxLength: 200 }), { minItems: 1, maxItems: 20, description: "Referenced case names; each must exist in cases with status passed" }),
+      }), { minItems: 1, maxItems: 60 }),
+      findings: Type.Optional(Type.Array(Type.Object({
+        title: Type.String({ minLength: 1, maxLength: 200 }),
+        severity: Type.Union([Type.Literal("blocker"), Type.Literal("major"), Type.Literal("minor"), Type.Literal("info")]),
+        detail: Type.Optional(Type.String({ maxLength: 2_000 })),
+      }), { maxItems: 40 })),
+      assessment: Type.Optional(Type.String({ maxLength: 2_000, description: "Whether the requirement passes the check overall" })),
+    }),
+    execute: async (_toolCallId, input, signal) => {
+      signal?.throwIfAborted();
+      const plan = await readPlan();
+      const { result, errors } = validateCheckResult(input, plan);
+      if (!result) throw new Error(rejection(errors));
+      await saveJson(resultPath(), result);
+      const failed = result.coverage.filter((item) => !item.passed).length;
+      return {
+        content: [{ type: "text" as const, text: `Check result saved to check/check-result.json (${result.coverage.length} leaves covered, ${failed} not passed, ${result.findings.length} findings).` }],
+        details: { checkResult: result },
+      };
+    },
+  })];
 }
 
 /** Matches an agent-supplied action name to the library, case-insensitively, and suggests close names when it misses. */

@@ -85,6 +85,23 @@ describe("agent tools", () => {
     expect(createAgentTools(project, runner, projects, undefined, undefined, playtest).some(({ name }) => name === "game_use")).toBe(true);
   });
 
+  it("registers the requirement-check artifacts only for requirement-check projects", async () => {
+    const dataDirectory = await mkdtemp(path.join(tmpdir(), "ohmygame-agent-requirement-"));
+    const projects = new ProjectManager(dataDirectory);
+    await projects.load();
+    const runner = new ToolRunner(dataDirectory, { generate: async () => ({ bytes: Buffer.from("image"), mediaType: "image/webp" }) });
+    await runner.load();
+    const names = async (type: string) => createAgentTools(await projects.create("Requirement Check", type as never), runner, projects).map(({ name }) => name);
+    const requirementNames = await names("requirement-check");
+    for (const toolName of ["set_requirement_spec", "set_check_plan", "set_check_result"]) {
+      expect(requirementNames).toContain(toolName);
+    }
+    const otherNames = await names("general");
+    for (const toolName of ["set_requirement_spec", "set_check_plan", "set_check_result"]) {
+      expect(otherNames).not.toContain(toolName);
+    }
+  });
+
   it("returns provider metadata from the built-in web search tool", async () => {
     const dataDirectory = await mkdtemp(path.join(tmpdir(), "ohmygame-agent-search-"));
     const projects = new ProjectManager(dataDirectory);
