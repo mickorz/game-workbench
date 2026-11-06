@@ -162,9 +162,9 @@ Web 预览不用管：`isWebRuntimeProjectType` 只认 `web-game`/`general`，�
 
 新工作室默认复用共享画布（`CanvasWorkspace`，数据在工程 `canvas/` 目录，agent 用
 `canvas_init`/`canvas_check` 工具协作），无需写代码。若需要该类型专属的设计页
-（如 FairyGUI 组件树 + 预览），照 `dev-docs/design/设计页面机制分析与自定义指南.md`
-的方案 B：新建工作区组件（props 契约参照 `canvas-workspace.tsx`），在
-`project-shell.tsx` 的三向分支处加第四向。这是独立决策，不阻塞脚手架验收。
+（如 FairyGUI 组件树 + 预览），**转入 `create-workspace` 技能**（方案 B：
+新建工作区组件，在 `project-shell.tsx` 的四向分支处加第五向；流程与 props
+契约见 `.claude/skills/create-workspace/`）。这是独立决策，不阻塞脚手架验收。
 
 ## 验收（全部通过才算完成）
 
