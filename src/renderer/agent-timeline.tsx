@@ -891,7 +891,108 @@ function ToolDetails({ item }: { item: ToolCallItem }) {
   if (item.type === "dynamicToolCall" && item.tool === "bash") return <ShellDetails item={item} command={text(args?.command)} />;
   if (item.type === "dynamicToolCall" && ["read", "grep", "find", "ls"].includes(item.tool)) return <FileOperationDetails item={item} args={args} />;
   if (item.type === "dynamicToolCall" && ["edit", "write"].includes(item.tool)) return <FileChangeDetails item={item} args={args} />;
+  if (item.type === "dynamicToolCall" && item.tool === "set_requirement_spec" && item.status !== "failed") return <RequirementSpecDetails args={args} />;
+  if (item.type === "dynamicToolCall" && item.tool === "set_check_plan" && item.status !== "failed") return <CheckPlanDetails args={args} />;
+  if (item.type === "dynamicToolCall" && item.tool === "set_check_result" && item.status !== "failed") return <CheckResultDetails item={item} args={args} />;
   return <StructuredToolDetails item={item} />;
+}
+
+function stringList(value: unknown): string[] {
+  return Array.isArray(value) ? value.map((item) => text(item)).filter((item) => item !== "") : [];
+}
+
+/** 需求规格卡片：标题 + 工作类型徽标 + 功能需求（编号、优先级、验收点）+ 范围边界。 */
+function RequirementSpecDetails({ args }: { args: Record<string, unknown> | undefined }) {
+  const title = text(args?.title);
+  const workKind = text(args?.workKind);
+  const rootCause = text(args?.rootCause);
+  const requirements = Array.isArray(args?.functionalRequirements) ? args.functionalRequirements : [];
+  const inScope = stringList(args?.inScope);
+  const outScope = stringList(args?.outOfScope);
+  return <div className="tool-details requirement-card">
+    {title ? <div className="requirement-card-head">
+      <span className="requirement-card-title">{title}</span>
+      {workKind ? <span className={`requirement-badge requirement-kind-${workKind}`}>{workKind}</span> : null}
+    </div> : null}
+    {rootCause ? <ToolDetailBlock label={t("timeline.detail.reqRootCause")}><span>{rootCause}</span></ToolDetailBlock> : null}
+    <div className="requirement-card-section-label">{t("timeline.detail.reqFr")}</div>
+    {requirements.map((raw, index) => {
+      const requirement = record(raw) ?? {};
+      const priority = text(requirement.priority) || "must";
+      const criteria = stringList(requirement.acceptanceCriteria);
+      return <div key={index} className="requirement-fr">
+        <div className="requirement-fr-head">
+          <span className="requirement-fr-id">f{index + 1}</span>
+          <span className="requirement-fr-title">{text(requirement.title)}</span>
+          <span className={`requirement-badge requirement-priority-${priority}`}>{priority}</span>
+        </div>
+        {criteria.length ? <ul className="requirement-criteria">
+          {criteria.map((criterion, criterionIndex) => <li key={criterionIndex}>{criterion}</li>)}
+        </ul> : null}
+      </div>;
+    })}
+    {inScope.length ? <ToolDetailBlock label={t("timeline.detail.reqInScope")}><span>{inScope.join("、")}</span></ToolDetailBlock> : null}
+    {outScope.length ? <ToolDetailBlock label={t("timeline.detail.reqOutScope")}><span>{outScope.join("、")}</span></ToolDetailBlock> : null}
+  </div>;
+}
+
+/** 检查计划卡片：两级树（大目标 gN、叶子 gN.M）。 */
+function CheckPlanDetails({ args }: { args: Record<string, unknown> | undefined }) {
+  const goals = Array.isArray(args?.goals) ? args.goals : [];
+  return <div className="tool-details requirement-card">
+    <div className="requirement-card-section-label">{t("timeline.detail.planLeaves")}</div>
+    {goals.map((raw, goalIndex) => {
+      const goal = record(raw) ?? {};
+      const subgoals = Array.isArray(goal.subgoals) ? goal.subgoals : [];
+      return <div key={goalIndex} className="requirement-plan-goal">
+        <div className="requirement-plan-row requirement-plan-goal-row">
+          <span className="requirement-fr-id">g{goalIndex + 1}</span>
+          <span className="requirement-plan-title">{text(goal.title)}</span>
+        </div>
+        {subgoals.map((rawSub, subIndex) => {
+          const sub = record(rawSub) ?? {};
+          return <div key={subIndex} className="requirement-plan-row requirement-plan-sub-row">
+            <span className="requirement-fr-id">g{goalIndex + 1}.{subIndex + 1}</span>
+            <span className="requirement-plan-title">{text(sub.title)}</span>
+          </div>;
+        })}
+      </div>;
+    })}
+  </div>;
+}
+
+/** 检查结果卡片：覆盖表（叶子通过状态 + 证据）+ 发现清单（严重度徽标）。 */
+function CheckResultDetails({ item, args }: { item: ToolCallItem; args: Record<string, unknown> | undefined }) {
+  const coverage = Array.isArray(args?.coverage) ? args.coverage : [];
+  const findings = Array.isArray(args?.findings) ? args.findings : [];
+  const passedCount = coverage.filter((raw) => record(raw)?.passed === true).length;
+  return <div className="tool-details requirement-card">
+    <div className="requirement-card-head">
+      <span className="requirement-card-section-label">{t("timeline.detail.checkCoverage")}</span>
+      <span className="requirement-card-progress">{passedCount}/{coverage.length}</span>
+    </div>
+    {coverage.map((raw, index) => {
+      const entry = record(raw) ?? {};
+      const passed = entry.passed === true;
+      return <div key={index} className="requirement-coverage-row">
+        <span className={`requirement-badge ${passed ? "requirement-pass" : "requirement-fail"}`}>{passed ? t("timeline.detail.checkPassed") : t("timeline.detail.checkNotPassed")}</span>
+        <span className="requirement-fr-id">{text(entry.planId)}</span>
+        <span className="requirement-plan-title">{text(entry.title) || text(entry.evidence)}</span>
+      </div>;
+    })}
+    {findings.length ? <>
+      <div className="requirement-card-section-label">{t("timeline.detail.checkFindings")}</div>
+      {findings.map((raw, index) => {
+        const finding = record(raw) ?? {};
+        const severity = text(finding.severity) || "info";
+        return <div key={index} className="requirement-coverage-row">
+          <span className={`requirement-badge requirement-severity-${severity}`}>{severity}</span>
+          <span className="requirement-plan-title">{text(finding.title)}</span>
+        </div>;
+      })}
+    </> : null}
+    {item.output ? <ToolDetailBlock label={t("timeline.detail.output")}><span>{item.output}</span></ToolDetailBlock> : null}
+  </div>;
 }
 
 function WebSearchDetails({ item, args }: { item: Extract<ThreadItem, { type: "dynamicToolCall" }>; args: Record<string, unknown> | undefined }) {

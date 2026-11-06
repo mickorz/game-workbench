@@ -12094,6 +12094,152 @@ button {
   text-align: right;
 }
 
+/* 需求检查三张产物卡片（spec / plan / result） */
+.requirement-card {
+  gap: 5px;
+}
+
+.requirement-card-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.requirement-card-title {
+  min-width: 0;
+  flex: 1;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.requirement-card-progress {
+  color: var(--text-faint);
+  font-size: 9px;
+}
+
+.requirement-card-section-label {
+  color: var(--text-faint);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.requirement-card .requirement-card-section-label:not(:first-child) {
+  margin-top: 5px;
+}
+
+.requirement-badge {
+  flex: none;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  color: var(--text-muted);
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.requirement-kind-bug { color: var(--danger, var(--text-muted)); }
+.requirement-kind-feature { color: var(--accent, var(--text-muted)); }
+.requirement-priority-must { color: var(--danger, var(--text-muted)); }
+.requirement-priority-should { color: var(--accent, var(--text-muted)); }
+.requirement-pass { color: var(--success, var(--text-muted)); }
+.requirement-fail { color: var(--danger, var(--text-muted)); }
+.requirement-severity-blocker,
+.requirement-severity-major { color: var(--danger, var(--text-muted)); }
+
+.requirement-fr {
+  display: grid;
+  gap: 2px;
+}
+
+.requirement-fr-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.requirement-fr-id {
+  flex: none;
+  color: var(--text-faint);
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+}
+
+.requirement-fr-title {
+  min-width: 0;
+  flex: 1;
+  font-size: 11px;
+  color: var(--text);
+}
+
+.requirement-criteria {
+  margin: 0 0 0 20px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1px;
+}
+
+.requirement-criteria li {
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.requirement-criteria li::before {
+  content: "- ";
+  color: var(--text-faint);
+}
+
+.requirement-plan-goal {
+  display: grid;
+  gap: 2px;
+}
+
+.requirement-plan-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.requirement-plan-goal-row .requirement-plan-title {
+  font-weight: 600;
+}
+
+.requirement-plan-sub-row {
+  padding-left: 14px;
+}
+
+.requirement-plan-title {
+  min-width: 0;
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.requirement-plan-goal-row .requirement-plan-title {
+  color: var(--text);
+}
+
+.requirement-coverage-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.requirement-coverage-row .requirement-plan-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .todo-list-group-title {
   color: var(--text-muted);
   font-size: 10px;

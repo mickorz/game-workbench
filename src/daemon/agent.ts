@@ -2708,7 +2708,7 @@ function partialToolCall(message: unknown, contentIndex: number): { id: string; 
 const MAX_TOOL_OUTPUT = 12_000;
 const MAX_GENERIC_TOOL_ARGUMENTS = 2_000;
 
-function toolArguments(toolName: string, args: unknown): unknown {
+export function toolArguments(toolName: string, args: unknown): unknown {
   const values = record(args);
   if (!values) return boundedValue(args);
 
@@ -2718,8 +2718,67 @@ function toolArguments(toolName: string, args: unknown): unknown {
     case "write":
     case "edit": return boundedValue(compactRecord(values, ["path", "file_path"]));
     case "mcp": return mcpToolArguments(values);
+    case "set_requirement_spec": return boundedValue(compactSpecArguments(values));
+    case "set_check_plan": return boundedValue(compactPlanArguments(values));
+    case "set_check_result": return boundedValue(compactResultArguments(values));
     default: return boundedValue(args);
   }
+}
+
+/** 需求检查三工具的 arguments 压缩：只保留时间线卡片渲染所需字段，丢弃 detail 等大文本。 */
+function compactSpecArguments(values: Record<string, unknown>): Record<string, unknown> {
+  const requirements = Array.isArray(values.functionalRequirements) ? values.functionalRequirements : [];
+  const result: Record<string, unknown> = {
+    functionalRequirements: requirements.map((raw) => {
+      const requirement = record(raw) ?? {};
+      return {
+        title: requirement.title,
+        priority: requirement.priority,
+        acceptanceCriteria: Array.isArray(requirement.acceptanceCriteria) ? requirement.acceptanceCriteria : [],
+      };
+    }),
+  };
+  for (const key of ["title", "workKind", "inScope", "outOfScope"]) {
+    if (values[key] !== undefined) result[key] = values[key];
+  }
+  if (values.rootCause !== undefined) result.rootCause = String(values.rootCause).slice(0, 200);
+  return result;
+}
+
+function compactPlanArguments(values: Record<string, unknown>): Record<string, unknown> {
+  const goals = Array.isArray(values.goals) ? values.goals : [];
+  const result: Record<string, unknown> = {
+    goals: goals.map((raw) => {
+      const goal = record(raw) ?? {};
+      return {
+        title: goal.title,
+        subgoals: Array.isArray(goal.subgoals) ? goal.subgoals.map((rawSub) => (record(rawSub) ?? {}).title) : [],
+      };
+    }),
+  };
+  if (values.title !== undefined) result.title = values.title;
+  return result;
+}
+
+function compactResultArguments(values: Record<string, unknown>): Record<string, unknown> {
+  const result: Record<string, unknown> = {
+    coverage: (Array.isArray(values.coverage) ? values.coverage : []).map((raw) => {
+      const entry = record(raw) ?? {};
+      return {
+        planId: entry.planId,
+        title: entry.title,
+        passed: entry.passed,
+        evidence: entry.evidence === undefined ? undefined : String(entry.evidence).slice(0, 160),
+      };
+    }),
+  };
+  if (Array.isArray(values.findings)) {
+    result.findings = values.findings.map((raw) => {
+      const finding = record(raw) ?? {};
+      return { title: finding.title, severity: finding.severity };
+    });
+  }
+  return result;
 }
 
 function toolThreadItem(
