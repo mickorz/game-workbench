@@ -173,3 +173,28 @@ Web 预览不用管：`isWebRuntimeProjectType` 只认 `web-game`/`general`，�
 - 一个 commit：`feat: add <key> studio (project type + sidebar + boundaries)`。
 - 按仓库 CLAUDE.md：更新 `dev-docs/progress/执行进度.md` 里程碑表，
   新建 `dev-docs/progress-result/<阶段>-执行报告.md`（新阶段新文件，禁止追加他人）。
+
+## 修改已有工作室（与新建共用落点，走步骤子集）
+
+触发词：改 XX 工作室的文案/标题/占位/新建按钮、改类型显示名、换图标、
+调侧边栏位置。先拿到 `key`（要改哪个工作室）与要改的内容；
+换图标无新 SVG 时按步骤 6 的 Lucide 选型法选。
+
+| 要改什么 | 动哪里（新建步骤的子集） | 不动什么 |
+|---|---|---|
+| 工作室首页文案（标题/占位/新建按钮） | 两个 locales 的 `studio.<key>` 块（步骤 3） | `projectType` 块、其它 studio 块 |
+| 类型显示名（侧边栏/新建下拉/项目页） | 两个 locales 的 `projectType.<key>`（步骤 3） | `studio` 块 |
+| 图标 | `assets/sidebar/<key>.svg` 与 `assets/<key>.svg` **内容替换**（文件名/CSS 类名不变，两处内容保持一致，步骤 6/8） | `styles.css`、`sidebar-config.ts`、`project-types.tsx` |
+| 侧边栏位置 | `SIDEBAR_ITEMS` 数组内移动条目（步骤 5） | 条目字段本身 |
+
+边界（和新建一致）：
+
+- **key/类型 id 不可改**：key 是持久化数据的类型标识（`PROJECT_TYPE_IDS` 只加不减），
+  改 key 会孤儿化历史项目。确需换 key = 新建新工作室 + menu-item 技能隐藏旧入口，两件事分开做。
+- **可见性不归本流程**：隐藏/恢复入口用 menu-item 技能（两落点一起改）。
+- 文案双语必须同 commit 同改（同新建关键规则 4）。
+
+修改的验收：`bun run typecheck` 通过；改文案刷新看工作室页与侧边栏/下拉；
+换图标刷新看两处 mask（侧边栏 + 项目类型图标）出新形状。
+纯渲染层改动不用重启 daemon（开发态 vite HMR 生效；桌面端/生产需
+`bun run build:renderer` 重新构建，同 sidebar-config 约定）。

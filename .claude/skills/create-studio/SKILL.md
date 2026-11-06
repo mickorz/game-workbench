@@ -5,23 +5,29 @@ display_name: 新增工作室
 display_name_en: Create Studio
 description: >
   Scaffold a new studio (sidebar workspace page + project type) in the xc-ui-flow
-  app, modeled on the Godot and FairyGUI studios. Use when the user asks to add a
-  new studio, a new workspace entry in the sidebar studios group, or a new project
-  type with its studio home page.
+  app, modeled on the Godot and FairyGUI studios, or modify an existing studio's
+  copy, display name, icon, or sidebar position. Use when the user asks to add a
+  new studio, a new workspace entry in the sidebar studios group, a new project
+  type with its studio home page, or to change an existing studio's texts/icon/order.
 description_zh: >-
   在 xc-ui-flow 应用里脚手架搭建一个新工作室（侧边栏工作室页 + 项目类型），
-  以 Godot 和 FairyGUI 工作室为模板。用户说「新增工作室 / 加一个工作室 /
-  侧边栏加一个 XX 工作室 / 新增项目类型并配首页」时使用。
+  或修改已存在工作室的文案/显示名/图标/侧边栏位置，以 Godot 和 FairyGUI 工作室
+  为模板。用户说「新增工作室 / 加一个工作室 / 侧边栏加一个 XX 工作室 /
+  新增项目类型并配首页 / 改 XX 工作室的文案或图标 / 挪侧边栏工作室位置」时使用。
 description_en: >-
   Scaffold a new studio (sidebar studios-group page plus project type) in the
-  xc-ui-flow app, using the Godot and FairyGUI studios as the template. Use when
-  asked to add a new studio or a new project type with its studio home page.
+  xc-ui-flow app, using the Godot and FairyGUI studios as the template, or modify
+  an existing studio's copy, display name, icon, or sidebar order. Use when
+  asked to add a new studio, a new project type with its studio home page, or to
+  change an existing studio's texts, icon, or position.
 ---
 
 # 新增工作室（create-studio）
 
 给本应用（ohmygame 宿主）新增一个「工作室」：侧边栏工作室组多一个菜单项，
 `#/<key>` 出现工作室首页（标题 + 提示词 + 最近项目卡片），项目按新类型过滤。
+也承接**修改已有工作室**（改文案/显示名/图标/侧边栏位置）——落点与新建相同，
+按流程文档末节「修改已有工作室」的映射表走步骤子集。
 
 本技能只搭**壳**（类型/路由/侧边栏/文案/图标/边界），不写工作室的业务逻辑——
 业务能力由配套插件（Skills + MCP）提供，壳只负责把项目、类型、插件拼在一起。
