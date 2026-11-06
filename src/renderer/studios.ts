@@ -34,6 +34,12 @@ export const GAME_STUDIOS = {
     placeholder: t("studio.fairygui.placeholder"),
     newLabel: t("studio.fairygui.new"),
   },
+  "requirement-check": {
+    page: "requirement-check",
+    title: t("studio.requirement-check.title"),
+    placeholder: t("studio.requirement-check.placeholder"),
+    newLabel: t("studio.requirement-check.new"),
+  },
 } as const;
 
 export function recentStudioProjects(

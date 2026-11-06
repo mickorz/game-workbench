@@ -644,6 +644,7 @@ const en = {
     "asset-canvas": "Asset Canvas",
     "godot-game": "Godot",
     fairygui: "FairyGUI",
+    "requirement-check": "Requirement Check",
   },
   navigation: {
     backTo: "Back to {{page}}",
@@ -692,6 +693,11 @@ const en = {
       new: "New FairyGUI project",
       bridgeConnected: "Editor bridge: connected",
       bridgeOffline: "Editor bridge: offline (start the editor or check the plugin)",
+    },
+    "requirement-check": {
+      title: "Which requirement should we check?",
+      placeholder: "Describe the requirement document or acceptance points to check...",
+      new: "New requirement check project",
     },
   },
   examples: {

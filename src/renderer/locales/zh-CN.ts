@@ -629,6 +629,7 @@ const zhCN: typeof en = {
     "asset-canvas": "素材画布",
     "godot-game": "Godot",
     fairygui: "FairyGUI",
+    "requirement-check": "需求检查",
   },
   navigation: {
     backTo: "返回{{page}}",
@@ -677,6 +678,11 @@ const zhCN: typeof en = {
       new: "新建 FairyGUI 项目",
       bridgeConnected: "编辑器桥：已连接",
       bridgeOffline: "编辑器桥：未连接（启动编辑器或检查插件）",
+    },
+    "requirement-check": {
+      title: "要检查哪份需求？",
+      placeholder: "描述你要检查的需求文档或验收点…",
+      new: "新建需求检查项目",
     },
   },
   examples: {

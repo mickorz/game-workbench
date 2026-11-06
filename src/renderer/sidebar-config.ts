@@ -12,6 +12,7 @@ export type SidebarIcon =
   | "interactive-story"
   | "godot"
   | "fairygui"
+  | "requirement-check"
   | "asset-canvas"
   | "community"
   | "plugins";
@@ -53,6 +54,7 @@ export const SIDEBAR_ITEMS: SidebarItemConfig[] = [
   { id: "interactive-story", labelKey: "projectType.interactive-story", icon: "interactive-story", group: "studios", visible: false },
   { id: "godot", labelKey: "projectType.godot-game", icon: "godot", group: "studios", visible: false },
   { id: "fairygui", labelKey: "projectType.fairygui", icon: "fairygui", group: "studios" },
+  { id: "requirement-check", labelKey: "projectType.requirement-check", icon: "requirement-check", group: "studios" },
   { id: "asset-canvas", labelKey: "projectType.asset-canvas", icon: "asset-canvas", group: "studios" },
   { id: "general", labelKey: "projectType.general", icon: "general", group: "studios", visible: false },
 ];

@@ -2886,6 +2886,11 @@ select.settings-search-input {
   -webkit-mask-image: url("./assets/sidebar/fairygui.svg");
 }
 
+.home-nav-icon-requirement-check {
+  mask-image: url("./assets/sidebar/requirement-check.svg");
+  -webkit-mask-image: url("./assets/sidebar/requirement-check.svg");
+}
+
 .home-nav-icon-asset-canvas {
   mask-image: url("./assets/sidebar/assets.svg");
   -webkit-mask-image: url("./assets/sidebar/assets.svg");
@@ -3257,6 +3262,13 @@ button.home-nav-item-active:hover {
   flex: 0 0 auto;
   background: currentColor;
   mask: url("./assets/fairygui.svg") center / contain no-repeat;
+}
+.project-type-requirement-check-icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  background: currentColor;
+  mask: url("./assets/requirement-check.svg") center / contain no-repeat;
 }
 
 .home-project-type-selector {

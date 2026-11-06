@@ -25,6 +25,7 @@ export function ProjectTypeIcon({ type, size = 14 }: { type: ProjectType; size?:
   if (type === "interactive-story") return <Clapperboard size={size} aria-hidden="true" />;
   if (type === "asset-canvas") return <Image size={size} aria-hidden="true" />;
   if (type === "fairygui") return <span className="project-type-fairygui-icon" style={{ width: size, height: size }} aria-hidden="true" />;
+  if (type === "requirement-check") return <span className="project-type-requirement-check-icon" style={{ width: size, height: size }} aria-hidden="true" />;
   return <span className="project-type-godot-icon" style={{ width: size, height: size }} aria-hidden="true" />;
 }
 
