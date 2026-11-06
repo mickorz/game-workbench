@@ -21,6 +21,7 @@
 | `chat-text-action` | 会话聊天文本新增可点击行为（markdown linkify + 自定义协议 + 动作透传，6 步）；详细流程在技能内 `references/chat-text-action-flow.md` |
 | `menu-item` | 侧边栏菜单项与新建下拉类型的显隐管理（sidebar-config + HIDDEN_PROJECT_TYPE_IDS，两落点 + 3 坑） |
 | `create-workspace` | 给某类型创建专属工作区组件（project-shell 分支新加一向）或修改现有工作区；与 create-studio（壳层）/menu-item（显隐层）三层分界 |
+| `browser-selftest` | 浏览器实机自测（双服务启停 + hash 导航 + 脚本断言 + 截图存档）；触及 UI 的改动必须用它实测收尾 |
 
 **工作室 bug 同步规则**：修复任何工作室（studio / 项目类型）相关 bug 时，若根因属于「新增工作室流程会再踩的坑」（如某步骤遗漏、某文件漏改、某机制的反直觉行为），必须把坑点和修法同步进 `.claude/skills/create-studio/references/add-studio-flow.md`（补进步骤或坑位说明），防止下次创建工作室时重蹈。只影响单个工作室自身的业务 bug 不需要同步。
 
@@ -106,6 +107,21 @@
    **不对读者负责**，内容可随时失效或删除，不进 README 宣传、不被其他文档引用。
 2. 运行产物一律 gitignore 不提交；详细约定见 `dev-examples/README.md`。
 3. 毕业路径：`dev-examples/` 里验证通过 → 合入正式代码 → 必要时在 `docs/` 落地读者向文档 → 删除沙盒里对应目录。
+
+## 浏览器实机验收（触及 UI 的硬性收尾标准）
+
+**typecheck / vitest 过 ≠ 渲染对**（真实案例：工作区分支 JSX 插进既有 JSX 标签
+内部，编译合法、渲染逻辑错）。改动触及 UI（侧边栏、工作区、工作室首页、对话框）
+或路由分发时，必须用 `browser-selftest` 技能做真实浏览器实测收尾：
+目标命中断言 + 回归无泄漏断言 + 截图存档。纯 CLI/API 可验证的改动不用浏览器。
+
+## 看图与视觉验证
+
+模型不能直接看截图。需要看图验证视觉效果时：
+截图存文件（`chrome_devtools_take_screenshot` 带 `filePath`，存 `dev-examples/`）
+→ `zai_mcp_server_analyze_image` 传入截图路径 + 具体视觉断言提问（如「九宫格
+中心是否填充」，不要泛泛「看看对不对」）。截图前先刷新页面
+（tsx watch 重启后浏览器仍持旧 HTML）。
 
 ## opencode run 测试约定
 
