@@ -16,3 +16,6 @@
 [submodule "thirdparties/spec-workflow-mcp"]
 	path = thirdparties/spec-workflow-mcp
 	url = https://github.com/pimzino/spec-workflow-mcp
+[submodule "thirdparties/game-ui-design-workflow"]
+	path = thirdparties/game-ui-design-workflow
+	url = https://github.com/mickorz/game-ui-design-workflow
