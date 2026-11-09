@@ -40,3 +40,12 @@ commit `2f5dac3`（分支 `feat/requirement-check-grasp`）。
 - node --watch 重启链的形态：父进程带 `--watch` 参数，重启出的子进程命令行**无 watch 参数**——排查时别被无 watch 的命令行骗到，要查 ParentProcessId。
 - 「agent 卡思考中 + updatedAt 停滞 + 日志无错」三征同时出现时，先对比处理请求的 pid 是否变了（重启铁证），再怀疑模型网关。
 - 改 `package.json` 本身也会触发旧 watcher 的最后一次重启；若重启后起不来（EADDRINUSE 僵尸），杀干净 43110 监听进程及其 watcher 父进程再起新脚本。
+
+## 变体：开发期改 daemon 代码 → watch 重启 EADDRINUSE 卡死（2026-11-09 P3 补）
+
+即使加了 `--watch-path=./src`，**跑着 agent 会话时改 daemon 侧 src 文件**仍会踩新坑：
+
+- 现象：日志尾部 `Restarting` → `EADDRINUSE` → `Failed running 'src/daemon/server.ts --dev'. Waiting for file changes before restarting...`，watcher 卡死不再自愈；但 health 仍 200（旧子进程还在服务，跑的是**旧代码**）。
+- 根因：旧子进程因活跃 SSE/agent 会话连接未退干净占着 43110，新子进程 spawn 即 EADDRINUSE 死亡，watcher 陷入等待。
+- 修法：杀整链 `taskkill //F //T //PID <watcher父pid>`（netstat 拿 43110 监听 pid → 查其 ParentProcessId 即 watcher），重跑 `bun run dev:daemon`。
+- 预防：改 daemon 侧代码前先停掉进行中的 agent 会话，或接受重启杀会话后手动重链。
