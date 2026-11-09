@@ -1415,7 +1415,8 @@ export class AgentManager {
   ): Promise<QuestionnaireResult> {
     const key = conversationKey(projectId, conversationId);
     const active = this.#activeTurns.get(key);
-    if (!active || active.mode !== "planning") throw new Error("Questions can only be asked during an active plan");
+    // 问卷不限于 planning mode：需求检查等 normal 会话也要用问卷拍板（工具名单已按项目类型限定谁可调）
+    if (!active) throw new Error("Questions can only be asked while a turn is running");
     if (this.#questionnaires.has(key)) throw new Error("A questionnaire is already waiting for an answer");
     validateQuestionnaire(input.questions);
     const item: Extract<ThreadItem, { type: "userInputRequest" }> = {

@@ -1017,7 +1017,9 @@ export function createApp(options: AppOptions = {}) {
       const enabledTools = TOOL_IDS.filter((toolId) => toolId === "generate-speech" ? audioOperations.has("speech")
         : toolId === "generate-sound-effect" ? audioOperations.has("sound-effect")
           : toolId === "generate-music" ? audioOperations.has("music") : true);
-      return projectPiToolNames(mode, enabledTools, registered, webSearch.enabled());
+      const names = projectPiToolNames(mode, enabledTools, registered, webSearch.enabled());
+      // 需求检查：默认假设必须经 questionnaire 拍板（澄清纪律 + openQuestions 门禁的交互载体）
+      return project.type === "requirement-check" ? [...new Set([...names, "questionnaire"])] : names;
     },
     onRunFinished: async (project, conversationId) => {
       await agentPlaytests.get(`${project.id}:${conversationId}`)?.cleanup();
