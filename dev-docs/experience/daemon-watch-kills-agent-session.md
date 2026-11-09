@@ -41,6 +41,14 @@ commit `2f5dac3`（分支 `feat/requirement-check-grasp`）。
 - 「agent 卡思考中 + updatedAt 停滞 + 日志无错」三征同时出现时，先对比处理请求的 pid 是否变了（重启铁证），再怀疑模型网关。
 - 改 `package.json` 本身也会触发旧 watcher 的最后一次重启；若重启后起不来（EADDRINUSE 僵尸），杀干净 43110 监听进程及其 watcher 父进程再起新脚本。
 
+## 变体二：残留多套 watcher 链，旧链（无 watch-path）继续杀会话（2026-11-09 P3 后补）
+
+- 现象：daemon 已修 `--watch-path=./src`，但 agent 会话仍被莫名中断；日志出现 `Change detected in node_modules\undici\...` 触发 Restarting——明明不在 watch 范围。
+- 根因：历史上多次起链/杀链不彻底，机器上**同时存活多套 watcher**（旧脚本的无 watch-path 链 + 新链 + 重复链）。旧链盯全模块，node_modules 变化时它触发重启：杀掉当前占 43110 的子进程（连同活跃 agent 会话），再 spawn 新子进程抢占端口。看起来像「watch-path 没生效」，实际是残留旧链作恶。
+- 排查：`Get-CimInstance Win32_Process -Filter "Name='node.exe'" | Where-Object { $_.CommandLine -match 'daemon/server' }`，按命令行有无 `watch-path` 分 OLDWATCH/NEW/CHILD——OLDWATCH 存在即坐实。
+- 修法：按 pid 全部 `taskkill //F //PID`（CHILD 会随链退或单独杀），确认 43110 释放后重跑一条 `bun run dev:daemon`；验证进程数 = 2（watcher + child）。
+- 预防：每次杀 daemon 时杀整链（`taskkill //F //T //PID <watcher>`），不要只杀子进程；起链前先查端口是否残留。
+
 ## 变体：开发期改 daemon 代码 → watch 重启 EADDRINUSE 卡死（2026-11-09 P3 补）
 
 即使加了 `--watch-path=./src`，**跑着 agent 会话时改 daemon 侧 src 文件**仍会踩新坑：
