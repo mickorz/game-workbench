@@ -13,3 +13,6 @@
 [submodule "thirdparties/grasp"]
 	path = thirdparties/grasp
 	url = https://github.com/cocofhu/grasp.git
+[submodule "thirdparties/spec-workflow-mcp"]
+	path = thirdparties/spec-workflow-mcp
+	url = https://github.com/pimzino/spec-workflow-mcp
