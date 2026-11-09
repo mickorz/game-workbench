@@ -67,6 +67,7 @@ import { ConversationMenu } from "./conversation-menu.js";
 import { AgentTimeline } from "./agent-timeline.js";
 import type { TurnChangesControls } from "./turn-changes.js";
 import { CodingWorkspace } from "./coding-workspace.js";
+import { RequirementCheckWorkspace } from "./requirement-check-workspace.js";
 import { FairyguiDesignWorkspace } from "./fairygui-design-workspace.js";
 import { PlayableEditorWorkspace } from "./playable-editor-workspace.js";
 import type { PlayableChatState } from "./playable-chat.js";
@@ -863,6 +864,9 @@ export function ProjectShell({
                 workspacePath={project?.workspacePath}
                 onOpenWorkspaceFile={project ? openWorkspaceFile : undefined}
                 onComponentClick={project?.type === "fairygui" ? (name) => void openDesignComponent(name) : undefined}
+                onConfirmAction={project?.type === "requirement-check" ? (action) => {
+                  requestPrompt(action === "accept" ? t("requirementPanel.confirmAcceptDraft") : t("requirementPanel.confirmReviseDraft"));
+                } : undefined}
                 revisionDisabled={agentBusy || restoring || unfinishedRestore || state.plan.mode !== "normal" || state.pendingPrompts.length > 0 || state.connection !== "open"}
                 waitingForInput={Boolean(questionnaire || approval)}
                 onRevise={revisePrompt}
@@ -971,7 +975,15 @@ export function ProjectShell({
       </WorkspaceAgentPane>}
     >
       <ErrorBoundary key={`${projectId}:${workspaceEpoch}`} label={t("errorBoundary.label.workspace")} resetKey={project?.id} onHome={onHome} homeLabel={homeLabel}>
-      {!project ? <section className="viewer-pane" /> : project.type === "fairygui" && designOpen ? (
+      {!project ? <section className="viewer-pane" /> : project.type === "requirement-check" ? (
+        <RequirementCheckWorkspace
+          project={project}
+          agentBusy={agentBusy}
+          workspaceRevision={workspaceRevision}
+          onHome={requestHome}
+          homeLabel={homeLabel}
+        />
+      ) : project.type === "fairygui" && designOpen ? (
         <FairyguiDesignWorkspace
           project={project}
           onContextChange={setDesignContext}

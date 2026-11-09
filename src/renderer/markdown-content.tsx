@@ -55,12 +55,12 @@ function linkifyComponentNames(text: string): string {
     .join("");
 }
 
-/** 放行 fgui:// 自定义协议（react-markdown 默认 urlTransform 会把非 http 协议清洗成空串） */
-function fguiUrlTransform(url: string): string {
-  return url.startsWith("fgui://") ? url : url;
+/** 放行自定义协议（react-markdown 默认 urlTransform 会把非 http 协议清洗成空串） */
+function actionUrlTransform(url: string): string {
+  return url;
 }
 
-export const MarkdownContent = memo(function MarkdownContent({ text, className = "", workspacePath, baseDir, onOpenWorkspaceFile, onComponentClick, renderImage }: {
+export const MarkdownContent = memo(function MarkdownContent({ text, className = "", workspacePath, baseDir, onOpenWorkspaceFile, onComponentClick, onConfirmAction, renderImage }: {
   text: string;
   className?: string;
   workspacePath?: string;
@@ -68,6 +68,8 @@ export const MarkdownContent = memo(function MarkdownContent({ text, className =
   onOpenWorkspaceFile?: (path: string) => void;
   /** 启用后，code span 中的 FGUI 组件名（如 `KW_BTN_ACTIVITY`）变为可点击，回调收到组件名 */
   onComponentClick?: (name: string) => void;
+  /** 启用后，requirement-check:// 确认链接变为可点击，回调收到确认动作 */
+  onConfirmAction?: (action: string) => void;
   renderImage?: (src: string | undefined, alt: string | undefined) => ReactNode;
 }) {
   // Stable component types keep loaded images mounted when only Markdown text changes.
@@ -79,6 +81,13 @@ export const MarkdownContent = memo(function MarkdownContent({ text, className =
         return <a className="fgui-component-link" href={href} title={`${t("fairyguiDesign.openComponent")}: ${componentName}`} onClick={(event) => {
           event.preventDefault();
           onComponentClick(componentName);
+        }}>{children}</a>;
+      }
+      if (onConfirmAction && href?.startsWith("requirement-check://confirm/")) {
+        const action = decodeURIComponent(href.slice("requirement-check://confirm/".length));
+        return <a className="requirement-confirm-link" href={href} title={t("requirementPanel.confirmLinkTitle")} onClick={(event) => {
+          event.preventDefault();
+          onConfirmAction(action);
         }}>{children}</a>;
       }
       const filePath = onOpenWorkspaceFile ? workspaceLinkPath(href, workspacePath, baseDir) : undefined;
@@ -93,12 +102,12 @@ export const MarkdownContent = memo(function MarkdownContent({ text, className =
       return <a href={href} target="_blank" rel="noreferrer">{children}</a>;
     },
     pre: MarkdownCodeBlock,
-  }), [workspacePath, baseDir, onOpenWorkspaceFile, onComponentClick, renderImage]);
+  }), [workspacePath, baseDir, onOpenWorkspaceFile, onComponentClick, onConfirmAction, renderImage]);
 
   const linkedText = useMemo(() => (onComponentClick ? linkifyComponentNames(text) : text), [text, onComponentClick]);
   return (
     <div className={`markdown-content${className ? ` ${className}` : ""}`}>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components} urlTransform={onComponentClick ? fguiUrlTransform : undefined}>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components} urlTransform={onComponentClick || onConfirmAction ? actionUrlTransform : undefined}>
         {linkedText}
       </ReactMarkdown>
     </div>

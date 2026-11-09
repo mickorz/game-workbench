@@ -53,6 +53,8 @@ interface AgentTimelineProps {
   workspacePath?: string;
   onOpenWorkspaceFile?: (path: string) => void;
   onComponentClick?: (name: string) => void;
+  /** 点击 agent 回复里的确认门链接（requirement-check://confirm/）时触发 */
+  onConfirmAction?: (action: string) => void;
   revisionDisabled?: boolean;
   onRevise?: (prompt: string) => Promise<boolean>;
   /** Puts the project back to before the message the checkpoint was taken for. */
@@ -67,7 +69,7 @@ interface AgentTimelineProps {
   waitingForInput?: boolean;
 }
 
-const WorkspaceLinkContext = createContext<{ workspacePath?: string; onOpenWorkspaceFile?: (path: string) => void; onComponentClick?: (name: string) => void }>({});
+const WorkspaceLinkContext = createContext<{ workspacePath?: string; onOpenWorkspaceFile?: (path: string) => void; onComponentClick?: (name: string) => void; onConfirmAction?: (action: string) => void }>({});
 // 任务清单卡的加 todo 入口：仅活动 turn 的清单卡消费。
 const TodoActionsContext = createContext<{ turnId: string; add: (title: string) => void } | undefined>(undefined);
 const completedDisplays = new WeakMap<ThreadTurn, TurnDisplay>();
@@ -79,7 +81,7 @@ function turnDisplay(turn: ThreadTurn): TurnDisplay {
   return display;
 }
 
-export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, projectId = "", workspacePath, onOpenWorkspaceFile, onComponentClick, revisionDisabled, onRevise, onRestore, changeControls, workspaceRevision, onAddToChat, onAddTodo, waitingForInput = false }: AgentTimelineProps) {
+export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, projectId = "", workspacePath, onOpenWorkspaceFile, onComponentClick, onConfirmAction, revisionDisabled, onRevise, onRestore, changeControls, workspaceRevision, onAddToChat, onAddTodo, waitingForInput = false }: AgentTimelineProps) {
   const [selectionRoot, setSelectionRoot] = useState<HTMLDivElement | null>(null);
   const [editingItemId, setEditingItemId] = useState<string>();
   const [draft, setDraft] = useState("");
@@ -88,7 +90,7 @@ export const AgentTimeline = memo(function AgentTimeline({ turns: sourceTurns, p
   const [submitting, setSubmitting] = useState(false);
   const turns = useMemo(() => mergeCompletedCompactionTurns(sourceTurns), [sourceTurns]);
   const displays = useMemo(() => turns.map(turnDisplay), [turns]);
-  const workspaceLinks = useMemo(() => ({ workspacePath, onOpenWorkspaceFile, onComponentClick }), [workspacePath, onOpenWorkspaceFile, onComponentClick]);
+  const workspaceLinks = useMemo(() => ({ workspacePath, onOpenWorkspaceFile, onComponentClick, onConfirmAction }), [workspacePath, onOpenWorkspaceFile, onComponentClick, onConfirmAction]);
   const activeIndex = turns.findIndex((turn) => turn.status === "inProgress");
   const todoActions = useMemo(() => onAddTodo && activeIndex >= 0 ? { turnId: turns[activeIndex].id, add: onAddTodo } : undefined, [onAddTodo, activeIndex, turns]);
   const latestSteeringIndex = turns.findLastIndex((turn) => turn.steering);

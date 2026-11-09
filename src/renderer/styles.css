@@ -17484,3 +17484,370 @@ button {
   font-size: 11px;
   line-height: 1.5;
 }
+
+/* 需求检查专属工作区：产物面板（阶段条 + 三段全量文档视图） */
+.requirement-panel {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.requirement-panel-header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.requirement-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.requirement-panel-stages {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.requirement-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.requirement-stage-state {
+  font-style: normal;
+  font-size: 9px;
+  color: var(--text-faint);
+}
+
+.requirement-stage-done {
+  border-color: color-mix(in srgb, var(--success, var(--accent)) 40%, var(--border));
+  color: var(--success, var(--text-muted));
+}
+
+.requirement-stage-working {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  color: var(--accent);
+}
+
+.requirement-panel-error {
+  margin: 16px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--danger, var(--border)) 50%, var(--border));
+  border-radius: 8px;
+  color: var(--danger, var(--text-muted));
+  font-size: 11px;
+}
+
+.requirement-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 16px;
+}
+
+.requirement-doc {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: var(--panel, var(--bg));
+}
+
+.requirement-doc-title {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.requirement-doc-idle {
+  border-style: dashed;
+}
+
+.requirement-doc-empty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-faint);
+  font-size: 11px;
+  padding: 10px 2px;
+}
+
+.requirement-doc-summary {
+  margin: 4px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.requirement-doc-section {
+  margin-top: 8px;
+}
+
+.requirement-doc-text {
+  margin: 3px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.requirement-panel .requirement-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.requirement-panel .requirement-card-title {
+  font-size: 12px;
+}
+
+.requirement-panel .requirement-card-section-label {
+  font-size: 10px;
+}
+
+.requirement-open-label {
+  color: var(--warn, var(--text-muted)) !important;
+}
+
+.requirement-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.requirement-chip {
+  padding: 1px 7px;
+  border-radius: 6px;
+  font-size: 10px;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border: 1px solid var(--border);
+}
+
+.requirement-chip-ok {
+  background: color-mix(in srgb, var(--success, var(--accent)) 10%, transparent);
+}
+
+.requirement-fr-list {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.requirement-panel .requirement-fr {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.requirement-fr-id,
+.requirement-plan-id {
+  flex: none;
+  font-family: var(--mono, monospace);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-faint);
+}
+
+.requirement-panel .requirement-fr-id {
+  color: var(--accent);
+}
+
+.requirement-fr-title {
+  min-width: 0;
+  flex: 1;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.requirement-panel .requirement-criteria {
+  margin: 2px 0 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.requirement-panel .requirement-criteria li {
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.requirement-card-meta {
+  flex: none;
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.requirement-plan-goal {
+  margin-top: 8px;
+}
+
+.requirement-plan-goal-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.requirement-plan-leaves {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.requirement-plan-leaf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 2px 0 2px 18px;
+}
+
+.requirement-plan-leaf-title {
+  min-width: 0;
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.requirement-unknown {
+  color: var(--text-faint);
+}
+
+.requirement-stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.requirement-stats-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--danger, var(--border)) 18%, var(--border));
+  overflow: hidden;
+}
+
+.requirement-stats-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--success, var(--accent));
+  transition: width 0.3s ease;
+}
+
+.requirement-stats-nums {
+  flex: none;
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.requirement-stats-num {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.requirement-stats-pass {
+  color: var(--success, var(--text-muted));
+}
+
+.requirement-stats-denom {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.requirement-stats-pct {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.requirement-coverage-list,
+.requirement-findings-list {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.requirement-coverage-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.requirement-coverage-evidence {
+  flex: none;
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.requirement-finding {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.requirement-finding-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* 需求检查确认门：requirement-check://confirm/ 链接按钮化 */
+.requirement-confirm-link {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--success, var(--accent)) 45%, var(--border));
+  background: color-mix(in srgb, var(--success, var(--accent)) 10%, transparent);
+  color: var(--success, var(--accent));
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.requirement-confirm-link:hover {
+  background: color-mix(in srgb, var(--success, var(--accent)) 18%, transparent);
+}

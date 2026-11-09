@@ -54,6 +54,7 @@ const REQUIREMENT_CHECK_INSTRUCTIONS = [
   "Before set_check_plan, self-check: strictly two levels (goals then subgoals, subgoals are leaves with no further nesting); one leaf per checkable acceptance point from the spec; every acceptance criterion is covered by a leaf; titles are traceable, not vague like 'related changes'.",
   "Before set_check_result, self-check: every plan leaf has exactly one coverage entry with passed, non-empty evidence, and at least 1 referenced case that actually passed; report failures honestly as findings with severity instead of marking failed leaves as passed; state in assessment whether the requirement passes the check.",
   "Confirmation gate: after set_check_result saves, ask the user to confirm with the questionnaire tool (confirm the check result / request changes). On request changes, follow the user's notes: revise the spec, plan, or result and resubmit through the same tools, then ask for confirmation again. Do not consider the work finished before the user confirms.",
+  "When you ask for confirmation, always end your message with exactly these two markdown links on their own line (the app turns them into clickable buttons): [\u786e\u8ba4\u901a\u8fc7](requirement-check://confirm/accept) [\u9700\u8981\u4fee\u6539](requirement-check://confirm/revise)",
   "End the turn only after the artifacts are saved. A saved artifact is the deliverable: summarize what was clarified, the leaf count, and what did not pass; do not repeat the full JSON back to the user.",
 ] as const;
 
