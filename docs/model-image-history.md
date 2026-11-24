@@ -1,6 +1,6 @@
 # Model image history
 
-XC-UI-Flow retains images in the Pi conversation transcript. Model requests use a
+Game Workbench retains images in the Pi conversation transcript. Model requests use a
 separate projection; neither the transcript nor the conversation UI is rewritten.
 The stored session can therefore remain large. This feature bounds transmission;
 it does not migrate historical image bytes out of the session file.

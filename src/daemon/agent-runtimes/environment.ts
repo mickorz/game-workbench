@@ -87,7 +87,7 @@ export function agentEnvironment(
     result[pathKey] ?? "",
     ...commonBinaryDirectories(),
   ]);
-  // The person may have connected this CLI to XC-UI-Flow; inside XC-UI-Flow it already has XC-UI-Flow's tools.
+  // The person may have connected this CLI to Game Workbench; inside Game Workbench it already has Game Workbench's tools.
   return { ...result, [EXTERNAL_MCP_DISABLED_ENV]: "1", ...extra };
 }
 

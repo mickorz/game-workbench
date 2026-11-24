@@ -36,7 +36,7 @@ export function OnboardingDemo() {
           y="32"
           dominantBaseline="central"
         >
-          XC-UI-Flow
+          Game Workbench
         </text>
       </svg>
     </div>

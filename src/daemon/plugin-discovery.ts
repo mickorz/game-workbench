@@ -263,7 +263,7 @@ function rebasePaths(repositoryRoot: string, pluginRoot: string, value: Resolved
 
 async function readXcFlowManifest(manifestPath: string): Promise<PluginManifest> {
   const value = await readJson(manifestPath);
-  if (!isPluginManifest(value)) throw new LocalPluginError("XC-UI-Flow Plugin manifest is invalid");
+  if (!isPluginManifest(value)) throw new LocalPluginError("Game Workbench Plugin manifest is invalid");
   return value;
 }
 

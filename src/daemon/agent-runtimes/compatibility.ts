@@ -76,7 +76,7 @@ export function checkRuntimeVersionRequirement(
   // https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md#2183
   if (!version)
     throw new AgentRuntimeProbeError(
-      "Claude Code did not report its version. XC-UI-Flow could not verify sandbox.failIfUnavailable, required for Standard permissions on this platform. Check the CLI and retry.",
+      "Claude Code did not report its version. Game Workbench could not verify sandbox.failIfUnavailable, required for Standard permissions on this platform. Check the CLI and retry.",
     );
   if (!versionAtLeast(version, "2.1.83"))
     throw new AgentRuntimeCompatibilityError(

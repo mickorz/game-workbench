@@ -67,7 +67,7 @@ export async function startOAuthCallbackServer(onCallback: (url: string) => void
     }
     completed = true;
     response.writeHead(200, { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
-    response.end("<!doctype html><meta charset=\"utf-8\"><title>XC-UI-Flow</title><p>Sign-in complete. You can close this window and return to XC-UI-Flow.</p>");
+    response.end("<!doctype html><meta charset=\"utf-8\"><title>Game Workbench</title><p>Sign-in complete. You can close this window and return to Game Workbench.</p>");
     onCallback(callback);
   });
   await new Promise<void>((resolve, reject) => {

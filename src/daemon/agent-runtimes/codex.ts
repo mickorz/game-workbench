@@ -54,7 +54,7 @@ interface CodexTurn {
 
 /**
  * Codex through its app server: one thread per conversation, one turn per
- * message. XC-UI-Flow's tools are the thread's dynamic tools, answered over the
+ * message. Game Workbench's tools are the thread's dynamic tools, answered over the
  * same pipe; commands run in Codex's own workspace sandbox, and what it asks
  * to do beyond it comes back as an approval request.
  */
@@ -287,7 +287,7 @@ export class CodexDriver implements NativeDriver {
     return id;
   }
 
-  /** Permission overrides and prevention of a recursive XC-UI-Flow MCP connection. */
+  /** Permission overrides and prevention of a recursive Game Workbench MCP connection. */
   async #config(server: CodexAppServer): Promise<Record<string, unknown>> {
     // An explicit root deny prevents even scoped grants. Unlisted paths are
     // restricted by default; only protected roots get an explicit deny.
@@ -296,7 +296,7 @@ export class CodexDriver implements NativeDriver {
     await mkdir(temporary, { recursive: true, mode: 0o700 });
     filesystem[canonicalPath(temporary)] = "write";
     const workspace = canonicalPath(this.context.workspacePath);
-    // The person's toolchains run, as for XC-UI-Flow's own agent; protected roots below stay denied.
+    // The person's toolchains run, as for Game Workbench's own agent; protected roots below stay denied.
     for (const root of toolchainRoots(this.context.env.PATH ?? ""))
       filesystem[canonicalPath(root)] ??= "read";
     // Private staged Skills remain readable; the rest of app data stays denied.
@@ -367,7 +367,7 @@ export class CodexDriver implements NativeDriver {
     } catch {
       return config;
     }
-    // Avoid recursively reconnecting to XC-UI-Flow through the person's own MCP config.
+    // Avoid recursively reconnecting to Game Workbench through the person's own MCP config.
     if (servers[EXTERNAL_MCP_SERVER_NAME])
       config[`mcp_servers.${EXTERNAL_MCP_SERVER_NAME}.enabled`] = false;
     return config;

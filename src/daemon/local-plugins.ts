@@ -178,7 +178,7 @@ export class LocalPluginStore {
     if (!path.isAbsolute(sourcePath)) throw new LocalPluginError("Plugin directory must be an absolute path");
     const source = path.resolve(sourcePath);
     if (pathsOverlap(source, this.#pluginsDirectory)) {
-      throw new LocalPluginError("Plugin source must be outside XC-UI-Flow's managed plugin directory");
+      throw new LocalPluginError("Plugin source must be outside Game Workbench's managed plugin directory");
     }
     if (!replacementId && provenance.type === "directory" && path.resolve(provenance.path) !== source) {
       throw new LocalPluginError("Plugin directory provenance does not match its source");
@@ -417,7 +417,7 @@ export async function readPluginManifest(pluginRoot: string): Promise<PluginMani
       if ((cause as NodeJS.ErrnoException).code !== "ENOENT") throw new LocalPluginError(`Could not read plugin manifest: ${errorMessage(cause)}`);
     }
   }
-  if (!manifestPath) throw new LocalPluginError(`XC-UI-Flow Plugin manifest not found at ${PLUGIN_MANIFEST_PATHS.join(" or ")}`);
+  if (!manifestPath) throw new LocalPluginError(`Game Workbench Plugin manifest not found at ${PLUGIN_MANIFEST_PATHS.join(" or ")}`);
   if (!isPluginManifest(value)) throw new LocalPluginError("Plugin manifest is invalid");
   return value;
 }

@@ -7,7 +7,7 @@ import {
   withoutXcFlowManagedPiPackages,
 } from "../src/daemon/pi-agent.js";
 
-describe("XC-UI-Flow Pi environment", () => {
+describe("Game Workbench Pi environment", () => {
   it("removes only the legacy app-managed MCP adapter package", () => {
     const configured = [
       "npm:pi-web-access",

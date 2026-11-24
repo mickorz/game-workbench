@@ -21,7 +21,7 @@ function plugin(
     source: { type: personal ? "directory" : "builtIn" },
     marketplace: {
       id: personal ? "personal" : "ohmygame",
-      displayName: personal ? "Personal" : "XC-UI-Flow",
+      displayName: personal ? "Personal" : "Game Workbench",
     },
     icon: { type: "preset", id: "package" },
   };

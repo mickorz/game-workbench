@@ -221,7 +221,7 @@ async function fixture() {
   };
 }
 
-it("answers the handshake and tool list itself, without starting XC-UI-Flow", async () => {
+it("answers the handshake and tool list itself, without starting Game Workbench", async () => {
   const { service, requests, create, ask, starts } = await fixture();
   // A daemon that was enabled once leaves its tool list behind.
   await service.listening("http://127.0.0.1:1/external-mcp");
@@ -253,13 +253,13 @@ it("explains how to turn the feature on instead of starting the app", async () =
   expect(await call(launcher, "canvas_check")).toEqual({
     isError: true,
     text: expect.stringContaining(
-      "Settings → MCP Server → Allow other agents to use XC-UI-Flow",
+      "Settings → MCP Server → Allow other agents to use Game Workbench",
     ),
   });
   expect(starts()).toBe(0);
 });
 
-it("starts XC-UI-Flow on the first tool call and binds the folder the client works in", async () => {
+it("starts Game Workbench on the first tool call and binds the folder the client works in", async () => {
   const { service, game, requests, create, ask, call } = await fixture();
   await service.setEnabled(true);
   let started = 0;
@@ -329,7 +329,7 @@ it("looks for the daemon again after a dropped connection, then explains", async
   failNext(2);
   expect(await call(launcher, "canvas_check")).toEqual({
     isError: true,
-    text: "Could not reach XC-UI-Flow (fetch failed). Open the XC-UI-Flow app and try again.",
+    text: "Could not reach Game Workbench (fetch failed). Open the Game Workbench app and try again.",
   });
 });
 
@@ -405,13 +405,13 @@ it("writes a launcher script that keeps arguments with spaces and quotes intact"
   expect(
     await installExternalMcpLauncher({
       binDirectory: "unused",
-      executable: "C:\\XC-UI-Flow\\XC-UI-Flow.exe",
+      executable: "C:\\Game Workbench\\Game Workbench.exe",
       entry: "main.js",
       dataDirectory: "C:\\data",
       platform: "win32",
     }),
   ).toEqual({
-    command: "C:\\XC-UI-Flow\\XC-UI-Flow.exe",
+    command: "C:\\Game Workbench\\Game Workbench.exe",
     args: ["main.js", "--data-dir", "C:\\data"],
     env: { ELECTRON_RUN_AS_NODE: "1" },
   });
@@ -540,7 +540,7 @@ it("blocks project tools when the explicit project is gone and permits selecting
   await service.setEnabled(true);
   expect(await call(launcher, "generate_image")).toMatchObject({
     isError: true,
-    text: expect.stringContaining("No XC-UI-Flow project"),
+    text: expect.stringContaining("No Game Workbench project"),
   });
   expect(await call(launcher, "canvas_initialize")).toMatchObject({
     isError: true,

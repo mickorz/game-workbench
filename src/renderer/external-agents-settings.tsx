@@ -25,7 +25,7 @@ const CLIENTS: Record<
 };
 
 /**
- * Settings → MCP Server: lets coding agents outside XC-UI-Flow use its tools
+ * Settings → MCP Server: lets coding agents outside Game Workbench use its tools
  * through the `ohmygame-studio` MCP server. The switch publishes the server,
  * and each detected CLI is connected with its own `mcp add` command.
  */
@@ -187,7 +187,7 @@ export function ExternalAgentsSettings() {
   );
 }
 
-/** For DeepSeek Harness and other clients XC-UI-Flow cannot configure itself. */
+/** For DeepSeek Harness and other clients Game Workbench cannot configure itself. */
 function ManualSetup({ launcher }: { launcher: ExternalMcpLauncher }) {
   const environment = Object.entries(launcher.env).map(
     ([name, value]) => `${name}=${value}`,

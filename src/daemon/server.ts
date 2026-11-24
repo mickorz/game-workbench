@@ -55,7 +55,7 @@ try {
   try {
     await ensureXcFlowPiEnvironment(piAgentDirectory);
   } catch (error) {
-    console.warn("Could not initialize the XC-UI-Flow Pi environment; continuing without managed MCP configuration.", error);
+    console.warn("Could not initialize the Game Workbench Pi environment; continuing without managed MCP configuration.", error);
   }
   app = createApp({
     dataDirectory,

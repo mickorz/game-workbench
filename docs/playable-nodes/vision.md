@@ -135,7 +135,7 @@ Freedom must not mean "write code".
 
 ## Web stories: the Runtime moves into the project
 
-The first version kept the Runtime inside XC-UI-Flow and ran nodes in a
+The first version kept the Runtime inside Game Workbench and ran nodes in a
 sandbox with no storage and no network. Every need that crossed a node or
 outlived a session, such as music that carries on, save slots, settings, or
 lines read, became a Runtime change and a release, which the Agent could not

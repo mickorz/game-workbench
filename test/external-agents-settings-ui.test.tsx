@@ -42,7 +42,7 @@ beforeEach(() => {
     enabled: false,
     launcher: {
       command:
-        "/Users/me/Library/Application Support/XC-UI-Flow/bin/ohmygame-mcp",
+        "/Users/me/Library/Application Support/Game Workbench/bin/ohmygame-mcp",
       args: [],
       env: {},
     },
@@ -58,14 +58,14 @@ afterEach(async () => {
   vi.unstubAllGlobals();
 });
 
-it("lets other agents use XC-UI-Flow and connects a CLI found on this computer", async () => {
+it("lets other agents use Game Workbench and connects a CLI found on this computer", async () => {
   await act(async () => root.render(<ExternalAgentsSettings />));
   expect(host.querySelector("h3")?.textContent).toBe("MCP Server");
   expect(host.querySelector(".external-agents-clients")).toBeNull();
   await act(async () =>
     host
       .querySelector<HTMLInputElement>(
-        'input[aria-label="Allow other agents to use XC-UI-Flow"]',
+        'input[aria-label="Allow other agents to use Game Workbench"]',
       )!
       .click(),
   );
@@ -93,7 +93,7 @@ it("lets other agents use XC-UI-Flow and connects a CLI found on this computer",
   ).toContain("Connected");
   expect(
     clients().querySelector(".external-agents-manual code")?.textContent,
-  ).toBe('"/Users/me/Library/Application Support/XC-UI-Flow/bin/ohmygame-mcp"');
+  ).toBe('"/Users/me/Library/Application Support/Game Workbench/bin/ohmygame-mcp"');
 });
 
 it("explains that connecting needs the desktop app", async () => {
@@ -101,7 +101,7 @@ it("explains that connecting needs the desktop app", async () => {
   delete external.launcher;
   await act(async () => root.render(<ExternalAgentsSettings />));
   expect(host.textContent).toContain(
-    "Connect agents from the XC-UI-Flow desktop app.",
+    "Connect agents from the Game Workbench desktop app.",
   );
   expect(host.querySelector(".external-agents-clients")).toBeNull();
 });

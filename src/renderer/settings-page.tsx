@@ -274,7 +274,7 @@ function AboutSettings({ onOpenNetwork, onOpenOnboarding }: { onOpenNetwork: () 
   const copyDetails = async () => {
     if (status?.type !== "error") return;
     await navigator.clipboard.writeText([
-      `XC-UI-Flow ${update?.currentVersion ?? __APP_VERSION__}`,
+      `Game Workbench ${update?.currentVersion ?? __APP_VERSION__}`,
       `Update ${status.phase}/${status.code}`,
       status.detail,
     ].join("\n"));
@@ -290,7 +290,7 @@ function AboutSettings({ onOpenNetwork, onOpenOnboarding }: { onOpenNetwork: () 
             <img className="settings-about-logo" src={brandMark} alt="" />
             <div className="settings-about-copy">
               <div className="settings-about-product">
-                <strong>XC-UI-Flow</strong>
+                <strong>Game Workbench</strong>
                 <span>v{update?.currentVersion ?? __APP_VERSION__}</span>
               </div>
               {updates && message ? <p className="settings-about-status" role="status">{message}</p> : null}
@@ -325,9 +325,9 @@ function AboutSettings({ onOpenNetwork, onOpenOnboarding }: { onOpenNetwork: () 
           </div>
         ) : null}
         <nav className="settings-about-links" aria-label={t("settings.about.projectLinks")}>
-          <a href="https://github.com/WhiteTowerAI/ohmygame" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="https://ohmygame.ai" target="_blank" rel="noreferrer">{t("settings.about.website")}</a>
-          <a href="https://github.com/WhiteTowerAI/ohmygame/issues" target="_blank" rel="noreferrer">{t("settings.about.reportIssue")}</a>
+          <a href="https://github.com/mickorz/game-workbench" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://github.com/mickorz/game-workbench" target="_blank" rel="noreferrer">{t("settings.about.website")}</a>
+          <a href="https://github.com/mickorz/game-workbench/issues" target="_blank" rel="noreferrer">{t("settings.about.reportIssue")}</a>
         </nav>
         {onOpenOnboarding ? <div><button className="settings-secondary-button" type="button" onClick={onOpenOnboarding}>{t("onboarding.reopen")}</button></div> : null}
       </section>

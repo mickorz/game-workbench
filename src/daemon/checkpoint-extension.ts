@@ -141,7 +141,7 @@ export function turnRange(
 }
 
 /**
- * Every snapshot that an XC-UI-Flow entry in these session files names, on
+ * Every snapshot that an Game Workbench entry in these session files names, on
  * every branch: a branch the conversation no longer shows is still in the
  * file. The files are read as text, so that none is rewritten in a newer
  * format, and every id anywhere in an entry's data counts, also in a format
@@ -166,7 +166,7 @@ export async function referencedSnapshots(
   }
   for (const file of files) {
     const read = (line: string) => {
-      // Only an entry of XC-UI-Flow's names snapshots. Lines of messages, which can hold whole images, are not parsed.
+      // Only an entry of Game Workbench's names snapshots. Lines of messages, which can hold whole images, are not parsed.
       if (!line.includes('"ohmygame-')) return;
       let entry: { type?: unknown; customType?: unknown; data?: unknown };
       try {

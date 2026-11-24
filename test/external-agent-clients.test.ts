@@ -22,7 +22,7 @@ afterEach(async () => {
 });
 
 const LAUNCHER: ExternalMcpLauncher = {
-  command: "/Users/me/XC-UI-Flow/bin/ohmygame-mcp",
+  command: "/Users/me/Game Workbench/bin/ohmygame-mcp",
   args: [],
   env: {},
 };
@@ -77,7 +77,7 @@ async function fixture(
   return { root, home, skill, calls, clients, create };
 }
 
-it("adds XC-UI-Flow with each CLI's own command and installs the Skill where it reads Skills", async () => {
+it("adds Game Workbench with each CLI's own command and installs the Skill where it reads Skills", async () => {
   const { home, calls, clients } = await fixture();
   await clients.connect("claude-code");
   await clients.connect("codex");
@@ -124,7 +124,7 @@ it("adds XC-UI-Flow with each CLI's own command and installs the Skill where it 
 
 it("passes the launcher's environment, as Windows needs", async () => {
   const launcher = {
-    command: "C:\\XC-UI-Flow\\XC-UI-Flow.exe",
+    command: "C:\\Game Workbench\\Game Workbench.exe",
     args: ["main.js", "--data-dir", "C:\\data"],
     env: { ELECTRON_RUN_AS_NODE: "1" },
   };
@@ -168,7 +168,7 @@ it("reports a CLI that is missing or refuses, and needs the desktop app's launch
 
   const refusing = await fixture({ fail: "add" });
   await expect(refusing.clients.connect("claude-code")).rejects.toThrow(
-    "Claude Code could not add XC-UI-Flow: permission denied",
+    "Claude Code could not add Game Workbench: permission denied",
   );
   expect((await refusing.clients.states())[0]!.connected).toBe(false);
 
@@ -179,7 +179,7 @@ it("reports a CLI that is missing or refuses, and needs the desktop app's launch
     run: async () => ({ stdout: "", stderr: "", code: 0 }),
   });
   await expect(browser.connect("claude-code")).rejects.toThrow(
-    "needs the XC-UI-Flow desktop app",
+    "needs the Game Workbench desktop app",
   );
 });
 
@@ -237,14 +237,14 @@ it("updates the Skill and reconnects with a moved launcher at startup", async ()
   ).toContain("v2");
 
   const moved = create({
-    command: "/Applications/XC-UI-Flow.app/bin/ohmygame-mcp",
+    command: "/Applications/Game Workbench.app/bin/ohmygame-mcp",
     args: [],
     env: {},
   });
   await moved.load();
   await moved.refresh();
   expect(calls.at(-1)!.args).toContain(
-    "/Applications/XC-UI-Flow.app/bin/ohmygame-mcp",
+    "/Applications/Game Workbench.app/bin/ohmygame-mcp",
   );
 });
 

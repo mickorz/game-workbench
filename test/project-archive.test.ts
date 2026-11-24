@@ -635,7 +635,7 @@ describe("project archive import", () => {
     [
       "no manifest",
       { "index.html": "game" },
-      "not an XC-UI-Flow project archive",
+      "not an Game Workbench project archive",
     ],
     [
       "another format",
@@ -645,7 +645,7 @@ describe("project archive import", () => {
           version: 1,
         }),
       },
-      "not an XC-UI-Flow project archive",
+      "not an Game Workbench project archive",
     ],
     [
       "a newer format version",
@@ -656,7 +656,7 @@ describe("project archive import", () => {
           project: {},
         }),
       },
-      "newer version of XC-UI-Flow",
+      "newer version of Game Workbench",
     ],
     [
       "an unknown project type",

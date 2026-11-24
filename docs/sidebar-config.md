@@ -21,7 +21,7 @@ The component `app-sidebar.tsx` only renders — it hardcodes nothing. Change th
 
 ```ts
 export const SIDEBAR_BRAND = {
-  name: "xc-ui-flow",          // brand name: sidebar text + mark alt
+  name: "game-workbench",          // brand name: sidebar text + mark alt
   mark: brandMark as string,   // mark URL: asset path or data URI
 } as const;
 ```

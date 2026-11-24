@@ -49,7 +49,7 @@ import { normalizeAssistantMessage, normalizeAssistantText, AssistantTextStreamN
 export interface CodingSession {
   readonly messages: readonly unknown[];
   readonly model?: RuntimeModel;
-  /** The coding agent CLI that runs this session; absent for XC-UI-Flow's own agent. */
+  /** The coding agent CLI that runs this session; absent for Game Workbench's own agent. */
   readonly runtime?: AgentRuntimeId;
   /** Whether prompt() emits message_start for its initial user message. */
   readonly emitsInitialUserMessage?: boolean;
@@ -623,7 +623,7 @@ export class AgentManager {
         this.#forgetConversation(key);
   }
 
-  /** The coding agent running a conversation's loaded session, if any; undefined for XC-UI-Flow's own agent. */
+  /** The coding agent running a conversation's loaded session, if any; undefined for Game Workbench's own agent. */
   sessionRuntime(projectId: string, conversationId: string): AgentRuntimeId | undefined {
     return this.#sessions.get(conversationKey(projectId, conversationId))?.session.runtime;
   }
@@ -631,7 +631,7 @@ export class AgentManager {
   /**
    * Lets go of a conversation's session so the next message starts one for
    * the model `persist` stores, as when a conversation moves between
-   * XC-UI-Flow's own agent and a coding agent, or between coding agents.
+   * Game Workbench's own agent and a coding agent, or between coding agents.
    */
   async replaceSession(projectId: string, conversationId: string, persist: () => void): Promise<void> {
     const key = conversationKey(projectId, conversationId);
@@ -3207,7 +3207,7 @@ async function createPiResourceLoader(
  * Pi also loads AGENTS.md and CLAUDE.md from every ancestor of the workspace.
  * Those describe whatever repository or folder happens to contain the game
  * (in development, this repository), so only the workspace's own files and
- * XC-UI-Flow's agent directory count.
+ * Game Workbench's agent directory count.
  */
 export function projectContextFiles<File extends { path: string }>(files: readonly File[], workspacePath: string, agentDir: string): File[] {
   const roots = [path.resolve(workspacePath), path.resolve(agentDir)];

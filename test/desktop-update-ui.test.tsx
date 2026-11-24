@@ -89,9 +89,9 @@ it("shows bundled notes in browser settings without an update bridge", async () 
   expect(container.textContent).not.toContain("Not checked yet");
   const links = container.querySelectorAll<HTMLAnchorElement>('[aria-label="Project links"] a');
   expect([...links].map((link) => link.href)).toEqual([
-    "https://github.com/WhiteTowerAI/ohmygame",
-    "https://ohmygame.ai/",
-    "https://github.com/WhiteTowerAI/ohmygame/issues",
+    "https://github.com/mickorz/game-workbench",
+    "https://github.com/mickorz/game-workbench",
+    "https://github.com/mickorz/game-workbench/issues",
   ]);
   expect([...links].every((link) => link.target === "_blank" && link.rel.includes("noreferrer"))).toBe(true);
 });

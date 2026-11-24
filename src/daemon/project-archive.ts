@@ -42,7 +42,7 @@ const GRAPH_FILE = "graph.json";
 
 // Dependencies and version control are left out wherever they are, as are
 // environment files, which usually hold secrets. Build output, caches and
-// XC-UI-Flow's agent data are left out at the workspace root only, like in
+// Game Workbench's agent data are left out at the workspace root only, like in
 // checkpoints. The rest of `.data/` is kept: asset metadata and previews must
 // travel with the assets they describe.
 const EXCLUDED_ANYWHERE = new Set(["node_modules", ".git"]);
@@ -433,7 +433,7 @@ async function legacyStoryManifest(
     if (!(await stat(path.join(root, GRAPH_FILE))).isFile()) throw new Error();
   } catch {
     throw new ProjectArchiveError(
-      "The file is not an XC-UI-Flow project archive.",
+      "The file is not an Game Workbench project archive.",
     );
   }
   return {
@@ -465,7 +465,7 @@ async function readManifest(
   }
   if (!isRecord(value) || value.format !== PROJECT_ARCHIVE_FORMAT) {
     throw new ProjectArchiveError(
-      "The file is not an XC-UI-Flow project archive.",
+      "The file is not an Game Workbench project archive.",
     );
   }
   if (
@@ -473,7 +473,7 @@ async function readManifest(
     value.version > PROJECT_ARCHIVE_VERSION
   ) {
     throw new ProjectArchiveError(
-      "This project was exported by a newer version of XC-UI-Flow. Update XC-UI-Flow to import it.",
+      "This project was exported by a newer version of Game Workbench. Update Game Workbench to import it.",
     );
   }
   if (value.version !== PROJECT_ARCHIVE_VERSION || !isRecord(value.project)) {

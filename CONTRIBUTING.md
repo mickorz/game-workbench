@@ -1,6 +1,6 @@
-# Contributing to XC-UI-Flow
+# Contributing to Game Workbench
 
-XC-UI-Flow is in beta. Bug reports, documentation improvements, small fixes,
+Game Workbench is in beta. Bug reports, documentation improvements, small fixes,
 plugins, and feedback from making real games are welcome.
 
 This guide covers the path from choosing work to getting a PR reviewed.
@@ -75,7 +75,7 @@ is missing. Click **Sign in** to use it. Local publishing builds the game and
 serves a temporary snapshot in Community while the daemon runs.
 
 New installations show three steps: welcome, AI connection, and optional creative
-tools. XC-UI-Flow (Pi) is enabled by default and needs a model provider; an installed
+tools. Game Workbench (Pi) is enabled by default and needs a model provider; an installed
 coding agent CLI can also supply the conversation model. Choose the default model
 on the connection screen and click **Next**. The final screen connects image,
 video, 3D, and audio providers; **Start creating** enters without requiring media setup.

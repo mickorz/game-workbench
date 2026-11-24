@@ -4,7 +4,7 @@ import type { DesktopUpdateState } from "../shared/desktop-update.js";
 import { MarkdownContent } from "./markdown-content.js";
 import { t } from "./i18n.js";
 
-const RELEASES_URL = "https://github.com/WhiteTowerAI/ohmygame/releases";
+const RELEASES_URL = "https://github.com/mickorz/game-workbench/releases";
 
 export function ChangelogPanel({
   currentVersion,

@@ -637,7 +637,7 @@ describe("Claude Code adapter", () => {
     }
     expect(clis).toEqual([]);
   });
-  it("streams a turn, answers XC-UI-Flow's tools over its pipe and asks before risky commands", async () => {
+  it("streams a turn, answers Game Workbench's tools over its pipe and asks before risky commands", async () => {
     const pending = new Map<
       string,
       (response: Record<string, unknown>) => void
@@ -731,7 +731,7 @@ describe("Claude Code adapter", () => {
           ],
         },
       });
-      // XC-UI-Flow's own tool needs no permission and runs in the daemon.
+      // Game Workbench's own tool needs no permission and runs in the daemon.
       expect(
         await ask(cli, {
           subtype: "can_use_tool",
@@ -938,7 +938,7 @@ describe("Claude Code adapter", () => {
       ]),
     );
     expect(clis[0]!.args).not.toContain("--strict-mcp-config");
-    // The person's own configuration may connect Claude Code to XC-UI-Flow from outside.
+    // The person's own configuration may connect Claude Code to Game Workbench from outside.
     expect(clis[0]!.args).toEqual(
       expect.arrayContaining(["--disallowedTools", "mcp__ohmygame-studio"]),
     );
@@ -1078,7 +1078,7 @@ describe("Codex adapter", () => {
     expect(methods).not.toContain("turn/start");
   });
 
-  it("registers every XC-UI-Flow tool when a thread starts in planning, so later turns can use them", async () => {
+  it("registers every Game Workbench tool when a thread starts in planning, so later turns can use them", async () => {
     const threads: Array<Record<string, unknown>> = [];
     fakeCli((message, cli) => {
       if (typeof message.method !== "string" || message.id === undefined)
@@ -1172,7 +1172,7 @@ describe("Codex adapter", () => {
     expect(profiles.at(-1)).toMatch(/^ohmygame-.*-read$/);
   });
 
-  it("leaves out an external XC-UI-Flow connection from the person's own configuration", async () => {
+  it("leaves out an external Game Workbench connection from the person's own configuration", async () => {
     let config: Record<string, unknown> = {};
     fakeCli((message, cli) => {
       if (typeof message.method !== "string" || message.id === undefined)
@@ -1763,7 +1763,7 @@ describe("Codex adapter", () => {
       },
       permissions: expect.stringMatching(/^ohmygame-/),
       developerInstructions: "Project instructions",
-      // Only the workspace's own AGENTS.md counts, as for XC-UI-Flow's own agent.
+      // Only the workspace's own AGENTS.md counts, as for Game Workbench's own agent.
       config: {
         project_root_markers: [],
         // Commands keep the given PATH rather than a login shell's.

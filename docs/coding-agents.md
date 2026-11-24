@@ -3,7 +3,7 @@
 A conversation can run on a coding agent CLI that is already installed on the
 computer: Claude Code, Codex, or OpenCode 2.1.0 or newer in the 2.x series.
 OpenCode v1 is no longer supported. The CLI runs the agent loop with its
-own sign-in and model. XC-UI-Flow keeps the conversation, checkpoints and Undo,
+own sign-in and model. Game Workbench keeps the conversation, checkpoints and Undo,
 its canvas, media, game and plugin tools, and the approval decisions.
 
 The [integration specification](agent-runtimes.md) records the architecture,
@@ -14,11 +14,11 @@ accepted tradeoffs, and validation limits.
 First-run setup also offers Claude Code, Codex, and OpenCode in one
 horizontally scrolling row. Select an agent after installation and sign-in, choose its model
 on the same connection screen, then save with **Next** and continue to optional
-creative tools. Switching agents retains each selection until it is saved. XC-UI-Flow
+creative tools. Switching agents retains each selection until it is saved. Game Workbench
 (Pi) is always enabled and uses connected model providers. Discovery alone never
 enables a CLI.
 
-**Settings → Agents** lists who can work in a conversation. XC-UI-Flow's own
+**Settings → Agents** lists who can work in a conversation. Game Workbench's own
 agent comes first: it uses the models set up in Providers & Models, and its row
 links there. The coding agent CLIs follow, under **Coding agent CLIs on this
 computer**; **Rescan** checks for them again. Each row shows whether the CLI
@@ -42,9 +42,9 @@ path for a custom installation, or leave the path field empty and save to restor
 automatic discovery. An unavailable manual path is reported explicitly rather
 than silently switching installations. **Rescan** and **Check again** refresh the
 login shell's PATH and probe caches, so installing a CLI or changing shell setup
-does not normally require restarting XC-UI-Flow. Discovery, CLI startup, protocol
+does not normally require restarting Game Workbench. Discovery, CLI startup, protocol
 compatibility and sign-in are separate checks; finding a bundled CLI does not
-guarantee that its version supports XC-UI-Flow's integration.
+guarantee that its version supports Game Workbench's integration.
 
 ![Codex settings showing the desktop-bundled executable and automatic detection](assets/codex-cli-discovery.png)
 
@@ -123,7 +123,7 @@ The provider list and first-run setup return the last known sign-in status
 without waiting for the CLI. Enabled image providers refresh that status in the
 background; disabled ones do not start a check.
 
-Each generation starts its own ephemeral app-server thread, with no XC-UI-Flow
+Each generation starts its own ephemeral app-server thread, with no Game Workbench
 dynamic tools, external MCP servers, shell tools or subagents. The process is
 started on demand and stopped on completion, failure or cancellation. Multiple
 reference images are passed in order as inline image inputs, without staging
@@ -137,7 +137,7 @@ Validation includes simulated canvas-to-Library generation, image-toggle
 persistence, failure/cancellation fixtures, and a real image generation with
 Codex 0.163.0-alpha.10.2 on macOS while its conversation agent was disabled.
 
-## What XC-UI-Flow keeps
+## What Game Workbench keeps
 
 A coding agent session (`NativeCodingSession`) implements the same
 `CodingSession` interface as Pi, so `AgentManager` runs it unchanged: queues,
@@ -177,13 +177,13 @@ permission grants. No second conversation manager or event database is needed.
 
 ## How each agent is driven
 
-| Agent       | Transport                                                        | XC-UI-Flow tools                                          | Approvals                                            |
+| Agent       | Transport                                                        | Game Workbench tools                                          | Approvals                                            |
 | ----------- | ---------------------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------- |
 | Claude Code | `claude -p` with stream-json in and out; one process per session | In-process MCP server answered over the same pipe       | PreToolUse hook plus `can_use_tool` control requests |
 | Codex       | `codex app-server` JSON-RPC; one thread per conversation         | The thread's dynamic tools, answered over the same pipe | App server approval requests                         |
 | OpenCode    | `opencode serve` on loopback with its own password               | Remote MCP on the daemon with a turn token              | `permission.asked` events, answered on the server    |
 
-Each stdin stays open for the session. A CLI that no message has used for ten minutes is stopped; the next message starts a new process that resumes the same native session. Codex conversations with the same executable, environment and staged Skills share one app server, routed by thread; it stops with its last conversation. OpenCode keeps a server per conversation because its MCP servers, and so XC-UI-Flow's tools, are registered for the whole instance. Native queue prioritization means
+Each stdin stays open for the session. A CLI that no message has used for ten minutes is stopped; the next message starts a new process that resumes the same native session. Codex conversations with the same executable, environment and staged Skills share one app server, routed by thread; it stops with its last conversation. OpenCode keeps a server per conversation because its MCP servers, and so Game Workbench's tools, are registered for the whole instance. Native queue prioritization means
 **Next**: after the current turn, before ordinary follow-ups. Mid-turn native
 injection is excluded because concurrent file writes cannot provide an
 independent checkpoint before delivery. Processes run in their
@@ -200,13 +200,13 @@ verified orphans while preserving another live daemon's folders. Configuration
 and Skills are removed only after the CLI stops. Unverifiable identities and
 subprocesses that escape their group cannot be reclaimed this way.
 
-XC-UI-Flow's tools are the handlers Pi uses (`createAgentTools`), offered through
+Game Workbench's tools are the handlers Pi uses (`createAgentTools`), offered through
 `ToolBridge`. Plugin MCP servers reach the agent through the same `mcp` tool
 Pi uses, run in a model-less session in the daemon, so plugin settings,
 switches and credentials stay in the daemon. Codex registers bridged tools with
 an `ohmygame_` prefix to avoid reserved names such as `mcp`; dispatch and the
 conversation timeline retain the original tool names. Skills (plugin Skills and
-XC-UI-Flow's own) are copied into a private folder for the session and handed to
+Game Workbench's own) are copied into a private folder for the session and handed to
 the CLI: a session plugin for Claude Code, `skills/extraRoots/set` for Codex,
 the `skills` array for OpenCode v2. Staging copies regular files and omits symbolic
 links, so it cannot copy an external credential through a Skill's link. The
@@ -228,7 +228,7 @@ Each agent's detail page has a **Permissions** setting:
 
 - **Standard** (default): the rules below. Commands run in the CLI's OS
   sandbox where it has one.
-- **Full access**: no sandbox and no questions, as with XC-UI-Flow's own agent.
+- **Full access**: no sandbox and no questions, as with Game Workbench's own agent.
   Claude Code runs without its sandbox settings, Codex uses its own
   `:danger-full-access` profile, and OpenCode's requests are all allowed.
   Requests that name a protected root, such as a CLI sign-in folder, are
@@ -239,11 +239,11 @@ of the agent's idle open conversations. A running turn keeps its setting and
 is released when its run closes. The next run restarts the CLI with the new
 settings and resumes its session, including when settings change during startup.
 
-In the project folder an agent works without asking, as XC-UI-Flow's own agent
+In the project folder an agent works without asking, as Game Workbench's own agent
 does. `judgeApproval` decides each request first:
 
 - **Deny** anything that reaches a CLI sign-in folder (`~/.claude`,
-  `~/.codex`, OpenCode's folders), `~/.ssh` and similar, XC-UI-Flow's data folder,
+  `~/.codex`, OpenCode's folders), `~/.ssh` and similar, Game Workbench's data folder,
   or another project. Paths resolve symlinks, including missing descendants,
   and include custom CLI credential homes. A command reaches a folder when it names it or a folder
   that holds it, quoted or not.
@@ -268,17 +268,17 @@ the same way. Planning turns are read-only on every path: they accept file reads
 and the simple read commands the policy allows, and refuse everything else with
 feedback naming what is allowed, so the agent adjusts instead of stopping; a
 bare OpenCode rejection would end its loop. Native agents are told that
-XC-UI-Flow's tools, including `update_plan`, come from its `ohmygame` tool server
+Game Workbench's tools, including `update_plan`, come from its `ohmygame` tool server
 under their CLI's MCP names. Claude's `ExitPlanMode` is
-declined with a pointer to `update_plan`, because XC-UI-Flow reviews plans itself.
-Codex registers every XC-UI-Flow tool when its thread starts, since a thread that
+declined with a pointer to `update_plan`, because Game Workbench reviews plans itself.
+Codex registers every Game Workbench tool when its thread starts, since a thread that
 begins in planning continues after the plan is approved; tools the current mode
 does not allow are refused when called.
 
 Claude Code runs with background tasks and scheduled prompts disabled
 (`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`, `CLAUDE_CODE_DISABLE_CRON`): a
 background subagent or shell would report after the turn's result, with no turn
-to receive it. XC-UI-Flow's tools are marked always loaded so Claude's tool search
+to receive it. Game Workbench's tools are marked always loaded so Claude's tool search
 does not hide them. Planning uses Claude's default permission mode instead of
 its plan mode, which would write a plan file and call `ExitPlanMode`.
 
@@ -336,7 +336,7 @@ is rebuilt from the same allowlist, without CLI authentication tokens.
 Claude Code's sandbox is turned on through flag settings, which apply whether
 or not the person's own configuration loads. Protected roots are unreadable,
 the workspace and the session's staged Skills stay readable, commands cannot
-opt out of the sandbox, approvals still go through XC-UI-Flow, and the network
+opt out of the sandbox, approvals still go through Game Workbench, and the network
 stays available for installs. Package caches live in the session's temporary
 folder, which commands may write. Where the sandbox cannot start (Windows, or
 Linux without bubblewrap and socat), Claude Code runs commands without it and
@@ -362,7 +362,7 @@ All three runtimes load the person's existing CLI configuration, including
 settings, hooks, MCP servers, Skills and instructions supported by that CLI.
 There is no configuration-isolation switch. Stored `isolateUserConfig` values
 from earlier versions are ignored and dropped when settings are next saved.
-XC-UI-Flow adds its tools, project instructions and staged Skills, and the selected
+Game Workbench adds its tools, project instructions and staged Skills, and the selected
 permission mode still applies. A configured external `ohmygame-studio` MCP
 connection is disabled inside Claude Code and Codex to avoid reconnecting to the
 same app recursively. Other user MCP servers and notification hooks remain enabled.
@@ -433,7 +433,7 @@ executable signature and invalidated when settings change or **Check again** is
 used. Temporary failures remain probe/catalog errors and retry after the short
 failure cache expires; they are not classified as unsupported capabilities.
 
-- Codex discovery starts an ephemeral thread with a dynamic tool, XC-UI-Flow's
+- Codex discovery starts an ephemeral thread with a dynamic tool, Game Workbench's
   approval policy and a named permission profile, and checks the returned
   `activePermissionProfile`. It sends no model turn. The real driver checks the
   profile again on start/resume. Codex 0.162.0-alpha.17.2 has passed this protocol
@@ -455,10 +455,10 @@ failure cache expires; they are not classified as unsupported capabilities.
   requests must have verified ancestry and the same workspace location; file resources resolve relative to
   that session's location rather than the Git root. Saved CLI grants for the
   project can override callback rules, so discovery/startup and each prompt
-  refuse them with a diagnostic; XC-UI-Flow never deletes those grants. Remove
+  refuse them with a diagnostic; Game Workbench never deletes those grants. Remove
   them in OpenCode before retrying. User plugins remain trusted CLI code.
 
-OpenCode v2 native session IDs carry an `opencode-v2:` marker in XC-UI-Flow's
+OpenCode v2 native session IDs carry an `opencode-v2:` marker in Game Workbench's
 session record. A v1 marker or missing v2 session triggers the existing fresh
 session and conversation-history handoff; v1 context is never resumed as v2.
 
@@ -475,7 +475,7 @@ check, and the verified version remains a reference.
 The direct adapters preserve the installed executable and shared host services.
 The Claude Agent SDK was evaluated and not adopted: it bundles its own Claude
 Code binary (about 268 MB per platform) and each release targets one CLI
-release, while XC-UI-Flow drives the CLI the person installed. See
+release, while Game Workbench drives the CLI the person installed. See
 [agent-runtimes.md](agent-runtimes.md#runtime-transports-and-compatibility).
 Claude's direct control protocol and Codex's experimental dynamic tools need
 compatibility tests when their CLIs change. A generic Basic CLI adapter is not
@@ -502,7 +502,7 @@ bun run test:agent-runtimes:live claude-code-cli YOUR_AVAILABLE_MODEL
 
 Choose a currently listed model with a working account. The script uses isolated
 app data and a disposable workspace, grants only scoped test requests, and saves
-evidence under ignored `.runtime/`. It checks writes, an XC-UI-Flow tool call,
+evidence under ignored `.runtime/`. It checks writes, an Game Workbench tool call,
 continuation, daemon restart, compaction, editing a later message, checkpoint
 restore, denial of external dummy files, approval persistence, cancellation
 during an executing shell tool, running the toolchain (Node, `npm install` over

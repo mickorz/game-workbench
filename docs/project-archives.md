@@ -1,7 +1,7 @@
 # Project archives
 
 A project archive is a ZIP file that moves one project to another computer or
-keeps a copy outside XC-UI-Flow's data folder. **Export project** in a project
+keeps a copy outside Game Workbench's data folder. **Export project** in a project
 card's menu saves one for any project type. Story settings → **Export project**
 uses the same archive format and export service, after saving the editor's changes.
 **Import project** on the Projects page creates a new project from it.
@@ -81,7 +81,7 @@ content type `application/vnd.ohmygame.project-archive`. The upload streams to
 a staging folder next to the projects, so large archives are not held in
 memory. Import then works like **Duplicate**:
 
-- the project gets a new id and is stored in XC-UI-Flow's data folder;
+- the project gets a new id and is stored in Game Workbench's data folder;
 - publish information is never imported;
 - Canvas generation history in `canvas/jobs.json` is bound to the new id;
 - an Interactive Story gets the current agent instructions and schemas;
@@ -89,7 +89,7 @@ memory. Import then works like **Duplicate**:
 - preview readiness is checked again.
 
 Settings pass the same checks as saved project settings. An archive from a
-newer format version asks for an XC-UI-Flow update. If any step fails, nothing
+newer format version asks for an Game Workbench update. If any step fails, nothing
 of the import remains; a staging folder left by a crash is removed on the next
 start.
 

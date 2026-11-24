@@ -15,14 +15,14 @@ function argument(name: string): string | undefined {
 async function main(): Promise<void> {
   if (process.env[EXTERNAL_MCP_DISABLED_ENV] === "1") {
     process.stderr.write(
-      "XC-UI-Flow runs this agent itself and already gives it XC-UI-Flow's tools.\n",
+      "Game Workbench runs this agent itself and already gives it Game Workbench's tools.\n",
     );
     process.exit(1);
   }
   const dataDirectory = argument("--data-dir");
   if (!dataDirectory) {
     process.stderr.write(
-      "Usage: ohmygame-mcp --data-dir <XC-UI-Flow data folder>\n",
+      "Usage: ohmygame-mcp --data-dir <Game Workbench data folder>\n",
     );
     process.exit(2);
   }

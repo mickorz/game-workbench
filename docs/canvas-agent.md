@@ -150,7 +150,7 @@ Three tools supplement ordinary file editing:
 
 ## Migrating Existing Projects
 
-Stop XC-UI-Flow, then run the migration against its data directory:
+Stop Game Workbench, then run the migration against its data directory:
 
 ```sh
 bun scripts/migrate-canvas-workspaces.ts .data

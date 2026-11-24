@@ -1,6 +1,6 @@
 # Responses transport and recovery
 
-XC-UI-Flow keeps WebSocket as the default optimization for official OpenAI Responses
+Game Workbench keeps WebSocket as the default optimization for official OpenAI Responses
 with either an API key or ChatGPT login. Persistent connections and incremental
 inputs reduce overhead across successive tool calls. HTTP/SSE provides recovery
 when the connection or proxy cannot sustain WebSocket.

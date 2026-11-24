@@ -66,7 +66,7 @@ describe.skipIf(process.platform !== "win32")(
       expect(
         check(
           script,
-          "XC-UI-Flow-NoSuch345.exe",
+          "Game Workbench-NoSuch345.exe",
           path.join(directory, "processes.txt"),
         ),
       ).toBe(17);
@@ -91,7 +91,7 @@ describe.skipIf(process.platform !== "win32")(
         ),
       );
       expect(
-        check(script, "XC-UI-Flow.exe", path.join(directory, "processes.txt"), {
+        check(script, "Game Workbench.exe", path.join(directory, "processes.txt"), {
           ...env,
           SystemRoot: path.join(root, "missing-windows"),
         }),
@@ -103,7 +103,7 @@ describe.skipIf(process.platform !== "win32")(
       expect(
         check(
           script,
-          "XC-UI-Flow.exe",
+          "Game Workbench.exe",
           path.join(directory, "missing", "processes.txt"),
         ),
       ).toBe(18);
@@ -158,12 +158,12 @@ Unicode true
 RequestExecutionLevel user
 SilentInstall silent
 SilentUnInstall silent
-Name "XC-UI-Flow installer regression"
+Name "Game Workbench installer regression"
 OutFile "${executable}"
 !include LogicLib.nsh
 !define BUILD_RESOURCES_DIR "${path.resolve("build")}"
-!define APP_EXECUTABLE_FILENAME "XC-UI-Flow-NoSuch345.exe"
-!define PRODUCT_NAME "XC-UI-Flow"
+!define APP_EXECUTABLE_FILENAME "Game Workbench-NoSuch345.exe"
+!define PRODUCT_NAME "Game Workbench"
 !define isUpdated '1 = 1'
 !macro TestDetail TEXT
   FileOpen $R3 "${logPath}" a

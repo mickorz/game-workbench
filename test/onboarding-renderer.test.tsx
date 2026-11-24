@@ -182,7 +182,7 @@ async function chooseAgent(name: string) {
 }
 async function showConnection(
   element: ReactNode,
-  agent: string | false = "XC-UI-Flow",
+  agent: string | false = "Game Workbench",
 ) {
   await act(async () => root.render(element));
   if (agent) await chooseAgent(agent);
@@ -429,7 +429,7 @@ describe("first-run screens", () => {
     expect(change).toHaveBeenLastCalledWith("connect");
     expect(container.querySelector("h1")?.textContent).toBe("Connect your AI.");
     expect(container.textContent).not.toContain("Back");
-    await chooseAgent("XC-UI-Flow");
+    await chooseAgent("Game Workbench");
     await act(async () => providerButton("OpenRouter", "API key").click());
     await act(async () => stepButton("welcome").click());
     expect(change).toHaveBeenLastCalledWith("welcome");
@@ -1319,7 +1319,7 @@ describe("three-step setup with coding agents", () => {
     },
   );
 
-  it("keeps providers under XC-UI-Flow and limits the model picker to the selected agent", async () => {
+  it("keeps providers under Game Workbench and limits the model picker to the selected agent", async () => {
     const builtIn = {
       ...nativeModel,
       provider: "openrouter",
@@ -1374,7 +1374,7 @@ describe("three-step setup with coding agents", () => {
         new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
       ),
     );
-    await chooseAgent("XC-UI-Flow");
+    await chooseAgent("Game Workbench");
     expect(container.querySelector(".onboarding-picker")).not.toBeNull();
     expect(container.querySelector(".onboarding-ready")?.textContent).toContain(
       "Chat",
@@ -1387,7 +1387,7 @@ describe("three-step setup with coding agents", () => {
     expect(container.querySelector(".onboarding-ready")?.textContent).toContain(
       "Second native model",
     );
-    await chooseAgent("XC-UI-Flow");
+    await chooseAgent("Game Workbench");
     expect(api.updateAgentDefaults).not.toHaveBeenCalled();
     await act(async () => button("Next").click());
     expect(api.updateAgentDefaults).toHaveBeenCalledWith({
@@ -1440,7 +1440,7 @@ describe("three-step setup with coding agents", () => {
     expect(container.querySelector(".onboarding-picker")).toBeNull();
     expect(api.updateAgentRuntime).not.toHaveBeenCalled();
     expect(api.updateAgentDefaults).not.toHaveBeenCalled();
-    await chooseAgent("XC-UI-Flow");
+    await chooseAgent("Game Workbench");
     expect(button("Next").disabled).toBe(false);
   });
 
@@ -1557,30 +1557,30 @@ describe("three-step setup with coding agents", () => {
 });
 
 describe("optional creative tools and built-in agent", () => {
-  it("labels XC-UI-Flow as default without pretending a model is connected", async () => {
+  it("labels Game Workbench as default without pretending a model is connected", async () => {
     await showConnection(
       <Onboarding step="connect" onStepChange={vi.fn()} onFinish={vi.fn()} />,
       false,
     );
-    const row = container.querySelector('[aria-label="XC-UI-Flow"]')!;
-    expect(row.textContent).toBe("XC-UI-FlowDefault");
+    const row = container.querySelector('[aria-label="Game Workbench"]')!;
+    expect(row.textContent).toBe("Game WorkbenchDefault");
     expect(row.textContent).not.toContain("Enabled by default");
     expect(row.textContent).not.toContain("Uses your model providers");
     expect(row.querySelector('[role="switch"]')).toBeNull();
     expect(button("Next").disabled).toBe(true);
     expect(row.querySelector('[aria-label="Enabled"]')).not.toBeNull();
     expect(row.textContent).not.toContain("Connect model");
-    await chooseAgent("XC-UI-Flow");
+    await chooseAgent("Game Workbench");
     expect(
       container.querySelector(".onboarding-selected-agent")?.textContent,
-    ).toContain("XC-UI-Flow");
+    ).toContain("Game Workbench");
     expect(
       container.querySelector(".onboarding-agent-config")?.textContent,
     ).toContain("LLM providers");
     expect(api.updateAgentRuntime).not.toHaveBeenCalled();
   });
 
-  it("can return from a CLI to XC-UI-Flow using a connected provider model", async () => {
+  it("can return from a CLI to Game Workbench using a connected provider model", async () => {
     const builtIn = {
       provider: "openrouter",
       providerName: "OpenRouter",
@@ -1605,7 +1605,7 @@ describe("optional creative tools and built-in agent", () => {
     await showConnection(
       <Onboarding step="connect" onStepChange={vi.fn()} onFinish={vi.fn()} />,
     );
-    await chooseAgent("XC-UI-Flow");
+    await chooseAgent("Game Workbench");
     expect(api.updateAgentDefaults).not.toHaveBeenCalled();
     await act(async () => button("Next").click());
     expect(api.updateAgentDefaults).toHaveBeenCalledWith({
@@ -1615,7 +1615,7 @@ describe("optional creative tools and built-in agent", () => {
     expect(api.updateAgentRuntime).not.toHaveBeenCalled();
     expect(
       container.querySelector(".onboarding-selected-agent")?.textContent,
-    ).toContain("XC-UI-Flow");
+    ).toContain("Game Workbench");
     expect(container.querySelector(".onboarding-picker")).not.toBeNull();
     const modelLine = container.querySelector(".onboarding-ready")!;
     expect(modelLine.textContent).toContain("Chat");
@@ -1864,11 +1864,11 @@ describe("onboarding interactions", () => {
     expect(container.querySelector(".onboarding-picker")).toBeNull();
     expect(container.querySelector(".onboarding-ready")).toBeNull();
     expect(button("Next").disabled).toBe(true);
-    await chooseAgent("XC-UI-Flow");
+    await chooseAgent("Game Workbench");
     expect(container.querySelector(".onboarding-agent-options")).toBeNull();
     expect(
       container.querySelector(".onboarding-selected-agent")?.textContent,
-    ).toContain("XC-UI-Flow");
+    ).toContain("Game Workbench");
     expect(container.querySelector(".onboarding-ready")?.textContent).toContain(
       "My model",
     );
@@ -1876,7 +1876,7 @@ describe("onboarding interactions", () => {
     await act(async () => button("Switch").click());
     expect(container.querySelector(".onboarding-picker")).toBeNull();
     expect(button("Next").disabled).toBe(true);
-    await chooseAgent("XC-UI-Flow");
+    await chooseAgent("Game Workbench");
     expect(container.querySelector(".onboarding-ready")?.textContent).toContain(
       "My model",
     );

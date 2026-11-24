@@ -225,7 +225,7 @@ export interface AuthProbe {
   billing: AgentRuntimeBilling;
 }
 
-/** Asks the CLI who it is signed in as. XC-UI-Flow never reads a CLI's credential files. */
+/** Asks the CLI who it is signed in as. Game Workbench never reads a CLI's credential files. */
 export async function probeAuth(
   binaryPath: string,
   id: AgentRuntimeId,
@@ -277,7 +277,7 @@ export async function probeAuth(
   return { status: "unknown", billing: "provider" };
 }
 
-/** The models a CLI offers, as XC-UI-Flow's model picker lists them. */
+/** The models a CLI offers, as Game Workbench's model picker lists them. */
 export async function probeModels(
   binaryPath: string,
   id: AgentRuntimeId,

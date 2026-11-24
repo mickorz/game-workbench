@@ -21,7 +21,7 @@
 
 ```ts
 export const SIDEBAR_BRAND = {
-  name: "xc-ui-flow",          // 品牌名：侧边栏文字 + 图标 alt
+  name: "game-workbench",          // 品牌名：侧边栏文字 + 图标 alt
   mark: brandMark as string,   // 图标 URL：静态资源路径或 data URI
 } as const;
 ```

@@ -873,7 +873,7 @@ describe("daemon", () => {
     expect(response.json().skills).toEqual([{ name: "godot", description: "Control Godot" }]);
   });
 
-  it("offers only configured XC-UI-Flow media generation tools without a Plugin", async () => {
+  it("offers only configured Game Workbench media generation tools without a Plugin", async () => {
     const setActiveToolsByName = vi.fn();
     const prompt = vi.fn<CodingSession["prompt"]>(async () => {});
     const app = createApp({

@@ -26,7 +26,7 @@ replace the whole interface.
 
 Interactive Stories play as their own web page (see
 [runtime.md](runtime.md#page-and-lifecycle)). A story made before that plays
-in XC-UI-Flow's sandbox, and the Story canvas shows a notice at the top:
+in Game Workbench's sandbox, and the Story canvas shows a notice at the top:
 "This story plays in the old sandbox. Upgrade it to play as its own web page,
 which the AI can change entirely, from saving to music," with **Upgrade** and
 the details of what it does. Upgrading takes a checkpoint first; the notice
@@ -505,10 +505,10 @@ Condition, and Update State are not Templates because the Start badge, Scene
 code, and Exit conditions cover them. Other screens, such as an archive or a
 small game, start from Blank plus a description.
 
-Templates live in XC-UI-Flow, not in projects. Creating a Scene copies the
+Templates live in Game Workbench, not in projects. Creating a Scene copies the
 Template's source into `nodes/<id>/`; later Template changes do not affect
 existing Scenes. The shared files a Template brings, such as the Visual Novel
-player, are written only when the project lacks them, and XC-UI-Flow never
+player, are written only when the project lacks them, and Game Workbench never
 updates them afterwards: like the Scene's own files, they are the author's.
 
 ### Main menu
@@ -563,7 +563,7 @@ and a picture (an image Asset) for each look, are listed once in
 
 The player is ordinary shared project source under `shared/vn/`, like the
 Project Style: the first Visual Novel Scene adds it, and from then on it is
-the author's. XC-UI-Flow never updates it, so a project keeps the player it
+the author's. Game Workbench never updates it, so a project keeps the player it
 started with; ask the Agent for anything a newer one does. Changing
 `player.css` restyles every Visual Novel Scene. It types each line out and advances on a click, Space, or
 Enter. Its quick menu has:

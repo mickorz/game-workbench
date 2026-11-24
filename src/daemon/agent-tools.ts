@@ -185,7 +185,7 @@ export function createAgentTools(
   })] : []), defineTool({
     name: "install_plugin",
     label: "Install Plugin",
-    description: "Validate and install an XC-UI-Flow plugin directory from the current workspace. Use this after creating or updating a plugin with the plugin-creator skill.",
+    description: "Validate and install an Game Workbench plugin directory from the current workspace. Use this after creating or updating a plugin with the plugin-creator skill.",
     parameters: Type.Object({
       path: Type.String({ minLength: 1, description: "Plugin directory relative to the current workspace" }),
     }),

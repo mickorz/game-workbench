@@ -1,8 +1,8 @@
 # Protocol names and identifiers
 
-XC-UI-Flow was forked from the open-source
+Game Workbench was forked from the open-source
 [ohmygame](https://github.com/WhiteTowerAI/ohmygame) project and rebranded.
-All **user-visible** names now say XC-UI-Flow, but a fixed set of protocol
+All **user-visible** names now say Game Workbench, but a fixed set of protocol
 names and identifiers deliberately keep the old `ohmygame` spelling. This page
 records each one, why it is frozen, and what changing it would cost.
 

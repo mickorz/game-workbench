@@ -47,7 +47,7 @@ export async function installExternalMcpLauncher(
   const file = path.join(options.binDirectory, "ohmygame-mcp");
   const script = [
     "#!/bin/sh",
-    "# Starts XC-UI-Flow's MCP server for Claude Code, Codex and other agents. XC-UI-Flow rewrites this file.",
+    "# Starts Game Workbench's MCP server for Claude Code, Codex and other agents. Game Workbench rewrites this file.",
     `ELECTRON_RUN_AS_NODE=1 exec ${[options.executable, ...args].map(shellQuote).join(" ")} "$@"`,
     "",
   ].join("\n");

@@ -278,7 +278,7 @@ it.skipIf(process.platform === "win32")(
     expect(f.replies).toEqual([
       {
         decision: "reject",
-        message: expect.stringContaining("XC-UI-Flow denied"),
+        message: expect.stringContaining("Game Workbench denied"),
       },
     ]);
     f.emit("session.execution.succeeded");
@@ -322,7 +322,7 @@ it.skipIf(process.platform === "win32")(
     expect(f.replies).toEqual([
       {
         decision: "reject",
-        message: expect.stringContaining("XC-UI-Flow denied"),
+        message: expect.stringContaining("Game Workbench denied"),
       },
       { decision: "reject" },
       { decision: "reject" },

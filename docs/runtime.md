@@ -10,7 +10,7 @@
 │  project workspaces · preview dev server            │
 └──────────────┬──────────────────────────────────────┘
                │ Publish (static build only)
-┌──────────────┴──────── XC-UI-Flow Cloud ──────────────┐
+┌──────────────┴──────── Game Workbench Cloud ──────────────┐
 │  immutable deployments · Community                  │
 └─────────────────────────────────────────────────────┘
 ```
@@ -92,7 +92,7 @@ requiring another selection. Failed sign-in can be retried in place.
 can return a browser URL or a terminal command,
 with a recheck after sign-in. Advanced CLI configuration stays in Settings → Agents.
 
-XC-UI-Flow (Pi) appears first with a **Default** subtitle alongside the CLIs in a
+Game Workbench (Pi) appears first with a **Default** subtitle alongside the CLIs in a
 single horizontally scrolling row. Initially only agent choices are shown.
 Selecting one replaces those cards with a compact name and a **Switch**
 action, then shows its configuration. A short hint on the agent choices explains
@@ -175,12 +175,12 @@ illustration plays once per setup session in 5.2 seconds. Returning from a later
 step shows the final logo, title, and controls immediately, including when setup
 resumes at a later step. Only the forming game world
 is visible at first: terrain rises, paths unfold, and trees
-grow in sequence. Its outline then morphs into a small XC-UI-Flow logo beside
+grow in sequence. Its outline then morphs into a small Game Workbench logo beside
 the wordmark, followed by **Your own game studio.** and **Next**. Hidden
 controls stay out of keyboard navigation. Reduced-motion preferences show the
 final logo, title, and controls immediately. The connection screen reuses
 the daemon's provider authentication flow and custom-provider form; it does
-not require an XC-UI-Flow cloud account. The add button beside provider search
+not require an Game Workbench cloud account. The add button beside provider search
 opens that form inline. Settings uses the same form in its existing dialog.
 Saving or cancelling returns to the provider list without adding a persisted
 setup step. Image, video, 3D, and audio connections can be configured in optional
@@ -267,7 +267,7 @@ must not contain a Clash forward-proxy address.
 
 Pi runs in trusted-local mode. The workspace is Pi's working directory, but
 `cwd` is not an operating-system security boundary, and enabled Pi tools run
-without an XC-UI-Flow approval prompt. Provider credentials stay in the daemon
+without an Game Workbench approval prompt. Provider credentials stay in the daemon
 and are never written to workspaces or returned to the renderer.
 
 The desktop app writes the daemon's access token to the daemon's stdin, not
@@ -322,7 +322,7 @@ so code changes can hot-update both. See [preview lifecycle](preview-runtime.md)
 for storage, diagnostics, and window details.
 
 The desktop runtime exposes game interaction and verification as the Pi custom
-tool `game_use`. This is an XC-UI-Flow core capability rather than a Plugin:
+tool `game_use`. This is an Game Workbench core capability rather than a Plugin:
 
 1. The current Web adapter starts or reuses the project's local Preview and
    accepts only a path, query, or hash on that Preview origin.
@@ -469,7 +469,7 @@ All project types record private workspace snapshots before each consumed user
 message and when its run ends. Finished, failed and cancelled turns show their
 net file changes in Chat. The project does not need Git; snapshot storage stays
 beside the workspace without changing its `.git`, branches or index. Snapshots
-leave out what the workspace's `.gitignore` files ignore, apart from XC-UI-Flow's
+leave out what the workspace's `.gitignore` files ignore, apart from Game Workbench's
 own `.data/` and `canvas/`, and snapshots that nothing names are pruned at most
 once a day.
 

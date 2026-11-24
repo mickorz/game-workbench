@@ -160,13 +160,13 @@ describe("project import", () => {
   it("explains why an archive could not be imported", async () => {
     const input = await renderPage();
     importProject.mockRejectedValue(
-      new Error("The file is not an XC-UI-Flow project archive."),
+      new Error("The file is not an Game Workbench project archive."),
     );
 
     await choose(input, new File(["zip"], "notes.zip"));
 
     expect(container.querySelector(".projects-notice")?.textContent).toBe(
-      "The file is not an XC-UI-Flow project archive.",
+      "The file is not an Game Workbench project archive.",
     );
   });
 

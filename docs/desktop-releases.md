@@ -1,6 +1,6 @@
 # Desktop releases
 
-XC-UI-Flow uses `electron-updater` with a generic HTTPS update feed. Release
+Game Workbench uses `electron-updater` with a generic HTTPS update feed. Release
 artifacts are built by GitHub Actions and copied to a public, read-only
 Cloudflare R2 custom domain, so updates do not depend on GitHub.
 
@@ -13,7 +13,7 @@ example, with the prefix `desktop`:
 ```text
 https://github.com/mickorz/game-workbench/releases/latest.yml
 https://github.com/mickorz/game-workbench/releases/latest-mac.yml
-https://github.com/mickorz/game-workbench/releases/XC-UI-Flow-0.1.0-x64.exe
+https://github.com/mickorz/game-workbench/releases/Game Workbench-0.1.0-x64.exe
 ```
 
 The workflow uploads versioned installers and blockmaps with immutable cache

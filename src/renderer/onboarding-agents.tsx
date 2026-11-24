@@ -234,7 +234,7 @@ export function OnboardingAgents({
       ? { src: brandMark, tone: "brand" }
       : PROVIDER_ICONS[selectedAgent];
   const selectedName =
-    selectedAgent === "pi" ? "XC-UI-Flow" : (selected?.name ?? selectedAgent);
+    selectedAgent === "pi" ? "Game Workbench" : (selected?.name ?? selectedAgent);
 
   return (
     <section
@@ -295,7 +295,7 @@ export function OnboardingAgents({
             <button
               type="button"
               className="onboarding-agent-option"
-              aria-label="XC-UI-Flow"
+              aria-label="Game Workbench"
               aria-pressed={selectedAgent === "pi"}
               disabled={busy || Boolean(pending)}
               onClick={() => {
@@ -316,7 +316,7 @@ export function OnboardingAgents({
                   aria-label={t("common.enabled")}
                 />
               </span>
-              <span>XC-UI-Flow</span>
+              <span>Game Workbench</span>
               <small>{t("onboarding.builtInHint")}</small>
             </button>
             {(agents ?? []).map((agent) => {

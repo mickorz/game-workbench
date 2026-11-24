@@ -54,11 +54,11 @@ import { OpenCodeDriver } from "./opencode.js";
 const STATUS_TTL_MS = 60_000;
 
 /**
- * Coding agents see XC-UI-Flow's tools under their CLI's MCP names and follow
+ * Coding agents see Game Workbench's tools under their CLI's MCP names and follow
  * their own planning habits, such as plan files; Pi needs neither line.
  */
 const NATIVE_INSTRUCTIONS =
-  "XC-UI-Flow's own tools (canvas checks, image, video, 3D and audio generation, game playtesting, questionnaire, update_plan and plugin services) come from its ohmygame tool server; your CLI may name them with a prefix such as mcp__ohmygame__ or ohmygame_. In a planning turn, record the plan with update_plan before you finish, rather than writing a plan file or only describing it. The Skills your CLI lists are readable where it lists them, even outside the workspace: read a Skill's files directly when a request calls for it.";
+  "Game Workbench's own tools (canvas checks, image, video, 3D and audio generation, game playtesting, questionnaire, update_plan and plugin services) come from its ohmygame tool server; your CLI may name them with a prefix such as mcp__ohmygame__ or ohmygame_. In a planning turn, record the plan with update_plan before you finish, rather than writing a plan file or only describing it. The Skills your CLI lists are readable where it lists them, even outside the workspace: read a Skill's files directly when a request calls for it.";
 const MODELS_TTL_MS = 10 * 60_000;
 const MODELS_WAIT_MS = 6_000;
 const LOGIN_TIMEOUT_MS = 10 * 60_000;
@@ -79,7 +79,7 @@ export interface NativeSessionRequest {
   contextWindow?: number;
   workspacePath: string;
   sessionManager: SessionManager;
-  /** XC-UI-Flow's tools for the project, as Pi gets them. */
+  /** Game Workbench's tools for the project, as Pi gets them. */
   tools: ToolDefinition[];
   saveGeneratedImage?: SaveGeneratedImage;
   pluginMcp?: {
@@ -101,7 +101,7 @@ export interface NativeSessionRequest {
 }
 
 /**
- * The coding agents XC-UI-Flow can run conversations with. Nothing here runs
+ * The coding agents Game Workbench can run conversations with. Nothing here runs
  * until something asks. Conversation model discovery only probes enabled
  * agents; the image catalog can independently probe Codex for media use.
  * A slow or broken CLI only delays its own status and models.

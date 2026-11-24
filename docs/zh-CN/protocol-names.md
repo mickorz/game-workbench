@@ -1,8 +1,8 @@
 # 协议名与标识符说明
 
-XC-UI-Flow 从开源项目
+Game Workbench 从开源项目
 [ohmygame](https://github.com/WhiteTowerAI/ohmygame) fork 而来并完成品牌化。
-所有**用户可见**的名称现在都是 XC-UI-Flow，但一批协议名与标识符**刻意保留**
+所有**用户可见**的名称现在都是 Game Workbench，但一批协议名与标识符**刻意保留**
 旧的 `ohmygame` 拼写。本页逐条记录它们是什么、为什么冻结、改动代价。
 
 ## 为什么冻结

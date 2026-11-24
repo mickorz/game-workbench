@@ -19,7 +19,7 @@ export function requireCodexPermissionProfile(
 ): void {
   if (response.activePermissionProfile?.id !== profile)
     throw new AgentRuntimeCompatibilityError(
-      "Codex did not activate XC-UI-Flow's filesystem permissions. A CLI supporting named permission profiles is required. Update Codex and check again in Settings.",
+      "Codex did not activate Game Workbench's filesystem permissions. A CLI supporting named permission profiles is required. Update Codex and check again in Settings.",
       "permissions / activePermissionProfile",
     );
 }
@@ -82,7 +82,7 @@ export async function checkCodexCompatibility(
 const REQUEST_TIMEOUT_MS = 60_000;
 export const CODEX_CLIENT = {
   name: "ohmygame",
-  title: "XC-UI-Flow",
+  title: "Game Workbench",
   version: "1",
 };
 

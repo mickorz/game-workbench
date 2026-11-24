@@ -38,7 +38,7 @@ export class NodeCodebaseConflictError extends NodeCodebaseError {
 }
 
 /**
- * Earlier AGENTS.md and README.md that XC-UI-Flow wrote, by SHA-256. Upgrading
+ * Earlier AGENTS.md and README.md that Game Workbench wrote, by SHA-256. Upgrading
  * a story to a web story replaces a copy that is still exactly one of them.
  */
 export const PROJECT_GUIDE_UPGRADES: Record<"AGENTS.md" | "README.md", readonly string[]> = {
@@ -47,18 +47,20 @@ export const PROJECT_GUIDE_UPGRADES: Record<"AGENTS.md" | "README.md", readonly 
     "78bab6b86ae039e0b63d14da74e6f5f3fb3eca4ffbd2399de845a643d7ed699e",
     "bad327183e1b955b2b1f24a5fc0dbd9b691f0b5fc006773fef2a86e8ced475d5",
     "8619c00f6a6ec09d6dfdaf99a2f84bc79fbd1214da156776701306fe9ba585ed",
+    "85dcfffd0c3eb9a3a7962eb69b38c3246593588ab0bc9d3c484e5e2328de199e",
   ],
   "README.md": [
     "311594a64abc80d5b1c8270e064375268f8bb3eff44e58f634c3d275208c65e2",
     "781d2b099d3acc5d87555668f8d935acbbbbccbddb39e052471367224275dc6f",
     "547ed93bccfae4980075bfb76e8586971acb71de10ce4896def59d0a0ead4a6c",
     "0e99e5862388f7a8e3e3139f7d948f801b0fd843a8568a95e5635cffa4c0bbd4",
+    "53150dc0a8b182b369f63e17abac1b19f87d265773f249a824ce39aabaff7725",
   ],
 };
 
 export const AGENT_INSTRUCTIONS = `# Playable Nodes Project
 
-This workspace is the source of truth for an XC-UI-Flow Playable Nodes project.
+This workspace is the source of truth for an Game Workbench Playable Nodes project.
 
 - \`graph.json\` declares the viewport, initial State, Assets, Nodes, Signals, and navigation edges.
 - Every Node follows the same protocol. Its HTML, CSS, and JavaScript are ordinary source files referenced by \`node.source\`.
@@ -76,7 +78,7 @@ This workspace is the source of truth for an XC-UI-Flow Playable Nodes project.
 - Music that should carry on across Scenes, such as a chapter's theme, goes through \`context.audio.music(assetId)\`, not an \`<audio>\` element in a Node: it keeps playing into the next Scene, is kept with the save, and turns down while a Scene's own video plays with sound. A Node that reads a long sequence one step at a time, such as a script, keeps its place with \`context.position\`, so Continue returns there.
 - \`playScene(context, { signal })\` from the same file shows the background and emits the Signal when its video ends or the player clicks. The Blank Template uses it; change or replace it freely.
 - Use normal modules under \`shared/\` for code shared by Nodes. Imports must remain inside this workspace; project dependencies resolve from this project's own \`node_modules\`.
-- Files a Template added, such as the Project Style in \`shared/style/\` and the Visual Novel player in \`shared/vn/\`, are this project's source like any other: change them freely. XC-UI-Flow writes them only when they are missing and never updates them.
+- Files a Template added, such as the Project Style in \`shared/style/\` and the Visual Novel player in \`shared/vn/\`, are this project's source like any other: change them freely. Game Workbench writes them only when they are missing and never updates them.
 - UI that appears on more than one Node, such as a top bar or a Home button, is a shared component under \`shared/components/\`. Each Node that shows it imports it, and declares and routes the Signals it emits like its own. There is no layer drawn over every Node; State carries whatever must continue across Nodes.
 - A Signal that is a way around the game rather than a step in the story, such as Home, Menu, or Settings, has \`"role": "navigation"\`. The editor names its target on the Exit instead of drawing a line; routing is the same.
 - Use \`replace\` for forward progression and \`push\` only when the player should be able to return with \`navigation.back()\`.
@@ -89,10 +91,10 @@ This workspace is the source of truth for an XC-UI-Flow Playable Nodes project.
 
 ## Web stories
 
-A project with \`index.html\` and \`story/\` is a web story: it plays as its own page, and \`story/\` holds the story runtime that reads \`graph.json\` and loads each Scene's files as they are. A project without them plays in XC-UI-Flow's sandbox; there, never copy or modify the Runtime.
+A project with \`index.html\` and \`story/\` is a web story: it plays as its own page, and \`story/\` holds the story runtime that reads \`graph.json\` and loads each Scene's files as they are. A project without them plays in Game Workbench's sandbox; there, never copy or modify the Runtime.
 
 - The runtime under \`story/\` is project code. Change it when the game needs something it does not do, and keep what the editor relies on: \`graph.json\` as the story's flow, the \`context\` every Scene's \`mount\` receives, the \`scene\` query parameter, and the one \`data-media="backdrop"\` background per Scene.
-- \`story/manifest.json\` records the runtime XC-UI-Flow wrote. When it lists \`pending\` files, a newer runtime changed files you or the author changed; the newer ones are under \`.ohmygame/story-runtime/<version>/\`. Merge them into the project's files, keeping the project's changes, then remove \`pending\` from the manifest.
+- \`story/manifest.json\` records the runtime Game Workbench wrote. When it lists \`pending\` files, a newer runtime changed files you or the author changed; the newer ones are under \`.ohmygame/story-runtime/<version>/\`. Merge them into the project's files, keeping the project's changes, then remove \`pending\` from the manifest.
 - A Scene's code loads as a browser module, with no bundler: import project files by relative path, read text with \`await (await fetch(new URL("./script.txt", import.meta.url))).text()\`, and import JSON with \`with { type: "json" }\`. Packages from \`node_modules\` are not available.
 - The page may use browser storage for what belongs to the player across every game, such as lines read or pictures unlocked. Keep a game's progress in \`context.state\` and \`context.position\`, so saves, slots, and Continue stay right.
 - Media a Scene uses goes in \`graph.json\` \`assets\` as a project file, so publishing includes it.
@@ -162,9 +164,9 @@ A shared component receives the Node's context from the Node that mounts it, so 
 
 The mount function may return a synchronous or asynchronous cleanup function.
 
-In a web story (with \`index.html\` and \`story/\`), the page loads each Scene's files as they are: modules import local files by relative path, text files are fetched, and JSON imports use \`with { type: "json" }\`. The runtime under \`story/\` is the project's own and can be changed; \`story/manifest.json\` records the version XC-UI-Flow wrote. Publishing packages the page, \`story/\`, \`graph.json\`, \`nodes/\`, \`shared/\`, and the assets the story uses.
+In a web story (with \`index.html\` and \`story/\`), the page loads each Scene's files as they are: modules import local files by relative path, text files are fetched, and JSON imports use \`with { type: "json" }\`. The runtime under \`story/\` is the project's own and can be changed; \`story/manifest.json\` records the version Game Workbench wrote. Publishing packages the page, \`story/\`, \`graph.json\`, \`nodes/\`, \`shared/\`, and the assets the story uses.
 
-In a story that plays in XC-UI-Flow's sandbox, Source may import local Shared Modules and dependencies declared by this project, and network access is unavailable at runtime.
+In a story that plays in Game Workbench's sandbox, Source may import local Shared Modules and dependencies declared by this project, and network access is unavailable at runtime.
 `;
 
 export function createPlayableStarterCodebase(
@@ -177,7 +179,7 @@ export function createPlayableStarterCodebase(
 /**
  * Adds the files of a new project that the workspace does not have yet and
  * never overwrites one it has. A workspace that already holds graph.json is
- * an existing project, such as one removed from XC-UI-Flow and opened again: it
+ * an existing project, such as one removed from Game Workbench and opened again: it
  * keeps its own graph and Scenes, even when they need repair in the editor.
  */
 export async function createNodeCodebase(
@@ -242,7 +244,7 @@ export async function openNodeCodebaseDetail(
   return withCodebaseLock(workspacePath, async () => {
     const codebase = await readCodebase(workspacePath);
     await migratePlayableProjectStyle(workspacePath);
-    // A web story gets the runtime this XC-UI-Flow ships, keeping files the author changed.
+    // A web story gets the runtime this Game Workbench ships, keeping files the author changed.
     if (await isWebStory(workspacePath)) await installStoryRuntime(workspacePath);
     return codebase;
   });

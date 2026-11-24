@@ -26,7 +26,7 @@ project preview or as static files. Editor tooling (preview policy, element
 picking, capture, diagnostics) is injected by the preview and never changes
 what node code sees, and never ships with the game.
 
-Stories made before web stories play the same Runtime in XC-UI-Flow's sandbox
+Stories made before web stories play the same Runtime in Game Workbench's sandbox
 until the author upgrades them; see [Sandboxed stories](#sandboxed-stories).
 
 ## Project files
@@ -34,7 +34,7 @@ until the author upgrades them; see [Sandboxed stories](#sandboxed-stories).
 ```text
 index.html              the page that plays the story
 story/                  the story runtime: readable modules, project code
-story/manifest.json     the runtime version XC-UI-Flow wrote, and each file's hash
+story/manifest.json     the runtime version Game Workbench wrote, and each file's hash
 graph.json              runtime graph and dependency manifest
 nodes/<id>/             index.html, style.css, node.js for each node, and the node's own files
 shared/                 ordinary modules imported by more than one node
@@ -402,10 +402,10 @@ Runtime in an explicit failed state.
 
 ### The story runtime in the project
 
-`story/` is project code, written by XC-UI-Flow from its own Runtime source as
+`story/` is project code, written by Game Workbench from its own Runtime source as
 one readable module per source file, comments kept. The Agent may change it.
 `story/manifest.json` records the runtime version and each file as written.
-When a web story opens in a newer XC-UI-Flow, files nobody changed are
+When a web story opens in a newer Game Workbench, files nobody changed are
 replaced by the newer runtime's, files the runtime dropped are removed, and
 files the author or Agent changed stay: the newer file goes under
 `.ohmygame/story-runtime/<version>/` and the manifest lists it as `pending`
@@ -413,14 +413,14 @@ for the Agent to merge.
 
 ### Sandboxed stories
 
-A story without `index.html` and `story/` plays in XC-UI-Flow's sandbox: an
+A story without `index.html` and `story/` plays in Game Workbench's sandbox: an
 iframe with exactly `sandbox="allow-scripts"`, an opaque origin, and a CSP
 that denies network. The Runtime there talks to its host by messages, and the
 compiler bundles each node into one module. The Story editor offers
 **Upgrade**, which takes a checkpoint, copies the Library assets the story
 uses into `assets/library/`, rewrites imports a browser cannot load,
 adds `index.html` and `story/`, and replaces `AGENTS.md` and `README.md` if
-they are still as XC-UI-Flow wrote them. **Undo upgrade** takes back the files
+they are still as Game Workbench wrote them. **Undo upgrade** takes back the files
 changed between the two checkpoints.
 
 ## Save and session
@@ -639,7 +639,7 @@ JavaScript module and stylesheet per node.
 - JavaScript and CSS are bundled, so `shared/` modules and the project's own
   `node_modules` work without a per-node build.
 - Every entry and import must resolve inside the workspace after following
-  symbolic links. Dependencies found in XC-UI-Flow's installation or a parent
+  symbolic links. Dependencies found in Game Workbench's installation or a parent
   directory are rejected.
 - Imported images, fonts, shaders, and binary modules are embedded in the
   surface bundle. Project Assets used through `context.assets` stay governed

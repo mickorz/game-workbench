@@ -147,7 +147,7 @@ describe("plugin catalog API", () => {
     });
   });
 
-  it("lists and reads XC-UI-Flow plugins without exposing Pi runtime packages", async () => {
+  it("lists and reads Game Workbench plugins without exposing Pi runtime packages", async () => {
     const app = createApp({
       dataDirectory: await mkdtemp(path.join(tmpdir(), "ohmygame-plugin-catalog-")),
       publishFetch: async () => Response.json([]),

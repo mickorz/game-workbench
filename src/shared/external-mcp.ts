@@ -1,12 +1,12 @@
-/** The daemon route external agents reach XC-UI-Flow's tools through. */
+/** The daemon route external agents reach Game Workbench's tools through. */
 export const EXTERNAL_MCP_PATH = "/external-mcp";
 
 /** The public tool contract version, reported as the MCP server version. */
 export const EXTERNAL_MCP_CONTRACT_VERSION = 1;
 
 /**
- * The name clients register XC-UI-Flow under. It differs from the `ohmygame`
- * server XC-UI-Flow gives the coding agents it runs, so a CLI that loads both
+ * The name clients register Game Workbench under. It differs from the `ohmygame`
+ * server Game Workbench gives the coding agents it runs, so a CLI that loads both
  * never confuses one for the other.
  */
 // 外部 CLI 注册与 MCP 握手用的服务名，存量注册按此寻址，冻结不改（见 docs/protocol-names.md）
@@ -15,10 +15,10 @@ export const EXTERNAL_MCP_SERVER_NAME = "ohmygame-studio";
 /** Absolute folders the client works in, as a JSON array; the launcher sends the client's MCP roots. */
 export const EXTERNAL_MCP_ROOTS_HEADER = "x-ohmygame-roots";
 
-/** Set for the coding agents XC-UI-Flow runs, so the launcher they may inherit does not connect back. */
+/** Set for the coding agents Game Workbench runs, so the launcher they may inherit does not connect back. */
 export const EXTERNAL_MCP_DISABLED_ENV = "OHMYGAME_EXTERNAL_MCP_DISABLED";
 
-/** Clients XC-UI-Flow can connect with their own CLI. Others are configured by hand. */
+/** Clients Game Workbench can connect with their own CLI. Others are configured by hand. */
 export const EXTERNAL_AGENT_CLIENT_IDS = ["claude-code", "codex"] as const;
 export type ExternalAgentClientId = (typeof EXTERNAL_AGENT_CLIENT_IDS)[number];
 
@@ -33,7 +33,7 @@ export interface ExternalAgentClientState {
   id: ExternalAgentClientId;
   /** The CLI was found on this computer. */
   available: boolean;
-  /** XC-UI-Flow added itself to the CLI's user configuration. */
+  /** Game Workbench added itself to the CLI's user configuration. */
   connected: boolean;
 }
 
@@ -56,7 +56,7 @@ export interface ExternalMcpEndpoint {
   pid: number;
 }
 
-/** Written to `<dataDirectory>/external-mcp/tools.json`, so the launcher can list tools while XC-UI-Flow is closed. */
+/** Written to `<dataDirectory>/external-mcp/tools.json`, so the launcher can list tools while Game Workbench is closed. */
 export interface ExternalMcpCatalog {
   version: 1;
   contractVersion: number;

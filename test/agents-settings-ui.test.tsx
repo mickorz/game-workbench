@@ -96,7 +96,7 @@ const row = (name: string) =>
       name,
   );
 
-it("lists XC-UI-Flow's own agent with its default model above the coding agent CLIs", async () => {
+it("lists Game Workbench's own agent with its default model above the coding agent CLIs", async () => {
   catalog = {
     models: [gpt, sonnet],
     defaultModel: { provider: "openai", id: "gpt-5" },
@@ -107,16 +107,16 @@ it("lists XC-UI-Flow's own agent with its default model above the coding agent C
   const names = [
     ...host.querySelectorAll(".settings-provider-name > span"),
   ].map((item) => item.textContent);
-  expect(names).toEqual(["XC-UI-Flow", "Claude Code", "Codex"]);
+  expect(names).toEqual(["Game Workbench", "Claude Code", "Codex"]);
   expect(
-    row("XC-UI-Flow")!.querySelector(".settings-provider-details"),
+    row("Game Workbench")!.querySelector(".settings-provider-details"),
   ).toBeNull();
-  expect(row("XC-UI-Flow")!.querySelector("small")?.textContent).toBe("Default");
+  expect(row("Game Workbench")!.querySelector("small")?.textContent).toBe("Default");
   expect(
     row("Claude Code")!.querySelector(".settings-provider-name small"),
   ).toBeNull();
   await act(async () =>
-    row("XC-UI-Flow")!
+    row("Game Workbench")!
       .querySelector<HTMLButtonElement>('button[aria-label="Manage models"]')!
       .click(),
   );
@@ -131,7 +131,7 @@ it("marks the CLI new conversations start with and opens its settings", async ()
   };
   const onViewChange = vi.fn();
   await render(onViewChange);
-  expect(row("XC-UI-Flow")!.querySelector("small")).toBeNull();
+  expect(row("Game Workbench")!.querySelector("small")).toBeNull();
   expect(
     row("Claude Code")!.querySelector(".settings-provider-name small")
       ?.textContent,
@@ -144,20 +144,20 @@ it("marks the CLI new conversations start with and opens its settings", async ()
   expect(onViewChange).toHaveBeenCalledWith({ page: "agent", id: "codex-cli" });
 });
 
-it("waits for a CLI still listing its models before marking XC-UI-Flow as the default", async () => {
+it("waits for a CLI still listing its models before marking Game Workbench as the default", async () => {
   catalog = {
     models: [gpt],
     loadingRuntimes: ["claude-code-cli"],
     defaultReasoningLevel: "medium",
   };
   await render();
-  expect(row("XC-UI-Flow")!.querySelector("small")).toBeNull();
+  expect(row("Game Workbench")!.querySelector("small")).toBeNull();
 });
 
-it("asks for a provider when XC-UI-Flow has no models", async () => {
+it("asks for a provider when Game Workbench has no models", async () => {
   catalog = { models: [sonnet], defaultReasoningLevel: "medium" };
   await render();
-  expect(row("XC-UI-Flow")!.textContent).toContain(
+  expect(row("Game Workbench")!.textContent).toContain(
     "No models yet. Connect a provider in Providers & Models.",
   );
 });

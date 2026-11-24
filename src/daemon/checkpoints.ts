@@ -237,7 +237,7 @@ const EXCLUDED_AT_ROOT = new Set([
   ".data/agent-attachments",
   "canvas/jobs.json",
 ]);
-// What a project's `.gitignore` files ignore is left out as well, wherever they are, except the files XC-UI-Flow keeps
+// What a project's `.gitignore` files ignore is left out as well, wherever they are, except the files Game Workbench keeps
 // for the project at the workspace root, which must go back together with the assets they describe, and the
 // `.gitignore` files themselves, which say what each snapshot left out.
 const GITIGNORE = ".gitignore";

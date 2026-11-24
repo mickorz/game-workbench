@@ -25,7 +25,7 @@ Older versions are documented in
 ### Changed
 
 - Claude Code, Codex, and OpenCode now load your existing CLI settings, Hooks,
-  MCP servers, Skills, and instructions while retaining XC-UI-Flow's selected
+  MCP servers, Skills, and instructions while retaining Game Workbench's selected
   permissions. OpenCode requires version 2.1.0 or newer in the 2.x series;
   upgrade v1 before using it. If OpenCode reports saved project grants, remove
   those grants in OpenCode and check again.
@@ -47,7 +47,7 @@ Older versions are documented in
 
 ### Added
 
-- Connect external Claude Code, Codex, and other MCP clients to XC-UI-Flow's
+- Connect external Claude Code, Codex, and other MCP clients to Game Workbench's
   media, canvas, project, and playtesting tools through Settings → MCP Server.
   ([#325](https://github.com/WhiteTowerAI/ohmygame/pull/325) by @dogxii)
 - Explore optional Beta plugins for Blender, Godot, TapTap Maker, Cocos Creator,
@@ -157,7 +157,7 @@ Older versions are documented in
 ### Added
 
 - Use installed Claude Code, Codex, and OpenCode CLIs in conversations, with
-  their own accounts and models, native reasoning controls, and XC-UI-Flow's
+  their own accounts and models, native reasoning controls, and Game Workbench's
   tools, checkpoints, and Undo.
   ([#299](https://github.com/WhiteTowerAI/ohmygame/pull/299) by @dogxii)
 - Manage coding agents in Settings → Agents, choose Standard or Full access

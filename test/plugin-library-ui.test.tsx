@@ -12,7 +12,7 @@ const official: PluginDetail = {
   displayName: "Studio",
   description: "Make games",
   source: { type: "builtIn" },
-  marketplace: { id: "ohmygame", displayName: "XC-UI-Flow" },
+  marketplace: { id: "ohmygame", displayName: "Game Workbench" },
   installed: true,
   enabled: true,
   skills: [

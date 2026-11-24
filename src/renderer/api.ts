@@ -282,7 +282,7 @@ export async function deleteProject(projectId: string): Promise<void> {
   composerDrafts.deleteProject(projectId);
 }
 
-/** Conversations list coding agents' models too; canvas text and other one-off generation use XC-UI-Flow's own models only. */
+/** Conversations list coding agents' models too; canvas text and other one-off generation use Game Workbench's own models only. */
 export async function listModels(options: { agentRuntimes?: boolean } = {}): Promise<AgentModelCatalog> {
   return request(options.agentRuntimes ? "/models?runtimes=1" : "/models");
 }

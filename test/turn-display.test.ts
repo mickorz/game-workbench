@@ -73,7 +73,7 @@ describe("mergeCompletedCompactionTurns", () => {
 describe("projectTurnDisplay", () => {
   it("hides the daemon-injected todo nudge message from the timeline", () => {
     const display = projectTurnDisplay(turn([
-      { id: "nudge", turnId: "turn-1", type: "userMessage", text: "[xc-ui-flow:todo-nudge] A TODO was added", timestamp: 2 },
+      { id: "nudge", turnId: "turn-1", type: "userMessage", text: "[game-workbench:todo-nudge] A TODO was added", timestamp: 2 },
       tool("inProgress"),
     ], false));
 

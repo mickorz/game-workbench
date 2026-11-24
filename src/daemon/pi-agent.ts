@@ -6,10 +6,10 @@ import { PLUGIN_AUTHORING_RULES } from "./plugin-authoring.js";
 
 const PLUGIN_CREATOR_SKILL = `---
 name: plugin-creator
-description: Create or update an XC-UI-Flow plugin from a natural-language request, validate it, and install it for the user.
+description: Create or update an Game Workbench plugin from a natural-language request, validate it, and install it for the user.
 ---
 
-# XC-UI-Flow Plugin Creator
+# Game Workbench Plugin Creator
 
 Create or update a plugin directory inside the current workspace. Read existing files before editing.
 

@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import { isOpenRouterModel, openRouterAttributionExtension, withOpenRouterAttribution } from "../src/daemon/openrouter-attribution.js";
 
 const OHMYGAME = {
-  "HTTP-Referer": "https://ohmygame.ai/",
-  "X-OpenRouter-Title": "XC-UI-Flow",
+  "HTTP-Referer": "https://github.com/mickorz/game-workbench",
+  "X-OpenRouter-Title": "Game Workbench",
   "X-OpenRouter-Categories": "game,native-app-builder",
 };
 
 describe("OpenRouter attribution", () => {
-  it("adds XC-UI-Flow attribution headers", () => {
+  it("adds Game Workbench attribution headers", () => {
     expect(withOpenRouterAttribution({ authorization: "Bearer sk-or" })).toEqual({ authorization: "Bearer sk-or", ...OHMYGAME });
   });
 

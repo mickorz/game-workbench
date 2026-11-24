@@ -16,7 +16,7 @@ interface ApprovalCardProps {
   onDecide: (decision: ApprovalDecision) => Promise<boolean>;
 }
 
-/** A coding agent asks before it does something XC-UI-Flow does not allow on its own. */
+/** A coding agent asks before it does something Game Workbench does not allow on its own. */
 export function ApprovalCard({
   request,
   agentName,

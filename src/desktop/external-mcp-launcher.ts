@@ -52,7 +52,7 @@ export type Message = {
 
 export interface LauncherOptions {
   dataDirectory: string;
-  /** Starts the XC-UI-Flow app; undefined when the launcher cannot. */
+  /** Starts the Game Workbench app; undefined when the launcher cannot. */
   startApp?: () => void;
   write: (message: Message) => void;
   fetch?: typeof fetch;
@@ -65,7 +65,7 @@ export interface LauncherOptions {
 /**
  * The stdio MCP server Claude Code, Codex and other clients start. It answers
  * `initialize` and `tools/list` itself, from the list the daemon saved, so a
- * client opening a session in any folder does not start XC-UI-Flow; the first
+ * client opening a session in any folder does not start Game Workbench; the first
  * tool call starts the app if needed and forwards to the daemon's
  * `/external-mcp`. See docs/external-agents.md.
  */
@@ -289,7 +289,7 @@ export class ExternalMcpLauncher {
           )?.text;
           const project = JSON.parse(text ?? "{}") as { id?: unknown };
           if (typeof project.id !== "string" || !project.id)
-            throw new Error("XC-UI-Flow returned no selected project ID");
+            throw new Error("Game Workbench returned no selected project ID");
           this.#projectId = connection.projectId = project.id;
         }
         return result;
@@ -306,11 +306,11 @@ export class ExternalMcpLauncher {
           !(cause instanceof SessionExpiredError)
         )
           throw new Error(
-            `XC-UI-Flow's response to ${tool} was lost or failed (${errorMessage(cause)}). Execution status is unknown; the call was not automatically retried. Check the project before starting it again.`,
+            `Game Workbench's response to ${tool} was lost or failed (${errorMessage(cause)}). Execution status is unknown; the call was not automatically retried. Check the project before starting it again.`,
           );
         if (attempt === 0) continue;
         throw new Error(
-          `Could not reach XC-UI-Flow (${errorMessage(cause)}). ${NOT_RUNNING}`,
+          `Could not reach Game Workbench (${errorMessage(cause)}). ${NOT_RUNNING}`,
         );
       }
     }
@@ -323,10 +323,10 @@ export class ExternalMcpLauncher {
   ): Promise<unknown> {
     const response = await this.#post(connection, message, signal);
     if (response.status === 401 || response.status === 404)
-      throw new SessionExpiredError(`XC-UI-Flow answered ${response.status}`);
+      throw new SessionExpiredError(`Game Workbench answered ${response.status}`);
     if (!response.ok)
       throw new Error(
-        `XC-UI-Flow answered ${response.status}: ${await response.text()}`,
+        `Game Workbench answered ${response.status}: ${await response.text()}`,
       );
     const answer = (await response.json()) as Message;
     if (answer.error) throw new Error(errorMessage(answer.error));
@@ -353,7 +353,7 @@ export class ExternalMcpLauncher {
         const session = response.headers.get("mcp-session-id");
         if (!response.ok || !session)
           throw new Error(
-            `XC-UI-Flow refused the connection (${response.status})`,
+            `Game Workbench refused the connection (${response.status})`,
           );
         this.#connection = { ...endpoint, session };
         return this.#connection;
@@ -364,7 +364,7 @@ export class ExternalMcpLauncher {
     return this.#connecting;
   }
 
-  /** The running daemon's endpoint, starting XC-UI-Flow when it is closed. */
+  /** The running daemon's endpoint, starting Game Workbench when it is closed. */
   async #endpoint(start: boolean): Promise<{ url: string; token: string }> {
     const current = await this.#liveEndpoint();
     if (current) return current;
@@ -382,7 +382,7 @@ export class ExternalMcpLauncher {
       const started = await this.#liveEndpoint();
       if (started) return started;
     }
-    throw new UnavailableError(`XC-UI-Flow could not be started. ${NOT_RUNNING}`);
+    throw new UnavailableError(`Game Workbench could not be started. ${NOT_RUNNING}`);
   }
 
   async #appRunning(): Promise<boolean> {
@@ -450,10 +450,10 @@ export class ExternalMcpLauncher {
 }
 
 const TURNED_OFF =
-  "XC-UI-Flow is not accepting other agents. Open XC-UI-Flow and turn on Settings → MCP Server → Allow other agents to use XC-UI-Flow.";
-const NOT_RUNNING = "Open the XC-UI-Flow app and try again.";
+  "Game Workbench is not accepting other agents. Open Game Workbench and turn on Settings → MCP Server → Allow other agents to use Game Workbench.";
+const NOT_RUNNING = "Open the Game Workbench app and try again.";
 
-/** XC-UI-Flow is off or closed; retrying the request would not help. */
+/** Game Workbench is off or closed; retrying the request would not help. */
 class UnavailableError extends Error {}
 
 /** Authentication/session rejection happens before any tool can execute. */

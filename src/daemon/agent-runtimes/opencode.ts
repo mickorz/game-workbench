@@ -38,7 +38,7 @@ const START_TIMEOUT_MS = 30_000;
 const CALLBACK_PERMISSIONS = [{ action: "*", resource: "*", effect: "ask" }];
 const SESSION_PREFIX = "opencode-v2:";
 const PERMISSION_DENIAL =
-  "XC-UI-Flow denied this request. Do not retry it through another tool or command. Explain the denial and continue only with permitted work.";
+  "Game Workbench denied this request. Do not retry it through another tool or command. Explain the denial and continue only with permitted work.";
 
 interface OpenCodeServer {
   process: AgentProcess;
@@ -66,7 +66,7 @@ interface OpenCodeTurn {
  * OpenCode through `opencode serve`, one server per conversation on a
  * loopback port with a password of its own. Messages go to the session's
  * prompt endpoint, everything that happens comes back on its event stream,
- * and permission requests are answered on the server. XC-UI-Flow's tools are
+ * and permission requests are answered on the server. Game Workbench's tools are
  * a remote MCP server on the daemon whose token only works while a turn of
  * this conversation runs.
  */
@@ -114,7 +114,7 @@ export class OpenCodeDriver implements NativeDriver {
     string,
     { name: string; input: Record<string, unknown> }
   >();
-  /** What bridged XC-UI-Flow tools returned, by tool and arguments: OpenCode's record of the call has only MCP's text. */
+  /** What bridged Game Workbench tools returned, by tool and arguments: OpenCode's record of the call has only MCP's text. */
   #bridged = new Map<
     string,
     Array<{ result: NativeToolResult; isError: boolean }>
@@ -283,7 +283,7 @@ export class OpenCodeDriver implements NativeDriver {
     } else {
       const created = record(
         await this.#api("POST", "/session", {
-          title: "XC-UI-Flow",
+          title: "Game Workbench",
           location: { directory: this.context.workspacePath },
           permissions: CALLBACK_PERMISSIONS,
         }),
@@ -307,7 +307,7 @@ export class OpenCodeDriver implements NativeDriver {
       );
     if (!hasCallbackPermissions(info?.permissions))
       throw new AgentRuntimeCompatibilityError(
-        "OpenCode did not enable XC-UI-Flow's permission callbacks for this session.",
+        "OpenCode did not enable Game Workbench's permission callbacks for this session.",
         "session.permissions=ask",
       );
     sink.nativeSession(SESSION_PREFIX + this.#sessionId);
@@ -326,7 +326,7 @@ export class OpenCodeDriver implements NativeDriver {
       throw new Error("OpenCode did not report its saved permissions");
     if (result.length)
       throw new AgentRuntimeCompatibilityError(
-        "OpenCode has saved permissions for this project that can bypass XC-UI-Flow's approvals. Remove those grants in OpenCode and check again. XC-UI-Flow does not delete your CLI permissions.",
+        "OpenCode has saved permissions for this project that can bypass Game Workbench's approvals. Remove those grants in OpenCode and check again. Game Workbench does not delete your CLI permissions.",
         "no saved OpenCode permissions for this project",
       );
   }
@@ -461,7 +461,7 @@ export class OpenCodeDriver implements NativeDriver {
             break;
           if (Date.now() >= deadline)
             throw new AgentRuntimeCompatibilityError(
-              "OpenCode did not enable XC-UI-Flow's permission callbacks for its agents. Check its configuration and plugins, then check again.",
+              "OpenCode did not enable Game Workbench's permission callbacks for its agents. Check its configuration and plugins, then check again.",
               "build/plan permissions=ask",
             );
           await delay(50, undefined, { signal: events.signal });
@@ -584,7 +584,7 @@ export class OpenCodeDriver implements NativeDriver {
             record(record(entry)?.status)?.status === "connected",
         )
       )
-        throw new Error("OpenCode could not connect XC-UI-Flow's tool bridge");
+        throw new Error("OpenCode could not connect Game Workbench's tool bridge");
       turn.signal.throwIfAborted();
     } catch (cause) {
       bridge.revoke();
@@ -911,7 +911,7 @@ export class OpenCodeDriver implements NativeDriver {
       decision = "deny";
       feedback = undefined;
     }
-    // Conversation grants stay in XC-UI-Flow, never in OpenCode's persisted patterns.
+    // Conversation grants stay in Game Workbench, never in OpenCode's persisted patterns.
     await this.#reply(
       request,
       decision === "deny" ? "reject" : "once",
@@ -1000,7 +1000,7 @@ export function splitModel(model: string): [string, string] {
     : [model.slice(0, index), model.slice(index + 1)];
 }
 
-/** XC-UI-Flow's tools by their own names; OpenCode's file and shell tools by Pi's. */
+/** Game Workbench's tools by their own names; OpenCode's file and shell tools by Pi's. */
 export function openCodeToolCall(
   name: string,
   input: Record<string, unknown>,

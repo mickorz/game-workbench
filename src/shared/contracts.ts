@@ -394,7 +394,7 @@ export interface ProjectState extends ProjectPreviewSettings {
   type: ProjectType;
   updatedAt: string;
   workspacePath: string;
-  /** The plugin owns the binding file; XC-UI-Flow stores only its identity and presentation. */
+  /** The plugin owns the binding file; Game Workbench stores only its identity and presentation. */
   integration?: { pluginId: string; preview?: "external" };
   /** General Game's explicit Web preview opt-in; missing means disabled. */
   webPreviewEnabled?: boolean;
@@ -409,9 +409,9 @@ export interface ProjectState extends ProjectPreviewSettings {
   /** Device preset selected when a Web Game preview starts. */
   previewViewport?: PreviewViewport;
   mediaModelDefaults?: MediaModelDefaults;
-  /** Internal XC-UI-Flow data kept separately from a user-selected workspace. */
+  /** Internal Game Workbench data kept separately from a user-selected workspace. */
   storagePath?: string;
-  /** Whether XC-UI-Flow owns the workspace directory or only references it. */
+  /** Whether Game Workbench owns the workspace directory or only references it. */
   workspaceLocation?: "managed" | "external";
   /** False when a previously selected workspace is no longer available on disk. */
   workspaceAvailable?: boolean;
@@ -869,7 +869,7 @@ export const TODO_ITEM_STATUSES = ["pending", "in_progress", "done"] as const;
 export type TodoItemStatus = (typeof TODO_ITEM_STATUSES)[number];
 
 /** nudge 控制消息前缀：daemon 注入的加 todo 引导提示，renderer 不渲染成气泡（仿 thinkrail isControlMessage）。 */
-export const TODO_NUDGE_PREFIX = "[xc-ui-flow:todo-nudge] ";
+export const TODO_NUDGE_PREFIX = "[game-workbench:todo-nudge] ";
 
 export interface TodoSnapshotItem {
   title: string;

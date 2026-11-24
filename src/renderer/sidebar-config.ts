@@ -25,7 +25,7 @@ export type SidebarGroup = "main" | "studios";
  */
 export const SIDEBAR_BRAND = {
   /** 品牌名，同时用于文字展示与图标 alt */
-  name: "xc-ui-flow",
+  name: "game-workbench",
   /** 品牌图标 URL；换图标改这里，不用改组件 */
   mark: brandMark as string,
 } as const;

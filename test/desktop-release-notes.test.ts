@@ -47,7 +47,7 @@ it.each([
         },
       );
       expect(result.status, result.stderr).toBe(0);
-      const artifact = path.join(directory, `XC-UI-Flow.${extension}`);
+      const artifact = path.join(directory, `Game Workbench.${extension}`);
       await writeFile(artifact, "installer fixture");
       const packager = {
         config,
