@@ -9,14 +9,14 @@ See the [documentation index](docs/README.md) for module guides and the
 
 ## Choose something to work on
 
-- Search [existing issues](https://github.com/mickorz/xc-ui-flow/issues)
+- Search [existing issues](https://github.com/mickorz/game-workbench/issues)
   before reporting a bug. Use the bug report form and include reproduction
   steps, version, platform, and logs with credentials removed.
 - Discuss new features and large changes in an issue before implementation.
   Small fixes and documentation corrections can go straight to a PR; an issue
   is useful when the intended behavior needs discussion.
-- Look for [`good first issue`](https://github.com/mickorz/xc-ui-flow/labels/good%20first%20issue)
-  or [`help wanted`](https://github.com/mickorz/xc-ui-flow/labels/help%20wanted).
+- Look for [`good first issue`](https://github.com/mickorz/game-workbench/labels/good%20first%20issue)
+  or [`help wanted`](https://github.com/mickorz/game-workbench/labels/help%20wanted).
   If none fit, describe the contribution you have in mind in an issue.
 - Ask questions and discuss ideas on [Discord](https://discord.gg/TkrgvGQ2Zc).
   Keep decisions and reproduction details in the related issue or PR so others
@@ -32,13 +32,13 @@ not by itself mean implementation has been scheduled.
 `dev` and open ordinary PRs against `dev`. `main` is the release branch;
 maintainers merge release PRs from `dev` into `main`.
 
-Fork [the repository](https://github.com/mickorz/xc-ui-flow/fork), then
+Fork [the repository](https://github.com/mickorz/game-workbench/fork), then
 replace `YOUR_USERNAME` below with your GitHub username:
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/ohmygame.git
 cd ohmygame
-git remote add upstream https://github.com/mickorz/xc-ui-flow.git
+git remote add upstream https://github.com/mickorz/game-workbench.git
 git fetch upstream
 git switch --no-track -c fix/short-description upstream/dev
 ```
@@ -246,7 +246,7 @@ the system browser and receives the result through a temporary loopback server.
 ### Cloud integration
 
 The Community website and hosted Publish service are in
-[`ohmygame-cloud`](https://github.com/mickorz/xc-ui-flow-cloud), which is
+[`ohmygame-cloud`](https://github.com/mickorz/game-workbench-cloud), which is
 currently private. Access is optional for contributing to this repository.
 The public client contract is [src/shared/publish-v1.ts](src/shared/publish-v1.ts);
 [free cloud models](docs/free-cloud-models.md) documents the model/quota boundary.
@@ -258,7 +258,7 @@ CLOUD_API_URL=http://127.0.0.1:43130
 ```
 
 Cloud setup and the server contract are in that repository's
-[`docs/publish-v1.md`](https://github.com/mickorz/xc-ui-flow-cloud/blob/main/docs/publish-v1.md).
+[`docs/publish-v1.md`](https://github.com/mickorz/game-workbench-cloud/blob/main/docs/publish-v1.md).
 Remote contract tests use an adjacent `ohmygame-cloud` checkout with its
 dependencies installed, or a checkout selected by `OHMYGAME_CLOUD_ROOT`.
 Contributors without access can describe the required cloud verification in

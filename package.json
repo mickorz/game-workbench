@@ -1,15 +1,15 @@
 {
-  "name": "xc-ui-flow",
+  "name": "game-workbench",
   "version": "0.0.0-beta.4.13",
   "description": "An open-source local-first agent for creating and publishing games.",
-  "author": "WhiteTowerAI",
+  "author": "mickorz",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mickorz/xc-ui-flow.git"
+    "url": "git+https://github.com/mickorz/game-workbench.git"
   },
   "bugs": {
-    "url": "https://github.com/mickorz/xc-ui-flow/issues"
+    "url": "https://github.com/mickorz/game-workbench/issues"
   },
   "private": true,
   "type": "module",

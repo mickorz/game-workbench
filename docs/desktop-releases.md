@@ -11,9 +11,9 @@ URL must not require browser cookies or an embedded cloud credential. For
 example, with the prefix `desktop`:
 
 ```text
-https://github.com/mickorz/xc-ui-flow/releases/latest.yml
-https://github.com/mickorz/xc-ui-flow/releases/latest-mac.yml
-https://github.com/mickorz/xc-ui-flow/releases/XC-UI-Flow-0.1.0-x64.exe
+https://github.com/mickorz/game-workbench/releases/latest.yml
+https://github.com/mickorz/game-workbench/releases/latest-mac.yml
+https://github.com/mickorz/game-workbench/releases/XC-UI-Flow-0.1.0-x64.exe
 ```
 
 The workflow uploads versioned installers and blockmaps with immutable cache
@@ -24,7 +24,7 @@ Configure these GitHub Actions repository variables:
 
 | Variable                   | Example                               | Purpose                                             |
 | -------------------------- | ------------------------------------- | --------------------------------------------------- |
-| `DESKTOP_UPDATE_URL`       | `https://github.com/mickorz/xc-ui-flow/releases` | Public feed URL embedded in the app                 |
+| `DESKTOP_UPDATE_URL`       | `https://github.com/mickorz/game-workbench/releases` | Public feed URL embedded in the app                 |
 | `R2_ACCOUNT_ID`            | Cloudflare account ID                 | Builds the R2 S3 endpoint                           |
 | `R2_BUCKET`                | `xcflow-releases`                   | Destination bucket                                  |
 | `R2_DESKTOP_UPDATE_PREFIX` | `desktop`                             | Destination key prefix, without surrounding slashes |
