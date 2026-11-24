@@ -19,7 +19,7 @@ export interface AgentPolicyContext {
   sandboxedCommands?: boolean;
   /**
    * The person gave the agent full access: nothing is asked, as with
-   * XC-UI-Flow's own agent. Protected roots a request names are still refused.
+   * Game Workbench's own agent. Protected roots a request names are still refused.
    */
   fullAccess?: boolean;
 }
@@ -69,7 +69,7 @@ export function neverTouchPaths(
 }
 
 /**
- * What XC-UI-Flow says before the person is asked. XC-UI-Flow's own agent works
+ * What Game Workbench says before the person is asked. Game Workbench's own agent works
  * in the workspace without asking, so a coding agent does too; it is stopped
  * outright where no agent may go, and the person decides the rest: files
  * outside the workspace and commands that publish, escalate or reach outside.
@@ -122,7 +122,7 @@ function judgeRequest(
       )
     )
       return "deny";
-    // The workspace may itself be inside XC-UI-Flow's data folder, which is otherwise out of bounds.
+    // The workspace may itself be inside Game Workbench's data folder, which is otherwise out of bounds.
     if (inside(target, workspace))
       return details.kind === "file" || details.kind === "other"
         ? "allow"
@@ -133,11 +133,17 @@ function judgeRequest(
   if (details.command !== undefined) {
     const command = details.command;
     const named = commandPaths(command, workspace).map(canonicalPath);
+    // A glued quoted token can carry a hidden path after a wrapper such as
+    // `zsh -lc 'cat "$HOME/..."'; its inner words reach protected paths too.
+    const reachCandidates = named.flatMap((token) => [
+      token,
+      ...token.split(/\s+/),
+    ]);
     const protectedInWorkspace = protectedPaths.filter((root) =>
       inside(root, workspace),
     );
     if (
-      named.some(
+      reachCandidates.some(
         (target) =>
           !readablePaths.some((root) => inside(target, root)) &&
           reaches(
@@ -297,8 +303,26 @@ const SAFE_OUTSIDE = [
 ].map((root) => path.resolve(root));
 
 function commandPaths(command: string, workspace: string): string[] {
-  // Quotes are dropped first, so a path inside `sh -c '…'` or a quoted argument is seen too.
-  const words = command.replace(/["'`]/g, " ").split(/[\s;&|()<>]+/);
+  // Split on separators outside quotes only: a quoted argument stays one
+  // token even when the path contains spaces, while quote characters still
+  // come off so login-shell wrappers do not change the paths they carry.
+  const words: string[] = [];
+  let word = "";
+  let quote: string | undefined;
+  for (const char of command) {
+    if (char === '"' || char === "'" || char === "`") {
+      if (quote === char) quote = undefined;
+      else if (!quote) quote = char;
+      continue;
+    }
+    if (!quote && /[\s;&|()<>]/.test(char)) {
+      if (word) words.push(word);
+      word = "";
+    } else {
+      word += char;
+    }
+  }
+  if (word) words.push(word);
   const paths: string[] = [];
   for (const raw of words) {
     const word = raw.replace(/^[A-Za-z_][A-Za-z0-9_]*=/, "");
