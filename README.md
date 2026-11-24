@@ -1,341 +1,104 @@
+# Game Workbench
+
 <div align="center">
 
-<img src="docs/assets/banner.webp" alt="XC-UI-Flow — the open-source studio for making games with AI" width="100%" />
-
-**Your own one-person game studio.** Everything you need to make games with AI, in one app. Bring your own key.
+**A local-first desktop workbench where AI agents build your game assets, UI, and projects.**
 
 <p>
-  <a href="https://github.com/mickorz/xc-ui-flow/releases"><img src="https://img.shields.io/badge/Download-macOS%20(Apple%20silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download for macOS" /></a>
-  <a href="https://github.com/mickorz/xc-ui-flow/releases"><img src="https://img.shields.io/badge/Download-Windows%20x64-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" /></a>
+  <a href="https://github.com/mickorz/game-workbench/releases"><img src="https://img.shields.io/badge/Download-Releases-0078D4?style=for-the-badge&logo=github&logoColor=white" alt="Download from Releases" /></a>
 </p>
 
 <p>
-  <a href="#how-its-built"><img src="https://img.shields.io/badge/built%20on-Pi-7c3aed?style=flat-square" alt="Built on Pi" /></a>
-  <a href="#any-model-your-keys"><img src="https://img.shields.io/badge/models-40%2B%20providers%20%C2%B7%20BYOK-black?style=flat-square" alt="40+ model providers, BYOK" /></a>
+  <a href="docs/README.md"><img src="https://img.shields.io/badge/built%20on-Pi-7c3aed?style=flat-square" alt="Built on Pi" /></a>
+  <a href="#models-bring-your-own-key"><img src="https://img.shields.io/badge/models-40%2B%20providers%20%C2%B7%20BYOK-black?style=flat-square" alt="40+ model providers, bring your own key" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue?style=flat-square" alt="License Apache 2.0" /></a>
-  <a href="https://discord.gg/TkrgvGQ2Zc"><img src="https://img.shields.io/badge/Discord-join-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Join Discord" /></a>
-  <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=65LzSf96ttluVSAPzPKJvrsoQ0NSQHPJnhgJImnnqIik9uK64ljVd%2FzkRWb8Xanz&busi_data=eyJncm91cENvZGUiOiI0NjA3MDY5MjMiLCJ0b2tlbiI6InNUNWR3U05OeVlMZEVCK0YxNUNKckplazliYklGRnV6ZUZGM1NlV29vYVdKNGkrR2g2c28zNG1kdDFFcHllczMiLCJ1aW4iOiIyNDUxMjQwODEifQ%3D%3D&data=CQ5T4W2Ac1NWWg56dH_HQwixT7faVMm5Xq5kZsLgx9TDBGxeqs3mwXNLVUpO83oOUobc1qXBosRKYmWnziWboA&svctype=4&tempid=h5_group_info"><img src="https://img.shields.io/badge/QQ%20Group-460706923-12B7F5?style=flat-square&logo=qq&logoColor=white" alt="Join the QQ group 460706923" /></a>
 </p>
 
 <p>
   <b>English</b> · <a href="README.zh-CN.md">简体中文</a>
 </p>
 
-https://github.com/user-attachments/assets/4d5805fe-92a2-40b4-a232-c7452f9a796a
-
 </div>
 
 > [!NOTE]
-> 🚧 XC-UI-Flow is in beta. Expect rough edges. Join us and let's build it together!
+> Game Workbench is in beta. Expect rough edges.
 
 ## What it is
 
-Making a game takes design docs, 2D art, 3D models, video, code, and somewhere
-to put it when it's done. Today those live in five or six different tools.
-XC-UI-Flow puts them in one app: describe your game, and the agent designs it,
-makes the assets, builds it, plays it to check it works, and publishes it to a
-link you can share.
+Game Workbench is a local-first desktop app for building games with AI
+agents. You describe what you want in a chat, and agents work inside
+dedicated studios: drafting requirement specs, editing FairyGUI UI on a live
+design page, arranging assets on canvases, and running previews to verify
+the result. Your model keys stay on your machine, and there are no per-run
+credits.
 
-Two core design ideas shape it:
+## Studios
 
-1. **Everything lives on a canvas.** Design docs, concept art, 3D models, and
-   video sit side by side on one board. One character sketch can grow into more
-   art, a video, or a rigged 3D model, and everything is ready to use in your
-   game.
-2. **The agent does the work.** It drives the canvas the way you would:
-   drafting the design doc, turning a character sketch into a rigged 3D model,
-   writing the code, and playtesting the result.
+The sidebar opens into task-focused studios, each with its own workspace and
+tooling:
 
-It's open source and works with 40+ model providers through Pi, from Anthropic
-and OpenAI to DeepSeek and Qwen. Your keys stay on your machine, there are no
-per-run credits, and what you make is yours.
+- **FairyGUI studio** — chat-driven UI editing for FairyGUI projects. The
+  agent drives a bridge plugin inside the FairyGUI editor: opens components
+  on a design page, reads the component tree, captures rendered screenshots,
+  and edits XML with verification.
+- **Requirement Check studio** — turns a one-line request into a structured
+  requirement spec, a check plan, and a per-criterion check result, with
+  open questions settled through a questionnaire gate before anything is
+  assumed.
+- **Asset Canvas** — a canvas workspace where generated and imported assets
+  sit side by side, ready to be referenced by agents and projects.
 
-## Features
+## Agent core
 
-### 🤖 Agent: drives the canvas, builds and plays the game
+- **Any model, your keys.** Runs on [Pi](docs/README.md) with 40+ model
+  providers — Anthropic, OpenAI, DeepSeek, Qwen, and more. Configure your
+  own API keys; nothing is billed per run.
+- **Coding agents as drivers.** Sessions can be driven by Claude Code,
+  Codex, or OpenCode in addition to the built-in Pi runtime.
+- **External agent access.** Game Workbench exposes an MCP server so
+  external agents can operate projects, assets, and sessions.
 
-The agent works the canvas the way you would: it drafts the design doc, lays
-out boards, and generates assets on them. Then it reads the design doc, writes
-the code, and runs the game in a live preview. Then it opens the game in a window you can watch and plays it, including
-real-time canvas and WebGL games. When it finds a problem, it tries a fix and
-plays again. Along the way it can generate images, video, and 3D models, search
-the web, and use MCP servers or the Codex and Claude Code plugins you already
-have.
+## Workbench features
 
-<!-- Playtesting is open loop for now: the agent plans a batch of inputs, runs
-them, then looks at the result. It has no real-time reflexes yet. -->
-
-**▶ The agent playtesting a new item feature on desktop and mobile, then reporting
-what it found (sped up 4×).**
-
-https://github.com/user-attachments/assets/3cb982e8-a4a8-4715-bf3c-df4e41e7855b
-
-### 🎨 Canvas: design docs, art, video, and 3D on one board
-
-Every game project has a design space: a main design doc plus boards where
-the doc, images, video, and 3D models sit side by side. Nodes can use each
-other as references, so one character design can lead to more images, a video,
-or a rigged and animated 3D model. Results go into a shared Asset Library that
-your games can use.
-
-https://github.com/user-attachments/assets/5a35964d-87b3-4153-8b1b-fc6deced5bb3
-
-### 🔗 Publish: one link, playable anywhere
-
-Sign in and publish: XC-UI-Flow builds your game and gives it a link anyone can
-play in the browser. Republishing updates the same link. Published games are
-listed in the in-app Community, where you can play what others have made.
-
-### 🔌 Use XC-UI-Flow from Claude Code, Codex, and other agents
-
-Already working in another coding agent? Turn on **Settings → MCP Server →
-Allow other agents to use XC-UI-Flow** and connect Claude Code or Codex with one
-click.
-They get XC-UI-Flow's media generation with your providers, the canvas, and
-playtesting, plus a Skill that explains the workflow. DeepSeek Harness and
-other MCP clients can add the `ohmygame-studio` command shown there. See
-[External agents](docs/external-agents.md).
-
-## What you can make
-
-Three games our team made with XC-UI-Flow:
-
-<table>
-  <tr>
-    <td width="33%"><img src="docs/assets/showcase/interactive-film.webp" alt="Interactive film made with XC-UI-Flow: a monkey warrior dodges a sword strike" width="100%" /></td>
-    <td width="33%"><img src="docs/assets/showcase/island-builder.webp" alt="Island builder made with XC-UI-Flow: building a workshop on a floating dock" width="100%" /></td>
-    <td width="33%"><img src="docs/assets/showcase/deckbuilding-roguelike.webp" alt="Deckbuilding roguelike made with XC-UI-Flow: playing cards in a gothic battle" width="100%" /></td>
-  </tr>
-  <tr>
-    <td align="center">Interactive film</td>
-    <td align="center">Island builder</td>
-    <td align="center">Deckbuilding roguelike</td>
-  </tr>
-</table>
-
-### 🎮 Web games
-
-**The best place to start.** 2D and 3D games for the browser, built with
-Three.js, React Three Fiber, or Phaser. The agent follows a complete web game
-workflow: a design doc, key-screen mockups, production art, a playable core
-loop, and playtesting in the live preview. Games fit any window size, support
-touch, and publish to a shareable link. The project is a normal web project you
-can open in any editor.
-
-### 🎬 Interactive stories
-
-Interactive films, visual novels, and story games. Each screen is a free web
-page with its own images, video, and code: a main menu, a case archive, a
-dialogue, a puzzle. You connect them on a graph, and the runtime handles state,
-saves, music, and navigation. The story plays as its own web page, and the
-runtime is part of the project, so the agent can change anything about how it
-plays. The architecture and authoring model are documented in
-[Playable Nodes](docs/playable-nodes/README.md).
-
-<!-- TODO(asset): screenshot or GIF, Node Graph with two finished screens,
-made with XC-UI-Flow. Leave out until there is a real one. -->
-
-### 🎲 General games: any engine or stack
-
-**General Game** doesn't assume an engine or stack. Start from an idea, bring a
-project in any engine, or make tools and content for your game. The Game Studio
-plugin coordinates design, production art, implementation, and verification
-across engines.
-
-When the output is a web page, preview, playtesting, and publishing work as
-they do for Web games; native games use their engine's own tools. See
-[General Game details](docs/runtime.md#agent-game-use). **Making a browser
-game? Choose Web Game**: it is tuned for the browser.
+- **Live preview and playtest** — run web games in a local preview or a
+  native window while the agent watches and verifies.
+- **Checkpoints and undo** — every turn records file changes; step back
+  without losing history.
+- **Plugins and skills** — extend the daemon with plugin packages, or teach
+  agents new workflows through project skills.
+- **Project archives** — export and import projects with their assets.
+- **Desktop app** — Electron packaging with auto-update, bilingual UI
+  (English and 简体中文).
 
 ## How it's built
 
-The idea that holds this together: one agent drives every part of the studio.
+A React renderer talks to a local Fastify daemon over HTTP and SSE. The
+daemon owns agent sessions, workspaces, assets, previews, and publishing;
+Electron owns desktop lifecycle and native game windows; shared modules
+define the contracts. See the [module map](docs/README.md) for code entry
+points per area.
 
-**1 · A full Pi agent with a GUI.** XC-UI-Flow runs
-[Pi](https://www.npmjs.com/package/@earendil-works/pi-coding-agent) with its
-full toolset and persistent sessions, in a GUI built for watching results
-rather than reading diffs. Close the app, come back, and the project,
-conversation, and context are still there. You describe, review, and steer;
-editing by hand is always possible, but it is not the main path.
+## Getting started (development)
 
-**2 · Every workspace is files.** A web game is a normal web project. A design
-doc is Markdown, and boards and the Asset Canvas share one JSON node model. An
-interactive story is a node graph on disk. Each comes with an `AGENTS.md` and
-JSON schemas, so the agent edits them the same way it edits code, and the
-visual editors read and write the same files.
-
-**3 · Games are tool calls.** Playing the game (`game_use`), generating media,
-and checking story nodes are ordinary Pi tools, next to its coding tools. That
-is why the agent can chain them: draft a design, make the art, write the code,
-and play the result in one conversation.
-
-## Any model, your keys
-
-XC-UI-Flow does not lock you into one model or charge per run.
-
-- **Coding models from 40+ providers** through Pi, including Anthropic,
-  OpenAI, Google, DeepSeek, Qwen, Kimi, GLM, MiniMax, xAI, Mistral, Groq,
-  OpenRouter, Amazon Bedrock, and Vercel AI Gateway.
-- **Sign in with a subscription you already have**, such as ChatGPT Plus/Pro or
-  GitHub Copilot, or paste an API key.
-  <!-- TODO(legal): check each provider's terms before naming more subscriptions -->
-- **Coding agents you already use**: Claude Code, Codex, and OpenCode run a
-  conversation with their own sign-in, while XC-UI-Flow keeps its history, Undo,
-  canvas, media tools, and plugins. Enable them in Settings; native CLI
-  permission limits apply. See [coding agents](docs/coding-agents.md).
-- **Media models** for images, video, and 3D through OpenAI, OpenRouter,
-  Volcengine Ark / BytePlus ModelArk, and Meshy.
-- **Custom providers and model aliases** with selectable language, image, video
-  and 3D uses, protocol templates and generation defaults.
-  See [custom model configuration](docs/custom-models.md).
-
-Keys stay in the local daemon. They never reach the agent's workspace, your
-game, or the renderer.
-
-## Quick start
-
-### Download
-
-See [the changelog](CHANGELOG.md) for changes in each release, or open
-**Settings → About → Changelog** inside the app.
-
-Grab the installer from the buttons at the top or from
-[Releases](https://github.com/mickorz/xc-ui-flow/releases). Builds are
-available for macOS (Apple silicon) and Windows (x64). The Windows build is
-not code-signed yet, so Windows may show a SmartScreen warning during install.
-
-### First run
-
-![First-run AI connection screen](docs/assets/first-run-onboarding.png)
-
-XC-UI-Flow ships without a model. On first launch, a small game world forms and
-transforms into the XC-UI-Flow logo. The wordmark, **Your own game studio.**, and
-**Next** appear in sequence over about five seconds.
-Returning from a later setup step shows the welcome content immediately.
-Click **Next** to connect a model before your first prompt:
-
-1. **Connect your AI.** XC-UI-Flow (Pi) is enabled by default and uses your model
-   providers; connect a provider with sign-in or an API key, or use an installed
-   Claude Code, Codex or OpenCode CLI. Agents share one horizontally scrolling row. Use **+** beside
-   provider search to add a custom or local endpoint. CLI connections use their
-   own sign-in; choosing a connected agent enables it without changing its
-   permissions or personal configuration. Start by choosing an agent; the choices
-   then collapse into a compact row with **Switch** to reopen them.
-   Multiple agents can stay connected; choosing one does not disconnect the others.
-   Model provider setup belongs to XC-UI-Flow. A check marks an enabled agent. Choose the
-   default conversation model below the selected agent's configuration; selections
-   are retained while switching agents and saved with **Next**. Sign-in,
-   API key and configuration actions use icons with tooltips. Connected
-   services show a check; disabled connections can be enabled without signing in again.
-   Selecting an uninstalled CLI shows setup guidance; its **Installation guide**
-   opens only when clicked, and **Check again** detects it after installation.
-   **Next** continues when a language model is ready; **Skip and start**
-   enters without setup. Setup resumes where you left off; existing installations
-   go straight to the studio.
-2. **Add creative tools (optional).** The last screen offers image, video, 3D,
-   and audio providers. Each category shows every provider; **+** adds a custom
-   provider inline. Choose a provider to connect and configure its
-   models using its configuration icon; a check marks a connected service.
-   Media default models can be set later in **Settings → Providers & Models**.
-   **Start creating** enters the studio without requiring any media connection.
-   A brief, single-line **Welcome, Gamer!** fades into the studio after setup; reduced-motion
-   preferences skip this animation.
-   These tools remain available in **Settings → Providers & Models**; coding
-   agents are managed in **Settings → Agents**. A language model alone can design
-   and build a game. Generating media needs a corresponding provider:
-
-   | To make                       | Connect                                                             |
-   | ----------------------------- | ------------------------------------------------------------------- |
-   | Design docs, code, playtests  | Any language model provider                                         |
-   | Images and sprites            | Codex CLI (local sign-in), OpenAI (API key), OpenRouter, or Volcengine Ark / BytePlus ModelArk |
-   | Video                         | OpenRouter, or Volcengine Ark / BytePlus ModelArk                   |
-   | 3D models, rigging, animation | Meshy, Tripo, or Hyper3D (capabilities vary by provider)              |
-
-   The **Codex CLI** image provider uses your local Codex sign-in and account
-   usage limits. Select **Codex Image** in the canvas or set it as your default
-   image source. It works with any conversation agent, even when Codex is off
-   in Agents; the terminal does not need to stay open. Multiple reference images
-   are supported within the app's shared 16-image limit; Codex manages output
-   dimensions.
-
-   The OpenAI provider's ChatGPT browser sign-in does not cover its image API.
-   In the OpenAI provider's **Image models** section, configure a separate API key and Base URL,
-   fetch or manually add image models, enable them and save. This works alongside
-   browser sign-in and supports compatible GPT Image relays. API-key chat
-   connections can also share their key and endpoint with image generation.
-
-3. **Pick a model and describe your game.** Choose the model in the prompt box
-   on the home screen, then describe what you want to make.
-
-Web search works without setup. Sign in under **Account** only when you want
-to publish a game; making games locally needs no account.
-Reopen the welcome from **Settings → About → View getting started**.
-
-To move a project to another computer, choose **Export project** in its card
-menu. The ZIP file holds the workspace, project settings and cover, without
-dependencies, build output or `.env` files. Story settings uses the same project
-export. **Import project** on the Projects
-page opens it as a new project. See [Project archives](docs/project-archives.md).
-
-### Run from source
-
-Requires Bun 1.4.2 or newer for the toolchain and Node.js 22.19+ for the daemon.
+Prerequisites: [Bun](https://bun.sh), Node.js 20+.
 
 ```bash
-git clone --branch main https://github.com/mickorz/xc-ui-flow.git
-cd xc-ui-flow
-bun install --frozen-lockfile
-bun run dev            # web renderer + local daemon
-# or
-bun run dev:desktop    # Electron app
+bun install
+bun run dev
 ```
 
-This uses the release branch. For development contributions, start from `dev`
-using [CONTRIBUTING.md](CONTRIBUTING.md#fork-and-create-a-branch).
-Local development can start without cloud configuration; see
-[CONTRIBUTING.md](CONTRIBUTING.md#configuration) for optional integrations.
+This starts the daemon on `http://127.0.0.1:43110` and the renderer on
+`http://127.0.0.1:43120`. Open the renderer URL in a browser, or run the
+desktop shell with `bun run dev:desktop`. Setup, verification, and
+contribution workflow are documented in
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
-Design and Asset Canvas share boards, Markdown documents, and local media
-under `canvas/`. See [Canvas workspace](docs/canvas-agent.md) for the file
-contract and offline migration instructions.
+## Credits
 
-## Privacy
-
-Your projects and keys stay on your machine. Prompts and generation requests go
-directly to the model providers you choose. Publishing requires an XC-UI-Flow
-account and uploads only your game's static build. Release builds check for
-updates and send anonymous usage events (PostHog, no session recording) and
-crash reports (Sentry, no personal data). Builds from source send no telemetry.
-
-## Roadmap
-
-We're working on plain-language playtest reports, remixing
-games from the Community, and Intel Mac / Linux builds. See
-[Issues](https://github.com/mickorz/xc-ui-flow/issues) for what's next, and
-vote with 👍 on what matters to you. Want to help? Look for
-[`help wanted`](https://github.com/mickorz/xc-ui-flow/labels/help%20wanted)
-issues.
-
-## Contributing
-
-Issues and PRs are welcome. Start contribution branches from `dev` and target
-ordinary PRs at `dev`; `main` receives releases. See
-[CONTRIBUTING.md](CONTRIBUTING.md) for setup, checks, and review,
-[中文快速指引](docs/contributing.zh-CN.md) for a short Chinese introduction, and
-[the documentation index](docs/README.md) for module guides.
-Report security issues using [SECURITY.md](SECURITY.md).
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=mickorz%2Fxc-ui-flow&type=date&legend=top-left">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&theme=dark&legend=top-left" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&legend=top-left" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=mickorz/xc-ui-flow&type=date&legend=top-left" />
-  </picture>
-</a>
+Game Workbench started as a fork of
+[OhMyGame](https://github.com/WhiteTowerAI/ohmygame) (Apache-2.0) and has
+been reworked in its own direction. Thank you, OhMyGame.
 
 ## License
 
-[Apache-2.0](LICENSE). The XC-UI-Flow name and logo are not covered by the
-license.
+[Apache-2.0](LICENSE)
