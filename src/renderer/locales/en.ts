@@ -183,6 +183,7 @@ const en = {
       free: "Free cloud",
       connected: "Connected providers",
       popular: "Popular providers",
+      china: "Popular in China",
       local: "Local providers",
       more: "More providers",
     },

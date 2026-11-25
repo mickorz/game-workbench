@@ -503,6 +503,14 @@ body:has(.onboarding) :is(input, select, textarea):is(:focus, :focus-visible) {
   color: var(--text-muted);
   font-size: 12px;
 }
+.onboarding-provider-group-heading {
+  color: var(--text-muted);
+  font-size: 11px;
+  margin-top: 14px;
+  padding-left: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
 .onboarding-section-heading {
   display: flex;
   align-items: center;

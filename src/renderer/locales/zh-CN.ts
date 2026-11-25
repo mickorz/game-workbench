@@ -183,6 +183,7 @@ const zhCN: typeof en = {
       free: "免费云端",
       connected: "已连接的服务商",
       popular: "热门服务商",
+      china: "国内常用",
       local: "本地服务商",
       more: "更多服务商",
     },

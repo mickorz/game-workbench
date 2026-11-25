@@ -31,18 +31,21 @@ describe("provider groups", () => {
           managed: "free_cloud",
           status: "connected",
         }),
+        summary("openai", { status: "connected" }),
         summary("custom:ollama", { preset: "ollama", status: "connected" }),
-        summary("anthropic", { status: "connected" }),
+        summary("deepseek"),
+        summary("openrouter"),
       ],
       predicates,
     );
     expect(ids(groups.connected)).toEqual([
       "cloud-hyper3d",
+      "openai",
       "custom:ollama",
-      "anthropic",
     ]);
     expect(groups.free).toEqual([]);
     expect(groups.local).toEqual([]);
+    expect(ids(groups.popular)).toEqual(["openrouter", "deepseek"]);
     expect(ids(groups.more)).toEqual(["cerebras"]);
   });
 
@@ -68,5 +71,36 @@ describe("provider groups", () => {
     ]);
     expect(ids(groups.local)).toEqual(["custom:ollama"]);
     expect(ids(groups.more)).toEqual(["cerebras"]);
+  });
+
+  it("honours configured priority groups from provider-groups.config.json", () => {
+    const groups = groupProviders(
+      [
+        summary("openai"),
+        summary("deepseek"),
+        summary("moonshotai"),
+        summary("zai"),
+        summary("cerebras"),
+      ],
+      {
+        ...predicates,
+        priorityGroups: [{ id: "china", providers: ["deepseek", "zai", "moonshotai"] }],
+      },
+    );
+    expect(groups.priority.map((group) => group.id)).toEqual(["china"]);
+    expect(groups.priority[0]!.items.map((item) => item.id)).toEqual([
+      "deepseek",
+      "zai",
+      "moonshotai",
+    ]);
+    // claimed providers leave the popular group even when listed there
+    expect(ids(groups.popular)).toEqual(["openai"]);
+    expect(ids(groups.more)).toEqual(["cerebras"]);
+  });
+
+  it("defaults to no priority groups so settings keep their existing shape", () => {
+    const groups = groupProviders([summary("deepseek"), summary("openai")], predicates);
+    expect(groups.priority).toEqual([]);
+    expect(ids(groups.popular)).toEqual(["openai", "deepseek"]);
   });
 });

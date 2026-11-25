@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "id": "china",
+      "providers": [
+        "deepseek",
+        "zai",
+        "zai-coding-cn",
+        "moonshotai",
+        "moonshotai-cn",
+        "kimi-coding",
+        "qwen-token-plan",
+        "qwen-token-plan-cn",
+        "minimax",
+        "minimax-cn"
+      ]
+    }
+  ],
+  "popularOrder": [
+    "openai",
+    "anthropic",
+    "openrouter",
+    "google",
+    "deepseek",
+    "meshy",
+    "tripo"
+  ]
+}

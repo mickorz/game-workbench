@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties } from "react";
 import type {
   AgentModelCatalog,
   AgentModelRef,
@@ -44,7 +44,7 @@ import { ActiveProviderAuth } from "./models-settings.js";
 import { CustomProviderForm } from "./custom-provider-dialog.js";
 import { CanvasChipSelect } from "./canvas-chip-select.js";
 import { PROVIDER_ICONS } from "./provider-icons.js";
-import { groupProviders } from "./provider-groups.js";
+import { groupProviders, PROVIDER_PRIORITY_GROUPS } from "./provider-groups.js";
 import { useReadyRuntimeGeneration } from "./runtime-connection.js";
 import { WindowDragRegion } from "./window-drag-region.js";
 import { OnboardingDemo } from "./onboarding-demo.js";
@@ -618,13 +618,25 @@ function ProviderPicker({
       .includes(query.trim().toLowerCase()),
   );
   // Setup has no free or local groups; those providers stay under More.
-  const { connected, popular, more } = groupProviders(visible, {
+  const { connected, priority, popular, more } = groupProviders(visible, {
     isConnected: chatConnected,
     isFree: () => false,
     isLocal: () => false,
+    priorityGroups: PROVIDER_PRIORITY_GROUPS,
   });
-  const featured = [...connected, ...popular];
-  const hasMore = !filtering && featured.length > 0 && more.length > 0;
+  const groups: Array<{ id: string; label: string; items: ProviderSummary[] }> = [
+    { id: "connected", label: t("providers.group.connected"), items: connected },
+    ...priority.map((group) => ({
+      id: group.id,
+      label: t(`providers.group.${group.id}`, { defaultValue: group.id }),
+      items: group.items,
+    })),
+    { id: "popular", label: t("providers.group.popular"), items: popular },
+  ];
+  const featured = groups.reduce((count, group) => count + group.items.length, 0);
+  const hasMore = !filtering && featured > 0 && more.length > 0;
+  const visibleGroups = hasMore && !moreOpen ? groups : [...groups, { id: "more", label: "", items: more }];
+  const shown = visibleGroups.filter((group) => group.items.length > 0);
   const row = (provider: ProviderSummary) => {
     const connected = chatConnected(provider);
     return (
@@ -733,7 +745,12 @@ function ProviderPicker({
         </button>
       </div>
       <div className="onboarding-provider-list">
-        {(hasMore ? featured : visible).map(row)}
+        {shown.map((group) => (
+          <Fragment key={group.id}>
+            <div className="onboarding-provider-group-heading">{group.label}</div>
+            {group.items.map(row)}
+          </Fragment>
+        ))}
         {hasMore && !moreOpen ? (
           <button
             className="onboarding-text-button onboarding-more-providers"
@@ -744,7 +761,6 @@ function ProviderPicker({
             <ChevronDown size={14} aria-hidden="true" />
           </button>
         ) : null}
-        {hasMore && moreOpen ? more.map(row) : null}
         {!visible.length ? (
           <p className="onboarding-lede">{t("onboarding.noProviders")}</p>
         ) : null}

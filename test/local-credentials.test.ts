@@ -122,7 +122,11 @@ describe("ModelAuthManager.importApiKey", () => {
   it("answers the api_key prompt with the discovered key", async () => {
     // login 发起一次 secret 提示；值回填后整个登录完成
     const runtime = fakeRuntime({
-      login: async (_providerId, _method, interaction) => {
+      login: async (
+        _providerId: unknown,
+        _method: unknown,
+        interaction: { prompt: (prompt: { type: string; message: string }) => Promise<string> },
+      ) => {
         const key = await interaction.prompt({ type: "secret", message: "API key" });
         expect(key).toBe("sk-discovered");
       },
