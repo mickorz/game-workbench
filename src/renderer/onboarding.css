@@ -439,6 +439,25 @@ body:has(.onboarding) :is(input, select, textarea):is(:focus, :focus-visible) {
   max-width: 440px;
   margin-top: 20px;
 }
+.onboarding-local-credentials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 440px;
+  margin-top: 16px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+.onboarding-local-credentials span {
+  flex: 1;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
 .onboarding-error {
   margin: 0;
   color: var(--danger);

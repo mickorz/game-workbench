@@ -18,15 +18,19 @@ import {
 import { clampReasoningLevel } from "../shared/reasoning.js";
 import {
   getCustomProvider,
+  importLocalCredential,
+  listLocalCredentials,
   listModels,
   listProviders,
   MODELS_CHANGED_EVENT,
   setProviderEnabled,
   updateAgentDefaults,
+  type LocalCredentialCandidate,
 } from "./api.js";
 import {
   Check,
   ChevronDown,
+  X,
   Plug,
   LoaderCircle,
   Plus,
@@ -84,6 +88,8 @@ export function Onboarding({
   }, [step]);
   const [selectedModel, setSelectedModel] = useState<AgentModelRef>();
   const [connectedProvider, setConnectedProvider] = useState<string>();
+  const [localCredentials, setLocalCredentials] = useState<LocalCredentialCandidate[]>([]);
+  const [localDismissed, setLocalDismissed] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
   const preferredModel = preferredAgentModel(
     catalog.models,
@@ -130,6 +136,15 @@ export function Onboarding({
           if (!active || current !== sequence) return;
           setProviderError(errorMessage(cause));
           setLoadingProviders(false);
+        });
+      void listLocalCredentials()
+        .then((found) => {
+          if (!active || current !== sequence) return;
+          setLocalCredentials(found.items);
+        })
+        .catch(() => {
+          if (!active || current !== sequence) return;
+          setLocalCredentials([]);
         });
     };
     load();
@@ -250,6 +265,14 @@ export function Onboarding({
     setSelectedModel(undefined);
   }
 
+  async function importFoundCredentials() {
+    for (const item of localCredentials) {
+      await importLocalCredential(item.providerId, item.source);
+    }
+    setLocalCredentials([]);
+    setRefresh((value) => value + 1);
+  }
+
   function navigate(next: OnboardingStep) {
     if (busy) return;
     const reset = () => {
@@ -324,6 +347,34 @@ export function Onboarding({
         {t("onboarding.chooseProvider")}
       </h1>
       <>
+        {localCredentials.length && !localDismissed ? (
+          <div className="onboarding-local-credentials" role="status">
+            <Key size={14} aria-hidden="true" />
+            <span>
+              {t("onboarding.localCredentialsFound", {
+                names: localCredentials
+                  .map((item) => providers.find((provider) => provider.id === item.providerId)?.name ?? item.providerId)
+                  .join(", "),
+              })}
+            </span>
+            <button
+              className="onboarding-text-button"
+              type="button"
+              disabled={busy}
+              onClick={() => void run(() => importFoundCredentials())}
+            >
+              {t("onboarding.localCredentialsImport")}
+            </button>
+            <button
+              className="onboarding-text-button onboarding-icon-button"
+              type="button"
+              aria-label={t("common.close")}
+              onClick={() => setLocalDismissed(true)}
+            >
+              <X size={14} aria-hidden="true" />
+            </button>
+          </div>
+        ) : null}
         <div className="onboarding-provider-heading">
           {t("onboarding.providers")}
         </div>

@@ -91,6 +91,8 @@ const en = {
     next: "Next",
     startCreating: "Start creating",
     skipAndStart: "Skip and start",
+    localCredentialsFound: "Found existing keys on this machine: {{names}}",
+    localCredentialsImport: "Import",
     gettingStarted: "Getting started",
     step: "Step {{number}} of 2: {{title}}",
     welcomeStep: "Welcome",

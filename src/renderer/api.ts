@@ -507,6 +507,24 @@ export async function startModelProviderLogin(providerId: string, method: ModelA
   return result.operationId;
 }
 
+export interface LocalCredentialCandidate {
+  providerId: string;
+  source: "codex" | "opencode";
+  keyHint: string;
+}
+
+/** 未连接服务商在本机找到的可导入密钥（掩码，不含明文） */
+export async function listLocalCredentials(): Promise<{ items: LocalCredentialCandidate[] }> {
+  return request("/settings/models/providers/local-credentials");
+}
+
+export async function importLocalCredential(providerId: string, source: LocalCredentialCandidate["source"]): Promise<void> {
+  await request(`/settings/models/providers/${encodeURIComponent(providerId)}/import-local`, {
+    method: "POST",
+    body: JSON.stringify({ source }),
+  });
+}
+
 export async function respondToModelAuth(operationId: string, promptId: string, value: string): Promise<void> {
   await request(`/settings/model-auth/${encodeURIComponent(operationId)}/respond`, {
     method: "POST",

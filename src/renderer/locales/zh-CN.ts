@@ -92,6 +92,8 @@ const zhCN: typeof en = {
     next: "下一步",
     startCreating: "开始创作",
     skipAndStart: "跳过并开始",
+    localCredentialsFound: "检测到本机已有密钥：{{names}}",
+    localCredentialsImport: "一键导入",
     gettingStarted: "入门引导",
     step: "第 {{number}} 步，共 2 步：{{title}}",
     welcomeStep: "欢迎",

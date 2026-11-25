@@ -148,6 +148,54 @@ export class ModelAuthManager {
     await this.options.onCredentialsChanged?.(runtime);
   }
 
+  /** Imports a key found on this machine by driving the api_key login flow
+   * without any UI interaction. Rejects if no prompt appears or the login fails. */
+  async importApiKey(providerId: string, key: string): Promise<void> {
+    const operationId = await this.start(providerId, "api_key");
+    const operation = this.#operation(operationId);
+    // 等待登录流程发起密钥输入提示；取消或完成（无提示）都视为失败
+    await new Promise<void>((resolve, reject) => {
+      let poll: ReturnType<typeof setTimeout>;
+      const stop = () => clearTimeout(poll);
+      const onAbort = () => {
+        stop();
+        reject(new ModelAuthError("Authentication cancelled", 502));
+      };
+      operation.controller.signal.addEventListener("abort", onAbort, { once: true });
+      const check = () => {
+        if (operation.pending) {
+          stop();
+          operation.controller.signal.removeEventListener("abort", onAbort);
+          resolve();
+        } else if (operation.finished) {
+          stop();
+          operation.controller.signal.removeEventListener("abort", onAbort);
+          reject(new ModelAuthError("Provider did not ask for an API key", 502));
+        } else {
+          poll = setTimeout(check, 50);
+        }
+      };
+      check();
+    });
+    this.respond(operationId, operation.pending!.id, key);
+    // 等待写入完成；失败时取最后一个错误事件作为原因
+    await new Promise<void>((resolve, reject) => {
+      let poll: ReturnType<typeof setTimeout>;
+      const stop = () => clearTimeout(poll);
+      const check = () => {
+        if (!operation.finished) {
+          poll = setTimeout(check, 50);
+          return;
+        }
+        stop();
+        const last = operation.events.at(-1);
+        if (last?.type === "error") reject(new ModelAuthError(last.error, 502));
+        else resolve();
+      };
+      check();
+    });
+  }
+
   close(): void {
     for (const operation of this.#operations.values()) {
       if (!operation.finished) this.cancel(operation.id);

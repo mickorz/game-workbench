@@ -20,6 +20,8 @@ const api = vi.hoisted(() => ({
   cancelModelAuth: vi.fn(),
   respondToModelAuth: vi.fn(),
   subscribeToModelAuth: vi.fn(),
+  listLocalCredentials: vi.fn().mockResolvedValue({ items: [] }),
+  importLocalCredential: vi.fn(),
   notifyAgentModelsChanged: vi.fn(),
   getOnboardingState: vi.fn(),
   updateOnboardingState: vi.fn(),
@@ -90,6 +92,7 @@ const customProvider: CustomProviderDetails = {
 };
 beforeEach(() => {
   Object.values(api).forEach((mock) => mock.mockReset());
+  api.listLocalCredentials.mockResolvedValue({ items: [] });
   streams.length = 0;
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
   Object.defineProperty(window, "ohMyGameDesktop", {
@@ -868,6 +871,38 @@ describe("first-run screens", () => {
     expect(rows()).toEqual(["Baseten", "Anthropic", "OpenRouter", "Cerebras"]);
     expect(container.querySelector(".onboarding-more-providers")).toBeNull();
   });
+
+  it("offers to import keys found on this machine", async () => {
+
+        api.listProviders.mockResolvedValue([{ ...provider, id: "deepseek", name: "DeepSeek" }]);
+api.listLocalCredentials
+      .mockResolvedValueOnce({
+        items: [{ providerId: "deepseek", source: "opencode", keyHint: "sk-…7890" }],
+      })
+      .mockResolvedValue({ items: [] });
+
+    await showConnection(
+
+      <Onboarding step="connect" onStepChange={vi.fn()} onFinish={vi.fn()} />,
+
+    );
+
+    const banner = container.querySelector(".onboarding-local-credentials");
+
+    expect(banner?.textContent).toContain("Found existing keys on this machine: DeepSeek");
+
+    api.listProviders.mockResolvedValue([{ ...provider, id: "deepseek", name: "DeepSeek", configured: true }]);
+
+    await act(async () => banner!.querySelector<HTMLButtonElement>("button:not([aria-label])")!.click());
+
+    expect(api.importLocalCredential).toHaveBeenCalledWith("deepseek", "opencode");
+
+    expect(container.querySelector(".onboarding-local-credentials")).toBeNull();
+
+  });
+
+
+
 
   it("retries failed authorization and lets users return to enter without a model", async () => {
     const finish = vi.fn().mockResolvedValue(undefined);

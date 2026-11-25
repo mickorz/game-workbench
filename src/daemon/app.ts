@@ -69,6 +69,7 @@ import { PreviewManager, PreviewCancelledError } from "./preview.js";
 import { ProjectAssetError, ProjectManager, ProjectLibraryReferenceError, ProjectWorkspaceError } from "./projects.js";
 import { ExampleError, ExampleStore } from "./examples.js";
 import { ModelAuthError, ModelAuthManager } from "./model-auth.js";
+import { discoverFileCredentials, readLocalCredential, type LocalCredentialSource } from "./local-credentials.js";
 import { ModelEndpointSettingsStore } from "./model-endpoint-settings.js";
 import { OpenAIImageSettingsStore } from "./openai-image-settings.js";
 import { openAIImageConnection, registerOpenAIImageRoutes } from "./openai-image-routes.js";
@@ -2839,6 +2840,39 @@ export function createApp(options: AppOptions = {}) {
         if (cause instanceof ModelAuthError) return reply.code(cause.statusCode).send({ error: cause.message });
         throw cause;
       }
+    },
+  );
+
+  // 本地已有密钥探测：只报告未连接且支持 API key 登录的服务商，不回传明文
+  app.get("/settings/models/providers/local-credentials", async () => {
+    const providers = await modelAuth.providers();
+    const importable = providers
+      .filter((provider) => !provider.configured && provider.methods.some((method) => method.type === "api_key"))
+      .map((provider) => provider.id);
+    return { items: await discoverFileCredentials({ providers: importable }) };
+  });
+
+  // 一键导入：服务端按来源重新读取密钥，驱动 api_key 登录流程后写入凭据存储
+  app.post<{ Params: { providerId: string }; Body: { source: LocalCredentialSource } }>(
+    "/settings/models/providers/:providerId/import-local",
+    {
+      schema: {
+        body: {
+          type: "object", additionalProperties: false, required: ["source"],
+          properties: { source: { enum: ["codex", "opencode"] } },
+        },
+      },
+    },
+    async (request, reply) => {
+      const key = await readLocalCredential(request.body.source, request.params.providerId);
+      if (!key) return reply.code(404).send({ error: "No local credential found for this source" });
+      try {
+        await modelAuth.importApiKey(request.params.providerId, key);
+      } catch (cause) {
+        if (cause instanceof ModelAuthError) return reply.code(cause.statusCode).send({ error: cause.message });
+        throw cause;
+      }
+      return { connected: true };
     },
   );
 
