@@ -436,7 +436,8 @@ export function OnboardingAgents({
           {t("onboarding.agentsHint")}
         </p>
       ) : null}
-      {!choosing ? (
+      {/* Game Workbench selected: the provider list is the main content, so it stays visible while choosing. */}
+      {choosing && selectedAgent !== "pi" ? null : (
         <div className="onboarding-agent-config">
           {selectedAgent !== "pi" ? (
             <>
@@ -543,7 +544,7 @@ export function OnboardingAgents({
           ) : null}
           {children}
         </div>
-      ) : null}
+      )}
       {displayedError ? (
         <p className="onboarding-error" role="alert">
           {displayedError}

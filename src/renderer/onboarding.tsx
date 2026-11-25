@@ -438,10 +438,7 @@ export function Onboarding({
         )}
         {error ||
         loadError ||
-        (step === "connect" &&
-          !choosingAgent &&
-          activeAgent === "pi" &&
-          providerError) ? (
+        (step === "connect" && activeAgent === "pi" && providerError) ? (
           <div className="onboarding-feedback">
             <p className="onboarding-error" role="alert">
               {error ?? loadError ?? providerError}

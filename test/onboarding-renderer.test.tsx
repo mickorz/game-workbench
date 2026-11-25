@@ -1861,8 +1861,11 @@ describe("onboarding interactions", () => {
       false,
     );
     expect(container.querySelector(".onboarding-agent-options")).not.toBeNull();
-    expect(container.querySelector(".onboarding-picker")).toBeNull();
-    expect(container.querySelector(".onboarding-ready")).toBeNull();
+    // The provider list is the main content for the built-in agent, so it stays visible next to the agent choices from the start.
+    expect(container.querySelector(".onboarding-picker")).not.toBeNull();
+    expect(container.querySelector(".onboarding-ready")?.textContent).toContain(
+      "My model",
+    );
     expect(button("Next").disabled).toBe(true);
     await chooseAgent("Game Workbench");
     expect(container.querySelector(".onboarding-agent-options")).toBeNull();
@@ -1874,7 +1877,8 @@ describe("onboarding interactions", () => {
     );
     expect(button("Next").disabled).toBe(false);
     await act(async () => button("Switch").click());
-    expect(container.querySelector(".onboarding-picker")).toBeNull();
+    expect(container.querySelector(".onboarding-agent-options")).not.toBeNull();
+    expect(container.querySelector(".onboarding-picker")).not.toBeNull();
     expect(button("Next").disabled).toBe(true);
     await chooseAgent("Game Workbench");
     expect(container.querySelector(".onboarding-ready")?.textContent).toContain(
