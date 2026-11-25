@@ -10,6 +10,14 @@
 - 生效方式：开发态保存即生效（vite HMR）；桌面端/生产需 `bun run build:renderer` 重新构建
 - 加新页面进导航要先在 `routes.ts` 注册路由；`labelKey` 必须在 locales 已存在（TypeScript 会校验）
 
+## 服务商分组修改必读：`docs/zh-CN/provider-groups.md`
+
+**任何涉及 onboarding「连接 AI」步骤服务商分组/排序的修改，先读 `docs/zh-CN/provider-groups.md`**：
+
+- 配置唯一入口：`src/renderer/provider-groups.config.json`（`groups` 自定义组 / `popularOrder` 热门顺序），改组件代码无效
+- 只影响 onboarding 引导页，设置页分组不受影响；组头文案 `providers.group.<id>` 在 locales 双语文件里（新组要补齐）
+- 生效方式：开发态保存即生效（vite HMR）；桌面端/生产需 `bun run build:renderer` 重新构建
+
 ## 项目技能：`.claude/skills/`
 
 本地项目技能放在 `.claude/skills/<kebab-case>/SKILL.md`（随仓库提交）。现有：

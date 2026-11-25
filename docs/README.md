@@ -62,6 +62,7 @@ and how an import becomes a new project.
 | [external-agents.md](external-agents.md)         | Game Workbench as an MCP server for Claude Code, Codex, and other external agents: setup, launcher, tools, and contract.            |
 | [plugins.md](plugins.md)                         | Plugin packages, configuration, credentials, MCP sessions, authoring, and migration.                                           |
 | [custom-models.md](custom-models.md)             | Provider protocols, capabilities, visibility, model definitions, and defaults.                                                 |
+| [zh-CN/provider-groups.md](zh-CN/provider-groups.md) (Chinese)           | Onboarding provider picker groups and ordering via provider-groups.config.json.
 | [3d-providers.md](3d-providers.md)               | 3D operations, provider compatibility, paid-task recovery, and GLB validation.                                                 |
 | [free-cloud-models.md](free-cloud-models.md)     | Account models, personal quotas, and the desktop/cloud contract. Cloud deployment sections need access to the private service. |
 | [agent-errors.md](agent-errors.md)               | Error classification, diagnostics, redaction, and the Pi compatibility patch.                                                  |
