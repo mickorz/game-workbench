@@ -14,7 +14,6 @@ import {
 import {
   isAgentRuntimeId,
   nativeEffort,
-  type AgentRuntimeId,
 } from "../shared/agent-runtimes.js";
 import { clampReasoningLevel } from "../shared/reasoning.js";
 import {
@@ -44,8 +43,6 @@ import { PROVIDER_ICONS } from "./provider-icons.js";
 import { groupProviders } from "./provider-groups.js";
 import { useReadyRuntimeGeneration } from "./runtime-connection.js";
 import { WindowDragRegion } from "./window-drag-region.js";
-import { OnboardingMedia } from "./onboarding-media.js";
-import { OnboardingAgents } from "./onboarding-agents.js";
 import { OnboardingDemo } from "./onboarding-demo.js";
 import { t } from "./i18n.js";
 import "./onboarding.css";
@@ -74,8 +71,7 @@ export function Onboarding({
   const [loadingProviders, setLoadingProviders] = useState(true);
   const [running, setRunning] = useState(false);
   const [savingProvider, setSavingProvider] = useState(false);
-  const [savingAgent, setSavingAgent] = useState(false);
-  const busy = running || savingProvider || savingAgent;
+  const busy = running || savingProvider;
   const failedAction = useRef<(() => Promise<void>) | undefined>(undefined);
   const [connection, setConnection] = useState<Connection>();
   const [adding, setAdding] = useState(false);
@@ -86,11 +82,7 @@ export function Onboarding({
   useEffect(() => {
     if (step !== "welcome") setPlayWelcomeIntro(false);
   }, [step]);
-  const [choosingAgent, setChoosingAgent] = useState(true);
-  const [selectedAgent, setSelectedAgent] = useState<"pi" | AgentRuntimeId>();
-  const [selectedModels, setSelectedModels] = useState<
-    Partial<Record<"pi" | AgentRuntimeId, AgentModelRef>>
-  >({});
+  const [selectedModel, setSelectedModel] = useState<AgentModelRef>();
   const [connectedProvider, setConnectedProvider] = useState<string>();
   const heading = useRef<HTMLHeadingElement>(null);
   const preferredModel = preferredAgentModel(
@@ -99,22 +91,15 @@ export function Onboarding({
     catalog.defaultModel,
   );
   const model = phase === "ready" ? preferredModel : undefined;
-  const activeAgent =
-    selectedAgent ??
-    (isAgentRuntimeId(preferredModel?.provider)
-      ? preferredModel.provider
-      : "pi");
-  const agentModels = catalog.models.filter((item) =>
-    activeAgent === "pi"
-      ? !isAgentRuntimeId(item.provider)
-      : item.provider === activeAgent,
+  const agentModels = catalog.models.filter(
+    (item) => !isAgentRuntimeId(item.provider),
   );
   const agentModel =
     phase === "ready"
       ? preferredAgentModel(
           agentModels,
-          selectedModels[activeAgent],
-          activeAgent === "pi" && connectedProvider
+          selectedModel,
+          connectedProvider
             ? catalog.defaultModel?.provider === connectedProvider
               ? catalog.defaultModel
               : recommendedAgentModel(agentModels, connectedProvider)
@@ -262,16 +247,7 @@ export function Onboarding({
   function completed(providerId: string) {
     setConnection(undefined);
     setConnectedProvider(providerId);
-    setSelectedModels((value) => ({ ...value, pi: undefined }));
-  }
-
-  function selectAgent(id: "pi" | AgentRuntimeId) {
-    setChoosingAgent(false);
-    if (agentModel)
-      setSelectedModels((value) => ({ ...value, [activeAgent]: agentModel }));
-    setSelectedAgent(id);
-    setError(undefined);
-    failedAction.current = undefined;
+    setSelectedModel(undefined);
   }
 
   function navigate(next: OnboardingStep) {
@@ -287,12 +263,15 @@ export function Onboarding({
       return;
     }
     void run(async () => {
-      if (step === "connect" && next === "media" && agentModel)
-        await chooseModel(catalog, agentModel);
       await onStepChange(next);
       reset();
       setLoadError(undefined);
     });
+  }
+
+  async function finish() {
+    if (agentModel) await chooseModel(catalog, agentModel);
+    await onFinish("completed");
   }
 
   const connectionContent = adding ? (
@@ -344,61 +323,43 @@ export function Onboarding({
       <h1 ref={heading} tabIndex={-1}>
         {t("onboarding.chooseProvider")}
       </h1>
-      <OnboardingAgents
-        busy={busy}
-        models={catalog.models}
-        selectedAgent={activeAgent}
-        choosing={choosingAgent}
-        onExpand={() => setChoosingAgent(true)}
-        onSelectAgent={selectAgent}
-        loadingRuntimes={catalog.loadingRuntimes}
-        onBusyChange={setSavingAgent}
-      >
-        {activeAgent === "pi" ? (
-          <>
-            <div className="onboarding-provider-heading">
-              {t("onboarding.providers")}
-            </div>
-            {loadingProviders ? (
-              <p className="onboarding-status" role="status">
-                <LoaderCircle className="spin" size={16} />
-                {t("onboarding.loadingProviders")}
-              </p>
-            ) : (
-              <ProviderPicker
-                providers={languageProviders}
-                busy={busy}
-                onChoose={(provider, method) =>
-                  void run(() => connect(provider, method))
-                }
-                onAdd={() => {
-                  setCustomSettings(undefined);
-                  setError(undefined);
-                  failedAction.current = undefined;
-                  setAdding(true);
-                }}
-              />
-            )}
-          </>
-        ) : null}
+      <>
+        <div className="onboarding-provider-heading">
+          {t("onboarding.providers")}
+        </div>
+        {loadingProviders ? (
+          <p className="onboarding-status" role="status">
+            <LoaderCircle className="spin" size={16} />
+            {t("onboarding.loadingProviders")}
+          </p>
+        ) : (
+          <ProviderPicker
+            providers={languageProviders}
+            busy={busy}
+            onChoose={(provider, method) =>
+              void run(() => connect(provider, method))
+            }
+            onAdd={() => {
+              setCustomSettings(undefined);
+              setError(undefined);
+              failedAction.current = undefined;
+              setAdding(true);
+            }}
+          />
+        )}
         {agentModel ? (
           <ReadyModel
             models={agentModels}
             model={agentModel}
             busy={busy}
             onChange={(next) => {
-              setSelectedModels((value) => ({ ...value, [activeAgent]: next }));
+              setSelectedModel(next);
               setError(undefined);
               failedAction.current = undefined;
             }}
           />
         ) : null}
-        {catalog.loadingRuntimes?.length ? (
-          <p className="onboarding-status" role="status">
-            {t("onboarding.loadingAgentModels")}
-          </p>
-        ) : null}
-      </OnboardingAgents>
+      </>
     </>
   );
 
@@ -425,20 +386,12 @@ export function Onboarding({
               {t("onboarding.tagline")}
             </h1>
           </>
-        ) : step === "media" ? (
-          <>
-            <h1 ref={heading} tabIndex={-1}>
-              {t("onboarding.mediaTitle")}
-            </h1>
-            <p className="onboarding-lede">{t("onboarding.mediaHint")}</p>
-            <OnboardingMedia busy={busy} onSavingChange={setSavingProvider} />
-          </>
         ) : (
           connectionContent
         )}
         {error ||
         loadError ||
-        (step === "connect" && activeAgent === "pi" && providerError) ? (
+        (step === "connect" && providerError) ? (
           <div className="onboarding-feedback">
             <p className="onboarding-error" role="alert">
               {error ?? loadError ?? providerError}
@@ -477,10 +430,10 @@ export function Onboarding({
               <button
                 className="onboarding-primary-button"
                 type="button"
-                disabled={busy || choosingAgent || !agentModel}
-                onClick={() => navigate("media")}
+                disabled={busy || !agentModel}
+                onClick={() => void run(() => finish())}
               >
-                {t("onboarding.next")}
+                {t("onboarding.startCreating")}
               </button>
               {!model ? (
                 <button
@@ -513,7 +466,7 @@ export function Onboarding({
         className="onboarding-progress"
         aria-label={t("onboarding.gettingStarted")}
       >
-        {(["welcome", "connect", "media"] as const).map((target, index) => (
+        {(["welcome", "connect"] as const).map((target, index) => (
           <button
             key={target}
             className={step === target ? "is-current" : undefined}
@@ -523,9 +476,7 @@ export function Onboarding({
               title: t(
                 target === "welcome"
                   ? "onboarding.welcomeStep"
-                  : target === "connect"
-                    ? "onboarding.providerStep"
-                    : "onboarding.mediaStep",
+                  : "onboarding.providerStep",
               ),
             })}
             aria-current={step === target ? "step" : undefined}

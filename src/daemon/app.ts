@@ -2441,7 +2441,7 @@ export function createApp(options: AppOptions = {}) {
   app.put<{ Body: UpdateOnboardingRequest }>("/settings/onboarding", {
     schema: { body: {
       type: "object", additionalProperties: false, required: ["status", "step"],
-      properties: { status: { enum: ["pending", "completed", "skipped"] }, step: { enum: ["welcome", "connect", "media"] } },
+      properties: { status: { enum: ["pending", "completed", "skipped"] }, step: { enum: ["welcome", "connect"] } },
     } },
   }, async (request, reply) => {
     if (request.body.status === "completed") {

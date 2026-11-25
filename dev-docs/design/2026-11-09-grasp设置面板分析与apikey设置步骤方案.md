@@ -150,24 +150,28 @@ flowchart TD
     G --> I[提示错误并停留在当前步]
 ```
 
-### 3.3 实际落地（P0）
+### 3.3 实际落地（P0，含后续简化）
 
 实现前浏览器实测发现：方案中的「已配置摘要态」「providerConfigured 字段」**大部分已被现有实现覆盖**——
 ProviderPicker 已把已连接服务商置顶并显示掩码状态，跳过按钮（skipAndStart）已存在，
 onboarding 状态只在 `status=pending` 时消费，`providerConfigured` 字段没有真实读者，做了即死代码。
 
-实测找到的真缺口只有一个：**connect 首屏只显示运行时选择网格，「LLM 服务商」列表（API key 入口）
+实测找到的真缺口：**connect 首屏只显示运行时选择网格，「LLM 服务商」列表（API key 入口）
 折叠在 Game Workbench 选项后面，第一眼找不到设置 key 的入口**。
 
-改动（两处，均属渲染条件调整，无新增状态与 API）：
+按产品决策进一步简化为两步向导（welcome + connect）：
 
-1. `src/renderer/onboarding-agents.tsx`：选中 Game Workbench（内置 pi）时，
-   服务商列表与运行时网格首屏并列显示（原逻辑 `!choosing` 才渲染 children，改为 `choosing && selectedAgent !== "pi" 时隐藏`）；
-   选其他 CLI 运行时时列表隐藏（回归断言通过）。
-2. `src/renderer/onboarding.tsx`：服务商加载错误提示条件同步去掉 `!choosingAgent` 限制。
+1. **移除「连接智能体」运行时网格**（`onboarding-agents.tsx` 删除）：connect 步只保留
+   LLM 服务商列表（搜索、已连接掩码、API 密钥、自定义服务商）。CLI 智能体（Claude Code、
+   Codex、OpenCode）不再有 onboarding 入口，仍在设置页配置。
+2. **移除第三步「添加创作工具」**（`onboarding-media.tsx` 删除）：媒体服务商（图像/视频/3D/音频）
+   在设置页配置。旧数据里 `step: "media"` 加载时归一化为 `connect`，PUT schema 同步收缩。
+3. connect 步主按钮直接为「开始创作」（完成前落默认模型），无模型时保留「跳过并开始」。
+4. i18n 清理双语孤儿 key 14 个；进度文案「共 3 步」改「共 2 步」。
 
-验证：vitest 74 用例全绿（更新 1 个断言旧折叠行为的用例）；浏览器实测首屏 5 处命中
-（API 密钥/已连接按钮），截图存档 `dev-examples/onboarding-connect-shots/`。
+验证：vitest 定向 49 用例全绿（onboarding-renderer/onboarding/i18n-ui）；全量测试仅剩
+既有 Windows symlink 环境失败（与改名基线一致，零新增）；浏览器实测两步向导
+（截图 `dev-examples/onboarding-connect-shots/03-connect-two-step.png`）。
 
 ### 3.4 可选增强（P1，借鉴 grasp 再做）
 
