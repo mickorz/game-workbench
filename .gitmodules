@@ -13,3 +13,7 @@
 [submodule "thirdparties/grasp"]
 	path = thirdparties/grasp
 	url = https://github.com/cocofhu/grasp.git
+[submodule "thirdparties/cc-switch"]
+	path = thirdparties/cc-switch
+	url = https://github.com/farion1231/cc-switch.git
+	branch = main
